@@ -153,6 +153,32 @@ footer b{color:var(--ink)}
 @media (min-width:900px){.fab{display:none}}
 .toast{position:fixed;left:50%;top:14px;transform:translateX(-50%) translateY(-20px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;font-weight:600;opacity:0;transition:.2s;z-index:50;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* share modal */
+.modal{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(10,18,14,.6);backdrop-filter:blur(4px);padding:0}
+.modal.open{display:flex}
+@media (min-width:700px){.modal{align-items:center;padding:24px}}
+.sheet{background:var(--surface);color:var(--ink);width:100%;max-width:560px;max-height:calc(100% - env(safe-area-inset-top,0px));border-radius:22px 22px 0 0;overflow:auto;box-shadow:0 -10px 40px rgba(0,0,0,.3)}
+@media (min-width:700px){.sheet{border-radius:22px;max-height:92vh}}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px 10px;position:sticky;top:0;background:var(--surface);z-index:1}
+.sheet-head h2{font-size:20px}
+.xbtn{width:36px;height:36px;border-radius:50%;border:0;background:var(--surface-2);font-size:18px;line-height:1}
+.steps-row{display:flex;gap:6px;padding:0 18px 12px;flex-wrap:wrap}
+.steps-row span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted);background:var(--surface-2);padding:5px 10px;border-radius:999px}
+.steps-row span b{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-family:var(--font-display)}
+.steps-row span.done{color:var(--accent-ink);background:var(--accent-soft)}
+.fbpost{margin:0 18px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.fbpost .who{display:flex;align-items:center;gap:10px;padding:12px 14px 6px}
+.fbpost .av{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-family:var(--font-display);overflow:hidden;flex:none}
+.fbpost .av img{width:100%;height:100%;object-fit:cover;display:block}
+.fbpost .who b{display:block;font-size:15px;line-height:1.2}
+.fbpost .who small{color:var(--muted);font-size:12px}
+.fbpost textarea{width:100%;border:0;background:transparent;resize:none;padding:6px 14px 10px;font:inherit;font-size:15px;line-height:1.6;color:var(--ink);min-height:120px;outline:none;overflow:hidden}
+.fbpost textarea:focus{background:var(--surface-2)}
+.fbpost img.map{display:block;width:100%;height:auto;background:var(--surface-2)}
+.fbpost .fbbar{display:flex;justify-content:space-around;padding:8px 10px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;font-weight:600}
+.sheet-actions{display:grid;gap:8px;padding:14px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.sheet-actions .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sheet-actions .hint{color:var(--muted);font-size:13px;margin:0;text-align:center}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -269,7 +295,7 @@ footer b{color:var(--ink)}
           <span class="lbl" style="font-weight:600;font-size:14px">পোস্টের ক্যাপশন</span>
           <textarea id="captionText" readonly></textarea>
           <div class="row"><button class="btn primary" id="shareFb" type="button">ফেসবুকে শেয়ার করুন</button><button class="btn" id="copyCaption" type="button">ক্যাপশন কপি করুন</button></div>
-          <p class="note">শেয়ার চাপলে ক্যাপশন কপি হয়ে যাবে, ফেসবুকে পোস্ট লেখার জায়গায় পেস্ট করুন আর ডাউনলোড করা ম্যাপটা যোগ করুন।</p>
+          <p class="note">শেয়ার চাপলে পোস্টের প্রিভিউ দেখাবে: ক্যাপশন কপি, ম্যাপ সেভ, তারপর ফেসবুকে পোস্ট।</p>
         </div>
       </section>
 
@@ -286,6 +312,23 @@ footer b{color:var(--ink)}
 </footer>
 
 <div class="fab" id="fab"><span id="fabCount">০ / ৬৪</span><button type="button" id="fabBtn">ডাউনলোড</button></div>
+<div class="modal" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+  <div class="sheet">
+    <div class="sheet-head"><h2 id="shareTitle">ফেসবুকে শেয়ার করুন</h2><button class="xbtn" id="shareClose" type="button" aria-label="বন্ধ করুন">✕</button></div>
+    <div class="steps-row"><span id="st1"><b>১</b> ক্যাপশন কপি</span><span id="st2"><b>২</b> ম্যাপ সেভ</span><span id="st3"><b>৩</b> ফেসবুকে পোস্ট</span></div>
+    <div class="fbpost">
+      <div class="who"><div class="av" id="shareAv">আ</div><div><b id="shareName">আমার বাংলাদেশ</b><small>এখনই · 🌐 পাবলিক</small></div></div>
+      <textarea id="shareCaption" aria-label="পোস্টের ক্যাপশন, চাইলে বদলাতে পারেন"></textarea>
+      <img class="map" id="shareImg" alt="আপনার ভ্রমণ ম্যাপ">
+      <div class="fbbar"><span>👍 লাইক</span><span>💬 কমেন্ট</span><span>↗ শেয়ার</span></div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn primary big" id="shareCopy" type="button">১. ক্যাপশন কপি করুন</button>
+      <div class="row2"><button class="btn big" id="shareSave" type="button">২. ম্যাপ সেভ করুন</button><button class="btn big" id="shareOpen" type="button">৩. ফেসবুক খুলুন</button></div>
+      <p class="hint" id="shareHint">ফেসবুকে পোস্ট লেখার জায়গায় ক্যাপশন পেস্ট করুন, তারপর সেভ করা ম্যাপের ছবিটা যোগ করুন।</p>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -539,22 +582,38 @@ $('#dlJpg').addEventListener('click', e => doDownload('jpeg', e.currentTarget));
 $('#dlPdf').addEventListener('click', e => doDownload('pdf', e.currentTarget));
 async function copyCaption(){ const text = caption(); try{ await navigator.clipboard.writeText(text); toast('ক্যাপশন কপি হয়েছে'); }catch(e){ const ta = $('#captionText'); ta.focus(); ta.select(); try{ document.execCommand('copy'); toast('ক্যাপশন কপি হয়েছে'); }catch(err){ toast('কপি করা যায়নি, টেক্সট সিলেক্ট করে কপি করুন'); } } }
 $('#copyCaption').addEventListener('click', copyCaption);
-async function shareFb(btn){
-  const text = caption(); const prev = btn.textContent; btn.disabled = true; btn.textContent = 'তৈরি হচ্ছে...';
+let shareBlob = null, shareUrl = null, canNative = false;
+function stepDone(i){ $('#st'+i).classList.add('done'); }
+async function copyText(text){ try{ await navigator.clipboard.writeText(text); return true; }catch(e){ const ta = $('#shareCaption'); ta.focus(); ta.select(); try{ return document.execCommand('copy'); }catch(err){ return false; } } }
+async function openShare(btn){
+  const prev = btn.textContent; btn.disabled = true; btn.textContent = 'তৈরি হচ্ছে...';
   try{
-    const blob = await renderBlob('png'); const file = new File([blob], fname('png'), {type:'image/png'});
-    if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
-      try{ await navigator.clipboard.writeText(text); }catch(e){}
-      try{ await navigator.share({files:[file], text, title:'ঘুরে দেখা বাংলাদেশ'}); toast('ক্যাপশন কপি হয়েছে, পোস্টে পেস্ট করুন'); return; }catch(e){ if(e && e.name === 'AbortError') return; }
-    }
-    try{ await navigator.clipboard.writeText(text); toast('ক্যাপশন কপি হয়েছে, ফেসবুকে পেস্ট করুন'); }catch(e){}
-    await deliver(fname('png'), blob);
-    const u = SITE_URL || location.href; window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(u), '_blank', 'noopener');
-  }catch(e){ console.error(e); toast('শেয়ার করা যায়নি, ক্যাপশন কপি করে ম্যাপ ডাউনলোড করুন'); }
+    shareBlob = await renderBlob('png'); if(shareUrl) URL.revokeObjectURL(shareUrl); shareUrl = URL.createObjectURL(shareBlob);
+    $('#shareImg').src = shareUrl; const ta = $('#shareCaption'); ta.value = caption(); ta.style.height = 'auto'; requestAnimationFrame(() => { ta.style.height = (ta.scrollHeight + 8) + 'px'; });
+    const nm = state.name.trim(); $('#shareName').textContent = nm || 'আমার বাংলাদেশ';
+    const av = $('#shareAv'); if(state.photo){ av.innerHTML = `<img src="${state.photo}" alt="">`; } else { av.textContent = (nm || 'আ').slice(0,1); }
+    const file = new File([shareBlob], fname('png'), {type:'image/png'});
+    canNative = !!(navigator.share && navigator.canShare && navigator.canShare({files:[file]}));
+    $('#shareOpen').textContent = canNative ? '৩. ফেসবুকে শেয়ার করুন' : '৩. ফেসবুক খুলুন';
+    $('#shareHint').textContent = canNative ? 'শেয়ার চাপলে ফোনের শেয়ার মেনু খুলবে, সেখানে Facebook বেছে নিন; ক্যাপশন পেস্ট করে পোস্ট করুন।' : 'ফেসবুকে পোস্ট লেখার জায়গায় ক্যাপশন পেস্ট করুন, তারপর সেভ করা ম্যাপের ছবিটা যোগ করুন।';
+    [1,2,3].forEach(i => $('#st'+i).classList.remove('done'));
+    $('#shareModal').classList.add('open'); document.body.style.overflow = 'hidden';
+  }catch(e){ console.error(e); toast('প্রিভিউ তৈরি করা যায়নি, আবার চেষ্টা করুন'); }
   finally{ btn.disabled = false; btn.textContent = prev; }
 }
-$('#shareFb').addEventListener('click', e => shareFb(e.currentTarget));
-$('#quickShare').addEventListener('click', e => shareFb(e.currentTarget));
+function closeShare(){ $('#shareModal').classList.remove('open'); document.body.style.overflow = ''; }
+$('#shareClose').addEventListener('click', closeShare);
+$('#shareModal').addEventListener('click', e => { if(e.target === e.currentTarget) closeShare(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeShare(); });
+$('#shareCopy').addEventListener('click', async () => { const ok = await copyText($('#shareCaption').value); toast(ok ? 'ক্যাপশন কপি হয়েছে' : 'কপি করা যায়নি, টেক্সট সিলেক্ট করে কপি করুন'); if(ok) stepDone(1); });
+$('#shareSave').addEventListener('click', async e => { const b = e.currentTarget; b.disabled = true; try{ await deliver(fname('png'), shareBlob); stepDone(2); } finally{ b.disabled = false; } });
+$('#shareOpen').addEventListener('click', async e => {
+  const b = e.currentTarget; const text = $('#shareCaption').value;
+  if(canNative){ try{ await copyText(text); const file = new File([shareBlob], fname('png'), {type:'image/png'}); await navigator.share({files:[file], text, title:'ঘুরে দেখা বাংলাদেশ'}); stepDone(3); toast('ক্যাপশন কপি করা আছে, পোস্টে পেস্ট করুন'); return; }catch(err){ if(err && err.name === 'AbortError') return; } }
+  await copyText(text); const u = SITE_URL || location.href; window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(u), '_blank', 'noopener'); stepDone(3); toast('ক্যাপশন কপি করা আছে, ফেসবুকে পেস্ট করুন');
+});
+$('#shareFb').addEventListener('click', e => openShare(e.currentTarget));
+$('#quickShare').addEventListener('click', e => openShare(e.currentTarget));
 
 /* ---------- boot ---------- */
 load(); buildDivisions(); buildThemes(); $('#name').value = state.name; loadPhoto(); update();

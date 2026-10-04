@@ -1,5 +1,8 @@
 {
   "cleanUrls": true,
+  "rewrites": [
+    { "source": "/m/:id", "destination": "/api/map?id=:id" }
+  ],
   "headers": [
     { "source": "/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=300" } ] }
   ]

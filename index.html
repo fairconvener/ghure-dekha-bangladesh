@@ -153,6 +153,26 @@ footer b{color:var(--ink)}
 @media (min-width:900px){.fab{display:none}}
 .toast{position:fixed;left:50%;top:14px;transform:translateX(-50%) translateY(-20px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;font-weight:600;opacity:0;transition:.2s;z-index:50;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* stats */
+.stats{padding-block:30px 10px}
+.stats-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.stats-head h2{font-size:22px}
+.stats-head span{color:var(--muted);font-size:13px}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (min-width:700px){.tiles{grid-template-columns:repeat(6,1fr)}}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:2px}
+.tile b{font-family:var(--font-display);font-size:28px;line-height:1.1;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.tile span{color:var(--muted);font-size:13px;font-weight:600}
+.ranks{display:grid;gap:14px;margin-top:14px}
+@media (min-width:700px){.ranks{grid-template-columns:1fr 1fr}}
+.rank{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.rank h3{font-size:16px;margin:0 0 10px}
+.rank ol{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rank li{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:14px;font-weight:600;align-items:center}
+.rank li i{grid-column:1/-1;display:block;height:6px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.rank li i::after{content:"";display:block;height:100%;width:var(--w,0%);background:var(--accent);border-radius:999px}
+.rank li span{color:var(--muted);font-variant-numeric:tabular-nums}
+
 /* share modal */
 .modal{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(10,18,14,.6);backdrop-filter:blur(4px);padding:0}
 .modal.open{display:flex}
@@ -303,6 +323,24 @@ footer b{color:var(--ink)}
   </div>
 </main>
 
+<section class="stats" id="stats" hidden>
+  <div class="wrap">
+    <div class="stats-head"><h2>এখন পর্যন্ত</h2><span id="statsUpdated"></span></div>
+    <div class="tiles">
+      <div class="tile"><b id="sMapsTotal">-</b><span>ম্যাপ বানানো হয়েছে</span></div>
+      <div class="tile"><b id="sMapsToday">-</b><span>আজকের ম্যাপ</span></div>
+      <div class="tile"><b id="sVisitsTotal">-</b><span>মোট ভিজিট</span></div>
+      <div class="tile"><b id="sVisitsToday">-</b><span>আজকের ভিজিট</span></div>
+      <div class="tile"><b id="sPhotos">-</b><span>ছবিসহ ম্যাপ</span></div>
+      <div class="tile"><b id="sAvg">-</b><span>গড়ে ঘোরা জেলা</span></div>
+    </div>
+    <div class="ranks">
+      <div class="rank"><h3>সবচেয়ে বেশি ঘোরা জেলা</h3><ol id="topDistricts"></ol></div>
+      <div class="rank"><h3>বিভাগ অনুযায়ী</h3><ol id="topDivisions"></ol></div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div><b>ঘুরে দেখা বাংলাদেশ</b> - বাংলাদেশের জন্য ভালোবাসা দিয়ে তৈরি।</div>
@@ -315,17 +353,17 @@ footer b{color:var(--ink)}
 <div class="modal" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
   <div class="sheet">
     <div class="sheet-head"><h2 id="shareTitle">ফেসবুকে শেয়ার করুন</h2><button class="xbtn" id="shareClose" type="button" aria-label="বন্ধ করুন">✕</button></div>
-    <div class="steps-row"><span id="st1"><b>১</b> ক্যাপশন কপি</span><span id="st2"><b>২</b> ম্যাপ সেভ</span><span id="st3"><b>৩</b> ফেসবুকে পোস্ট</span></div>
-    <div class="fbpost">
+        <div class="fbpost">
       <div class="who"><div class="av" id="shareAv">আ</div><div><b id="shareName">আমার বাংলাদেশ</b><small>এখনই · 🌐 পাবলিক</small></div></div>
       <textarea id="shareCaption" aria-label="পোস্টের ক্যাপশন, চাইলে বদলাতে পারেন"></textarea>
       <img class="map" id="shareImg" alt="আপনার ভ্রমণ ম্যাপ">
       <div class="fbbar"><span>👍 লাইক</span><span>💬 কমেন্ট</span><span>↗ শেয়ার</span></div>
     </div>
     <div class="sheet-actions">
-      <button class="btn primary big" id="shareCopy" type="button">১. ক্যাপশন কপি করুন</button>
-      <div class="row2"><button class="btn big" id="shareSave" type="button">২. ম্যাপ সেভ করুন</button><button class="btn big" id="shareOpen" type="button">৩. ফেসবুক খুলুন</button></div>
-      <p class="hint" id="shareHint">ফেসবুকে পোস্ট লেখার জায়গায় ক্যাপশন পেস্ট করুন, তারপর সেভ করা ম্যাপের ছবিটা যোগ করুন।</p>
+      <button class="btn primary big" id="sharePost" type="button">ফেসবুকে পোস্ট করুন</button>
+      <div class="row2"><button class="btn" id="shareCopy" type="button">ক্যাপশন কপি</button><button class="btn" id="shareSave" type="button">ম্যাপ সেভ</button></div>
+      <p class="hint" id="shareHint">পোস্ট চাপলে ফেসবুক খুলবে, ম্যাপের প্রিভিউ দেখাবে, "Post" চাপলেই হয়ে যাবে। চাইলে ক্যাপশন কপি করে পোস্টে পেস্ট করুন।</p>
+      <p class="hint" style="font-size:12px">শেয়ার করলে ম্যাপের ছবিটা একটা পাবলিক লিংকে রাখা হয় যাতে ফেসবুকে প্রিভিউ দেখায়; নাম বা ছবি ছাড়া অন্য কিছু যায় না।</p>
     </div>
   </div>
 </div>
@@ -483,6 +521,52 @@ function render(c, W, H, opts){
   c.restore();
 }
 
+/* ---------- landscape share card (1200x630 for Facebook link preview) ---------- */
+function renderCard(c, W, H){
+  const t = THEMES[state.theme], n = state.selected.size, pct = Math.round(n/TOTAL*100), u = W/1200;
+  c.setTransform(1,0,0,1,0,0); c.fillStyle = t.paper; c.fillRect(0,0,W,H);
+  c.save(); c.strokeStyle = t.accent; c.globalAlpha = .45; c.lineWidth = 3*u; c.setLineDash([11*u,8*u]); rr(c, 18*u, 18*u, W-36*u, H-36*u, 16*u); c.stroke(); c.restore();
+  const sz = SIZES.post; const off = document.createElement('canvas'); off.width = sz.w; off.height = sz.h; render(off.getContext('2d'), sz.w, sz.h, {});
+  const ph = H - 60*u, pw = ph * sz.w/sz.h, px = W - pw - 56*u, py = 30*u;
+  c.save(); c.translate(px+pw/2, py+ph/2); c.rotate(-2.5*Math.PI/180); c.shadowColor = 'rgba(0,0,0,.3)'; c.shadowBlur = 40*u; c.shadowOffsetY = 18*u; c.fillStyle = t.paper; rr(c, -pw/2, -ph/2, pw, ph, 14*u); c.fill(); c.shadowColor = 'transparent'; c.save(); rr(c, -pw/2, -ph/2, pw, ph, 14*u); c.clip(); c.drawImage(off, -pw/2, -ph/2, pw, ph); c.restore(); c.restore();
+  const x = 64*u, maxW = px - 40*u - x;
+  c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+  c.fillStyle = t.muted; c.font = F(600, 24*u, 'b'); c.fillText('ঘুরে দেখা বাংলাদেশ', x, 96*u);
+  c.fillStyle = t.ink; c.font = F(800, 120*u, 'd'); c.fillText(BN(n), x, 220*u);
+  const nw = c.measureText(BN(n)).width; c.fillStyle = t.muted; c.font = F(700, 40*u, 'd'); c.fillText('/ ৬৪ জেলা', x + nw + 14*u, 220*u);
+  const name = state.name.trim() || 'আমার বাংলাদেশ'; let fs = 46*u; c.font = F(800, fs, 'd'); while(c.measureText(name).width > maxW && fs > 24*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
+  c.fillStyle = t.ink; c.fillText(name, x, 300*u);
+  c.fillStyle = t.muted; c.font = F(500, 28*u, 'b'); c.fillText(`${BN(pct)}% বাংলাদেশ ঘুরে দেখা হয়েছে`, x, 352*u);
+  rr(c, x, 400*u, maxW, 16*u, 8*u); c.fillStyle = t.unvisited; c.fill(); if(n){ rr(c, x, 400*u, Math.max(16*u, maxW*n/TOTAL), 16*u, 8*u); c.fillStyle = t.visited; c.fill(); }
+  c.fillStyle = t.accent; c.font = F(700, 26*u, 'd'); c.fillText('আপনি কয়টা জেলা ঘুরেছেন?', x, 480*u);
+  c.fillStyle = t.muted; c.font = F(500, 22*u, 'b'); c.fillText('নিজের ম্যাপ বানান: ' + SITE_LABEL, x, 520*u);
+}
+async function renderCardBlob(){ await fontPromise; const W = 1200, H = 630; const c = document.createElement('canvas'); c.width = W; c.height = H; renderCard(c.getContext('2d'), W, H); return new Promise(r => c.toBlob(r, 'image/jpeg', .88)); }
+const blobToDataUrl = b => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); });
+
+/* ---------- events + public stats ---------- */
+function logEvent(type){ if(!HOSTED) return; const body = JSON.stringify({type, count: state.selected.size, districts:[...state.selected], has_photo: !!state.photo, theme: state.theme}); try{ fetch('/api/event', {method:'POST', headers:{'content-type':'application/json'}, body, keepalive:true}).catch(()=>{}); }catch(e){} }
+try{ if(HOSTED && !sessionStorage.getItem('gdb-visited')){ sessionStorage.setItem('gdb-visited','1'); logEvent('visit'); } }catch(e){ logEvent('visit'); }
+async function loadStats(){
+  if(!HOSTED) return;
+  try{
+    const s = await (await fetch('/api/stats', {cache:'no-store'})).json(); if(!s || s.error) return;
+    const fmt = v => BN(Number(v || 0).toLocaleString('en-US'));
+    $('#sMapsTotal').textContent = fmt(s.maps_total); $('#sMapsToday').textContent = fmt(s.maps_today);
+    $('#sVisitsTotal').textContent = fmt(s.visits_total); $('#sVisitsToday').textContent = fmt(s.visits_today);
+    $('#sPhotos').textContent = fmt(s.photos_total); $('#sAvg').textContent = s.avg_count ? BN(String(s.avg_count)) : '-';
+    const d = s.districts || {}; const list = Object.entries(d).filter(([id]) => byId[id]).sort((a,b) => b[1]-a[1]);
+    const maxD = list.length ? list[0][1] : 1;
+    $('#topDistricts').innerHTML = list.slice(0,8).map(([id,n]) => `<li>${byId[id].bn}<span>${fmt(n)}</span><i style="--w:${Math.round(n/maxD*100)}%"></i></li>`).join('') || '<li>এখনো ডেটা নেই</li>';
+    const dv = {}; list.forEach(([id,n]) => { dv[byId[id].div] = (dv[byId[id].div]||0) + n; });
+    const dl = DIVISIONS.map(x => [x.bn, dv[x.id]||0]).sort((a,b) => b[1]-a[1]); const maxV = dl.length && dl[0][1] ? dl[0][1] : 1;
+    $('#topDivisions').innerHTML = dl.map(([bn,n]) => `<li>${bn}<span>${fmt(n)}</span><i style="--w:${Math.round(n/maxV*100)}%"></i></li>`).join('');
+    const ts = s.updated_at ? new Date(s.updated_at) : null; $('#statsUpdated').textContent = ts ? 'আপডেট: ' + BN(ts.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', timeZone:'Asia/Dhaka'})) : '';
+    $('#stats').hidden = false;
+  }catch(e){}
+}
+loadStats();
+
 let raf = 0;
 function requestRender(){ if(raf) return; raf = requestAnimationFrame(() => { raf = 0; const sz = SIZES[state.size]; if(canvas.width !== sz.w || canvas.height !== sz.h){ canvas.width = sz.w; canvas.height = sz.h; } render(ctx, sz.w, sz.h, {recordXf:true, interactive:true}); }); }
 
@@ -573,6 +657,7 @@ async function doDownload(kind, btn){
       const pw = 612, ph = 792, m = 36; const sc = Math.min((pw-2*m)/sz.w, (ph-2*m)/sz.h); const w = sz.w*sc, h = sz.h*sc;
       pdf.addImage(dataUrl, 'PNG', (pw-w)/2, (ph-h)/2, w, h); await deliver(fname('pdf'), pdf.output('blob'));
     } else { const blob = await renderBlob(kind); await deliver(fname(kind === 'png' ? 'png' : 'jpg'), blob); }
+    logEvent('download');
   }catch(e){ console.error(e); toast('ডাউনলোড করা যায়নি, আবার চেষ্টা করুন'); }
   finally{ btn.disabled = false; btn.textContent = prev; }
 }
@@ -582,8 +667,7 @@ $('#dlJpg').addEventListener('click', e => doDownload('jpeg', e.currentTarget));
 $('#dlPdf').addEventListener('click', e => doDownload('pdf', e.currentTarget));
 async function copyCaption(){ const text = caption(); try{ await navigator.clipboard.writeText(text); toast('ক্যাপশন কপি হয়েছে'); }catch(e){ const ta = $('#captionText'); ta.focus(); ta.select(); try{ document.execCommand('copy'); toast('ক্যাপশন কপি হয়েছে'); }catch(err){ toast('কপি করা যায়নি, টেক্সট সিলেক্ট করে কপি করুন'); } } }
 $('#copyCaption').addEventListener('click', copyCaption);
-let shareBlob = null, shareUrl = null, canNative = false;
-function stepDone(i){ $('#st'+i).classList.add('done'); }
+let shareBlob = null, shareUrl = null;
 async function copyText(text){ try{ await navigator.clipboard.writeText(text); return true; }catch(e){ const ta = $('#shareCaption'); ta.focus(); ta.select(); try{ return document.execCommand('copy'); }catch(err){ return false; } } }
 async function openShare(btn){
   const prev = btn.textContent; btn.disabled = true; btn.textContent = 'তৈরি হচ্ছে...';
@@ -592,11 +676,6 @@ async function openShare(btn){
     $('#shareImg').src = shareUrl; const ta = $('#shareCaption'); ta.value = caption(); ta.style.height = 'auto'; requestAnimationFrame(() => { ta.style.height = (ta.scrollHeight + 8) + 'px'; });
     const nm = state.name.trim(); $('#shareName').textContent = nm || 'আমার বাংলাদেশ';
     const av = $('#shareAv'); if(state.photo){ av.innerHTML = `<img src="${state.photo}" alt="">`; } else { av.textContent = (nm || 'আ').slice(0,1); }
-    const file = new File([shareBlob], fname('png'), {type:'image/png'});
-    canNative = !!(navigator.share && navigator.canShare && navigator.canShare({files:[file]}));
-    $('#shareOpen').textContent = canNative ? '৩. ফেসবুকে শেয়ার করুন' : '৩. ফেসবুক খুলুন';
-    $('#shareHint').textContent = canNative ? 'শেয়ার চাপলে ফোনের শেয়ার মেনু খুলবে, সেখানে Facebook বেছে নিন; ক্যাপশন পেস্ট করে পোস্ট করুন।' : 'ফেসবুকে পোস্ট লেখার জায়গায় ক্যাপশন পেস্ট করুন, তারপর সেভ করা ম্যাপের ছবিটা যোগ করুন।';
-    [1,2,3].forEach(i => $('#st'+i).classList.remove('done'));
     $('#shareModal').classList.add('open'); document.body.style.overflow = 'hidden';
   }catch(e){ console.error(e); toast('প্রিভিউ তৈরি করা যায়নি, আবার চেষ্টা করুন'); }
   finally{ btn.disabled = false; btn.textContent = prev; }
@@ -605,19 +684,34 @@ function closeShare(){ $('#shareModal').classList.remove('open'); document.body.
 $('#shareClose').addEventListener('click', closeShare);
 $('#shareModal').addEventListener('click', e => { if(e.target === e.currentTarget) closeShare(); });
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeShare(); });
-$('#shareCopy').addEventListener('click', async () => { const ok = await copyText($('#shareCaption').value); toast(ok ? 'ক্যাপশন কপি হয়েছে' : 'কপি করা যায়নি, টেক্সট সিলেক্ট করে কপি করুন'); if(ok) stepDone(1); });
-$('#shareSave').addEventListener('click', async e => { const b = e.currentTarget; b.disabled = true; try{ await deliver(fname('png'), shareBlob); stepDone(2); } finally{ b.disabled = false; } });
-$('#shareOpen').addEventListener('click', async e => {
-  const b = e.currentTarget; const text = $('#shareCaption').value;
-  if(canNative){ try{ await copyText(text); const file = new File([shareBlob], fname('png'), {type:'image/png'}); await navigator.share({files:[file], text, title:'ঘুরে দেখা বাংলাদেশ'}); stepDone(3); toast('ক্যাপশন কপি করা আছে, পোস্টে পেস্ট করুন'); return; }catch(err){ if(err && err.name === 'AbortError') return; } }
-  await copyText(text); const u = SITE_URL || location.href; window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(u), '_blank', 'noopener'); stepDone(3); toast('ক্যাপশন কপি করা আছে, ফেসবুকে পেস্ট করুন');
+$('#shareCopy').addEventListener('click', async () => { const ok = await copyText($('#shareCaption').value); toast(ok ? 'ক্যাপশন কপি হয়েছে' : 'কপি করা যায়নি, টেক্সট সিলেক্ট করে কপি করুন'); });
+$('#shareSave').addEventListener('click', async e => { const b = e.currentTarget; b.disabled = true; try{ await deliver(fname('png'), shareBlob); logEvent('download'); } finally{ b.disabled = false; } });
+const FB_SHARER = 'https://www.facebook.com/sharer/sharer.php?u=';
+$('#sharePost').addEventListener('click', async e => {
+  const b = e.currentTarget; const prev = b.textContent; b.disabled = true; b.textContent = 'ফেসবুকে পাঠানো হচ্ছে...';
+  let win = null; try{ win = window.open('', '_blank'); if(win) win.document.write('<title>ফেসবুক খুলছে...</title><p style="font-family:sans-serif;padding:20px">ফেসবুক খুলছে, একটু অপেক্ষা করুন...</p>'); }catch(err){ win = null; }
+  const go = url => { if(win && !win.closed){ win.location.href = url; } else { location.href = url; } };
+  try{
+    await copyText($('#shareCaption').value).catch(() => {});
+    let target = SITE_URL || location.href;
+    if(HOSTED){
+      const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
+      const [poster, card] = await Promise.all([blobToDataUrl(posterB), blobToDataUrl(cardB)]);
+      const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, name: state.name.trim(), count: state.selected.size, districts:[...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo})});
+      const j = await r.json().catch(() => null);
+      if(r.ok && j && j.url){ target = j.url; } else { console.warn('share upload failed', j); }
+    }
+    go(FB_SHARER + encodeURIComponent(target));
+    toast(target === SITE_URL ? 'ম্যাপ লিংক বানানো যায়নি, ক্যাপশন কপি আছে, ছবি যোগ করে পোস্ট করুন' : 'ফেসবুকে প্রিভিউ এসেছে, Post চাপুন');
+  }catch(err){ console.error(err); if(win && !win.closed) win.close(); toast('শেয়ার করা যায়নি, আবার চেষ্টা করুন'); }
+  finally{ b.disabled = false; b.textContent = prev; }
 });
 $('#shareFb').addEventListener('click', e => openShare(e.currentTarget));
 $('#quickShare').addEventListener('click', e => openShare(e.currentTarget));
 
 /* ---------- boot ---------- */
 load(); buildDivisions(); buildThemes(); $('#name').value = state.name; loadPhoto(); update();
-window.__gdb = {state, update, render, SIZES, fontPromise};
+window.__gdb = {state, update, render, renderCard, SIZES, fontPromise};
 })();
 </script>
 </body>

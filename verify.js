@@ -4,12 +4,13 @@
 const BN = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
 const HOSTED = /^https?:$/.test(location.protocol) && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname);
 const css = `
-.verify{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:13px;color:var(--muted,#5E6E65);margin-top:8px}
-.verify .vq{font-weight:600}
-.verify button{font:inherit;font-size:13px;font-weight:600;padding:5px 11px;border-radius:999px;border:1px solid var(--line,#D6DED8);background:var(--surface,#fff);color:inherit;cursor:pointer;line-height:1.3}
-.verify button:hover{background:var(--surface-2,#E9EFEA)}
-.verify button[data-v="ok"][aria-pressed="true"]{background:var(--accent,#0F7F4C);border-color:var(--accent,#0F7F4C);color:#fff}
-.verify .vn{font-size:12px}
+.verify{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:11px;color:var(--muted,#5E6E65);margin-top:6px;line-height:1}
+.verify .vq{font-weight:600;margin-right:2px}
+.verify button{font:inherit;font-size:13px;line-height:1;padding:0;width:26px;height:22px;border-radius:7px;border:1px solid var(--line,#D6DED8);background:var(--surface,#fff);color:inherit;cursor:pointer;display:inline-grid;place-items:center;opacity:.85}
+.verify button:hover{background:var(--surface-2,#E9EFEA);opacity:1}
+.verify button[data-v="ok"][aria-pressed="true"]{background:var(--accent,#0F7F4C);border-color:var(--accent,#0F7F4C);opacity:1}
+.verify button[data-v="add"]{width:auto;padding:0 7px;font-size:11px;font-weight:600}
+.verify .vn{font-size:11px;margin-left:2px}
 .verify.done .vq{display:none}
 .vmodal{position:fixed;inset:0;z-index:70;display:none;align-items:flex-end;justify-content:center;background:rgba(10,18,14,.6);backdrop-filter:blur(4px)}
 .vmodal.open{display:flex}
@@ -46,9 +47,9 @@ function build(el){
   if(el.dataset.built) return; el.dataset.built = '1';
   const page = el.dataset.page || location.pathname.replace(/^\//, ''), item = el.dataset.item || '';
   const key = page + '#' + item; const quiet = el.dataset.quiet === '1';
-  el.innerHTML = `<span class="vq">${el.dataset.q || 'এই তথ্য ঠিক আছে?'}</span><button type="button" data-v="ok" aria-pressed="${done.has(key)}">👍 ঠিক আছে</button><button type="button" data-v="wrong">✏️ ভুল বা পুরোনো</button>${el.dataset.add === '1' ? '<button type="button" data-v="add">➕ নতুন তথ্য দিন</button>' : ''}<span class="vn"></span>`;
+  el.innerHTML = `<span class="vq">${el.dataset.q || 'তথ্য সঠিক?'}</span><button type="button" data-v="ok" aria-pressed="${done.has(key)}" title="ঠিক আছে" aria-label="ঠিক আছে">👍</button><button type="button" data-v="wrong" title="ভুল বা পুরোনো, সঠিকটা জানান" aria-label="ভুল বা পুরোনো">👎</button>${el.dataset.add === '1' ? '<button type="button" data-v="add" title="নতুন তথ্য যোগ করুন">➕ নতুন তথ্য</button>' : ''}<span class="vn"></span>`;
   if(done.has(key)) el.classList.add('done');
-  el.querySelector('[data-v="ok"]').addEventListener('click', async e => { const b = e.currentTarget; if(b.getAttribute('aria-pressed') === 'true') return; b.setAttribute('aria-pressed', 'true'); remember(key); el.classList.add('done'); const n = el.querySelector('.vn'); const c = parseInt(n.dataset.ok || '0', 10) + 1; n.dataset.ok = c; n.textContent = `ধন্যবাদ! ${BN(c)} জন ঠিক বলেছেন`; await post({page, item, verdict:'ok'}); });
+  el.querySelector('[data-v="ok"]').addEventListener('click', async e => { const b = e.currentTarget; if(b.getAttribute('aria-pressed') === 'true') return; b.setAttribute('aria-pressed', 'true'); remember(key); el.classList.add('done'); const n = el.querySelector('.vn'); const c = parseInt(n.dataset.ok || '0', 10) + 1; n.dataset.ok = c; n.textContent = `ধন্যবাদ · ${BN(c)}`; await post({page, item, verdict:'ok'}); });
   el.querySelector('[data-v="wrong"]').addEventListener('click', () => open(page, item, 'wrong'));
   const add = el.querySelector('[data-v="add"]'); if(add) add.addEventListener('click', () => open(page, item, 'add'));
 }
@@ -56,7 +57,7 @@ async function init(){
   const els = [...document.querySelectorAll('.verify')].filter(el => !el.dataset.built); els.forEach(build);
   if(!HOSTED || !els.length) return;
   const pages = [...new Set(els.map(el => el.dataset.page || location.pathname.replace(/^\//, '')))];
-  for(const page of pages){ try{ const c = await (await fetch('/api/feedback?page=' + encodeURIComponent(page))).json(); els.filter(el => (el.dataset.page || location.pathname.replace(/^\//, '')) === page).forEach(el => { const k = el.dataset.item || ''; const v = c[k]; if(v && v.ok){ const n = el.querySelector('.vn'); n.dataset.ok = v.ok; n.textContent = `${BN(v.ok)} জন ঠিক বলেছেন`; } }); }catch(e){} }
+  for(const page of pages){ try{ const c = await (await fetch('/api/feedback?page=' + encodeURIComponent(page))).json(); els.filter(el => (el.dataset.page || location.pathname.replace(/^\//, '')) === page).forEach(el => { const k = el.dataset.item || ''; const v = c[k]; if(v && v.ok){ const n = el.querySelector('.vn'); n.dataset.ok = v.ok; n.textContent = `${BN(v.ok)} জন ✓`; } }); }catch(e){} }
 }
 init();
 window.gdbVerify = { open, toast, init };

@@ -23,6 +23,7 @@
 <style>
 /* Layout: a studio desk - the poster is the hero object on the right, a stepped control column on the left; stacked on phones. */
 :root{
+  --wish:#E9A825;
   --bg:#F2F5F1; --surface:#FFFFFF; --surface-2:#E9EFEA; --ink:#15231C; --muted:#5E6E65; --line:#D6DED8;
   --accent:#0F7F4C; --accent-ink:#0B5F39; --accent-soft:#DDF1E5; --red:#D6262E; --red-soft:#FBE3E4;
   --shadow:0 18px 50px rgba(21,35,28,.14);
@@ -118,6 +119,8 @@ h1,h2,h3{font-family:var(--font-display);line-height:1.2;margin:0;text-wrap:bala
 .chip{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:14px;font-weight:500;line-height:1.3}
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .chip[hidden]{display:none}
+.chip[data-wish="true"]{border:2px dashed var(--wish,#E09B1A);background:color-mix(in srgb,var(--wish,#E09B1A) 14%,var(--surface));padding:5px 11px}
+.chip[data-wish="true"]::before{content:"🎯 ";font-size:11px}
 label.field{display:grid;gap:6px;font-weight:600;font-size:14px}
 label.field input[type=text]{padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-weight:500;font-size:16px}
 .photo{display:flex;align-items:center;gap:14px;margin-top:12px}
@@ -142,7 +145,11 @@ label.field input[type=text]{padding:11px 14px;border:1px solid var(--line);bord
 .toggle::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .toggle[aria-checked="true"]{background:var(--accent)}
 .toggle[aria-checked="true"]::after{transform:translateX(20px)}
-.downloads{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dlopts{display:grid;gap:8px;padding:4px 18px 18px}
+.dlopt{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:center;text-align:left;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.dlopt b{font-family:var(--font-display);font-size:20px;color:var(--accent-ink);grid-row:span 2;width:56px}
+.dlopt span{font-weight:700}
+.dlopt small{color:var(--muted);font-size:13px;font-weight:500}
 .note{color:var(--muted);font-size:13px;margin:10px 0 0}
 .caption{margin-top:14px;display:grid;gap:8px}
 .caption textarea{width:100%;min-height:92px;resize:vertical;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font:inherit;font-size:14px;color:var(--ink)}
@@ -242,7 +249,7 @@ footer b{color:var(--ink)}
         <div class="tip" id="tip"></div>
       </div>
       <div class="quick">
-        <button class="btn primary" id="quickPng" type="button">PNG নামান</button>
+        <button class="btn primary" id="quickPng" type="button">⬇ ডাউনলোড</button>
         <button class="btn" id="quickShare" type="button">ফেসবুকে পোস্ট</button>
       </div>
     </div>
@@ -252,6 +259,12 @@ footer b{color:var(--ink)}
       <section class="panel" id="p1">
         <div class="panel-head"><b>১</b><h2>কোথায় কোথায় পা পড়েছে?</h2><span class="count" id="countTop">০ / ৬৪</span></div>
         <div class="progress"><i id="bar"></i></div>
+        <div class="seg" id="modeSeg" style="margin-bottom:10px;width:100%">
+          <button type="button" data-v="visited" aria-pressed="true" style="flex:1">✅ ঘুরেছি</button>
+          <button type="button" data-v="wish" aria-pressed="false" style="flex:1">🎯 যেতে চাই</button>
+          <button type="button" data-v="recap" aria-pressed="false" style="flex:1">📅 বছরের রিক্যাপ</button>
+        </div>
+        <p class="note" id="modeNote" style="margin:0 0 10px"></p>
         <div class="row">
           <input class="search" id="search" type="search" placeholder="জেলার নাম লিখুন..." autocomplete="off">
           <button class="btn small" id="selectAll" type="button">সবগুলোতে টিক</button>
@@ -307,12 +320,8 @@ footer b{color:var(--ink)}
 
       <section class="panel" id="p4">
         <div class="panel-head"><b>৪</b><h2>নামিয়ে নিন, পোস্ট করুন</h2></div>
-        <div class="downloads">
-          <button class="btn primary big" id="dlPng" type="button">PNG</button>
-          <button class="btn big" id="dlJpg" type="button">JPG</button>
-          <button class="btn big" id="dlPdf" type="button">PDF</button>
-        </div>
-        <p class="note">ফেসবুক-ইনস্টাগ্রামের জন্য PNG নিন; দেয়ালে টাঙাতে চাইলে PDF (প্রিন্টের মাপে)।</p>
+        <div class="row"><button class="btn primary big" id="dlOpen" type="button" style="flex:1">⬇ ম্যাপ ডাউনলোড</button></div>
+        <p class="note">চাপলে PNG, JPG বা PDF বেছে নিতে পারবেন।</p>
         <div class="caption">
           <span class="lbl" style="font-weight:600;font-size:14px">সাথে এই ক্যাপশনটা দিতে পারেন</span>
           <textarea id="captionText" readonly></textarea>
@@ -367,6 +376,16 @@ footer b{color:var(--ink)}
     </div>
   </div>
 </div>
+<div class="modal" id="dlModal" role="dialog" aria-modal="true" aria-labelledby="dlTitle">
+  <div class="sheet" style="max-width:420px">
+    <div class="sheet-head"><h2 id="dlTitle">কোন ফরম্যাটে নামাবেন?</h2><button class="xbtn" id="dlClose" type="button" aria-label="বন্ধ করুন">✕</button></div>
+    <div class="dlopts">
+      <button class="dlopt" id="dlPng" type="button"><b>PNG</b><span>ফেসবুক, ইনস্টাগ্রাম, হোয়াটসঅ্যাপ</span><small>সবচেয়ে ঝকঝকে, পোস্টের জন্য এটাই নিন</small></button>
+      <button class="dlopt" id="dlJpg" type="button"><b>JPG</b><span>ছোট ফাইল</span><small>নেট কম থাকলে বা মেসেজে পাঠাতে</small></button>
+      <button class="dlopt" id="dlPdf" type="button"><b>PDF</b><span>প্রিন্টের জন্য</span><small>দেয়ালে টাঙাতে চাইলে, প্রিন্টের মাপে</small></button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -398,15 +417,17 @@ const THEMES = {
   night:  {name:'রাত',      paper:'#131A22', unvisited:'#2A3542', visited:'#3FD38F', accent:'#FFB454', ink:'#F2F5F7', muted:'#9AA7B3', line:'#131A22'},
   rickshaw:{name:'রিকশা',   paper:'#FFF0F5', unvisited:'#F6CFDF', visited:'#D81B60', accent:'#0E9C8E', ink:'#2B1020', muted:'#7A5566', line:'#FFF0F5'},
 };
+const WISH = {flag:'#E9A825', river:'#F0A233', sunset:'#F5B942', hills:'#D9A441', night:'#FFB454', rickshaw:'#F2A93B'};
 const DIV_COLORS = {dhaka:'#D8262C', chattogram:'#0E6E8C', rajshahi:'#E08A1E', khulna:'#2E8B57', barishal:'#7B3FA0', sylhet:'#1D9A8A', rangpur:'#C2185B', mymensingh:'#5C6BC0'};
 const SIZES = {post:{w:1080,h:1350}, square:{w:1080,h:1080}, story:{w:1080,h:1920}};
 
-const state = {selected:new Set(), name:'', photo:null, theme:'flag', byDiv:false, showDiv:true, labelMode:'visited', size:'post'};
+const state = {selected:new Set(), wish:new Set(), mode:'visited', recap:false, name:'', photo:null, theme:'flag', byDiv:false, showDiv:true, labelMode:'visited', size:'post'};
+const YEAR = BN(new Date().getFullYear());
 
 /* ---------- persistence ---------- */
-function save(){ try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size})); }catch(e){}
+function save(){ try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], wish:[...state.wish], recap:state.recap, name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size})); }catch(e){}
   try{ if(state.photo) localStorage.setItem(CFG.key+'-photo', state.photo); else localStorage.removeItem(CFG.key+'-photo'); }catch(e){} }
-function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => byId[id] && state.selected.add(id)); state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; }catch(e){} }
+function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => byId[id] && state.selected.add(id)); (s.wish||[]).forEach(id => byId[id] && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; }catch(e){} }
 
 /* ---------- paths ---------- */
 const PATHS = {}; DISTRICTS.forEach(d => { d.tiny = CFG.tiny && d.a < 4; PATHS[d.id] = new Path2D(d.d || ''); });
@@ -445,11 +466,11 @@ function render(c, W, H, opts){
   c.textBaseline = 'alphabetic'; c.textAlign = 'left';
   c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); if('letterSpacing' in c) c.letterSpacing = '1px';
   c.fillText('ঘুরে দেখা বাংলাদেশ', x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px';
-  const title = state.name.trim() || CFG.defaultTitle;
+  const title = state.recap ? (state.name.trim() ? `${state.name.trim()} · ${YEAR}` : `${YEAR}-এ ${CFG.defaultTitle}`) : (state.name.trim() || CFG.defaultTitle);
   let fs = 62*u; c.font = F(800, fs, 'd'); while(c.measureText(title).width > maxW && fs > 30*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
   c.fillStyle = t.ink; c.fillText(title, x, headTop+100*u);
   c.fillStyle = t.muted; c.font = F(500, 24*u, 'b');
-  c.fillText(n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`, x, headTop+142*u);
+  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`); c.fillText(sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : ''), x, headTop+142*u);
   // counter disc
   c.beginPath(); c.arc(discX, discY, discR, 0, Math.PI*2); c.fillStyle = t.accent; c.fill();
   c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.textAlign = 'center'; c.font = F(800, 64*u, 'd'); c.textBaseline = 'middle'; c.fillText(BN(n), discX, discY+4*u);
@@ -472,7 +493,8 @@ function render(c, W, H, opts){
   c.save(); c.setTransform(B*s,0,0,B*s,B*mx,B*my);
   if(CFG.shadow){ c.save(); c.shadowColor = 'rgba(0,0,0,.22)'; c.shadowBlur = 36*u/s; c.shadowOffsetY = 14*u/s; c.fillStyle = t.unvisited; c.fill(OUTLINE_PATH); c.restore(); } else { c.fillStyle = t.unvisited; c.fill(OUTLINE_PATH); }
   const lw = 1.8*u/s;
-  for(const d of DISTRICTS){ const v = state.selected.has(d.id); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : t.unvisited; c.fill(PATHS[d.id]); }
+  const wishCol = WISH[state.theme] || '#E9A825';
+  for(const d of DISTRICTS){ const v = state.selected.has(d.id); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (state.wish.has(d.id) ? wishCol : t.unvisited); c.fill(PATHS[d.id]); }
   c.lineWidth = lw; c.strokeStyle = t.line; c.lineJoin = 'round';
   for(const d of DISTRICTS) c.stroke(PATHS[d.id]);
   if(OUTLINE) c.stroke(OUTLINE_PATH);
@@ -487,9 +509,9 @@ function render(c, W, H, opts){
   for(const d of order){
     const v = state.selected.has(d.id);
     const cx = mx + d.c[0]*s, cy = my + d.c[1]*s;
-    if(d.tiny){ c.beginPath(); c.arc(cx, cy, (v ? 6 : 3.5)*u, 0, Math.PI*2); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : t.unvisited; c.fill(); c.lineWidth = 1.5*u; c.strokeStyle = v ? t.paper : t.muted; c.globalAlpha = v ? 1 : .7; c.stroke(); c.globalAlpha = 1; if(hover === d.id && opts.interactive){ c.lineWidth = 3*u; c.strokeStyle = t.accent; c.stroke(); } }
+    if(d.tiny){ const wv = state.wish.has(d.id); c.beginPath(); c.arc(cx, cy, (v || wv ? 6 : 3.5)*u, 0, Math.PI*2); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (wv ? wishCol : t.unvisited); c.fill(); c.lineWidth = 1.5*u; c.strokeStyle = v ? t.paper : t.muted; c.globalAlpha = v ? 1 : .7; c.stroke(); c.globalAlpha = 1; if(hover === d.id && opts.interactive){ c.lineWidth = 3*u; c.strokeStyle = t.accent; c.stroke(); } }
     else if(v){ c.beginPath(); c.arc(cx, cy, 5*u, 0, Math.PI*2); c.fillStyle = state.byDiv ? '#FFFFFF' : t.accent; c.fill(); c.lineWidth = 1.5*u; c.strokeStyle = state.byDiv ? DIV_COLORS[d.div] : t.paper; c.stroke(); }
-    const want = state.labelMode === 'all' || (state.labelMode === 'visited' && v);
+    const want = state.labelMode === 'all' || (state.labelMode === 'visited' && (v || state.wish.has(d.id)));
     if(!want) continue;
     const tw = c.measureText(d.bn).width + 6*u, th = lfs*1.25;
     const offs = v ? [-12, -34, 26, -56, 48] : [-12, -34, 26];
@@ -497,7 +519,7 @@ function render(c, W, H, opts){
     for(const o of offs){ const by = cy + o*u; const b = {x:cx-tw/2, y:by-th, w:tw, h:th}; if(b.x < 10*u || b.x+b.w > W-10*u) continue; if(!placed.some(p => b.x < p.x+p.w && b.x+b.w > p.x && b.y < p.y+p.h && b.y+b.h > p.y)){ box = b; box.ty = by; break; } }
     if(!box) continue; placed.push(box);
     c.lineWidth = 4*u; c.strokeStyle = t.paper; c.strokeText(d.bn, cx, box.ty - 3*u);
-    c.fillStyle = v ? t.ink : t.muted; c.fillText(d.bn, cx, box.ty - 3*u);
+    c.fillStyle = v ? t.ink : (state.wish.has(d.id) ? t.ink : t.muted); c.fillText(d.bn, cx, box.ty - 3*u);
   }
 
   /* visited list (world) */
@@ -522,8 +544,8 @@ function render(c, W, H, opts){
   const barH = 16*u; rr(c, P, y, W-2*P, barH, barH/2); c.fillStyle = t.unvisited; c.fill();
   if(n){ rr(c, P, y, Math.max(barH, (W-2*P)*n/TOTAL), barH, barH/2); c.fillStyle = state.byDiv ? t.accent : t.visited; c.fill(); }
   y += barH + 36*u;
-  c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); c.fillText(`${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`, P, y);
-  c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(n === TOTAL ? `সব ${U} ঘোরা শেষ!` : `বাকি ${BN(TOTAL-n)} ${U}`, W-P, y);
+  c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); c.fillText(state.recap ? `${YEAR}-এ ${CFG.place} ${BN(pct)}% ঘোরা হলো` : `${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`, P, y);
+  c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(n === TOTAL ? `সব ${U} ঘোরা শেষ!` : (state.wish.size ? `🎯 যেতে চাই ${BN(state.wish.size)} · বাকি ${BN(TOTAL-n)}` : `বাকি ${BN(TOTAL-n)} ${U}`), W-P, y);
 
   /* division chips */
   if(showDiv){
@@ -603,7 +625,7 @@ canvas.addEventListener('pointermove', e => { if(e.pointerType === 'touch') retu
 canvas.addEventListener('pointerleave', () => { hover = null; tip.classList.remove('show'); requestRender(); });
 
 /* ---------- UI ---------- */
-function toggle(id){ if(state.selected.has(id)) state.selected.delete(id); else state.selected.add(id); update(); }
+function toggle(id){ if(state.mode === 'wish'){ if(state.wish.has(id)) state.wish.delete(id); else { state.wish.add(id); state.selected.delete(id); } } else { if(state.selected.has(id)) state.selected.delete(id); else { state.selected.add(id); state.wish.delete(id); } } update(); }
 function buildDivisions(){
   const root = $('#divisions'); root.innerHTML = '';
   DIVISIONS.forEach(dv => {
@@ -611,7 +633,7 @@ function buildDivisions(){
     sec.innerHTML = `<div class="division-head"><h3>${dv.bn}${CFG.groupSuffix}</h3><span class="n"></span><button class="btn small" type="button" data-all>সব</button></div><div class="chips"></div>`;
     const chips = sec.querySelector('.chips');
     DISTRICTS.filter(d => d.div === dv.id).sort((a,b) => a.bn.localeCompare(b.bn,'bn')).forEach(d => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.id = d.id; b.textContent = d.bn; b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', () => toggle(d.id)); chips.appendChild(b); });
-    sec.querySelector('[data-all]').addEventListener('click', () => { const ids = DISTRICTS.filter(d => d.div === dv.id).map(d => d.id); const all = ids.every(id => state.selected.has(id)); ids.forEach(id => all ? state.selected.delete(id) : state.selected.add(id)); update(); });
+    sec.querySelector('[data-all]').addEventListener('click', () => { const ids = DISTRICTS.filter(d => d.div === dv.id).map(d => d.id); const set = state.mode === 'wish' ? state.wish : state.selected, other = state.mode === 'wish' ? state.selected : state.wish; const all = ids.every(id => set.has(id)); ids.forEach(id => { if(all) set.delete(id); else { set.add(id); other.delete(id); } }); update(); });
     root.appendChild(sec);
   });
 }
@@ -625,6 +647,8 @@ function caption(){
   else lines.push(`🗺️ ${CFG.place} ${BN(TOTAL)} ${CFG.gen} মধ্যে এখন পর্যন্ত আমার পা পড়েছে ${BN(n)}টিতে, মানে ${BN(pct)}%!`);
   if(done.length && n !== TOTAL) lines.push(`✅ ${done.join(', ')} ${CFG.groupSuffix ? CFG.group + 'ের' : ''} সব ${U} ঘোরা শেষ।`);
   if(n && n !== TOTAL) lines.push(`⏳ লিস্টে বাকি আরও ${BN(TOTAL-n)}টি ${U}।`);
+  if(state.wish.size){ const wn = DISTRICTS.filter(d => state.wish.has(d.id)).map(d => d.bn); lines.push(`🎯 এরপর যেতে চাই: ${wn.slice(0,8).join(', ')}${wn.length > 8 ? ` আরও ${BN(wn.length-8)}টি` : ''}`); }
+  if(state.recap) lines[0] = lines[0].replace('এখন পর্যন্ত', `${YEAR} সালে`);
   lines.push('');
   lines.push(`আপনার কয়টা ${U} হলো? ২ মিনিটে নিজের ম্যাপ বানিয়ে দেখান 👉 ${SITE_URL ? SITE_URL + CFG.path : 'ঘুরে দেখা বাংলাদেশ'}`);
   lines.push('');
@@ -634,7 +658,10 @@ function caption(){
 function update(){
   const n = state.selected.size;
   const label = `${BN(n)} / ${BN(TOTAL)}`; $('#countTop').textContent = label; $('#fabCount').textContent = label; $('#bar').style.width = (n/TOTAL*100) + '%';
-  document.querySelectorAll('.chip').forEach(b => b.setAttribute('aria-pressed', String(state.selected.has(b.dataset.id))));
+  document.querySelectorAll('.chip').forEach(b => { b.setAttribute('aria-pressed', String(state.selected.has(b.dataset.id))); b.dataset.wish = String(state.wish.has(b.dataset.id)); });
+  document.querySelectorAll('#modeSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === state.mode)));
+  $('#modeNote').textContent = state.mode === 'wish' ? `এখন টিক দিলে ${U}টা হলুদ হবে: যেখানে যেতে চান। ম্যাপে দুটোই দেখাবে।` : state.mode === 'recap' ? `${YEAR}-এ যেখানে গিয়েছেন শুধু সেগুলোতে টিক দিন; পোস্টারে লেখা থাকবে "${YEAR}-এ"। ডিসেম্বরে শেয়ার করার জন্য।` : `যেখানে গিয়েছেন সেখানে টিক দিন।`;
+  $('#modeSeg').style.setProperty('--wish', WISH[state.theme] || '#E9A825');
   document.querySelectorAll('.division').forEach(sec => { const ids = DISTRICTS.filter(d => d.div === sec.dataset.div); const got = ids.filter(d => state.selected.has(d.id)).length; sec.querySelector('.n').textContent = `${BN(got)}/${BN(ids.length)}`; sec.querySelector('[data-all]').textContent = got === ids.length ? 'সব বাদ' : 'সবগুলো'; });
   document.querySelectorAll('.theme').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.theme === state.theme)));
   document.querySelectorAll('#labelMode button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === state.labelMode)));
@@ -646,8 +673,9 @@ function update(){
   save(); requestRender();
 }
 $('#search').addEventListener('input', e => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('.chip').forEach(b => { const d = byId[b.dataset.id]; b.hidden = !!q && !(d.bn.includes(q) || d.en.toLowerCase().includes(q)); }); document.querySelectorAll('.division').forEach(sec => { sec.hidden = !!q && ![...sec.querySelectorAll('.chip')].some(b => !b.hidden); }); });
-$('#selectAll').addEventListener('click', () => { DISTRICTS.forEach(d => state.selected.add(d.id)); update(); });
-$('#clearAll').addEventListener('click', () => { state.selected.clear(); update(); });
+$('#selectAll').addEventListener('click', () => { if(state.mode === 'wish'){ DISTRICTS.forEach(d => !state.selected.has(d.id) && state.wish.add(d.id)); } else { DISTRICTS.forEach(d => state.selected.add(d.id)); state.wish.clear(); } update(); });
+$('#clearAll').addEventListener('click', () => { if(state.mode === 'wish') state.wish.clear(); else state.selected.clear(); update(); });
+$('#modeSeg').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.mode = b.dataset.v; state.recap = state.mode === 'recap'; update(); });
 $('#name').addEventListener('input', e => { state.name = e.target.value; update(); });
 $('#labelMode').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.labelMode = b.dataset.v; update(); });
 $('#sizeMode').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.size = b.dataset.v; update(); });
@@ -656,7 +684,10 @@ $('#showDiv').addEventListener('click', () => { state.showDiv = !state.showDiv; 
 $('#photoBtn').addEventListener('click', () => $('#photoInput').click());
 $('#photoRemove').addEventListener('click', () => { state.photo = null; loadPhoto(); update(); });
 $('#photoInput').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if(!f) return; const url = URL.createObjectURL(f); const im = new Image(); im.onload = () => { const S = 640, c = document.createElement('canvas'); c.width = S; c.height = S; const cc = c.getContext('2d'); const sc = Math.max(S/im.width, S/im.height); const w = im.width*sc, h = im.height*sc; cc.drawImage(im, S/2-w/2, S/2-h/2, w, h); state.photo = c.toDataURL('image/jpeg', .88); URL.revokeObjectURL(url); loadPhoto(); update(); e.target.value = ''; }; im.onerror = () => { toast('ছবিটি পড়া যায়নি, অন্য ছবি দিন'); URL.revokeObjectURL(url); }; im.src = url; });
-$('#fabBtn').addEventListener('click', () => { $('#p4').scrollIntoView({behavior:'smooth', block:'start'}); });
+function openDl(){ $('#dlModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeDl(){ $('#dlModal').classList.remove('open'); document.body.style.overflow = ''; }
+$('#fabBtn').addEventListener('click', openDl); $('#dlOpen').addEventListener('click', openDl); $('#dlClose').addEventListener('click', closeDl);
+$('#dlModal').addEventListener('click', e => { if(e.target === e.currentTarget) closeDl(); });
 
 /* ---------- toast ---------- */
 let toastT = 0; function toast(msg){ const el = $('#toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 2600); }
@@ -684,10 +715,10 @@ async function doDownload(kind, btn){
   }catch(e){ console.error(e); toast('ডাউনলোড করা যায়নি, আবার চেষ্টা করুন'); }
   finally{ btn.disabled = false; btn.textContent = prev; }
 }
-$('#dlPng').addEventListener('click', e => doDownload('png', e.currentTarget));
-$('#quickPng').addEventListener('click', e => doDownload('png', e.currentTarget));
-$('#dlJpg').addEventListener('click', e => doDownload('jpeg', e.currentTarget));
-$('#dlPdf').addEventListener('click', e => doDownload('pdf', e.currentTarget));
+$('#dlPng').addEventListener('click', e => { closeDl(); doDownload('png', $('#dlOpen')); });
+$('#quickPng').addEventListener('click', openDl);
+$('#dlJpg').addEventListener('click', e => { closeDl(); doDownload('jpeg', $('#dlOpen')); });
+$('#dlPdf').addEventListener('click', e => { closeDl(); doDownload('pdf', $('#dlOpen')); });
 async function copyCaption(){ const text = caption(); try{ await navigator.clipboard.writeText(text); toast('ক্যাপশন কপি হয়েছে'); }catch(e){ const ta = $('#captionText'); ta.focus(); ta.select(); try{ document.execCommand('copy'); toast('ক্যাপশন কপি হয়েছে'); }catch(err){ toast('কপি করা যায়নি, টেক্সট সিলেক্ট করে কপি করুন'); } } }
 $('#copyCaption').addEventListener('click', copyCaption);
 let shareBlob = null, shareUrl = null;
@@ -706,7 +737,7 @@ async function openShare(btn){
 function closeShare(){ $('#shareModal').classList.remove('open'); document.body.style.overflow = ''; }
 $('#shareClose').addEventListener('click', closeShare);
 $('#shareModal').addEventListener('click', e => { if(e.target === e.currentTarget) closeShare(); });
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeShare(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeShare(); closeDl(); } });
 $('#shareCopy').addEventListener('click', async () => { const ok = await copyText($('#shareCaption').value); toast(ok ? 'ক্যাপশন কপি হয়েছে' : 'কপি করা যায়নি, টেক্সট সিলেক্ট করে কপি করুন'); });
 $('#shareSave').addEventListener('click', async e => { const b = e.currentTarget; b.disabled = true; try{ await deliver(fname('png'), shareBlob); logEvent('download'); } finally{ b.disabled = false; } });
 const FB_SHARER = 'https://www.facebook.com/sharer/sharer.php?u=';

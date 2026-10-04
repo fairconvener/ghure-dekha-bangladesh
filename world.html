@@ -58,9 +58,13 @@ h1,h2,h3{font-family:var(--font-display);line-height:1.2;margin:0;text-wrap:bala
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:60px}
 .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:20px;text-decoration:none;color:var(--ink)}
 .brand svg{width:30px;height:30px}
-.nav{display:flex;gap:4px;background:var(--surface-2);padding:3px;border-radius:999px}
-.nav a{padding:6px 14px;border-radius:999px;text-decoration:none;color:var(--muted);font-weight:700;font-size:14px;font-family:var(--font-display);white-space:nowrap}
+.nav{display:flex;gap:4px;background:var(--surface-2);padding:3px;border-radius:999px;overflow-x:auto;scrollbar-width:none;max-width:100%;-webkit-overflow-scrolling:touch}
+.nav::-webkit-scrollbar{display:none}
+.nav a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-weight:700;font-size:14px;font-family:var(--font-display);white-space:nowrap;flex:none}
 .nav a[aria-current]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.top .wrap{height:auto;min-height:60px;padding-block:8px;flex-wrap:wrap}
+.brand{font-size:18px}
+@media (max-width:640px){.top .wrap{display:grid;grid-template-columns:1fr;gap:6px;padding-block:8px}.brand{font-size:17px}}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);font-weight:600;font-size:14px;white-space:nowrap}
 
 /* hero */
@@ -119,6 +123,13 @@ h1,h2,h3{font-family:var(--font-display);line-height:1.2;margin:0;text-wrap:bala
 .chip{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:14px;font-weight:500;line-height:1.3}
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .chip[hidden]{display:none}
+.dgrps{display:grid;gap:4px}
+.dgrp{border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:0 10px}
+.dgrp summary{cursor:pointer;font-weight:600;font-size:14px;padding:8px 0;display:flex;justify-content:space-between;gap:8px;list-style:none}
+.dgrp summary::-webkit-details-marker{display:none}
+.dgrp summary .n{color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
+.dgrp.has summary{color:var(--accent-ink)}
+.dgrp .chips{padding:0 0 10px}
 .chip[data-wish="true"]{border:2px dashed var(--wish,#E09B1A);background:color-mix(in srgb,var(--wish,#E09B1A) 14%,var(--surface));padding:5px 11px}
 .chip[data-wish="true"]::before{content:"🎯 ";font-size:11px}
 label.field{display:grid;gap:6px;font-weight:600;font-size:14px}
@@ -219,7 +230,7 @@ footer b{color:var(--ink)}
       <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#0F7F4C"/><circle cx="14" cy="16" r="8" fill="#D6262E"/></svg>
       ঘুরে দেখা বাংলাদেশ
     </a>
-    <nav class="nav" aria-label="ম্যাপ"><a href="/" >🇧🇩 বাংলাদেশ</a><a href="/world" aria-current="page">🌍 বিশ্ব</a></nav>
+    <nav class="nav" aria-label="সাইটের অংশ"><a href="/" >🇧🇩 জেলা ম্যাপ</a><a href="/world" aria-current="page">🌍 বিশ্ব</a><a href="/upazila" >📍 উপজেলা</a><a href="/jela">📖 জেলা গাইড</a><a href="/plan">🧭 ট্রিপ প্ল্যানার</a><a href="/top">🏆 লিডারবোর্ড</a><a href="/compare">⚔️ তুলনা</a><a href="/order">🖼️ পোস্টার</a></nav>
   </div>
 </header>
 
@@ -631,8 +642,9 @@ function buildDivisions(){
   DIVISIONS.forEach(dv => {
     const sec = document.createElement('div'); sec.className = 'division'; sec.dataset.div = dv.id;
     sec.innerHTML = `<div class="division-head"><h3>${dv.bn}${CFG.groupSuffix}</h3><span class="n"></span><button class="btn small" type="button" data-all>সব</button></div><div class="chips"></div>`;
-    const chips = sec.querySelector('.chips');
-    DISTRICTS.filter(d => d.div === dv.id).sort((a,b) => a.bn.localeCompare(b.bn,'bn')).forEach(d => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.id = d.id; b.textContent = d.bn; b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', () => toggle(d.id)); chips.appendChild(b); });
+    const mkChip = d => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.id = d.id; b.textContent = d.bn; b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', () => toggle(d.id)); return b; };
+    if(CFG.uiGroup === 'dist' && typeof UI_GROUPS !== 'undefined'){ const chips = sec.querySelector('.chips'); chips.className = 'dgrps'; UI_GROUPS.filter(g => g.div === dv.id).forEach(g => { const det = document.createElement('details'); det.className = 'dgrp'; det.dataset.dist = g.id; det.innerHTML = `<summary>${g.bn} <span class="n"></span></summary><div class="chips"></div>`; const c = det.querySelector('.chips'); DISTRICTS.filter(d => d.dist === g.id).sort((a,b) => a.bn.localeCompare(b.bn,'bn')).forEach(d => c.appendChild(mkChip(d))); chips.appendChild(det); }); }
+    else { const chips = sec.querySelector('.chips'); DISTRICTS.filter(d => d.div === dv.id).sort((a,b) => a.bn.localeCompare(b.bn,'bn')).forEach(d => chips.appendChild(mkChip(d))); }
     sec.querySelector('[data-all]').addEventListener('click', () => { const ids = DISTRICTS.filter(d => d.div === dv.id).map(d => d.id); const set = state.mode === 'wish' ? state.wish : state.selected, other = state.mode === 'wish' ? state.selected : state.wish; const all = ids.every(id => set.has(id)); ids.forEach(id => { if(all) set.delete(id); else { set.add(id); other.delete(id); } }); update(); });
     root.appendChild(sec);
   });
@@ -662,6 +674,7 @@ function update(){
   document.querySelectorAll('#modeSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === state.mode)));
   $('#modeNote').textContent = state.mode === 'wish' ? `এখন টিক দিলে ${U}টা হলুদ হবে: যেখানে যেতে চান। ম্যাপে দুটোই দেখাবে।` : state.mode === 'recap' ? `${YEAR}-এ যেখানে গিয়েছেন শুধু সেগুলোতে টিক দিন; পোস্টারে লেখা থাকবে "${YEAR}-এ"। ডিসেম্বরে শেয়ার করার জন্য।` : `যেখানে গিয়েছেন সেখানে টিক দিন।`;
   $('#modeSeg').style.setProperty('--wish', WISH[state.theme] || '#E9A825');
+  document.querySelectorAll('.dgrp').forEach(det => { const ids = DISTRICTS.filter(d => d.dist === det.dataset.dist); const got = ids.filter(d => state.selected.has(d.id)).length; det.querySelector('.n').textContent = `${BN(got)}/${BN(ids.length)}`; det.classList.toggle('has', got > 0); });
   document.querySelectorAll('.division').forEach(sec => { const ids = DISTRICTS.filter(d => d.div === sec.dataset.div); const got = ids.filter(d => state.selected.has(d.id)).length; sec.querySelector('.n').textContent = `${BN(got)}/${BN(ids.length)}`; sec.querySelector('[data-all]').textContent = got === ids.length ? 'সব বাদ' : 'সবগুলো'; });
   document.querySelectorAll('.theme').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.theme === state.theme)));
   document.querySelectorAll('#labelMode button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === state.labelMode)));
@@ -672,7 +685,7 @@ function update(){
   const box = $('#photoBox'); if(state.photo){ box.innerHTML = `<img src="${state.photo}" alt="">`; $('#photoRemove').hidden = false; $('#photoBtn').textContent = 'ছবি বদলান'; } else { box.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>'; $('#photoRemove').hidden = true; $('#photoBtn').textContent = 'ছবি আপলোড করুন'; }
   save(); requestRender();
 }
-$('#search').addEventListener('input', e => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('.chip').forEach(b => { const d = byId[b.dataset.id]; b.hidden = !!q && !(d.bn.includes(q) || d.en.toLowerCase().includes(q)); }); document.querySelectorAll('.division').forEach(sec => { sec.hidden = !!q && ![...sec.querySelectorAll('.chip')].some(b => !b.hidden); }); });
+$('#search').addEventListener('input', e => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('.chip').forEach(b => { const d = byId[b.dataset.id]; b.hidden = !!q && !(d.bn.includes(q) || d.en.toLowerCase().includes(q)); }); document.querySelectorAll('.dgrp').forEach(det => { const any = [...det.querySelectorAll('.chip')].some(b => !b.hidden); det.hidden = !!q && !any; if(q && any) det.open = true; }); document.querySelectorAll('.division').forEach(sec => { sec.hidden = !!q && ![...sec.querySelectorAll('.chip')].some(b => !b.hidden); }); });
 $('#selectAll').addEventListener('click', () => { if(state.mode === 'wish'){ DISTRICTS.forEach(d => !state.selected.has(d.id) && state.wish.add(d.id)); } else { DISTRICTS.forEach(d => state.selected.add(d.id)); state.wish.clear(); } update(); });
 $('#clearAll').addEventListener('click', () => { if(state.mode === 'wish') state.wish.clear(); else state.selected.clear(); update(); });
 $('#modeSeg').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.mode = b.dataset.v; state.recap = state.mode === 'recap'; update(); });
@@ -764,7 +777,9 @@ $('#shareFb').addEventListener('click', e => openShare(e.currentTarget));
 $('#quickShare').addEventListener('click', e => openShare(e.currentTarget));
 
 /* ---------- boot ---------- */
-load(); buildDivisions(); buildThemes(); $('#name').value = state.name; loadPhoto(); update();
+load();
+try{ const q = new URLSearchParams(location.search); let touched = false; (q.get('add')||'').split(',').forEach(id => { if(byId[id]){ state.selected.add(id); state.wish.delete(id); touched = true; } }); (q.get('wish')||'').split(',').forEach(id => { if(byId[id] && !state.selected.has(id)){ state.wish.add(id); state.mode = 'wish'; touched = true; } }); if(touched){ history.replaceState(null, '', location.pathname); setTimeout(() => { toast(q.get('wish') ? 'যেতে চাই লিস্টে যোগ হলো' : 'ম্যাপে টিক পড়ল'); $('#p1').scrollIntoView({behavior:'smooth'}); }, 400); } }catch(e){}
+buildDivisions(); buildThemes(); $('#name').value = state.name; loadPhoto(); update();
 window.__gdb = {state, update, render, renderCard, SIZES, fontPromise};
 })();
 </script>

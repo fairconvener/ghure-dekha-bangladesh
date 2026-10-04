@@ -29,9 +29,9 @@ export default async function handler(req, res) {
     const poster = parseDataUrl(body.poster, 'poster');
     const card = parseDataUrl(body.card, 'card');
     const name = String(body.name || '').replace(/[\r\n\t<>]/g, ' ').trim().slice(0, 40);
-    const map = body.map === 'world' ? 'world' : 'bd';
-    const count = Math.max(0, Math.min(map === 'world' ? 195 : 64, parseInt(body.count, 10) || 0));
-    const districts = Array.isArray(body.districts) ? body.districts.filter(d => typeof d === 'string' && /^[a-z-]{2,30}$/.test(d)).slice(0, 200) : [];
+    const map = ['world','upazila'].includes(body.map) ? body.map : 'bd';
+    const count = Math.max(0, Math.min(map === 'world' ? 195 : map === 'upazila' ? 545 : 64, parseInt(body.count, 10) || 0));
+    const districts = Array.isArray(body.districts) ? body.districts.filter(d => typeof d === 'string' && /^[a-z-]{2,30}$/.test(d)).slice(0, 600) : [];
     const theme = /^[a-z]{2,12}$/.test(String(body.theme || '')) ? body.theme : 'flag';
     const size = /^(post|square|story)$/.test(String(body.size || '')) ? body.size : 'post';
     const id = randomBytes(6).toString('base64url').replace(/[^a-zA-Z0-9]/g, '').slice(0, 8) || randomBytes(4).toString('hex');
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
     ]);
     const meta = { id, map, name, count, districts, theme, size, poster: p.url, card: c.url, createdAt: new Date().toISOString(), ua: String(req.headers['user-agent'] || '').slice(0, 200) };
     await put(`maps/${id}.json`, JSON.stringify(meta), { ...opts, contentType: 'application/json' });
-    try { await rpc('gdb_log_event', { p_type: 'share', p_count: count, p_districts: districts, p_has_photo: !!body.has_photo, p_theme: theme, p_map_id: id, p_ua: meta.ua, p_map: map }, { timeout: 4000 }); } catch (e) { /* stats are best-effort */ }
+    try { await rpc('gdb_log_event', { p_type: 'share', p_count: count, p_districts: districts, p_has_photo: !!body.has_photo, p_theme: theme, p_map_id: id, p_ua: meta.ua, p_map: map, p_name: name || null }, { timeout: 4000 }); } catch (e) { /* stats are best-effort */ }
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const proto = req.headers['x-forwarded-proto'] || 'https';
     return res.status(200).json({ id, url: `${proto}://${host}/m/${id}`, poster: p.url, card: c.url });

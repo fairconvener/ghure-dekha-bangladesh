@@ -19,8 +19,8 @@ export default async function handler(req, res) {
     res.statusCode = 404; res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.end(`<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ম্যাপ পাওয়া যায়নি</title><meta http-equiv="refresh" content="3;url=/"></head><body style="font-family:sans-serif;text-align:center;padding:60px 16px"><h2>এই ম্যাপটা পাওয়া যায়নি</h2><p><a href="/">নিজের ম্যাপ বানান</a></p></body></html>`);
   }
-  const world = meta.map === 'world';
-  const TOTAL = world ? 195 : 64, UNIT = world ? 'দেশ' : 'জেলা', GEN = world ? 'দেশের' : 'জেলার', PLACE = world ? 'পৃথিবীর' : 'বাংলাদেশের', HOME = world ? '/world' : '/';
+  const world = meta.map === 'world', upz = meta.map === 'upazila';
+  const TOTAL = world ? 195 : upz ? 545 : 64, UNIT = world ? 'দেশ' : upz ? 'উপজেলা' : 'জেলা', GEN = world ? 'দেশের' : upz ? 'উপজেলার' : 'জেলার', PLACE = world ? 'পৃথিবীর' : 'বাংলাদেশের', HOME = world ? '/world' : upz ? '/upazila' : '/';
   const n = meta.count || 0, pct = Math.round(n / TOTAL * 100);
   const name = meta.name || '';
   const title = name ? `${name} ${PLACE} ${BN(TOTAL)} ${GEN} মধ্যে ${BN(n)}টি ${UNIT} ঘুরেছেন!` : `${PLACE} ${BN(TOTAL)} ${GEN} মধ্যে ${BN(n)}টি ${UNIT} ঘোরা হয়েছে!`;

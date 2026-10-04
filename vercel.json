@@ -1,12 +1,42 @@
 {
   "cleanUrls": true,
   "redirects": [
-    { "source": "/(.*)", "has": [ { "type": "host", "value": "ghure-dekha-bangladesh.vercel.app" } ], "destination": "https://ghuredekha.com/$1", "permanent": true }
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "ghure-dekha-bangladesh.vercel.app"
+        }
+      ],
+      "destination": "https://ghuredekha.com/$1",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/m/:id", "destination": "/api/map?id=:id" }
+    {
+      "source": "/m/:id",
+      "destination": "/api/map?id=:id"
+    }
   ],
   "headers": [
-    { "source": "/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=300" } ] }
+    {
+      "source": "/verify.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=60, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300"
+        }
+      ]
+    }
   ]
 }

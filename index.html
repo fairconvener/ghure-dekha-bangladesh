@@ -217,7 +217,7 @@ footer b{color:var(--ink)}
 .fbpost textarea:focus{background:var(--surface-2)}
 .fbpost img.map{display:block;width:100%;height:auto;background:var(--surface-2)}
 .fbpost .fbbar{display:flex;justify-content:space-around;padding:8px 10px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;font-weight:600}
-.sheet-actions{display:grid;gap:8px;padding:14px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.sheet-actions{display:grid;gap:8px;padding:12px 18px calc(14px + env(safe-area-inset-bottom,0px));position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--line)}
 .sheet-actions .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sheet-actions .hint{color:var(--muted);font-size:13px;margin:0;text-align:center}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -231,7 +231,7 @@ footer b{color:var(--ink)}
       <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="#0F7F4C"/><circle cx="32" cy="32" r="24" fill="#D6262E"/><g transform="translate(17.05,14.00) scale(0.02990)"><path d="M381 1051 365 1052 362 1087 371 1101 384 1099 379 1079ZM396 1023 406 1064 426 1076 440 1093 445 1081 453 1068 466 1067 475 1074 487 1066 492 1053 520 1038 539 1009 562 990 558 959 544 938 530 929 528 900 522 890 522 864 534 851 520 837 532 807 550 783 534 754 556 755 558 836 574 860 587 870 587 882 602 908 611 911 646 939 664 961 684 941 696 920 691 905 698 890 725 887 747 903 790 954 800 992 812 1025 820 1027 823 1060 833 1094 821 1137 822 1175 843 1190 863 1225 863 1249 894 1290 902 1311 913 1310 911 1277 891 1249 900 1238 895 1217 923 1194 935 1180 947 1206 974 1202 982 1233 1000 1224 987 1180 981 1128 987 1090 974 1032 981 1021 969 965 961 904 950 887 947 862 928 845 931 816 924 805 922 775 932 774 916 725 911 696 900 662 876 660 861 680 833 674 840 716 817 737 796 761 809 814 786 833 766 844 751 822 730 772 702 777 687 721 666 688 668 659 677 659 686 638 684 619 697 601 709 604 716 589 711 576 756 583 767 576 769 560 793 566 790 543 825 560 831 537 826 521 837 510 863 513 878 500 888 482 897 439 904 428 893 388 923 401 942 397 943 383 929 374 930 360 884 342 862 327 804 327 765 341 735 338 685 323 645 324 599 334 558 328 515 336 490 326 445 320 383 289 396 229 386 206 385 170 395 158 367 103 352 93 339 99 344 123 332 134 312 141 284 137 265 125 258 111 244 108 230 48 209 36 194 54 225 80 202 83 186 73 149 59 135 37 121 33 105 13 84 0 79 26 105 32 112 57 95 61 77 73 76 87 40 103 42 123 20 157 24 180 34 189 58 189 97 216 94 231 116 250 140 260 160 249 175 257 177 284 197 301 194 332 174 323 130 322 122 329 100 320 93 327 93 363 82 377 55 394 47 378 29 388 34 400 0 445 20 473 42 494 67 511 88 512 121 528 144 528 154 542 152 620 137 631 120 630 115 667 121 689 149 713 157 729 157 746 142 762 147 773 167 774 194 784 175 841 197 876 187 888 198 902 191 912 206 964 202 988 222 1019 215 1041 225 1051 237 1044 240 1057 245 1057 250 1062 265 1026 287 1037 308 1010 320 1049 336 1022 352 1033 368 1033 387 1049ZM541 901 535 918 563 937 566 1000 554 1022 549 1056 567 1063 594 1034 605 963 587 946 583 926 570 912 561 883 545 878ZM549 876 553 862 534 858 525 868 536 880ZM546 1021 525 1046 530 1072 551 1038ZM748 972 756 954 733 922 725 941 738 970ZM707 893 696 901 716 918 722 906ZM288 1093 280 1108 294 1127 307 1112 301 1099ZM300 1027 288 1037 297 1053 309 1043ZM665 977 650 969 650 1007 636 1038 648 1045 671 1024 676 987ZM547 1067 530 1080 544 1090ZM485 1074 475 1075 465 1067 454 1068 445 1082 444 1092 438 1098 442 1104 459 1110 476 1100ZM524 1066 520 1051 497 1068 486 1091 497 1098 520 1082ZM245 1058 236 1072 248 1081 251 1085 248 1089 246 1103 258 1105 266 1085 250 1078 249 1072 257 1066 247 1063ZM237 1057 222 1081 226 1106 237 1110 245 1101 245 1092 248 1083 238 1083 233 1075ZM261 1045 252 1061 258 1065 258 1069 252 1073 269 1086 271 1063Z" fill="#F7F2E6" stroke="#0F7F4C" stroke-width="18" stroke-linejoin="round"/></g></svg>
       ঘুরে দেখা বাংলাদেশ
     </a>
-    <nav class="nav" aria-label="সাইটের অংশ"><a href="/" aria-current="page">🇧🇩 জেলা ম্যাপ</a><a href="/world" >🌍 বিশ্ব</a><a href="/upazila" >📍 উপজেলা</a><a href="/jela">📖 জেলা গাইড</a><a href="/plan">🧭 ট্রিপ প্ল্যানার</a><a href="/top">🏆 লিডারবোর্ড</a><a href="/compare">⚔️ তুলনা</a></nav>
+    <nav class="nav" aria-label="সাইটের অংশ"><a href="/" aria-current="page">🇧🇩 জেলা ম্যাপ</a><a href="/world" >🌍 বিশ্ব</a><a href="/upazila" >📍 উপজেলা</a><a href="/jela">📖 জেলা গাইড</a><a href="/plan">🧭 ট্রিপ প্ল্যানার</a><a href="/top">🏆 লিডারবোর্ড</a></nav>
   </div>
 </header>
 
@@ -383,9 +383,9 @@ footer b{color:var(--ink)}
       <div class="fbbar"><span>👍 লাইক</span><span>💬 কমেন্ট</span><span>↗ শেয়ার</span></div>
     </div>
     <div class="sheet-actions">
-      <button class="btn primary big" id="sharePost" type="button">ফেসবুকে পোস্ট করুন</button>
+      <a class="btn primary big" id="sharePost" href="#" target="_blank" rel="noopener" aria-disabled="true" style="opacity:.6;pointer-events:none">⏳ প্রিভিউ লিংক তৈরি হচ্ছে...</a>
       <div class="row2"><button class="btn" id="shareCopy" type="button">ক্যাপশন কপি</button><button class="btn" id="shareSave" type="button">ম্যাপ সেভ</button></div>
-      <p class="hint" id="shareHint">পোস্ট চাপলে ফেসবুক খুলবে, ম্যাপটা প্রিভিউতে দেখাবে, "Post" চাপলেই শেষ। ক্যাপশন কপি হয়ে থাকবে, পোস্টে পেস্ট করে দিন।</p>
+      <p class="hint" id="shareHint">কয়েক সেকেন্ডে ম্যাপের লিংক তৈরি হবে, তারপর বোতাম সবুজ হলে চাপুন: ফেসবুক খুলে ম্যাপের প্রিভিউ দেখাবে, "Post" চাপলেই শেষ। ক্যাপশন আগে কপি করে নিন।</p>
     </div>
   </div>
 </div>
@@ -746,6 +746,7 @@ async function openShare(btn){
     const nm = state.name.trim(); $('#shareName').textContent = nm || CFG.defaultTitle;
     const av = $('#shareAv'); if(state.photo){ av.innerHTML = `<img src="${state.photo}" alt="">`; } else { av.textContent = (nm || 'আ').slice(0,1); }
     $('#shareModal').classList.add('open'); document.body.style.overflow = 'hidden';
+    armShare();
   }catch(e){ console.error(e); toast('প্রিভিউ তৈরি করা যায়নি, আবার চেষ্টা করুন'); }
   finally{ btn.disabled = false; btn.textContent = prev; }
 }
@@ -756,26 +757,25 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeShare()
 $('#shareCopy').addEventListener('click', async () => { const ok = await copyText($('#shareCaption').value); toast(ok ? 'ক্যাপশন কপি হয়েছে' : 'কপি করা যায়নি, টেক্সট সিলেক্ট করে কপি করুন'); });
 $('#shareSave').addEventListener('click', async e => { const b = e.currentTarget; b.disabled = true; try{ await deliver(fname('png'), shareBlob); logEvent('download'); } finally{ b.disabled = false; } });
 const FB_SHARER = 'https://www.facebook.com/sharer/sharer.php?u=';
-async function uploadMap(){ if(!HOSTED) return null; const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
+let lastSig = '', lastUrl = null, uploading = null;
+function sig(){ return JSON.stringify([[...state.selected].sort(), [...state.wish].sort(), state.name, state.theme, state.size, !!state.photo, state.photo ? state.photo.length : 0, state.recap, state.labelMode, state.byDiv, state.showDiv]); }
+async function uploadMap(){ if(!HOSTED) return null; const sg = sig(); if(lastUrl && sg === lastSig) return lastUrl; if(uploading && uploading.sig === sg) return uploading.p; const p = (async () => { const u = await uploadMapRaw(); if(u){ lastSig = sg; lastUrl = u; } uploading = null; return u; })(); uploading = {sig: sg, p}; return p; }
+async function uploadMapRaw(){ const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
   const [poster, card] = await Promise.all([blobToDataUrl(posterB), blobToDataUrl(cardB)]);
   const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: state.name.trim(), count: state.selected.size, districts:[...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo})});
   const j = await r.json().catch(() => null); if(r.ok && j && j.url){ try{ localStorage.setItem(CFG.key+'-link', j.url); }catch(e){} showLink(j.url); return j.url; } console.warn('share upload failed', j); return null; }
 function showLink(url){ const n = $('#linkNote'); n.hidden = false; n.innerHTML = `আপনার ম্যাপের লিংক: <a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\//,'')}</a> · <a href="/compare?a=${url.split('/m/')[1]||''}">বন্ধুর সাথে তুলনা</a>`; }
 try{ const saved = localStorage.getItem(CFG.key+'-link'); if(saved) showLink(saved); }catch(e){}
 $('#makeLink').addEventListener('click', async e => { const b = e.currentTarget, prev = b.textContent; b.disabled = true; b.textContent = 'লিংক তৈরি হচ্ছে...'; try{ const url = await uploadMap(); if(url){ try{ await navigator.clipboard.writeText(url); toast('ম্যাপের লিংক কপি হয়েছে'); }catch(err){ toast('লিংক তৈরি হয়েছে, নিচে দেখুন'); } } else toast(HOSTED ? 'লিংক বানানো যায়নি, আবার চেষ্টা করুন' : 'সাইটে গিয়ে চেষ্টা করুন'); }catch(err){ toast('লিংক বানানো যায়নি'); } finally{ b.disabled = false; b.textContent = prev; } });
-$('#sharePost').addEventListener('click', async e => {
-  const b = e.currentTarget; const prev = b.textContent; b.disabled = true; b.textContent = 'ফেসবুকে পাঠানো হচ্ছে...';
-  let win = null; try{ win = window.open('', '_blank'); if(win) win.document.write('<title>ফেসবুক খুলছে...</title><p style="font-family:sans-serif;padding:20px">ফেসবুক খুলছে, একটু অপেক্ষা করুন...</p>'); }catch(err){ win = null; }
-  const go = url => { if(win && !win.closed){ win.location.href = url; } else { location.href = url; } };
-  try{
-    await copyText($('#shareCaption').value).catch(() => {});
-    let target = (SITE_URL ? SITE_URL + CFG.path : '') || location.href;
-    if(HOSTED){ const u = await uploadMap(); if(u) target = u; }
-    go(FB_SHARER + encodeURIComponent(target));
-    toast(!/\/m\//.test(target) ? 'ম্যাপ লিংক বানানো যায়নি, ক্যাপশন কপি আছে, ছবি যোগ করে পোস্ট করুন' : 'ফেসবুকে প্রিভিউ এসেছে, Post চাপুন');
-  }catch(err){ console.error(err); if(win && !win.closed) win.close(); toast('শেয়ার করা যায়নি, আবার চেষ্টা করুন'); }
-  finally{ b.disabled = false; b.textContent = prev; }
-});
+async function armShare(){
+  const b = $('#sharePost'); const off = (txt) => { b.setAttribute('aria-disabled','true'); b.style.opacity = '.6'; b.style.pointerEvents = 'none'; b.textContent = txt; b.href = '#'; };
+  const on = (url) => { b.removeAttribute('aria-disabled'); b.style.opacity = ''; b.style.pointerEvents = ''; b.textContent = 'ফেসবুকে পোস্ট করুন'; b.href = FB_SHARER + encodeURIComponent(url); };
+  if(!HOSTED){ on(location.href); return; }
+  off('⏳ প্রিভিউ লিংক তৈরি হচ্ছে...');
+  try{ const u = await uploadMap(); if(u){ on(u); $('#shareHint').textContent = 'লিংক তৈরি! বোতাম চাপলে ফেসবুক খুলবে, ম্যাপের প্রিভিউ দেখাবে, "Post" চাপলেই শেষ। ক্যাপশন কপি করে পোস্টে পেস্ট করুন।'; } else { on(SITE_URL + CFG.path); $('#shareHint').textContent = 'ম্যাপের লিংক বানানো যায়নি; সাইটের লিংকসহ পোস্ট খুলবে, "ম্যাপ সেভ" করে ছবিটা যোগ করে দিন।'; } }
+  catch(e){ console.error(e); on(SITE_URL + CFG.path); }
+}
+$('#sharePost').addEventListener('click', e => { const b = e.currentTarget; if(b.getAttribute('aria-disabled') === 'true'){ e.preventDefault(); return; } copyText($('#shareCaption').value).catch(() => {}); toast('ফেসবুক খুলছে, Post চাপুন'); });
 $('#shareFb').addEventListener('click', e => openShare(e.currentTarget));
 $('#quickShare').addEventListener('click', e => openShare(e.currentTarget));
 

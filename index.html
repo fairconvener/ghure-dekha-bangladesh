@@ -303,6 +303,17 @@ footer b{color:var(--ink)}
             <input type="file" id="photoInput" accept="image/*" hidden>
           </div>
         </div>
+        <div class="switch" style="margin-top:14px;border-top:1px solid var(--line)">👥 দুজনের ম্যাপ (বন্ধু, জুটি, হানিমুন ড্রিম) <button class="toggle" id="duoOn" role="switch" aria-checked="false" type="button" aria-label="দুজনের ম্যাপ"></button></div>
+        <div id="duoBox" hidden>
+          <div class="chips" id="relChips" style="margin:6px 0 12px"></div>
+          <label class="field">দ্বিতীয় জনের নাম
+            <input type="text" id="name2" maxlength="40" placeholder="যেমন: রাফি, বা 'ভবিষ্যৎ বউ' 😄">
+          </label>
+          <div class="photo">
+            <div class="ph" id="photoBox2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg></div>
+            <div class="meta"><div class="row"><button class="btn small" id="photoBtn2" type="button">দ্বিতীয় ছবি</button><button class="btn small" id="photoRemove2" type="button" hidden>ছবি সরান</button></div><small id="duoHint">হানিমুন ড্রিমে ছবি না দিলে প্রশ্নবোধক চিহ্ন বসবে 😉</small><input type="file" id="photoInput2" accept="image/*" hidden></div>
+          </div>
+        </div>
       </section>
 
       <section class="panel" id="p3">
@@ -433,20 +444,27 @@ const THEMES = {
 const WISH = {flag:'#E9A825', river:'#F0A233', sunset:'#F5B942', hills:'#D9A441', night:'#FFB454', rickshaw:'#F2A93B'};
 const DIV_COLORS = {dhaka:'#D8262C', chattogram:'#0E6E8C', rajshahi:'#E08A1E', khulna:'#2E8B57', barishal:'#7B3FA0', sylhet:'#1D9A8A', rangpur:'#C2185B', mymensingh:'#5C6BC0'};
 const SIZES = {post:{w:1080,h:1350}, square:{w:1080,h:1080}, story:{w:1080,h:1920}};
+const REL = {
+  friend:   {bn:'বন্ধু',          sym:'🤝', join:'&',  title:(a,b)=>`${a} & ${b}`,  sub:(n,w,U)=>w ? `একসাথে যেতে চাই ${BN(w)}টি ${U}য়` : `একসাথে ঘুরেছি ${BN(n)}টি ${U}`, cap:(a,b,n,w,U)=>`🤝 ${a} আর ${b}: একসাথে ঘোরা ${BN(n)}টি ${U}, লিস্টে আরও ${BN(w)}টি। কে কে যাবি সাথে?`},
+  couple:   {bn:'জুটি',           sym:'❤️', join:'❤️', title:(a,b)=>`${a} ❤️ ${b}`, sub:(n,w,U)=>w ? `দুজনে ঘুরেছি ${BN(n)}টি, যাব আরও ${BN(w)}টি ${U}য়` : `দুজনে ঘুরেছি ${BN(n)}টি ${U}`, cap:(a,b,n,w,U)=>`❤️ ${a} আর ${b}: দুজনে মিলে ঘোরা ${BN(n)}টি ${U}, স্বপ্নের লিস্টে আরও ${BN(w)}টি।`},
+  honeymoon:{bn:'হানিমুন ড্রিম',   sym:'💍', join:'💍', title:(a,b)=>`${a} 💍 ${b}`, sub:(n,w,U)=>`হানিমুনে যেতে চাই ${BN(w)}টি ${U}য়`, cap:(a,b,n,w,U)=>`💍 বিয়ের পর হানিমুনে ${b}-কে নিয়ে যাব এই ${BN(w)}টি ${U}য়। (${b === 'ভবিষ্যৎ বউ' || b === 'ভবিষ্যৎ বর' ? 'মানুষটা এখনো খুঁজছি 😅' : 'প্ল্যান রেডি, এবার ছুটি লাগবে'})`},
+  family:   {bn:'পরিবার',         sym:'👨‍👩‍👧', join:'+',  title:(a,b)=>`${a} + ${b}`,  sub:(n,w,U)=>w ? `পরিবার নিয়ে ঘুরেছি ${BN(n)}টি, যাব আরও ${BN(w)}টি` : `পরিবার নিয়ে ঘুরেছি ${BN(n)}টি ${U}`, cap:(a,b,n,w,U)=>`👨‍👩‍👧 ${a} আর ${b}: পরিবার নিয়ে ঘোরা ${BN(n)}টি ${U}, বাকেট লিস্টে আরও ${BN(w)}টি।`},
+  besties:  {bn:'বেস্টি গ্যাং',    sym:'🔥', join:'x',  title:(a,b)=>`${a} x ${b}`,  sub:(n,w,U)=>w ? `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি, প্ল্যানে আরও ${BN(w)}টি` : `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি ${U}য়`, cap:(a,b,n,w,U)=>`🔥 ${a} x ${b}: গ্যাং ট্রিপ ${BN(n)}টি ${U}, পরের টার্গেট ${BN(w)}টি। ট্যাগ কর যারা যাবে!`},
+};
 
-const state = {selected:new Set(), wish:new Set(), mode:'visited', recap:false, name:'', photo:null, theme:'flag', byDiv:false, showDiv:true, labelMode:'visited', size:'post'};
+const state = {selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:true, labelMode:'visited', size:'post'};
 const YEAR = BN(new Date().getFullYear());
 
 /* ---------- persistence ---------- */
-function save(){ try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], wish:[...state.wish], recap:state.recap, name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size})); }catch(e){}
-  try{ if(state.photo) localStorage.setItem(CFG.key+'-photo', state.photo); else localStorage.removeItem(CFG.key+'-photo'); }catch(e){} }
-function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => byId[id] && state.selected.add(id)); (s.wish||[]).forEach(id => byId[id] && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; }catch(e){} }
+function save(){ try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], wish:[...state.wish], recap:state.recap, duo:state.duo, name2:state.name2, rel:state.rel, name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size})); }catch(e){}
+  try{ if(state.photo) localStorage.setItem(CFG.key+'-photo', state.photo); else localStorage.removeItem(CFG.key+'-photo'); if(state.photo2) localStorage.setItem(CFG.key+'-photo2', state.photo2); else localStorage.removeItem(CFG.key+'-photo2'); }catch(e){} }
+function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => byId[id] && state.selected.add(id)); (s.wish||[]).forEach(id => byId[id] && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.duo = !!s.duo; state.name2 = s.name2||''; if(REL[s.rel]) state.rel = s.rel; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; const p2 = localStorage.getItem(CFG.key+'-photo2'); if(p2 && p2.startsWith('data:image')) state.photo2 = p2; }catch(e){} }
 
 /* ---------- paths ---------- */
 const PATHS = {}; DISTRICTS.forEach(d => { d.tiny = CFG.tiny && d.a < 4; PATHS[d.id] = new Path2D(d.d || ''); });
 const OUTLINE_PATH = new Path2D(OUTLINE);
-let photoImg = null;
-function loadPhoto(){ photoImg = null; if(!state.photo) return; const im = new Image(); im.onload = () => { photoImg = im; requestRender(); }; im.src = state.photo; }
+let photoImg = null, photoImg2 = null;
+function loadPhoto(){ photoImg = null; photoImg2 = null; if(state.photo){ const im = new Image(); im.onload = () => { photoImg = im; requestRender(); }; im.src = state.photo; } if(state.photo2){ const im2 = new Image(); im2.onload = () => { photoImg2 = im2; requestRender(); }; im2.src = state.photo2; } }
 
 /* ---------- fonts ---------- */
 let fontsReady = false;
@@ -471,7 +489,12 @@ function render(c, W, H, opts){
 
   /* header */
   let x = P; const headTop = P;
-  if(photoImg){ const d = 150*u; c.save(); c.beginPath(); c.arc(x+d/2, headTop+d/2, d/2, 0, Math.PI*2); c.closePath(); c.fillStyle = t.unvisited; c.fill(); c.clip();
+  const duo = state.duo; const R = REL[state.rel] || REL.friend; const nm1 = state.name.trim() || 'আমি', nm2 = state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু');
+  if(duo){ const d = 130*u, ov = 38*u; const drawP = (img, cx0) => { c.save(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2, 0, Math.PI*2); c.closePath(); c.fillStyle = t.unvisited; c.fill(); c.clip(); if(img){ const sc = Math.max(d/img.width, d/img.height); const iw = img.width*sc, ih = img.height*sc; c.drawImage(img, cx0+d/2-iw/2, headTop+d/2-ih/2, iw, ih); } else { c.fillStyle = t.muted; c.font = F(800, 64*u, 'd'); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('?', cx0+d/2, headTop+d/2+4*u); c.textBaseline = 'alphabetic'; } c.restore(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2+3*u, 0, Math.PI*2); c.lineWidth = 5*u; c.strokeStyle = t.paper; c.stroke(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2+6*u, 0, Math.PI*2); c.lineWidth = 3*u; c.strokeStyle = t.visited; c.stroke(); };
+    drawP(photoImg, x); drawP(photoImg2, x + d - ov);
+    const bx = x + d - ov/2, by = headTop + d - 10*u; c.beginPath(); c.arc(bx, by, 24*u, 0, Math.PI*2); c.fillStyle = t.paper; c.fill(); c.font = `${26*u}px sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = t.ink; c.fillText(R.sym, bx, by+2*u); c.textBaseline = 'alphabetic';
+    x += 2*d - ov + 26*u; }
+  else if(photoImg){ const d = 150*u; c.save(); c.beginPath(); c.arc(x+d/2, headTop+d/2, d/2, 0, Math.PI*2); c.closePath(); c.fillStyle = t.unvisited; c.fill(); c.clip();
     const s = Math.max(d/photoImg.width, d/photoImg.height); const iw = photoImg.width*s, ih = photoImg.height*s; c.drawImage(photoImg, x+d/2-iw/2, headTop+d/2-ih/2, iw, ih); c.restore();
     c.beginPath(); c.arc(x+d/2, headTop+d/2, d/2+3*u, 0, Math.PI*2); c.lineWidth = 5*u; c.strokeStyle = t.visited; c.stroke(); x += d + 26*u; }
   const discR = 70*u, discX = W-P-discR, discY = headTop+discR;
@@ -479,14 +502,14 @@ function render(c, W, H, opts){
   c.textBaseline = 'alphabetic'; c.textAlign = 'left';
   c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); if('letterSpacing' in c) c.letterSpacing = '1px';
   c.fillText('ঘুরে দেখা বাংলাদেশ', x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px';
-  const title = state.recap ? (state.name.trim() ? `${state.name.trim()} · ${YEAR}` : `${YEAR}-এ ${CFG.defaultTitle}`) : (state.name.trim() || CFG.defaultTitle);
+  const title = duo ? R.title(nm1, nm2) : state.recap ? (state.name.trim() ? `${state.name.trim()} · ${YEAR}` : `${YEAR}-এ ${CFG.defaultTitle}`) : (state.name.trim() || CFG.defaultTitle);
   let fs = 62*u; c.font = F(800, fs, 'd'); while(c.measureText(title).width > maxW && fs > 30*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
   c.fillStyle = t.ink; c.fillText(title, x, headTop+100*u);
   c.fillStyle = t.muted; c.font = F(500, 24*u, 'b');
-  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`); c.fillText(sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : ''), x, headTop+142*u);
+  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`); c.fillText(duo ? R.sub(n, nw_, U) : sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : ''), x, headTop+142*u);
   // counter disc
   c.beginPath(); c.arc(discX, discY, discR, 0, Math.PI*2); c.fillStyle = t.accent; c.fill();
-  c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.textAlign = 'center'; c.font = F(800, 64*u, 'd'); c.textBaseline = 'middle'; c.fillText(BN(n), discX, discY+4*u);
+  const discN = (duo && n === 0 && nw_) ? nw_ : n; c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.textAlign = 'center'; c.font = F(800, 64*u, 'd'); c.textBaseline = 'middle'; c.fillText(BN(discN), discX, discY+4*u);
   c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText(`/ ${BN(TOTAL)} ${U}`, discX, discY+discR+30*u);
 
   /* footer sizes */
@@ -592,7 +615,7 @@ function renderCard(c, W, H){
   c.fillStyle = t.muted; c.font = F(600, 24*u, 'b'); c.fillText('ঘুরে দেখা বাংলাদেশ', x, 96*u);
   c.fillStyle = t.ink; c.font = F(800, 120*u, 'd'); c.fillText(BN(n), x, 220*u);
   const nw = c.measureText(BN(n)).width; c.fillStyle = t.muted; c.font = F(700, 40*u, 'd'); c.fillText(`/ ${BN(TOTAL)} ${U}`, x + nw + 14*u, 220*u);
-  const name = state.name.trim() || CFG.defaultTitle; let fs = 46*u; c.font = F(800, fs, 'd'); while(c.measureText(name).width > maxW && fs > 24*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
+  const name = state.duo ? (REL[state.rel]||REL.friend).title(state.name.trim() || 'আমি', state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু')) : (state.name.trim() || CFG.defaultTitle); let fs = 46*u; c.font = F(800, fs, 'd'); while(c.measureText(name).width > maxW && fs > 24*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
   c.fillStyle = t.ink; c.fillText(name, x, 300*u);
   c.fillStyle = t.muted; c.font = F(500, 28*u, 'b'); c.fillText(`${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`, x, 352*u);
   rr(c, x, 400*u, maxW, 16*u, 8*u); c.fillStyle = t.unvisited; c.fill(); if(n){ rr(c, x, 400*u, Math.max(16*u, maxW*n/TOTAL), 16*u, 8*u); c.fillStyle = t.visited; c.fill(); }
@@ -656,12 +679,13 @@ function caption(){
   const n = state.selected.size, pct = Math.round(n/TOTAL*100);
   const done = DIVISIONS.filter(dv => DISTRICTS.filter(d => d.div === dv.id).every(d => state.selected.has(d.id))).map(dv => dv.bn);
   const lines = [];
-  if(n === TOTAL) lines.push(`🎉 ${BN(TOTAL)}টা ${U}র সবগুলোতেই পা পড়ে গেছে!`);
+  if(state.duo){ const R = REL[state.rel] || REL.friend; lines.push(R.cap(state.name.trim() || 'আমি', state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু'), n, state.wish.size, U)); }
+  else if(n === TOTAL) lines.push(`🎉 ${BN(TOTAL)}টা ${U}র সবগুলোতেই পা পড়ে গেছে!`);
   else if(n === 0) lines.push(`🗺️ ${CFG.place} ${BN(TOTAL)} ${U} ঘুরে দেখার লিস্ট খুললাম, প্রথম টিকটা কোথায় পড়বে?`);
   else lines.push(`🗺️ ${CFG.place} ${BN(TOTAL)} ${CFG.gen} মধ্যে এখন পর্যন্ত আমার পা পড়েছে ${BN(n)}টিতে, মানে ${BN(pct)}%!`);
   if(done.length && n !== TOTAL) lines.push(`✅ ${done.join(', ')} ${CFG.groupSuffix ? CFG.group + 'ের' : ''} সব ${U} ঘোরা শেষ।`);
   if(n && n !== TOTAL) lines.push(`⏳ লিস্টে বাকি আরও ${BN(TOTAL-n)}টি ${U}।`);
-  if(state.wish.size){ const wn = DISTRICTS.filter(d => state.wish.has(d.id)).map(d => d.bn); lines.push(`🎯 এরপর যেতে চাই: ${wn.slice(0,8).join(', ')}${wn.length > 8 ? ` আরও ${BN(wn.length-8)}টি` : ''}`); }
+  if(state.wish.size){ const wn = DISTRICTS.filter(d => state.wish.has(d.id)).map(d => d.bn); lines.push(`🎯 ${state.duo ? 'একসাথে যাব' : 'এরপর যেতে চাই'}: ${wn.slice(0,8).join(', ')}${wn.length > 8 ? ` আরও ${BN(wn.length-8)}টি` : ''}`); }
   if(state.recap) lines[0] = lines[0].replace('এখন পর্যন্ত', `${YEAR} সালে`);
   lines.push('');
   lines.push(`আপনার কয়টা ${U} হলো? ২ মিনিটে নিজের ম্যাপ বানিয়ে দেখান 👉 ${SITE_URL ? SITE_URL + CFG.path : 'ঘুরে দেখা বাংলাদেশ'}`);
@@ -685,6 +709,9 @@ function update(){
   const sz = SIZES[state.size]; $('#posterWrap').style.setProperty('--ar', (sz.w/sz.h).toFixed(4));
   $('#captionText').value = caption();
   const box = $('#photoBox'); if(state.photo){ box.innerHTML = `<img src="${state.photo}" alt="">`; $('#photoRemove').hidden = false; $('#photoBtn').textContent = 'ছবি বদলান'; } else { box.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>'; $('#photoRemove').hidden = true; $('#photoBtn').textContent = 'ছবি আপলোড করুন'; }
+  $('#duoOn').setAttribute('aria-checked', String(state.duo)); $('#duoBox').hidden = !state.duo; document.querySelectorAll('#relChips .chip').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.rel === state.rel)));
+  const box2 = $('#photoBox2'); if(state.photo2){ box2.innerHTML = `<img src="${state.photo2}" alt="">`; $('#photoRemove2').hidden = false; $('#photoBtn2').textContent = 'ছবি বদলান'; } else { box2.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>'; $('#photoRemove2').hidden = true; $('#photoBtn2').textContent = 'দ্বিতীয় ছবি'; }
+  $('#duoHint').textContent = state.rel === 'honeymoon' ? 'ছবি না দিলে পোস্টারে "?" বসবে, সেটাই মজা 😉 মোডে "যেতে চাই" বেছে জেলায় টিক দিন।' : 'দুজনের ছবি পাশাপাশি বসবে। "ঘুরেছি" = একসাথে গিয়েছেন, "যেতে চাই" = একসাথে যাবেন।';
   save(); requestRender();
 }
 $('#search').addEventListener('input', e => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('.chip').forEach(b => { const d = byId[b.dataset.id]; b.hidden = !!q && !(d.bn.includes(q) || d.en.toLowerCase().includes(q)); }); document.querySelectorAll('.dgrp').forEach(det => { const any = [...det.querySelectorAll('.chip')].some(b => !b.hidden); det.hidden = !!q && !any; if(q && any) det.open = true; }); document.querySelectorAll('.division').forEach(sec => { sec.hidden = !!q && ![...sec.querySelectorAll('.chip')].some(b => !b.hidden); }); });
@@ -692,6 +719,12 @@ $('#selectAll').addEventListener('click', () => { if(state.mode === 'wish'){ DIS
 $('#clearAll').addEventListener('click', () => { if(state.mode === 'wish') state.wish.clear(); else state.selected.clear(); update(); });
 $('#modeSeg').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.mode = b.dataset.v; state.recap = state.mode === 'recap'; update(); });
 $('#name').addEventListener('input', e => { state.name = e.target.value; update(); });
+$('#name2').addEventListener('input', e => { state.name2 = e.target.value; update(); });
+$('#duoOn').addEventListener('click', () => { state.duo = !state.duo; if(state.duo && state.selected.size === 0 && state.wish.size === 0) state.mode = 'wish'; update(); });
+(function(){ const root = $('#relChips'); Object.entries(REL).forEach(([k, r]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.rel = k; b.textContent = `${r.sym} ${r.bn}`; b.addEventListener('click', () => { state.rel = k; if(k === 'honeymoon'){ state.mode = 'wish'; if(!state.name2.trim()) $('#name2').placeholder = 'ভবিষ্যৎ বউ / বর'; } update(); }); root.appendChild(b); }); })();
+$('#photoBtn2').addEventListener('click', () => $('#photoInput2').click());
+$('#photoRemove2').addEventListener('click', () => { state.photo2 = null; loadPhoto(); update(); });
+$('#photoInput2').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if(!f) return; const url = URL.createObjectURL(f); const im = new Image(); im.onload = () => { const S = 640, c = document.createElement('canvas'); c.width = S; c.height = S; const cc = c.getContext('2d'); const sc = Math.max(S/im.width, S/im.height); const w = im.width*sc, h = im.height*sc; cc.drawImage(im, S/2-w/2, S/2-h/2, w, h); state.photo2 = c.toDataURL('image/jpeg', .88); URL.revokeObjectURL(url); loadPhoto(); update(); e.target.value = ''; }; im.onerror = () => { toast('ছবিটি পড়া যায়নি'); URL.revokeObjectURL(url); }; im.src = url; });
 $('#labelMode').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.labelMode = b.dataset.v; update(); });
 $('#sizeMode').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.size = b.dataset.v; update(); });
 $('#byDiv').addEventListener('click', () => { state.byDiv = !state.byDiv; update(); });
@@ -743,7 +776,7 @@ async function openShare(btn){
   try{
     shareBlob = await renderBlob('png'); if(shareUrl) URL.revokeObjectURL(shareUrl); shareUrl = URL.createObjectURL(shareBlob);
     $('#shareImg').src = shareUrl; const ta = $('#shareCaption'); ta.value = caption(); ta.style.height = 'auto'; requestAnimationFrame(() => { ta.style.height = (ta.scrollHeight + 8) + 'px'; });
-    const nm = state.name.trim(); $('#shareName').textContent = nm || CFG.defaultTitle;
+    const nm = state.duo ? (REL[state.rel]||REL.friend).title(state.name.trim() || 'আমি', state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু')) : state.name.trim(); $('#shareName').textContent = nm || CFG.defaultTitle;
     const av = $('#shareAv'); if(state.photo){ av.innerHTML = `<img src="${state.photo}" alt="">`; } else { av.textContent = (nm || 'আ').slice(0,1); }
     $('#shareModal').classList.add('open'); document.body.style.overflow = 'hidden';
     armShare();
@@ -758,11 +791,11 @@ $('#shareCopy').addEventListener('click', async () => { const ok = await copyTex
 $('#shareSave').addEventListener('click', async e => { const b = e.currentTarget; b.disabled = true; try{ await deliver(fname('png'), shareBlob); logEvent('download'); } finally{ b.disabled = false; } });
 const FB_SHARER = 'https://www.facebook.com/sharer/sharer.php?u=';
 let lastSig = '', lastUrl = null, uploading = null;
-function sig(){ return JSON.stringify([[...state.selected].sort(), [...state.wish].sort(), state.name, state.theme, state.size, !!state.photo, state.photo ? state.photo.length : 0, state.recap, state.labelMode, state.byDiv, state.showDiv]); }
+function sig(){ return JSON.stringify([[...state.selected].sort(), [...state.wish].sort(), state.name, state.theme, state.size, !!state.photo, state.photo ? state.photo.length : 0, state.recap, state.labelMode, state.byDiv, state.showDiv, state.duo, state.name2, state.rel, state.photo2 ? state.photo2.length : 0]); }
 async function uploadMap(){ if(!HOSTED) return null; const sg = sig(); if(lastUrl && sg === lastSig) return lastUrl; if(uploading && uploading.sig === sg) return uploading.p; const p = (async () => { const u = await uploadMapRaw(); if(u){ lastSig = sg; lastUrl = u; } uploading = null; return u; })(); uploading = {sig: sg, p}; return p; }
 async function uploadMapRaw(){ const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
   const [poster, card] = await Promise.all([blobToDataUrl(posterB), blobToDataUrl(cardB)]);
-  const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: state.name.trim(), count: state.selected.size, districts:[...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo})});
+  const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: (state.duo ? (REL[state.rel]||REL.friend).title(state.name.trim() || 'আমি', state.name2.trim() || 'বন্ধু') : state.name.trim()).slice(0,40), count: state.selected.size, districts:[...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo})});
   const j = await r.json().catch(() => null); if(r.ok && j && j.url){ try{ localStorage.setItem(CFG.key+'-link', j.url); }catch(e){} showLink(j.url); return j.url; } console.warn('share upload failed', j); return null; }
 function showLink(url){ const n = $('#linkNote'); n.hidden = false; n.innerHTML = `আপনার ম্যাপের লিংক: <a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\//,'')}</a> · <a href="/compare?a=${url.split('/m/')[1]||''}">বন্ধুর সাথে তুলনা</a>`; }
 try{ const saved = localStorage.getItem(CFG.key+'-link'); if(saved) showLink(saved); }catch(e){}

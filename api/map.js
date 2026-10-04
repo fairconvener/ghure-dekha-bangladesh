@@ -2,7 +2,6 @@ import { list } from '@vercel/blob';
 
 const BN = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const DIV = { dhaka: 'ঢাকা', chattogram: 'চট্টগ্রাম', rajshahi: 'রাজশাহী', khulna: 'খুলনা', barishal: 'বরিশাল', sylhet: 'সিলেট', rangpur: 'রংপুর', mymensingh: 'ময়মনসিংহ' };
 
 export default async function handler(req, res) {
   const id = String(req.query.id || '').replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
@@ -20,10 +19,12 @@ export default async function handler(req, res) {
     res.statusCode = 404; res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.end(`<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ম্যাপ পাওয়া যায়নি</title><meta http-equiv="refresh" content="3;url=/"></head><body style="font-family:sans-serif;text-align:center;padding:60px 16px"><h2>এই ম্যাপটা পাওয়া যায়নি</h2><p><a href="/">নিজের ম্যাপ বানান</a></p></body></html>`);
   }
-  const n = meta.count || 0, pct = Math.round(n / 64 * 100);
+  const world = meta.map === 'world';
+  const TOTAL = world ? 195 : 64, UNIT = world ? 'দেশ' : 'জেলা', GEN = world ? 'দেশের' : 'জেলার', PLACE = world ? 'পৃথিবীর' : 'বাংলাদেশের', HOME = world ? '/world' : '/';
+  const n = meta.count || 0, pct = Math.round(n / TOTAL * 100);
   const name = meta.name || '';
-  const title = name ? `${name} বাংলাদেশের ৬৪ জেলার মধ্যে ${BN(n)}টি জেলা ঘুরেছেন!` : `বাংলাদেশের ৬৪ জেলার মধ্যে ${BN(n)}টি জেলা ঘোরা হয়েছে!`;
-  const desc = `${BN(pct)}% বাংলাদেশ ঘুরে দেখা হয়েছে। আপনি কয়টা জেলা ঘুরেছেন? ২ মিনিটে নিজের ভ্রমণ ম্যাপ বানান, ফ্রি।`;
+  const title = name ? `${name} ${PLACE} ${BN(TOTAL)} ${GEN} মধ্যে ${BN(n)}টি ${UNIT} ঘুরেছেন!` : `${PLACE} ${BN(TOTAL)} ${GEN} মধ্যে ${BN(n)}টি ${UNIT} ঘোরা হয়েছে!`;
+  const desc = `${PLACE} ${BN(pct)}% ঘোরা হয়ে গেছে। আপনার কয়টা ${UNIT} হলো? ২ মিনিটে নিজের ভ্রমণ ম্যাপ বানান, ফ্রি।`;
   const url = `${site}/m/${id}`;
   const share = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
   const html = `<!doctype html>
@@ -72,14 +73,14 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:0 16px 30px}
 </style>
 </head>
 <body>
-<header class="top"><a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#0F7F4C"/><circle cx="14" cy="16" r="8" fill="#D6262E"/></svg>ঘুরে দেখা বাংলাদেশ</a><a class="btn primary" style="padding:8px 14px;font-size:15px" href="/">নিজের ম্যাপ বানান</a></header>
+<header class="top"><a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#0F7F4C"/><circle cx="14" cy="16" r="8" fill="#D6262E"/></svg>ঘুরে দেখা বাংলাদেশ</a><a class="btn primary" style="padding:8px 14px;font-size:15px" href="${HOME}">নিজের ম্যাপ বানান</a></header>
 <main class="wrap">
 <h1>${esc(title)}</h1>
 <p class="sub">${esc(desc)}</p>
 <img class="poster" src="${meta.poster}" alt="${esc(name || 'ভ্রমণ')} ম্যাপ" width="1080" height="${meta.size === 'story' ? 1920 : meta.size === 'square' ? 1080 : 1350}">
-<div class="stat"><span>${BN(n)} / ৬৪ জেলা</span><span>${BN(pct)}% বাংলাদেশ</span><span>বাকি ${BN(64 - n)} জেলা</span></div>
+<div class="stat"><span>${BN(n)} / ${BN(TOTAL)} ${UNIT}</span><span>${BN(pct)}% ${world ? 'পৃথিবী' : 'বাংলাদেশ'}</span><span>বাকি ${BN(TOTAL - n)} ${UNIT}</span></div>
 <div class="cta">
-<a class="btn primary" href="/">আপনিও নিজের ম্যাপ বানান - ফ্রি</a>
+<a class="btn primary" href="${HOME}">আপনিও নিজের ম্যাপ বানান - ফ্রি</a>
 <a class="btn" href="${share}" target="_blank" rel="noopener">এই ম্যাপটা ফেসবুকে শেয়ার করুন</a>
 </div>
 </main>

@@ -128,9 +128,9 @@ footer .wrap{display:grid;gap:8px}footer b{color:var(--ink)}
   <nav class="nav" aria-label="সাইটের অংশ"><a href="/">🇧🇩 জেলা ম্যাপ</a><a href="/world">🌍 বিশ্ব</a><a href="/upazila">📍 উপজেলা</a><a href="/jela">📖 জেলা গাইড</a><a href="/plan">🧭 ট্রিপ প্ল্যানার</a><a href="/top">🏆 লিডারবোর্ড</a><a href="/compare" aria-current="page">⚔️ তুলনা</a></nav>
 </div></header>
 <main class="wrap">
-<section class="hero"><h1>⚔️ কে বেশি <em>ঘুরেছে?</em></h1><p>দুজনের ম্যাপ পাশাপাশি। প্রত্যেকে ম্যাপে "ফেসবুকে পোস্ট" চাপলে একটা লিংক পায় (ghuredekha.com/m/xxxx); সেই দুটো লিংক এখানে দিন।</p>
+<section class="hero"><h1>⚔️ কে বেশি <em>ঘুরেছে?</em></h1><p>দুজনের ম্যাপ পাশাপাশি। প্রত্যেকের ম্যাপের লিংক (ghuredekha.com/m/xxxx) দুটো এখানে দিন।</p>
 <div class="inputs"><label class="field">প্রথম ম্যাপের লিংক<input id="a" placeholder="https://ghuredekha.com/m/abcd1234"></label><label class="field">দ্বিতীয় ম্যাপের লিংক<input id="b" placeholder="https://ghuredekha.com/m/wxyz5678"></label><button class="btn primary big" id="go" type="button">তুলনা করুন</button></div>
-<div class="how"><span>💡 নিজের লিংক নেই? <a href="/">ম্যাপ বানিয়ে</a> "ফেসবুকে পোস্ট" চাপুন, পোস্ট না করলেও লিংকটা তৈরি হয়ে যায় (ব্রাউজারের অ্যাড্রেস বার থেকে কপি করুন)।</span></div>
+<div class="how"><span>💡 লিংক পাবেন ম্যাপ পেজের ৪ নম্বর ধাপে "🔗 ম্যাপের লিংক" বোতামে; চাপলেই কপি হয়ে যায়। বন্ধুকেও বলুন তার লিংকটা পাঠাতে। <a class="btn small" href="/">আমার লিংক বানাই</a></span></div>
 </section>
 <div id="res"></div>
 </main>
@@ -158,7 +158,7 @@ async function go(push){ const a = idFrom($('#a').value), b = idFrom($('#b').val
     if(push) history.replaceState(null, '', '/compare?a=' + a + '&b=' + b);
   }catch(e){ $('#res').innerHTML = '<p class="muted">ম্যাপ পাওয়া যায়নি। লিংক দুটো ঠিক আছে কি না দেখুন (ghuredekha.com/m/... এমন হবে)।</p>'; } }
 $('#go').addEventListener('click', () => go(true));
-const q = new URLSearchParams(location.search); if(q.get('a') && q.get('b')){ $('#a').value = q.get('a'); $('#b').value = q.get('b'); go(false); }
+const q = new URLSearchParams(location.search); if(q.get('a')) $('#a').value = q.get('a'); if(q.get('b')) $('#b').value = q.get('b'); if(!$('#a').value){ try{ const mine = localStorage.getItem('gdb-link') || localStorage.getItem('gdw-link') || localStorage.getItem('gdu-link'); if(mine){ $('#a').value = mine; toast('আপনার ম্যাপের লিংক বসানো হলো, এবার বন্ধুরটা দিন'); } }catch(e){} } if(q.get('a') && q.get('b')) go(false);
 })();
 </script>
 </body>

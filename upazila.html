@@ -337,7 +337,8 @@ footer b{color:var(--ink)}
         <div class="caption">
           <span class="lbl" style="font-weight:600;font-size:14px">সাথে এই ক্যাপশনটা দিতে পারেন</span>
           <textarea id="captionText" readonly></textarea>
-          <div class="row"><button class="btn primary" id="shareFb" type="button">ফেসবুকে পোস্ট করুন</button><button class="btn" id="copyCaption" type="button">ক্যাপশন কপি</button></div>
+          <div class="row"><button class="btn primary" id="shareFb" type="button">ফেসবুকে পোস্ট করুন</button><button class="btn" id="copyCaption" type="button">ক্যাপশন কপি</button><button class="btn" id="makeLink" type="button">🔗 ম্যাপের লিংক</button></div>
+          <p class="note" id="linkNote" hidden></p>
           <p class="note">পোস্ট চাপলে আগে পোস্টটা কেমন দেখাবে তার প্রিভিউ পাবেন, তারপর এক ক্লিকে ফেসবুক।</p>
         </div>
       </section>
@@ -756,6 +757,13 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeShare()
 $('#shareCopy').addEventListener('click', async () => { const ok = await copyText($('#shareCaption').value); toast(ok ? 'ক্যাপশন কপি হয়েছে' : 'কপি করা যায়নি, টেক্সট সিলেক্ট করে কপি করুন'); });
 $('#shareSave').addEventListener('click', async e => { const b = e.currentTarget; b.disabled = true; try{ await deliver(fname('png'), shareBlob); logEvent('download'); } finally{ b.disabled = false; } });
 const FB_SHARER = 'https://www.facebook.com/sharer/sharer.php?u=';
+async function uploadMap(){ if(!HOSTED) return null; const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
+  const [poster, card] = await Promise.all([blobToDataUrl(posterB), blobToDataUrl(cardB)]);
+  const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: state.name.trim(), count: state.selected.size, districts:[...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo})});
+  const j = await r.json().catch(() => null); if(r.ok && j && j.url){ try{ localStorage.setItem(CFG.key+'-link', j.url); }catch(e){} showLink(j.url); return j.url; } console.warn('share upload failed', j); return null; }
+function showLink(url){ const n = $('#linkNote'); n.hidden = false; n.innerHTML = `আপনার ম্যাপের লিংক: <a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\//,'')}</a> · <a href="/compare?a=${url.split('/m/')[1]||''}">বন্ধুর সাথে তুলনা</a>`; }
+try{ const saved = localStorage.getItem(CFG.key+'-link'); if(saved) showLink(saved); }catch(e){}
+$('#makeLink').addEventListener('click', async e => { const b = e.currentTarget, prev = b.textContent; b.disabled = true; b.textContent = 'লিংক তৈরি হচ্ছে...'; try{ const url = await uploadMap(); if(url){ try{ await navigator.clipboard.writeText(url); toast('ম্যাপের লিংক কপি হয়েছে'); }catch(err){ toast('লিংক তৈরি হয়েছে, নিচে দেখুন'); } } else toast(HOSTED ? 'লিংক বানানো যায়নি, আবার চেষ্টা করুন' : 'সাইটে গিয়ে চেষ্টা করুন'); }catch(err){ toast('লিংক বানানো যায়নি'); } finally{ b.disabled = false; b.textContent = prev; } });
 $('#sharePost').addEventListener('click', async e => {
   const b = e.currentTarget; const prev = b.textContent; b.disabled = true; b.textContent = 'ফেসবুকে পাঠানো হচ্ছে...';
   let win = null; try{ win = window.open('', '_blank'); if(win) win.document.write('<title>ফেসবুক খুলছে...</title><p style="font-family:sans-serif;padding:20px">ফেসবুক খুলছে, একটু অপেক্ষা করুন...</p>'); }catch(err){ win = null; }
@@ -763,13 +771,7 @@ $('#sharePost').addEventListener('click', async e => {
   try{
     await copyText($('#shareCaption').value).catch(() => {});
     let target = (SITE_URL ? SITE_URL + CFG.path : '') || location.href;
-    if(HOSTED){
-      const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
-      const [poster, card] = await Promise.all([blobToDataUrl(posterB), blobToDataUrl(cardB)]);
-      const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: state.name.trim(), count: state.selected.size, districts:[...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo})});
-      const j = await r.json().catch(() => null);
-      if(r.ok && j && j.url){ target = j.url; } else { console.warn('share upload failed', j); }
-    }
+    if(HOSTED){ const u = await uploadMap(); if(u) target = u; }
     go(FB_SHARER + encodeURIComponent(target));
     toast(!/\/m\//.test(target) ? 'ম্যাপ লিংক বানানো যায়নি, ক্যাপশন কপি আছে, ছবি যোগ করে পোস্ট করুন' : 'ফেসবুকে প্রিভিউ এসেছে, Post চাপুন');
   }catch(err){ console.error(err); if(win && !win.closed) win.close(); toast('শেয়ার করা যায়নি, আবার চেষ্টা করুন'); }

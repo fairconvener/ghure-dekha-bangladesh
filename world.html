@@ -902,7 +902,7 @@ $('#quickShare').addEventListener('click', e => openShare(e.currentTarget));
 load();
 try{ const q = new URLSearchParams(location.search); let touched = false; (q.get('add')||'').split(',').forEach(id => { if(validId(id)){ state.selected.add(id); state.wish.delete(id); touched = true; } }); (q.get('wish')||'').split(',').forEach(id => { if(validId(id) && !state.selected.has(id)){ state.wish.add(id); state.mode = 'wish'; touched = true; } }); if(touched){ history.replaceState(null, '', location.pathname); setTimeout(() => { toast(q.get('wish') ? 'যেতে চাই লিস্টে যোগ হলো' : 'ম্যাপে টিক পড়ল'); $('#p1').scrollIntoView({behavior:'smooth'}); }, 400); } }catch(e){}
 buildDivisions(); buildThemes(); $('#name').value = state.name; loadPhoto(); update();
-window.__gdb = {state, update, render, renderCard, SIZES, fontPromise, OP};
+window.__gdb = {state, update, render, renderCard, SIZES, fontPromise, OP, KINDS, THEMES, brandTheme};
 })();
 </script>
 </body>

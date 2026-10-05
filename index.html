@@ -517,7 +517,7 @@ function render(c, W, H, opts){
   /* footer sizes */
   const showDiv = state.showDiv;
   const chipCols = CFG.cols, chipH = 50*u, chipGap = 10*u, chipRows = showDiv ? Math.ceil(DIVISIONS.length/chipCols) : 0;
-  const footH = 16*u + 44*u + (showDiv ? chipRows*chipH + (chipRows-1)*chipGap + 24*u : 0) + 34*u;
+  const footH = 16*u + 44*u + (showDiv ? chipRows*chipH + (chipRows-1)*chipGap + 24*u : 0) + 66*u;
   const mapTop = headTop + 150*u + 40*u, mapBottom = H - P - footH;
   const areaW = W - 2*P, areaH = mapBottom - mapTop;
   const s = Math.min(areaW/MAP_W, areaH/MAP_H);
@@ -599,8 +599,14 @@ function render(c, W, H, opts){
       c.textBaseline = 'alphabetic';
     });
   }
-  /* credit */
-  c.textAlign = 'center'; c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(500, 19*u, 'b'); const cr1 = 'নিজের ম্যাপ বানান  ', cr2 = SITE_LABEL; const w1 = c.measureText(cr1).width; c.font = F(800, 22*u, 'd'); const w2 = c.measureText(cr2).width; const cx0 = W/2 - (w1+w2)/2; c.textAlign = 'left'; c.font = F(500, 19*u, 'b'); c.fillText(cr1, cx0, H-36*u); c.font = F(800, 22*u, 'd'); c.fillStyle = t.ink; c.fillText(cr2, cx0 + w1, H-36*u);
+  /* credit pill: a button-like call to action so viewers know where to make their own */
+  c.textAlign = 'left'; c.textBaseline = 'middle';
+  const t1 = 'নিজের ম্যাপ বানান', t2 = SITE_LABEL; c.font = F(600, 21*u, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 24*u, 'd'); const w2 = c.measureText(t2).width;
+  const pillH = 46*u, padX = 22*u, gap = 12*u, pillW = padX*2 + w1 + gap + w2, px0 = W/2 - pillW/2, py0 = H - 30*u - pillH;
+  rr(c, px0, py0, pillW, pillH, pillH/2); c.fillStyle = state.byDiv ? t.accent : t.visited; c.fill();
+  c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.font = F(600, 21*u, 'b'); c.fillText(t1, px0 + padX, py0 + pillH/2 + 1*u);
+  c.font = F(800, 24*u, 'd'); c.fillText(t2, px0 + padX + w1 + gap, py0 + pillH/2 + 1*u);
+  c.textBaseline = 'alphabetic';
   c.restore();
 }
 
@@ -622,7 +628,7 @@ function renderCard(c, W, H){
   c.fillStyle = t.muted; c.font = F(500, 28*u, 'b'); c.fillText(`${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`, x, 352*u);
   rr(c, x, 400*u, maxW, 16*u, 8*u); c.fillStyle = t.unvisited; c.fill(); if(n){ rr(c, x, 400*u, Math.max(16*u, maxW*n/TOTAL), 16*u, 8*u); c.fillStyle = t.visited; c.fill(); }
   c.fillStyle = t.accent; c.font = F(700, 26*u, 'd'); c.fillText(`আপনার কয়টা ${U} হলো?`, x, 480*u);
-  c.fillStyle = t.muted; c.font = F(500, 22*u, 'b'); c.fillText('নিজের ম্যাপ বানান: ' + SITE_LABEL, x, 520*u);
+  { c.textBaseline = 'middle'; const t1 = 'নিজের ম্যাপ বানান', t2 = SITE_LABEL; c.font = F(600, 22*u, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 26*u, 'd'); const w2 = c.measureText(t2).width; const ph = 50*u, pw = 44*u + w1 + 12*u + w2; rr(c, x, 505*u, pw, ph, ph/2); c.fillStyle = t.visited; c.fill(); c.fillStyle = '#FFFFFF'; c.font = F(600, 22*u, 'b'); c.fillText(t1, x + 22*u, 505*u + ph/2 + 1*u); c.font = F(800, 26*u, 'd'); c.fillText(t2, x + 22*u + w1 + 12*u, 505*u + ph/2 + 1*u); c.textBaseline = 'alphabetic'; }
 }
 async function renderCardBlob(){ await fontPromise; const W = 1200, H = 630; const c = document.createElement('canvas'); c.width = W; c.height = H; renderCard(c.getContext('2d'), W, H); return new Promise(r => c.toBlob(r, 'image/jpeg', .88)); }
 const blobToDataUrl = b => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); });

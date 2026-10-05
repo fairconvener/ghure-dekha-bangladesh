@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>খেলতে খেলতে বাংলাদেশ: জেলা চেনো কুইজ, ছবি দেখে জেলা, এবার কোথায় যাব চাকা</title>
 <meta name="description" content="ম্যাপের আকৃতি দেখে জেলা চিনুন, ছবি দেখে বলুন কোন জেলা, বা চাকা ঘুরিয়ে পরের ট্রিপের জেলা বেছে নিন। স্কোর শেয়ার করে বন্ধুদের চ্যালেঞ্জ দিন।">
-<link rel="canonical" href="https://ghuredekha.com/quiz">
+<link rel="canonical" href="https://ghuredekhabangladesh.com/quiz">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ঘুরে দেখা বাংলাদেশ">
 <meta property="og:title" content="খেলতে খেলতে বাংলাদেশ: জেলা চেনো কুইজ, ছবি দেখে জেলা, এবার কোথায় যাব চাকা">
 <meta property="og:description" content="ম্যাপের আকৃতি দেখে জেলা চিনুন, ছবি দেখে বলুন কোন জেলা, বা চাকা ঘুরিয়ে পরের ট্রিপের জেলা বেছে নিন। স্কোর শেয়ার করে বন্ধুদের চ্যালেঞ্জ দিন।">
-<meta property="og:url" content="https://ghuredekha.com/quiz">
-<meta property="og:image" content="https://ghuredekha.com/og-quiz.png">
+<meta property="og:url" content="https://ghuredekhabangladesh.com/quiz">
+<meta property="og:image" content="https://ghuredekhabangladesh.com/og-quiz.png">
 <meta property="og:locale" content="bn_BD">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0F7F4C">
@@ -225,8 +225,8 @@ function finish(){
   clearInterval(timer); const total = st.qs.length * 10; const pct = Math.round(st.score / (total + 5*st.qs.length) * 100);
   const msg = pct >= 80 ? '🏆 আপনি তো বাংলাদেশের হাঁটা ম্যাপ!' : pct >= 55 ? '👍 ভালো, কয়েকটা জেলা আরও ঘুরলেই হয়ে যাবে' : pct >= 30 ? '🙂 শুরু হিসেবে খারাপ না, ম্যাপটা আরেকবার দেখে নিন' : '😅 জেলা ম্যাপটা খুলে একবার ঘুরে আসুন, তারপর আবার!';
   const name = {shape: 'জেলা চেনো', photo: 'ছবিটা কোন জেলার', div: 'কোন বিভাগে'}[st.mode];
-  const text = `🎮 "${name}" কুইজে আমার স্কোর ${BN(st.score)}! ${msg}\nআপনি কত পান? খেলুন 👉 https://ghuredekha.com/quiz\n#ঘুরেদেখাবাংলাদেশ`;
-  game.innerHTML = `<div class="qcard score"><div class="muted">${name}</div><div class="big">${BN(st.score)}</div><div class="msg">${msg}</div><div class="actions"><button class="btn primary" id="again" type="button">🔁 আবার খেলি</button><button class="btn" id="share" type="button">📋 স্কোর কপি</button><a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://ghuredekha.com/quiz')}" target="_blank" rel="noopener">ফেসবুকে শেয়ার</a><a class="btn" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">💬 হোয়াটসঅ্যাপ</a></div><button class="btn" id="homeBtn" type="button">← অন্য খেলা</button></div>`;
+  const text = `🎮 "${name}" কুইজে আমার স্কোর ${BN(st.score)}! ${msg}\nআপনি কত পান? খেলুন 👉 https://ghuredekhabangladesh.com/quiz\n#ঘুরেদেখাবাংলাদেশ`;
+  game.innerHTML = `<div class="qcard score"><div class="muted">${name}</div><div class="big">${BN(st.score)}</div><div class="msg">${msg}</div><div class="actions"><button class="btn primary" id="again" type="button">🔁 আবার খেলি</button><button class="btn" id="share" type="button">📋 স্কোর কপি</button><a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://ghuredekhabangladesh.com/quiz')}" target="_blank" rel="noopener">ফেসবুকে শেয়ার</a><a class="btn" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">💬 হোয়াটসঅ্যাপ</a></div><button class="btn" id="homeBtn" type="button">← অন্য খেলা</button></div>`;
   $('#again').addEventListener('click', () => start(st.mode)); $('#homeBtn').addEventListener('click', () => { game.innerHTML = ''; home.hidden = false; });
   $('#share').addEventListener('click', async () => { try{ await navigator.clipboard.writeText(text); toast('কপি হয়েছে, পোস্টে পেস্ট করুন'); }catch(e){ toast('কপি করা যায়নি'); } });
   if(window.gdTrack) gdTrack('QuizDone', {mode: st.mode, score: st.score});
@@ -242,7 +242,7 @@ function spin(){
       const cv = $('#pc'); await renderPick(cv, d, g);
       const toBlob = () => new Promise(r => cv.toBlob(r, 'image/png'));
       $('#dl').addEventListener('click', async () => { const bl = await toBlob(); const a = document.createElement('a'); a.href = URL.createObjectURL(bl); a.download = `porer-gontobbo-${d.id}.png`; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000); toast('ডাউনলোড শুরু হয়েছে'); });
-      $('#sh').addEventListener('click', async () => { const text = `🎯 আমার পরের গন্তব্য: ${d.bn}! চাকা ঘুরিয়ে বেছে নিলাম 😄 আপনারটা কোথায়? 👉 https://ghuredekha.com/quiz?m=spin #ঘুরেদেখাবাংলাদেশ`; try{ const bl = await toBlob(); const file = new File([bl], `porer-gontobbo-${d.id}.png`, {type:'image/png'}); if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})) await navigator.share({text, files:[file]}); else if(navigator.share) await navigator.share({text}); else { await navigator.clipboard.writeText(text); toast('ক্যাপশন কপি হয়েছে, ছবিটা ডাউনলোড করে পোস্ট করুন'); } }catch(e){ if(e && e.name !== 'AbortError') toast('শেয়ার করা যায়নি'); } });
+      $('#sh').addEventListener('click', async () => { const text = `🎯 আমার পরের গন্তব্য: ${d.bn}! চাকা ঘুরিয়ে বেছে নিলাম 😄 আপনারটা কোথায়? 👉 https://ghuredekhabangladesh.com/quiz?m=spin #ঘুরেদেখাবাংলাদেশ`; try{ const bl = await toBlob(); const file = new File([bl], `porer-gontobbo-${d.id}.png`, {type:'image/png'}); if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})) await navigator.share({text, files:[file]}); else if(navigator.share) await navigator.share({text}); else { await navigator.clipboard.writeText(text); toast('ক্যাপশন কপি হয়েছে, ছবিটা ডাউনলোড করে পোস্ট করুন'); } }catch(e){ if(e && e.name !== 'AbortError') toast('শেয়ার করা যায়নি'); } });
       $('#re').addEventListener('click', () => { $('#res').innerHTML = ''; b.disabled = false; b.click(); }); b.disabled = false; if(window.gdTrack) gdTrack('SpinPick', {d: d.id}); }, 4100); });
 }
 const rr = (c,x,y,w,h,r) => { c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); };
@@ -276,7 +276,7 @@ async function renderPick(cv, d, g){
   g.spots.forEach(sp => { c.fillStyle = green; c.beginPath(); c.arc(P+10, y-10, 7, 0, Math.PI*2); c.fill(); c.fillStyle = ink; c.font = F(600, 30, 'b'); c.fillText(sp, P+32, y); y += 48; });
   c.fillStyle = muted; c.font = F(500, 24, 'b'); c.fillText(`${BN(g.days)} দিনের ট্রিপ · চাকা ঘুরিয়ে বেছে নিলাম 😄`, P, mapTop + mapH + 48);
   // pill
-  c.textBaseline = 'middle'; const t1 = 'আপনারটা কোথায়? চাকা ঘোরান', t2 = 'ghuredekha.com/quiz'; c.font = F(600, 22, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 26, 'd'); const w2 = c.measureText(t2).width; const pw = 44 + w1 + 14 + w2, ph = 52, px = W/2 - pw/2, py = H - 32 - ph; rr(c, px, py, pw, ph, ph/2); c.fillStyle = green; c.fill(); c.fillStyle = '#fff'; c.font = F(600, 22, 'b'); c.textAlign = 'left'; c.fillText(t1, px+22, py+ph/2+1); c.font = F(800, 26, 'd'); c.fillText(t2, px+22+w1+14, py+ph/2+1); c.textBaseline = 'alphabetic';
+  c.textBaseline = 'middle'; const t1 = 'আপনারটা কোথায়? চাকা ঘোরান', t2 = 'ghuredekhabangladesh.com/quiz'; c.font = F(600, 22, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 26, 'd'); const w2 = c.measureText(t2).width; const pw = 44 + w1 + 14 + w2, ph = 52, px = W/2 - pw/2, py = H - 32 - ph; rr(c, px, py, pw, ph, ph/2); c.fillStyle = green; c.fill(); c.fillStyle = '#fff'; c.font = F(600, 22, 'b'); c.textAlign = 'left'; c.fillText(t1, px+22, py+ph/2+1); c.font = F(800, 26, 'd'); c.fillText(t2, px+22+w1+14, py+ph/2+1); c.textBaseline = 'alphabetic';
 }
 function wrap(c, text, x, y, maxW, lh){ const words = text.split(' '); let line = ''; for(const w of words){ const t = line ? line + ' ' + w : w; if(c.measureText(t).width > maxW && line){ c.fillText(line, x, y); y += lh; line = w; } else line = t; } if(line) c.fillText(line, x, y); }
 home.addEventListener('click', e => { const b = e.target.closest('.mode'); if(b) start(b.dataset.m); });

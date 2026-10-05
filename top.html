@@ -21,7 +21,7 @@
 <script src="/gd-meta.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@500;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: a studio desk - the poster is the hero object on the right, a stepped control column on the left; stacked on phones. */
 :root{
@@ -29,7 +29,7 @@
   --bg:#F2F5F1; --surface:#FFFFFF; --surface-2:#E9EFEA; --ink:#15231C; --muted:#5E6E65; --line:#D6DED8;
   --accent:#0F7F4C; --accent-ink:#0B5F39; --accent-soft:#DDF1E5; --red:#D6262E; --red-soft:#FBE3E4;
   --shadow:0 18px 50px rgba(21,35,28,.14);
-  --font-display:"Anek Bangla","Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+  --font-display:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
   --font-body:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
   --radius:16px;
 }
@@ -95,8 +95,8 @@ main.wrap{min-height:calc(100vh - 260px)}
 .hero h1{font-size:clamp(28px,5vw,46px);font-weight:800;letter-spacing:-.01em}
 .hero h1 em{font-style:normal;color:var(--accent)}
 .hero p{margin:10px 0 0;max-width:64ch;color:var(--muted);font-size:17px}
-footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--muted);font-size:14px;margin-top:40px}
-footer .wrap{display:grid;gap:8px}footer b{color:var(--ink)}
+footer{border-top:1px solid var(--line);padding-block:16px 24px;color:var(--muted);font-size:13px;line-height:1.7;margin-top:40px}
+footer .wrap{display:grid;gap:4px}footer b{color:var(--ink)}footer a{color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--line)}footer a:hover{color:var(--ink)}
 .toast{position:fixed;left:50%;top:14px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;font-weight:600;opacity:0;transition:.2s;z-index:50;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1}
 .grid{display:grid;gap:14px}
@@ -160,8 +160,8 @@ body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none
 <p class="note">নাম ভুল বা অনুচিত কিছু দেখলে <a href="https://www.facebook.com/Galib.Dhaka" rel="noopener">মেসেজ</a> দিন, সরিয়ে দেব।</p>
 </main>
 <footer><div class="wrap">
-    <div><b>ঘুরে দেখা বাংলাদেশ</b> - আগে নিজের দেশটা, তারপর পুরো পৃথিবী। <a href="/">জেলা ম্যাপ</a> · <a href="/world">বিশ্ব ম্যাপ</a> · <a href="/jela">জেলা গাইড</a> · <a href="/plan">ট্রিপ প্ল্যানার</a></div>
-    <div>কোনো তথ্য ভুল বা পুরোনো মনে হলে প্রতিটি অংশের নিচের "ভুল বা পুরোনো" বোতামে জানান; আমরা যাচাই করে আপডেট করি। ম্যাপ ডেটা: geoBoundaries (CC BY 4.0), Natural Earth</div>
+    <div><b>ঘুরে দেখা বাংলাদেশ</b> · <a href="/">জেলা ম্যাপ</a> · <a href="/world">বিশ্ব ম্যাপ</a> · <a href="/jela">জেলা গাইড</a> · <a href="/countries">দেশ ও মহাদেশ</a> · <a href="/plan">ট্রিপ প্ল্যানার</a> · ব্যবসার জন্য: <a href="/business">জেলা ম্যাপ</a> · <a href="/business/world">বিশ্ব ম্যাপ</a> · <a href="/business/clients">উদাহরণ</a></div>
+    <div>ভুল বা পুরোনো তথ্য প্রতিটি অংশের নিচের বোতামে জানান, যাচাই করে আপডেট করি। ম্যাপ ডেটা: geoBoundaries (CC BY 4.0), Natural Earth · <a href="/privacy">প্রাইভেসি</a></div>
   </div></footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>window.BN=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);let _tt=0;window.toast=m=>{const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>e.classList.remove('show'),2600)};</script>

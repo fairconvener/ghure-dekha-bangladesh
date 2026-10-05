@@ -22,7 +22,7 @@
 <script src="/gd-meta.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@500;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: a studio desk - the poster is the hero object on the right, a stepped control column on the left; stacked on phones. */
 :root{
@@ -30,7 +30,7 @@
   --bg:#F2F5F1; --surface:#FFFFFF; --surface-2:#E9EFEA; --ink:#15231C; --muted:#5E6E65; --line:#D6DED8;
   --accent:#0F7F4C; --accent-ink:#0B5F39; --accent-soft:#DDF1E5; --red:#D6262E; --red-soft:#FBE3E4;
   --shadow:0 18px 50px rgba(21,35,28,.14);
-  --font-display:"Anek Bangla","Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+  --font-display:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
   --font-body:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
   --radius:16px;
 }
@@ -195,8 +195,10 @@ label.field input[type=text]{padding:11px 14px;border:1px solid var(--line);bord
 .caption textarea{width:100%;min-height:92px;resize:vertical;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font:inherit;font-size:14px;color:var(--ink)}
 
 /* footer */
-footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--muted);font-size:14px}
-footer .wrap{display:grid;gap:8px}
+footer{border-top:1px solid var(--line);padding-block:16px 24px;color:var(--muted);font-size:13px;line-height:1.7}
+footer .wrap{display:grid;gap:4px}
+footer a{color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--line)}
+footer a:hover{color:var(--ink)}
 footer b{color:var(--ink)}
 
 /* mobile floating bar */
@@ -273,27 +275,21 @@ footer b{color:var(--ink)}
       <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="#0F7F4C"/><circle cx="32" cy="32" r="24" fill="#D6262E"/><g transform="translate(17.05,14.00) scale(0.02990)"><path d="M381 1051 365 1052 362 1087 371 1101 384 1099 379 1079ZM396 1023 406 1064 426 1076 440 1093 445 1081 453 1068 466 1067 475 1074 487 1066 492 1053 520 1038 539 1009 562 990 558 959 544 938 530 929 528 900 522 890 522 864 534 851 520 837 532 807 550 783 534 754 556 755 558 836 574 860 587 870 587 882 602 908 611 911 646 939 664 961 684 941 696 920 691 905 698 890 725 887 747 903 790 954 800 992 812 1025 820 1027 823 1060 833 1094 821 1137 822 1175 843 1190 863 1225 863 1249 894 1290 902 1311 913 1310 911 1277 891 1249 900 1238 895 1217 923 1194 935 1180 947 1206 974 1202 982 1233 1000 1224 987 1180 981 1128 987 1090 974 1032 981 1021 969 965 961 904 950 887 947 862 928 845 931 816 924 805 922 775 932 774 916 725 911 696 900 662 876 660 861 680 833 674 840 716 817 737 796 761 809 814 786 833 766 844 751 822 730 772 702 777 687 721 666 688 668 659 677 659 686 638 684 619 697 601 709 604 716 589 711 576 756 583 767 576 769 560 793 566 790 543 825 560 831 537 826 521 837 510 863 513 878 500 888 482 897 439 904 428 893 388 923 401 942 397 943 383 929 374 930 360 884 342 862 327 804 327 765 341 735 338 685 323 645 324 599 334 558 328 515 336 490 326 445 320 383 289 396 229 386 206 385 170 395 158 367 103 352 93 339 99 344 123 332 134 312 141 284 137 265 125 258 111 244 108 230 48 209 36 194 54 225 80 202 83 186 73 149 59 135 37 121 33 105 13 84 0 79 26 105 32 112 57 95 61 77 73 76 87 40 103 42 123 20 157 24 180 34 189 58 189 97 216 94 231 116 250 140 260 160 249 175 257 177 284 197 301 194 332 174 323 130 322 122 329 100 320 93 327 93 363 82 377 55 394 47 378 29 388 34 400 0 445 20 473 42 494 67 511 88 512 121 528 144 528 154 542 152 620 137 631 120 630 115 667 121 689 149 713 157 729 157 746 142 762 147 773 167 774 194 784 175 841 197 876 187 888 198 902 191 912 206 964 202 988 222 1019 215 1041 225 1051 237 1044 240 1057 245 1057 250 1062 265 1026 287 1037 308 1010 320 1049 336 1022 352 1033 368 1033 387 1049ZM541 901 535 918 563 937 566 1000 554 1022 549 1056 567 1063 594 1034 605 963 587 946 583 926 570 912 561 883 545 878ZM549 876 553 862 534 858 525 868 536 880ZM546 1021 525 1046 530 1072 551 1038ZM748 972 756 954 733 922 725 941 738 970ZM707 893 696 901 716 918 722 906ZM288 1093 280 1108 294 1127 307 1112 301 1099ZM300 1027 288 1037 297 1053 309 1043ZM665 977 650 969 650 1007 636 1038 648 1045 671 1024 676 987ZM547 1067 530 1080 544 1090ZM485 1074 475 1075 465 1067 454 1068 445 1082 444 1092 438 1098 442 1104 459 1110 476 1100ZM524 1066 520 1051 497 1068 486 1091 497 1098 520 1082ZM245 1058 236 1072 248 1081 251 1085 248 1089 246 1103 258 1105 266 1085 250 1078 249 1072 257 1066 247 1063ZM237 1057 222 1081 226 1106 237 1110 245 1101 245 1092 248 1083 238 1083 233 1075ZM261 1045 252 1061 258 1065 258 1069 252 1073 269 1086 271 1063Z" fill="#F7F2E6" stroke="#0F7F4C" stroke-width="18" stroke-linejoin="round"/></g></svg>
       ঘুরে দেখা বাংলাদেশ
     </a>
-    <nav class="nav" aria-label="সাইটের অংশ"><a href="/" >🇧🇩 জেলা ম্যাপ</a><a href="/world" >🌍 বিশ্ব</a><a href="/countries">🗺️ দেশ ও মহাদেশ</a><a href="/upazila" >📍 উপজেলা</a><a href="/jela">📖 জেলা গাইড</a><a href="/plan">🧭 ট্রিপ প্ল্যানার</a><a href="/top">🏆 লিডারবোর্ড</a><a href="/quiz">🎮 কুইজ</a><a href="/business" aria-current="page">🏢 ব্যবসা</a><a href="/business/world">🌍 গ্লোবাল</a></nav>
+    <nav class="nav" aria-label="সাইটের অংশ"><a href="/" >🇧🇩 জেলা ম্যাপ</a><a href="/world" >🌍 বিশ্ব</a><a href="/countries">🗺️ দেশ ও মহাদেশ</a><a href="/upazila" >📍 উপজেলা</a><a href="/jela">📖 জেলা গাইড</a><a href="/plan">🧭 ট্রিপ প্ল্যানার</a><a href="/top">🏆 লিডারবোর্ড</a><a href="/quiz">🎮 কুইজ</a><a href="/business" aria-current="page">🏢 ব্যবসা</a></nav>
   </div>
 </header>
 
 <section class="hero">
   <div class="wrap">
-    <h1>আপনার ব্যবসা <em>কয় জেলায়</em> আছে?</h1>
-    <p>শাখা, ডেলিভারি, ডিলার, স্টুডেন্ট বা সার্ভিস এরিয়া, যেটা আপনার ব্যবসার, সেই জেলাগুলোতে টিক দিন, লোগো আর নাম বসান, এক ছবিতে সারা দেশের কভারেজ দেখান। "শিগগিরই আসছি" দিয়ে সম্প্রসারণের ঘোষণাও দিতে পারেন।</p>
+    <h1>আপনার ব্যবসার <em>কভারেজ ম্যাপ</em>, ২ মিনিটে</h1>
+    <p>কয় জেলায় আছেন? শাখা, ডেলিভারি, ডিলার, স্টুডেন্ট, ট্যুর বা সার্ভিস এরিয়া, যেটা আপনার ব্যবসার, সেই জেলাগুলোতে টিক দিন, লোগো আর নাম বসান, এক ছবিতে সারা দেশের কভারেজ দেখান। "শিগগিরই আসছি" দিয়ে সম্প্রসারণের ঘোষণাও দিতে পারেন।</p>
     <ul class="steps">
-      <li><b>১</b> জেলায় টিক দিন</li>
-      <li><b>২</b> নাম আর ছবি বসান</li>
+      <li><b>১</b> লোগো আর নাম বসান</li>
+      <li><b>২</b> জেলায় টিক দিন</li>
       <li><b>৩</b> রঙ বেছে নিন</li>
       <li><b>৪</b> নামান, পোস্ট করুন</li>
     </ul>
-    <div class="panel" style="margin-top:14px"><h3 style="margin:0 0 8px;font-size:16px">ম্যাপটা কীসের?</h3><div class="row" id="kindChips"></div>
-  <label class="field" style="margin-top:10px">এক লাইনের ট্যাগলাইন (ঐচ্ছিক)<input id="tagline" maxlength="70" placeholder="যেমন: ২০১৮ থেকে সারা দেশের স্টুডেন্টের পাশে"></label>
-  <label class="field" style="margin-top:10px">পোস্টারে বড় হুক লাইন (ঐচ্ছিক, ২ লাইন পর্যন্ত)<textarea id="hook" rows="2" maxlength="60" placeholder="যেমন:&#10;৬৪-তে&#10;আপনি কত?" style="font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:inherit;resize:none"></textarea></label>
-  <div class="row" style="align-items:center;margin-top:10px;gap:10px"><label for="brandColor" style="font-weight:700">ব্র্যান্ডের রঙ</label><input type="color" id="brandColor" value="#0F7F4C" style="width:52px;height:36px;border:1px solid var(--line);border-radius:10px;background:none;padding:2px"><span class="muted" style="font-size:13px">লোগোর রঙ দিলে "ব্র্যান্ড" থিমে পুরো পোস্টার সেই রঙে</span></div></div>
-  <div class="panel" id="countPanel" style="margin-top:14px" hidden><h3 style="margin:0 0 4px;font-size:16px">প্রতি দেশে সংখ্যা (ঐচ্ছিক)</h3><p class="muted" style="font-size:13px;margin:0 0 8px">যেমন কত স্টুডেন্ট বা কত ভিসা; পোস্টারে দেশের পাশে "৫০০+" হিসেবে দেখাবে</p><div id="countList" style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px"></div></div>
-  <style>#modeSeg [data-v="recap"],#duoRow,.switch:has(#duoOn){display:none!important}#photoBox{border-radius:18px!important}#photoBox img{border-radius:18px!important;object-fit:contain!important;background:#fff}</style>
-  <script>document.addEventListener('DOMContentLoaded',()=>{const S=window.__gdb.state;const root=document.getElementById('kindChips');Object.entries(window.__gdb.KINDS).forEach(([k,v])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.kind=k;b.textContent=v.bn;b.addEventListener('click',()=>{S.kind=k;window.__gdb.update();});root.appendChild(b);});const hk=document.getElementById('hook');hk.value=S.hook||'';hk.addEventListener('input',()=>{S.hook=hk.value;window.__gdb.update();});const bc=document.getElementById('brandColor');bc.value=S.brandColor||'#0F7F4C';bc.addEventListener('input',()=>{S.brandColor=bc.value;window.__gdb.THEMES.brand=window.__gdb.brandTheme(bc.value);S.theme='brand';window.__gdb.update();});const tl=document.getElementById('tagline');tl.value=S.tagline||'';tl.addEventListener('input',()=>{S.tagline=tl.value;window.__gdb.update();});try{const q=new URLSearchParams(location.search);if(q.get('kind')&&window.__gdb.KINDS[q.get('kind')]){S.kind=q.get('kind');}if(q.get('hook')){S.hook=q.get('hook').slice(0,60);hk.value=S.hook;}if(q.get('tag')){S.tagline=q.get('tag').slice(0,70);tl.value=S.tagline;}if(q.get('kind')||q.get('hook')||q.get('tag'))window.__gdb.update();}catch(e){}const cp=document.getElementById('countPanel'),cl=document.getElementById('countList');const syncCounts=()=>{if(window.__gdb.CFG&&window.__gdb.CFG.map!=='world'){return;}const ids=[...S.selected];cp.hidden=!ids.length;const have=new Set([...cl.querySelectorAll('[data-cid]')].map(e=>e.dataset.cid));ids.forEach(id=>{if(have.has(id))return;const d=DISTRICTS.find(x=>x.id===id);if(!d)return;const w=document.createElement('label');w.className='field';w.dataset.cid=id;w.style.margin='0';w.innerHTML='<span style="font-size:13px">'+d.bn+'</span><input type="number" min="0" inputmode="numeric" placeholder="সংখ্যা" style="font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:inherit;width:100%">';const inp=w.querySelector('input');inp.value=S.counts[id]||'';inp.addEventListener('input',()=>{if(inp.value)S.counts[id]=+inp.value;else delete S.counts[id];window.__gdb.update();});cl.appendChild(w);});[...cl.querySelectorAll('[data-cid]')].forEach(e=>{if(!S.selected.has(e.dataset.cid)){e.remove();delete S.counts[e.dataset.cid];}});};const sync=()=>{root.querySelectorAll('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.kind===S.kind)));syncCounts();};sync();const u0=window.__gdb.update;window.__gdb.update=function(){u0.apply(this,arguments);sync();};});</script>
+    <div class="row" style="margin-top:14px;gap:8px"><a class="btn primary" style="text-decoration:none" href="/business">🇧🇩 বাংলাদেশের জেলা ম্যাপ</a><a class="btn" style="text-decoration:none" href="/business/world">🌍 বিশ্বের দেশ ম্যাপ</a></div><p class="note" style="margin:10px 0 0">স্টাডি অ্যাব্রড, ট্রাভেল এজেন্সি, ইমিগ্রেশন, ই-কমার্স, শোরুম, কোচিং, এনজিও: যেকোনো ব্যবসার জন্য। লোগো আর নাম দিন, ম্যাপে টিক দিন, নামিয়ে পোস্ট করুন। ফ্রি, সাইন-আপ লাগে না।</p>
   </div>
 </section>
 
@@ -317,25 +313,8 @@ footer b{color:var(--ink)}
 
     <div class="controls">
 
-      <section class="panel" id="p1">
-        <div class="panel-head"><b>১</b><h2>কোন কোন জেলায় আছেন?</h2><span class="count" id="countTop">০ / ৬৪</span></div>
-        <div class="progress"><i id="bar"></i></div>
-        <div class="seg" id="modeSeg" style="margin-bottom:10px;width:100%">
-          <button type="button" data-v="visited" aria-pressed="true" style="flex:1">📍 আমরা আছি</button>
-          <button type="button" data-v="wish" aria-pressed="false" style="flex:1">🚀 শিগগিরই আসছি</button>
-          <button type="button" data-v="recap" aria-pressed="false" style="flex:1">📅 বছরের রিক্যাপ</button>
-        </div>
-        <p class="note" id="modeNote" style="margin:0 0 10px"></p>
-        <div class="row">
-          <input class="search" id="search" type="search" placeholder="জেলার নাম লিখুন..." autocomplete="off">
-          <button class="btn small" id="selectAll" type="button">সবগুলোতে টিক</button>
-          <button class="btn small" id="clearAll" type="button">খালি করুন</button>
-        </div>
-        <div id="divisions"></div>
-      </section>
-
       <section class="panel" id="p2">
-        <div class="panel-head"><b>২</b><h2>ব্যবসার নাম ও লোগো</h2></div>
+        <div class="panel-head"><b>১</b><h2>ব্যবসার নাম ও লোগো</h2></div>
         <label class="field">ব্যবসা / ব্র্যান্ডের নাম
           <input type="text" id="name" maxlength="40" placeholder="যেমন: ফেয়ার কনভেনার">
         </label>
@@ -363,6 +342,29 @@ footer b{color:var(--ink)}
             <div class="meta"><div class="row"><button class="btn small" id="photoBtn2" type="button">দ্বিতীয় ছবি</button><button class="btn small" id="photoRemove2" type="button" hidden>ছবি সরান</button></div><small id="duoHint">হানিমুন ড্রিমে ছবি না দিলে প্রশ্নবোধক চিহ্ন বসবে 😉</small><input type="file" id="photoInput2" accept="image/*" hidden></div>
           </div>
         </div>
+      </section>
+
+<div class="panel" style="margin-top:0"><h3 style="margin:0 0 8px;font-size:16px">ম্যাপটা কীসের?</h3><div class="row" id="kindChips"></div>
+  <label class="field" style="margin-top:10px">এক লাইনের ট্যাগলাইন (ঐচ্ছিক)<input id="tagline" maxlength="70" placeholder="যেমন: ২০১৮ থেকে সারা দেশের স্টুডেন্টের পাশে"></label>
+  <label class="field" style="margin-top:10px">পোস্টারে বড় হুক লাইন (ঐচ্ছিক, ২ লাইন পর্যন্ত)<textarea id="hook" rows="2" maxlength="60" placeholder="যেমন:&#10;৬৪-তে&#10;আপনি কত?" style="font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:inherit;resize:none"></textarea></label>
+  <div class="row" style="align-items:center;margin-top:10px;gap:10px"><label for="brandColor" style="font-weight:700">ব্র্যান্ডের রঙ</label><input type="color" id="brandColor" value="#0F7F4C" style="width:52px;height:36px;border:1px solid var(--line);border-radius:10px;background:none;padding:2px"><span class="muted" style="font-size:13px">লোগোর রঙ দিলে "ব্র্যান্ড" থিমে পুরো পোস্টার সেই রঙে</span></div></div>
+  <div class="panel" id="countPanel" style="margin-top:14px" hidden><h3 style="margin:0 0 4px;font-size:16px">প্রতি দেশে সংখ্যা (ঐচ্ছিক)</h3><p class="muted" style="font-size:13px;margin:0 0 8px">যেমন কত স্টুডেন্ট বা কত ভিসা; পোস্টারে দেশের পাশে "৫০০+" হিসেবে দেখাবে</p><div id="countList" style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px"></div></div>
+  <style>#modeSeg [data-v="recap"],#duoRow,.switch:has(#duoOn){display:none!important}#kindChips .chip[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}#photoBox{border-radius:18px!important}#photoBox img{border-radius:18px!important;object-fit:contain!important;background:#fff}</style>
+  <script>document.addEventListener('DOMContentLoaded',()=>{const S=window.__gdb.state;const root=document.getElementById('kindChips');Object.entries(window.__gdb.KINDS).forEach(([k,v])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.kind=k;b.textContent=v.bn;b.addEventListener('click',()=>{S.kind=k;window.__gdb.update();});root.appendChild(b);});const hk=document.getElementById('hook');hk.value=S.hook||'';hk.addEventListener('input',()=>{S.hook=hk.value;window.__gdb.update();});const bc=document.getElementById('brandColor');bc.value=S.brandColor||'#0F7F4C';bc.addEventListener('input',()=>{S.brandColor=bc.value;window.__gdb.THEMES.brand=window.__gdb.brandTheme(bc.value);S.theme='brand';window.__gdb.update();});const tl=document.getElementById('tagline');tl.value=S.tagline||'';tl.addEventListener('input',()=>{S.tagline=tl.value;window.__gdb.update();});try{const q=new URLSearchParams(location.search);if(q.get('kind')&&window.__gdb.KINDS[q.get('kind')]){S.kind=q.get('kind');}if(q.get('hook')){S.hook=q.get('hook').slice(0,60);hk.value=S.hook;}if(q.get('tag')){S.tagline=q.get('tag').slice(0,70);tl.value=S.tagline;}if(q.get('kind')||q.get('hook')||q.get('tag'))window.__gdb.update();}catch(e){}const cp=document.getElementById('countPanel'),cl=document.getElementById('countList');const syncCounts=()=>{if(window.__gdb.CFG&&window.__gdb.CFG.map!=='world'){return;}const ids=[...S.selected];cp.hidden=!ids.length;const have=new Set([...cl.querySelectorAll('[data-cid]')].map(e=>e.dataset.cid));ids.forEach(id=>{if(have.has(id))return;const d=DISTRICTS.find(x=>x.id===id);if(!d)return;const w=document.createElement('label');w.className='field';w.dataset.cid=id;w.style.margin='0';w.innerHTML='<span style="font-size:13px">'+d.bn+'</span><input type="number" min="0" inputmode="numeric" placeholder="সংখ্যা" style="font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:inherit;width:100%">';const inp=w.querySelector('input');inp.value=S.counts[id]||'';inp.addEventListener('input',()=>{if(inp.value)S.counts[id]=+inp.value;else delete S.counts[id];window.__gdb.update();});cl.appendChild(w);});[...cl.querySelectorAll('[data-cid]')].forEach(e=>{if(!S.selected.has(e.dataset.cid)){e.remove();delete S.counts[e.dataset.cid];}});};const sync=()=>{root.querySelectorAll('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.kind===S.kind)));syncCounts();};sync();const u0=window.__gdb.update;window.__gdb.update=function(){u0.apply(this,arguments);sync();};});</script>      <section class="panel" id="p1">
+        <div class="panel-head"><b>২</b><h2>কোন কোন জেলায় আছেন?</h2><span class="count" id="countTop">০ / ৬৪</span></div>
+        <div class="progress"><i id="bar"></i></div>
+        <div class="seg" id="modeSeg" style="margin-bottom:10px;width:100%">
+          <button type="button" data-v="visited" aria-pressed="true" style="flex:1">📍 আমরা আছি</button>
+          <button type="button" data-v="wish" aria-pressed="false" style="flex:1">🚀 শিগগিরই আসছি</button>
+          <button type="button" data-v="recap" aria-pressed="false" style="flex:1">📅 বছরের রিক্যাপ</button>
+        </div>
+        <p class="note" id="modeNote" style="margin:0 0 10px"></p>
+        <div class="row">
+          <input class="search" id="search" type="search" placeholder="জেলার নাম লিখুন..." autocomplete="off">
+          <button class="btn small" id="selectAll" type="button">সবগুলোতে টিক</button>
+          <button class="btn small" id="clearAll" type="button">খালি করুন</button>
+        </div>
+        <div id="divisions"></div>
       </section>
 
       <section class="panel" id="p3">
@@ -427,8 +429,8 @@ footer b{color:var(--ink)}
 
 <footer>
   <div class="wrap">
-    <div><b>ঘুরে দেখা বাংলাদেশ</b> - আগে নিজের দেশটা, তারপর পুরো পৃথিবী। <a href="/">বাংলাদেশ ম্যাপ</a> · <a href="/world">বিশ্ব ম্যাপ</a></div>
-    <div>ম্যাপ ডেটা: geoBoundaries (CC BY 4.0)</div>
+    <div><b>ঘুরে দেখা বাংলাদেশ</b> · <a href="/">বাংলাদেশ ম্যাপ</a> · <a href="/world">বিশ্ব ম্যাপ</a> · <a href="/jela">জেলা গাইড</a> · <a href="/countries">দেশ ও মহাদেশ</a> · ব্যবসার জন্য: <a href="/business">জেলা ম্যাপ</a> · <a href="/business/world">বিশ্ব ম্যাপ</a> · <a href="/business/clients">উদাহরণ</a></div>
+    <div>ম্যাপ ডেটা: geoBoundaries (CC BY 4.0) · <a href="/privacy">প্রাইভেসি</a></div>
   </div>
 </footer>
 
@@ -475,7 +477,7 @@ const DISTRICTS=[{"id":"bagerhat","bn":"বাগেরহাট","en":"Bagerhat
 'use strict';
 const HOSTED = /^https?:$/.test(location.protocol) && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && !/claudeusercontent|claude\.ai/.test(location.hostname);
 const SITE_URL = HOSTED ? location.origin : '';
-const SITE_LABEL = 'ghuredekhabangladesh.com';
+const SITE_LABEL = /(^|\.)ghuredekha\.com$/i.test(location.hostname) ? 'ghuredekha.com' : 'ghuredekhabangladesh.com';
 const BN = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
 const $ = s => document.querySelector(s);
 const TOTAL = (typeof TOURS !== 'undefined') ? TOURS.length : DISTRICTS.length; const U = CFG.unit;
@@ -487,9 +489,12 @@ const BIZ = !!CFG.biz; const KINDS = (BIZ && CFG.map === 'world') ? {
   tour:    {bn:'ট্যুর প্যাকেজ দিই', eye:'আমাদের ট্যুর', sub:n=>`${BN(n)}টি দেশে আমরা ট্যুর প্যাকেজ দিই`, foot:n=>`${BN(n)} দেশে ট্যুর প্যাকেজ`, cap:(nm,n)=>`✈️ ${nm}-এর সাথে ঘুরতে পারেন ${BN(n)}টি দেশে!`},
   partner: {bn:'পার্টনার ইউনিভার্সিটি', eye:'আমাদের পার্টনার', sub:n=>`${BN(n)}টি দেশে আমাদের পার্টনার ইউনিভার্সিটি`, foot:n=>`${BN(n)} দেশে পার্টনার ইউনিভার্সিটি`, cap:(nm,n)=>`🤝 ${nm}-এর পার্টনার ইউনিভার্সিটি ${BN(n)}টি দেশে!`},
   office:  {bn:'অফিস আছে', eye:'আমরা আছি', sub:n=>`${BN(n)}টি দেশে আমাদের অফিস`, foot:n=>`${BN(n)} দেশে অফিস`, cap:(nm,n)=>`📍 ${nm} এখন ${BN(n)}টি দেশে!`},
+  job:     {bn:'জব / ওয়ার্ক ভিসা', eye:'ওয়ার্ক ভিসা', sub:n=>`${BN(n)}টি দেশে আমরা কর্মী পাঠাই`, foot:n=>`${BN(n)} দেশে কর্মী পাঠিয়েছি`, cap:(nm,n)=>`💼 ${nm}-এর মাধ্যমে কর্মীরা এখন ${BN(n)}টি দেশে!`},
   service: {bn:'সার্ভিস দিই', eye:'সার্ভিস এরিয়া', sub:n=>`${BN(n)}টি দেশে আমরা সার্ভিস দিই`, foot:n=>`${BN(n)} দেশে সার্ভিস দিই`, cap:(nm,n)=>`🌍 ${nm} সার্ভিস দিচ্ছে ${BN(n)}টি দেশে!`}
 } : {
   branch: {bn:'শাখা / অফিস আছে', eye:'আমরা আছি', sub:n=>`${BN(TOTAL)} জেলার ${BN(n)}টিতে আমাদের শাখা`, foot:n=>`${BN(n)} জেলায় আমাদের শাখা / অফিস`, cap:(nm,n)=>`📍 ${nm} এখন ${BN(n)} জেলায়!`},
+  tour:    {bn:'ট্যুর দিই', eye:'আমাদের ট্যুর', sub:n=>`${BN(n)} জেলায় আমাদের ট্যুর প্যাকেজ`, foot:n=>`${BN(n)} জেলায় ট্যুর দিই`, cap:(nm,n)=>`🧭 ${nm}-এর সাথে ঘুরতে পারেন ${BN(n)} জেলায়!`},
+  visa:    {bn:'ভিসা / ইমিগ্রেশন ক্লায়েন্ট', eye:'সারা দেশ থেকে', sub:n=>`${BN(n)} জেলার ক্লায়েন্টের ভিসা করেছি`, foot:n=>`${BN(n)} জেলা থেকে ক্লায়েন্ট`, cap:(nm,n)=>`🛂 ${nm}-এর সাথে ${BN(n)} জেলার মানুষ বিদেশ গেছে!`},
   student: {bn:'স্টুডেন্ট পাঠিয়েছি', eye:'সারা দেশ থেকে', sub:n=>`${BN(n)} জেলার স্টুডেন্ট আমাদের সাথে বিদেশে`, foot:n=>`${BN(n)} জেলা থেকে স্টুডেন্ট পাঠিয়েছি`, cap:(nm,n)=>`🎓 ${nm}-এর সাথে ${BN(n)} জেলার স্টুডেন্ট বিদেশে পড়তে গেছে!`},
   delivery:{bn:'ডেলিভারি দিই', eye:'ডেলিভারি কভারেজ', sub:n=>`${BN(n)} জেলায় হোম ডেলিভারি`, foot:n=>`${BN(n)} জেলায় ডেলিভারি দিই`, cap:(nm,n)=>`🚚 ${nm} এখন ${BN(n)} জেলায় ডেলিভারি দিচ্ছে!`},
   dealer:  {bn:'ডিলার / পার্টনার', eye:'আমাদের নেটওয়ার্ক', sub:n=>`${BN(n)} জেলায় ডিলার ও পার্টনার`, foot:n=>`${BN(n)} জেলায় ডিলার / পার্টনার`, cap:(nm,n)=>`🤝 ${nm}-এর ডিলার নেটওয়ার্ক এখন ${BN(n)} জেলায়!`},
@@ -547,7 +552,7 @@ function loadPhoto(){ photoImg = null; photoImg2 = null; if(state.photo){ const 
 
 /* ---------- fonts ---------- */
 let fontsReady = false;
-const fontPromise = (document.fonts ? Promise.all(['800 60px "Anek Bangla"','700 30px "Anek Bangla"','400 20px "Hind Siliguri"','600 20px "Hind Siliguri"','700 20px "Hind Siliguri"'].map(f => document.fonts.load(f).catch(()=>{}))) : Promise.resolve()).then(() => { fontsReady = true; requestRender(); });
+const fontPromise = (document.fonts ? Promise.all(['700 60px "Hind Siliguri"','400 20px "Hind Siliguri"','500 20px "Hind Siliguri"','600 20px "Hind Siliguri"','700 20px "Hind Siliguri"'].map(f => document.fonts.load(f).catch(()=>{}))) : Promise.resolve()).then(() => { fontsReady = true; requestRender(); });
 if(document.fonts) document.fonts.addEventListener('loadingdone', requestRender);
 
 /* ---------- renderer ---------- */
@@ -555,7 +560,7 @@ const canvas = $('#poster'), ctx = canvas.getContext('2d');
 let mapXf = {s:1, x:0, y:0};
 let hover = null;
 const rr = (c,x,y,w,h,r) => { c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); };
-const F = (w,px,fam) => `${w} ${px}px ${fam==='d' ? '"Anek Bangla","Hind Siliguri",sans-serif' : '"Hind Siliguri","Anek Bangla",sans-serif'}`;
+const F = (w,px,fam) => `${Math.min(+w||400, 700)} ${px}px "Hind Siliguri","Noto Sans Bengali",sans-serif`;
 
 function render(c, W, H, opts){
   opts = opts || {};
@@ -646,7 +651,7 @@ function render(c, W, H, opts){
     const names = OP ? OP.filter(t => state.selected.has(t.id)).map(t => t.bn) : DISTRICTS.filter(d => state.selected.has(d.id)).sort((a,b) => (BIZ ? ((+state.counts[b.id]||0) - (+state.counts[a.id]||0)) : 0) || b.a - a.a).map(d => BIZ && +state.counts[d.id] ? `${d.bn} ${BN(+state.counts[d.id])}+` : d.bn);
     c.font = F(600, 19*u, 'b'); c.textAlign = 'left'; c.textBaseline = 'middle';
     let cx = P, cy = listTop0, row = 0, i = 0; const padX = 14*u, gap = 8*u, maxX = W - P;
-    c.fillStyle = t.muted; c.font = F(600, 18*u, 'b'); c.fillText(BIZ ? (state.kind === 'student' ? `যে ${U}গুলোতে আমাদের স্টুডেন্ট` : state.kind === 'tour' ? `যে ${U}গুলোতে ট্যুর দিই` : state.kind === 'visa' ? `যে ${U}গুলোর ভিসা করি` : `যে ${U}গুলোতে আমরা আছি`) : `যে ${U}গুলোতে পা পড়েছে`, P, cy - 24*u);
+    c.fillStyle = t.muted; c.font = F(600, 18*u, 'b'); c.fillText(BIZ ? (state.kind === 'student' ? `যে ${U}গুলোতে আমাদের স্টুডেন্ট` : state.kind === 'tour' ? `যে ${U}গুলোতে ট্যুর দিই` : state.kind === 'visa' ? (CFG.map === 'world' ? `যে ${U}গুলোর ভিসা করি` : `যে ${U}গুলো থেকে ক্লায়েন্ট`) : state.kind === 'job' ? `যে ${U}গুলোতে কর্মী পাঠাই` : `যে ${U}গুলোতে আমরা আছি`) : `যে ${U}গুলোতে পা পড়েছে`, P, cy - 24*u);
     for(; i < names.length; i++){
       c.font = F(600, 19*u, 'b'); let w = c.measureText(names[i]).width + 2*padX;
       const restW = c.measureText(`+${BN(names.length - i)}`).width + 2*padX;

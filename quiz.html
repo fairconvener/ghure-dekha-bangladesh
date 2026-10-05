@@ -211,8 +211,47 @@ function spin(){
   game.innerHTML = `<div class="spin"><p class="muted">${visited.size ? `আপনার ম্যাপে ${BN(visited.size)}টি জেলায় টিক আছে; বাকি ${BN(pool.length)}টির মধ্যে থেকে বাছবে।` : 'ম্যাপে টিক না থাকায় ৬৪ জেলা থেকেই বাছবে।'}</p><div class="pin"></div><div class="wheel" id="wheel"></div><button class="btn primary big" id="go" type="button">🎲 চাকা ঘোরান</button><div id="res"></div><button class="btn" id="homeBtn" type="button">← অন্য খেলা</button></div>`;
   $('#homeBtn').addEventListener('click', () => { game.innerHTML = ''; home.hidden = false; });
   $('#go').addEventListener('click', () => { const b = $('#go'); b.disabled = true; rot += 1440 + Math.floor(Math.random()*360); $('#wheel').style.transform = `rotate(${rot}deg)`; const d = pool[Math.floor(Math.random()*pool.length)];
-    setTimeout(() => { const g = GUIDE[d.id]; $('#res').innerHTML = `<div class="pick">${g.img ? `<div class="qimg"><img src="${esc(g.img)}" alt=""></div>` : mapSvg(d.id)}<h3>🎯 ${d.bn}!</h3><div class="muted">${DIVS[d.div]} বিভাগ · সেরা সময় ${esc(g.season)} · ${BN(g.days)} দিন</div><ul>${g.spots.map(s => `<li>${esc(s)}</li>`).join('')}</ul><div class="actions"><a class="btn primary" href="/jela/${d.id}">📖 গাইড পড়ুন</a><a class="btn" href="/plan?d=${d.id}">🧭 প্ল্যান করুন</a><a class="btn" href="/?wish=${d.id}">🎯 যেতে চাই</a><button class="btn" id="re" type="button">🎲 আবার</button></div></div>`; $('#re').addEventListener('click', () => { $('#res').innerHTML = ''; b.disabled = false; b.click(); }); b.disabled = false; if(window.gdTrack) gdTrack('SpinPick', {d: d.id}); }, 4100); });
+    setTimeout(async () => { const g = GUIDE[d.id]; $('#res').innerHTML = `<div class="pick"><canvas id="pc" width="1080" height="1350" style="width:100%;height:auto;border-radius:12px;box-shadow:var(--shadow);display:block"></canvas><div class="actions"><button class="btn primary" id="dl" type="button">⬇ ছবি ডাউনলোড</button><button class="btn" id="sh" type="button">📤 শেয়ার</button><a class="btn" href="/jela/${d.id}">📖 গাইড</a><a class="btn" href="/plan?d=${d.id}">🧭 প্ল্যান</a><a class="btn" href="/?wish=${d.id}">🎯 যেতে চাই</a><button class="btn" id="re" type="button">🎲 আবার</button></div><p class="note" style="text-align:center">ছবিটা স্টোরি বা পোস্টে দিন: "পরের গন্তব্য ${d.bn}"</p></div>`;
+      const cv = $('#pc'); await renderPick(cv, d, g);
+      const toBlob = () => new Promise(r => cv.toBlob(r, 'image/png'));
+      $('#dl').addEventListener('click', async () => { const bl = await toBlob(); const a = document.createElement('a'); a.href = URL.createObjectURL(bl); a.download = `porer-gontobbo-${d.id}.png`; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000); toast('ডাউনলোড শুরু হয়েছে'); });
+      $('#sh').addEventListener('click', async () => { const text = `🎯 আমার পরের গন্তব্য: ${d.bn}! চাকা ঘুরিয়ে বেছে নিলাম 😄 আপনারটা কোথায়? 👉 https://ghuredekha.com/quiz?m=spin #ঘুরেদেখাবাংলাদেশ`; try{ const bl = await toBlob(); const file = new File([bl], `porer-gontobbo-${d.id}.png`, {type:'image/png'}); if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})) await navigator.share({text, files:[file]}); else if(navigator.share) await navigator.share({text}); else { await navigator.clipboard.writeText(text); toast('ক্যাপশন কপি হয়েছে, ছবিটা ডাউনলোড করে পোস্ট করুন'); } }catch(e){ if(e && e.name !== 'AbortError') toast('শেয়ার করা যায়নি'); } });
+      $('#re').addEventListener('click', () => { $('#res').innerHTML = ''; b.disabled = false; b.click(); }); b.disabled = false; if(window.gdTrack) gdTrack('SpinPick', {d: d.id}); }, 4100); });
 }
+const rr = (c,x,y,w,h,r) => { c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); };
+const F = (w,px,fam) => `${w} ${px}px ${fam==='d' ? '"Anek Bangla","Hind Siliguri",sans-serif' : '"Hind Siliguri","Anek Bangla",sans-serif'}`;
+function loadImg(src){ return new Promise(r => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => r(im); im.onerror = () => r(null); im.src = src; }); }
+async function renderPick(cv, d, g){
+  try{ await Promise.all(['800 60px "Anek Bangla"','600 20px "Hind Siliguri"'].map(f => document.fonts.load(f))); }catch(e){}
+  const c = cv.getContext('2d'), W = 1080, H = 1350, u = 1, P = 60;
+  const paper = '#F7F2E6', green = '#118B50', red = '#D8262C', ink = '#1B2A21', muted = '#6B7369', sand = '#E2DAC5';
+  c.fillStyle = paper; c.fillRect(0,0,W,H);
+  c.save(); c.strokeStyle = red; c.globalAlpha = .45; c.lineWidth = 3; c.setLineDash([11,8]); rr(c,22,22,W-44,H-44,18); c.stroke(); c.restore();
+  // photo
+  const im = g.img ? await loadImg(g.img) : null; const phH = 560;
+  c.save(); rr(c, P, P, W-2*P, phH, 20); c.clip();
+  if(im){ const sc = Math.max((W-2*P)/im.width, phH/im.height); const iw = im.width*sc, ih = im.height*sc; c.drawImage(im, P + (W-2*P-iw)/2, P + (phH-ih)/2, iw, ih); }
+  else { c.fillStyle = sand; c.fillRect(P,P,W-2*P,phH); }
+  const gr = c.createLinearGradient(0, P+phH*0.45, 0, P+phH); gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(1,'rgba(0,0,0,.72)'); c.fillStyle = gr; c.fillRect(P,P,W-2*P,phH); c.restore();
+  // badge
+  c.fillStyle = red; rr(c, P+24, P+24, 300, 54, 27); c.fill(); c.fillStyle = '#fff'; c.font = F(700, 24, 'd'); c.textBaseline = 'middle'; c.textAlign = 'left'; c.fillText('🎯 আমার পরের গন্তব্য', P+44, P+52);
+  c.textBaseline = 'alphabetic'; c.fillStyle = '#fff'; c.font = F(800, 96, 'd'); c.fillText(d.bn, P+28, P+phH-40);
+  c.font = F(600, 28, 'b'); c.fillStyle = 'rgba(255,255,255,.9)'; c.fillText(`${DIVS[d.div]} বিভাগ`, P+30, P+phH-150);
+  // map at right, text at left
+  const mapTop = P+phH+40, mapH = 440, mapW = mapH * 1000/MAP_H; const mx = W - P - mapW, my = mapTop;
+  c.save(); c.translate(mx, my); c.scale(mapH/MAP_H, mapH/MAP_H);
+  const ol = new Path2D(OUTLINE); c.save(); c.shadowColor = 'rgba(0,0,0,.18)'; c.shadowBlur = 30; c.shadowOffsetY = 12; c.fillStyle = sand; c.fill(ol); c.restore();
+  QD.forEach(x => { const p = new Path2D(x.d); c.fillStyle = x.id === d.id ? green : sand; c.fill(p); c.strokeStyle = paper; c.lineWidth = 2.2; c.stroke(p); });
+  const cp = d.c; c.beginPath(); c.arc(cp[0], cp[1], 16, 0, Math.PI*2); c.fillStyle = red; c.fill(); c.lineWidth = 6; c.strokeStyle = '#fff'; c.stroke(); c.restore();
+  let y = mapTop + 10; const tw = mx - P - 30;
+  c.fillStyle = muted; c.font = F(600, 24, 'b'); c.fillText('সেরা সময়', P, y+24); c.fillStyle = ink; c.font = F(800, 34, 'd'); y += 66; wrap(c, g.season, P, y, tw, 40); y += 40 * Math.ceil(c.measureText(g.season).width / tw) + 26;
+  c.fillStyle = muted; c.font = F(600, 24, 'b'); c.fillText('যা দেখব', P, y+24); y += 66;
+  g.spots.forEach(sp => { c.fillStyle = green; c.beginPath(); c.arc(P+10, y-10, 7, 0, Math.PI*2); c.fill(); c.fillStyle = ink; c.font = F(600, 30, 'b'); c.fillText(sp, P+32, y); y += 48; });
+  c.fillStyle = muted; c.font = F(500, 24, 'b'); c.fillText(`${BN(g.days)} দিনের ট্রিপ · চাকা ঘুরিয়ে বেছে নিলাম 😄`, P, mapTop + mapH + 48);
+  // pill
+  c.textBaseline = 'middle'; const t1 = 'আপনারটা কোথায়? চাকা ঘোরান', t2 = 'ghuredekha.com/quiz'; c.font = F(600, 22, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 26, 'd'); const w2 = c.measureText(t2).width; const pw = 44 + w1 + 14 + w2, ph = 52, px = W/2 - pw/2, py = H - 32 - ph; rr(c, px, py, pw, ph, ph/2); c.fillStyle = green; c.fill(); c.fillStyle = '#fff'; c.font = F(600, 22, 'b'); c.textAlign = 'left'; c.fillText(t1, px+22, py+ph/2+1); c.font = F(800, 26, 'd'); c.fillText(t2, px+22+w1+14, py+ph/2+1); c.textBaseline = 'alphabetic';
+}
+function wrap(c, text, x, y, maxW, lh){ const words = text.split(' '); let line = ''; for(const w of words){ const t = line ? line + ' ' + w : w; if(c.measureText(t).width > maxW && line){ c.fillText(line, x, y); y += lh; line = w; } else line = t; } if(line) c.fillText(line, x, y); }
 home.addEventListener('click', e => { const b = e.target.closest('.mode'); if(b) start(b.dataset.m); });
 const q = new URLSearchParams(location.search); if(q.get('m')) start(q.get('m'));
 })();

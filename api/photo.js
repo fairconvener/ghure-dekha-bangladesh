@@ -6,6 +6,8 @@ export const config = { api: { bodyParser: { sizeLimit: '6mb' } } };
 const clean = (v, n) => String(v == null ? '' : v).replace(/[\r\n\t<>]/g, ' ').trim().slice(0, n);
 
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') { res.setHeader('Access-Control-Allow-Headers', 'content-type, x-admin-key'); res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS'); res.setHeader('Access-Control-Max-Age', '86400'); return res.status(204).end(); }
   if (req.method === 'GET') {
     res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=600');
     const page = clean(req.query && req.query.page, 120); if (!page) return res.status(400).json({ error: 'page required' });

@@ -4,6 +4,8 @@ import { rpc } from './_db.js';
 function okKey(k) { const a = Buffer.from(String(k || '')), b = Buffer.from(String(process.env.ADMIN_KEY || '')); return b.length > 10 && a.length === b.length && timingSafeEqual(a, b); }
 
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') { res.setHeader('Access-Control-Allow-Headers', 'content-type, x-admin-key'); res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS'); res.setHeader('Access-Control-Max-Age', '86400'); return res.status(204).end(); }
   res.setHeader('Cache-Control', 'no-store');
   let body = req.body; if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = {}; } }
   body = body || {};

@@ -3,6 +3,8 @@ import { rpc } from './_db.js';
 const clean = (v, n) => String(v == null ? '' : v).replace(/[\r\t<>]/g, ' ').trim().slice(0, n);
 
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  if (req.method === 'OPTIONS') { res.setHeader('Access-Control-Allow-Headers', 'content-type, x-admin-key'); res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS'); res.setHeader('Access-Control-Max-Age', '86400'); return res.status(204).end(); }
   if (req.method === 'GET') {
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
     const page = clean(req.query && req.query.page, 120);

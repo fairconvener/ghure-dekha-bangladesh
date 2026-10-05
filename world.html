@@ -532,7 +532,7 @@ const F = (w,px,fam) => `${w} ${px}px ${fam==='d' ? '"Anek Bangla","Hind Siligur
 
 function render(c, W, H, opts){
   opts = opts || {};
-  const t = THEMES[state.theme], u = W/1080, P = 60*u;
+  const t0 = THEMES[state.theme], t = (OP && CFG.opColor && state.theme === 'flag') ? Object.assign({}, t0, {visited: CFG.opColor}) : t0, u = W/1080, P = 60*u;
   const n = state.selected.size, pct = Math.round(n/TOTAL*100);
   const B = opts.base || 1; c.save(); c.setTransform(B,0,0,B,0,0); c.clearRect(0,0,W,H);
   c.fillStyle = t.paper; c.fillRect(0,0,W,H);
@@ -553,7 +553,8 @@ function render(c, W, H, opts){
   const maxW = (discX - discR - 24*u) - x;
   c.textBaseline = 'alphabetic'; c.textAlign = 'left';
   c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); if('letterSpacing' in c) c.letterSpacing = '1px';
-  c.fillText(CFG.eyebrow || 'ঘুরে দেখা বাংলাদেশ', x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px';
+  if(OP){ if('letterSpacing' in c) c.letterSpacing = '0px'; const ph = 54*u, py = headTop-6*u; c.font = F(800, 34*u, 'd'); const tw = c.measureText(CFG.opName).width; const pw = tw + 44*u; c.save(); c.shadowColor = 'rgba(0,0,0,.18)'; c.shadowBlur = 10*u; c.shadowOffsetY = 3*u; c.fillStyle = CFG.opColor || t.accent; rr(c, x, py, pw, ph, ph/2); c.fill(); c.restore(); c.fillStyle = '#FFFFFF'; c.textBaseline = 'middle'; c.fillText(CFG.opName, x+22*u, py+ph/2+2*u); c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText('-এর সাথে', x+pw+10*u, py+ph/2+8*u); }
+  else { c.fillText(CFG.eyebrow || 'ঘুরে দেখা বাংলাদেশ', x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
   const title = duo ? R.title(nm1, nm2) : state.recap ? (state.name.trim() ? `${state.name.trim()} · ${YEAR}` : `${YEAR}-এ ${CFG.defaultTitle}`) : (state.name.trim() || CFG.defaultTitle);
   let fs = 62*u; c.font = F(800, fs, 'd'); while(c.measureText(title).width > maxW && fs > 30*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
   c.fillStyle = t.ink; c.fillText(title, x, headTop+100*u);
@@ -630,7 +631,7 @@ function render(c, W, H, opts){
   /* progress */
   let y = mapBottom + 10*u;
   const barH = 16*u; rr(c, P, y, W-2*P, barH, barH/2); c.fillStyle = t.unvisited; c.fill();
-  if(n){ rr(c, P, y, Math.max(barH, (W-2*P)*n/TOTAL), barH, barH/2); c.fillStyle = state.byDiv ? t.accent : t.visited; c.fill(); }
+  if(n){ rr(c, P, y, Math.max(barH, (W-2*P)*n/TOTAL), barH, barH/2); c.fillStyle = state.byDiv ? t.accent : (OP && CFG.opColor ? CFG.opColor : t.visited); c.fill(); }
   y += barH + 36*u;
   c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); c.fillText(state.recap ? `${YEAR}-এ ${CFG.place} ${BN(pct)}% ঘোরা হলো` : `${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`, P, y);
   c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(n === TOTAL ? `সব ${U} ঘোরা শেষ!` : (state.wish.size ? `🎯 যেতে চাই ${BN(state.wish.size)} · বাকি ${BN(TOTAL-n)}` : `বাকি ${BN(TOTAL-n)} ${U}`), W-P, y);
@@ -651,7 +652,7 @@ function render(c, W, H, opts){
   }
   /* credit pill: a button-like call to action so viewers know where to make their own */
   c.textAlign = 'left'; c.textBaseline = 'middle';
-  const t1 = 'নিজের ম্যাপ বানান', t2 = SITE_LABEL; c.font = F(600, 21*u, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 24*u, 'd'); const w2 = c.measureText(t2).width;
+  const t1 = OP ? `${CFG.opName}-এর সাথে আপনার ম্যাপ বানান` : 'নিজের ম্যাপ বানান', t2 = OP ? SITE_LABEL + CFG.path : SITE_LABEL; c.font = F(600, 21*u, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 24*u, 'd'); const w2 = c.measureText(t2).width;
   const pillH = 46*u, padX = 22*u, gap = 12*u, pillW = padX*2 + w1 + gap + w2, px0 = W/2 - pillW/2, py0 = H - 30*u - pillH;
   rr(c, px0, py0, pillW, pillH, pillH/2); c.fillStyle = state.byDiv ? t.accent : t.visited; c.fill();
   c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.font = F(600, 21*u, 'b'); c.fillText(t1, px0 + padX, py0 + pillH/2 + 1*u);

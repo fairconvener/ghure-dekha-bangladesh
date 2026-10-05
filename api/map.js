@@ -84,7 +84,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:0 16px 30px}
 <a class="btn" href="${share}" target="_blank" rel="noopener">এই ম্যাপটা ফেসবুকে শেয়ার করুন</a>
 </div>
 </main>
-<footer>ঘুরে দেখা বাংলাদেশ · তৈরি করেছেন <a href="https://www.facebook.com/Galib.Dhaka" rel="noopener" style="color:inherit">Mahmud Galib</a></footer>
+<footer>ঘুরে দেখা বাংলাদেশ</footer>
 </body>
 </html>`;
   res.statusCode = 200;

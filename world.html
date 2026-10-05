@@ -273,6 +273,7 @@ footer b{color:var(--ink)}
       <li><b>৩</b> রঙ বেছে নিন</li>
       <li><b>৪</b> নামান, পোস্ট করুন</li>
     </ul>
+    
   </div>
 </section>
 
@@ -457,8 +458,14 @@ const SITE_URL = HOSTED ? location.origin : '';
 const SITE_LABEL = 'ghuredekha.com';
 const BN = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
 const $ = s => document.querySelector(s);
-const TOTAL = DISTRICTS.length; const U = CFG.unit;
+const TOTAL = (typeof TOURS !== 'undefined') ? TOURS.length : DISTRICTS.length; const U = CFG.unit;
 const byId = Object.fromEntries(DISTRICTS.map(d => [d.id, d]));
+/* operator (tour group) mode: selections are tour ids, districts light up through their tours */
+const OP = (typeof TOURS !== 'undefined') ? TOURS : null; const byTour = OP ? Object.fromEntries(OP.map(t => [t.id, t])) : {};
+const toursByDist = {}; if(OP) OP.forEach(t => { (toursByDist[t.dist] = toursByDist[t.dist] || []).push(t.id); });
+const vis = id => OP ? (toursByDist[id] || []).some(t => state.selected.has(t)) : state.selected.has(id);
+const wishv = id => OP ? (toursByDist[id] || []).some(t => state.wish.has(t)) : state.wish.has(id);
+const validId = id => OP ? !!byTour[id] : !!byId[id];
 const DIV_NAME = Object.fromEntries(DIVISIONS.map(d => [d.id, d.bn]));
 
 const THEMES = {
@@ -480,14 +487,14 @@ const REL = {
   besties:  {bn:'বেস্টি গ্যাং',    sym:'🔥', join:'x',  title:(a,b)=>`${a} x ${b}`,  sub:(n,w,U)=>w ? `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি, প্ল্যানে আরও ${BN(w)}টি` : `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি ${U}য়`, cap:(a,b,n,w,U)=>`🔥 ${a} x ${b}: গ্যাং ট্রিপ ${BN(n)}টি ${U}, পরের টার্গেট ${BN(w)}টি। ট্যাগ কর যারা যাবে!`},
 };
 
-const state = {selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:true, labelMode:'visited', size:'post'};
+const state = {selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:CFG.showDivDefault !== false, labelMode:'visited', size:'post'};
 const YEAR = BN(new Date().getFullYear());
 
 /* ---------- persistence ---------- */
 function saveProfile(){ try{ localStorage.setItem('gd-profile', JSON.stringify({name: state.name, name2: state.name2, rel: state.rel, duo: state.duo})); if(state.photo) localStorage.setItem('gd-photo', state.photo); else localStorage.removeItem('gd-photo'); if(state.photo2) localStorage.setItem('gd-photo2', state.photo2); else localStorage.removeItem('gd-photo2'); }catch(e){} }
 function save(){ saveProfile(); try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], wish:[...state.wish], recap:state.recap, duo:state.duo, name2:state.name2, rel:state.rel, name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size})); }catch(e){}
   try{ if(state.photo) localStorage.setItem(CFG.key+'-photo', state.photo); else localStorage.removeItem(CFG.key+'-photo'); if(state.photo2) localStorage.setItem(CFG.key+'-photo2', state.photo2); else localStorage.removeItem(CFG.key+'-photo2'); }catch(e){} }
-function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => byId[id] && state.selected.add(id)); (s.wish||[]).forEach(id => byId[id] && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.duo = !!s.duo; state.name2 = s.name2||''; if(REL[s.rel]) state.rel = s.rel; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; const p2 = localStorage.getItem(CFG.key+'-photo2'); if(p2 && p2.startsWith('data:image')) state.photo2 = p2;
+function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => validId(id) && state.selected.add(id)); (s.wish||[]).forEach(id => validId(id) && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.duo = !!s.duo; state.name2 = s.name2||''; if(REL[s.rel]) state.rel = s.rel; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; const p2 = localStorage.getItem(CFG.key+'-photo2'); if(p2 && p2.startsWith('data:image')) state.photo2 = p2;
   /* one profile for the whole site: name and photos set on any map are used on every map */
   const pr = JSON.parse(localStorage.getItem('gd-profile') || 'null'); if(pr){ if(pr.name) state.name = pr.name; if(pr.name2) state.name2 = pr.name2; if(REL[pr.rel]) state.rel = pr.rel; if(typeof pr.duo === 'boolean') state.duo = pr.duo; } const gp = localStorage.getItem('gd-photo'); if(gp && gp.startsWith('data:image')) state.photo = gp; const gp2 = localStorage.getItem('gd-photo2'); if(gp2 && gp2.startsWith('data:image')) state.photo2 = gp2; }catch(e){} }
 
@@ -537,7 +544,7 @@ function render(c, W, H, opts){
   let fs = 62*u; c.font = F(800, fs, 'd'); while(c.measureText(title).width > maxW && fs > 30*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
   c.fillStyle = t.ink; c.fillText(title, x, headTop+100*u);
   c.fillStyle = t.muted; c.font = F(500, 24*u, 'b');
-  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`); c.fillText(duo ? R.sub(n, nw_, U) : sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : ''), x, headTop+142*u);
+  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`); c.fillText(OP ? (n ? `${CFG.opName}-এর ${BN(TOTAL)} ট্যুরের মধ্যে গিয়েছি ${BN(n)}টি` : `${CFG.opName}-এর সাথে যাওয়ার লিস্ট`) + (nw_ ? `, যাব আরও ${BN(nw_)}টি` : '') : duo ? R.sub(n, nw_, U) : sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : ''), x, headTop+142*u);
   // counter disc
   c.beginPath(); c.arc(discX, discY, discR, 0, Math.PI*2); c.fillStyle = t.accent; c.fill();
   const discN = (duo && n === 0 && nw_) ? nw_ : n; c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.textAlign = 'center'; c.font = F(800, 64*u, 'd'); c.textBaseline = 'middle'; c.fillText(BN(discN), discX, discY+4*u);
@@ -561,7 +568,7 @@ function render(c, W, H, opts){
   if(CFG.shadow){ c.save(); c.shadowColor = 'rgba(0,0,0,.22)'; c.shadowBlur = 36*u/s; c.shadowOffsetY = 14*u/s; c.fillStyle = t.unvisited; c.fill(OUTLINE_PATH); c.restore(); } else { c.fillStyle = t.unvisited; c.fill(OUTLINE_PATH); }
   const lw = 1.8*u/s;
   const wishCol = WISH[state.theme] || '#E9A825';
-  for(const d of DISTRICTS){ const v = state.selected.has(d.id); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (state.wish.has(d.id) ? wishCol : t.unvisited); c.fill(PATHS[d.id]); }
+  for(const d of DISTRICTS){ const v = vis(d.id); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (wishv(d.id) ? wishCol : t.unvisited); c.fill(PATHS[d.id]); }
   c.lineWidth = lw; c.strokeStyle = t.line; c.lineJoin = 'round';
   for(const d of DISTRICTS) c.stroke(PATHS[d.id]);
   if(OUTLINE) c.stroke(OUTLINE_PATH);
@@ -574,11 +581,11 @@ function render(c, W, H, opts){
   c.textAlign = 'center'; c.textBaseline = 'alphabetic';
   const lfs = CFG.labelPx*u; c.font = F(600, lfs, 'b'); c.lineJoin = 'round';
   for(const d of order){
-    const v = state.selected.has(d.id);
+    const v = vis(d.id);
     const cx = mx + d.c[0]*s, cy = my + d.c[1]*s;
-    if(d.tiny){ const wv = state.wish.has(d.id); c.beginPath(); c.arc(cx, cy, (v || wv ? 6 : 3.5)*u, 0, Math.PI*2); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (wv ? wishCol : t.unvisited); c.fill(); c.lineWidth = 1.5*u; c.strokeStyle = v ? t.paper : t.muted; c.globalAlpha = v ? 1 : .7; c.stroke(); c.globalAlpha = 1; if(hover === d.id && opts.interactive){ c.lineWidth = 3*u; c.strokeStyle = t.accent; c.stroke(); } }
+    if(d.tiny){ const wv = wishv(d.id); c.beginPath(); c.arc(cx, cy, (v || wv ? 6 : 3.5)*u, 0, Math.PI*2); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (wv ? wishCol : t.unvisited); c.fill(); c.lineWidth = 1.5*u; c.strokeStyle = v ? t.paper : t.muted; c.globalAlpha = v ? 1 : .7; c.stroke(); c.globalAlpha = 1; if(hover === d.id && opts.interactive){ c.lineWidth = 3*u; c.strokeStyle = t.accent; c.stroke(); } }
     else if(v){ c.beginPath(); c.arc(cx, cy, 5*u, 0, Math.PI*2); c.fillStyle = state.byDiv ? '#FFFFFF' : t.accent; c.fill(); c.lineWidth = 1.5*u; c.strokeStyle = state.byDiv ? DIV_COLORS[d.div] : t.paper; c.stroke(); }
-    const want = state.labelMode === 'all' || (state.labelMode === 'visited' && (v || state.wish.has(d.id)));
+    const want = state.labelMode === 'all' || (state.labelMode === 'visited' && (v || wishv(d.id)));
     if(!want) continue;
     const tw = c.measureText(d.bn).width + 6*u, th = lfs*1.25;
     const offs = v ? [-12, -34, 26, -56, 48] : [-12, -34, 26];
@@ -586,12 +593,12 @@ function render(c, W, H, opts){
     for(const o of offs){ const by = cy + o*u; const b = {x:cx-tw/2, y:by-th, w:tw, h:th}; if(b.x < 10*u || b.x+b.w > W-10*u) continue; if(!placed.some(p => b.x < p.x+p.w && b.x+b.w > p.x && b.y < p.y+p.h && b.y+b.h > p.y)){ box = b; box.ty = by; break; } }
     if(!box) continue; placed.push(box);
     c.lineWidth = 4*u; c.strokeStyle = t.paper; c.strokeText(d.bn, cx, box.ty - 3*u);
-    c.fillStyle = v ? t.ink : (state.wish.has(d.id) ? t.ink : t.muted); c.fillText(d.bn, cx, box.ty - 3*u);
+    c.fillStyle = v ? t.ink : (wishv(d.id) ? t.ink : t.muted); c.fillText(d.bn, cx, box.ty - 3*u);
   }
 
   /* visited list (world) */
   if(listRows > 0){
-    const names = DISTRICTS.filter(d => state.selected.has(d.id)).sort((a,b) => b.a - a.a).map(d => d.bn);
+    const names = OP ? OP.filter(t => state.selected.has(t.id)).map(t => t.bn) : DISTRICTS.filter(d => state.selected.has(d.id)).sort((a,b) => b.a - a.a).map(d => d.bn);
     c.font = F(600, 19*u, 'b'); c.textAlign = 'left'; c.textBaseline = 'middle';
     let cx = P, cy = listTop0, row = 0, i = 0; const padX = 14*u, gap = 8*u, maxX = W - P;
     c.fillStyle = t.muted; c.font = F(600, 18*u, 'b'); c.fillText(`যে ${U}গুলোতে পা পড়েছে`, P, cy - 24*u);
@@ -600,7 +607,7 @@ function render(c, W, H, opts){
       const restW = c.measureText(`+${BN(names.length - i)}`).width + 2*padX;
       if(cx + w > maxX){ row++; cx = P; cy += rowH + rowGap; if(row >= listRows) break; }
       if(row === listRows-1 && i < names.length-1 && cx + w + gap + restW > maxX){ break; }
-      rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = state.byDiv ? DIV_COLORS[DISTRICTS.find(d => d.bn === names[i]).div] : t.visited; c.fill();
+      rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = (state.byDiv && !OP) ? DIV_COLORS[DISTRICTS.find(d => d.bn === names[i]).div] : t.visited; c.fill();
       c.fillStyle = '#FFFFFF'; c.fillText(names[i], cx + padX, cy + rowH/2 + 1*u); cx += w + gap;
     }
     if(i < names.length){ const lbl = `+${BN(names.length - i)} আরও`; const w = c.measureText(lbl).width + 2*padX; if(cx + w > maxX){ cx = P; } rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = t.unvisited; c.fill(); c.fillStyle = t.ink; c.fillText(lbl, cx + padX, cy + rowH/2 + 1*u); }
@@ -618,7 +625,7 @@ function render(c, W, H, opts){
   if(showDiv){
     y += 24*u; const cols = chipCols, cw = (W-2*P - (cols-1)*chipGap)/cols;
     DIVISIONS.forEach((dv, i) => {
-      const tot = DISTRICTS.filter(d => d.div === dv.id).length, got = DISTRICTS.filter(d => d.div === dv.id && state.selected.has(d.id)).length;
+      const tot = DISTRICTS.filter(d => d.div === dv.id).length, got = DISTRICTS.filter(d => d.div === dv.id && vis(d.id)).length;
       const cx = P + (i%cols)*(cw+chipGap), cy = y + Math.floor(i/cols)*(chipH+chipGap);
       const full = got === tot;
       rr(c, cx, cy, cw, chipH, 12*u); c.fillStyle = full ? (state.byDiv ? DIV_COLORS[dv.id] : t.visited) : t.unvisited; c.fill();
@@ -657,10 +664,10 @@ async function renderCardBlob(){ await fontPromise; const W = 1200, H = 1200; co
 const blobToDataUrl = b => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); });
 
 /* ---------- events + public stats ---------- */
-function logEvent(type){ if(!HOSTED) return; const body = JSON.stringify({type, map: CFG.map, count: state.selected.size, districts:[...state.selected], has_photo: !!state.photo, theme: state.theme}); try{ fetch('/api/event', {method:'POST', headers:{'content-type':'application/json'}, body, keepalive:true}).catch(()=>{}); }catch(e){} }
+function logEvent(type){ if(!HOSTED) return; const body = JSON.stringify({type, map: CFG.map, op: CFG.op || null, count: state.selected.size, districts: OP ? [...new Set([...state.selected].map(t => byTour[t].dist))] : [...state.selected], has_photo: !!state.photo, theme: state.theme}); try{ fetch('/api/event', {method:'POST', headers:{'content-type':'application/json'}, body, keepalive:true}).catch(()=>{}); }catch(e){} }
 try{ if(HOSTED && !sessionStorage.getItem(CFG.key+'-visited')){ sessionStorage.setItem(CFG.key+'-visited','1'); logEvent('visit'); } }catch(e){ logEvent('visit'); }
 async function loadStats(){
-  if(!HOSTED) return;
+  if(!HOSTED || OP) return;
   try{
     const s = await (await fetch('/api/stats?map=' + CFG.map, {cache:'no-store'})).json(); if(!s || s.error) return;
     const fmt = v => BN(Number(v || 0).toLocaleString('en-US'));
@@ -688,14 +695,15 @@ function hit(ev){ const r = canvas.getBoundingClientRect(); const px = (ev.clien
 const tip = $('#tip');
 let downPos = null;
 canvas.addEventListener('pointerdown', e => { downPos = {x:e.clientX, y:e.clientY}; });
-canvas.addEventListener('pointerup', e => { if(!downPos) return; const moved = Math.hypot(e.clientX-downPos.x, e.clientY-downPos.y) > 8; downPos = null; if(moved) return; const d = hit(e); if(d){ toggle(d.id); } });
-canvas.addEventListener('pointermove', e => { if(e.pointerType === 'touch') return; const d = hit(e); const id = d ? d.id : null; if(id !== hover){ hover = id; requestRender(); } canvas.style.cursor = d ? 'pointer' : 'default'; if(d){ const r = $('#posterWrap').getBoundingClientRect(); tip.textContent = d.bn + (state.selected.has(d.id) ? ' ✓' : ''); tip.style.left = (e.clientX - r.left) + 'px'; tip.style.top = (e.clientY - r.top) + 'px'; tip.classList.add('show'); } else tip.classList.remove('show'); });
+canvas.addEventListener('pointerup', e => { if(!downPos) return; const moved = Math.hypot(e.clientX-downPos.x, e.clientY-downPos.y) > 8; downPos = null; if(moved) return; const d = hit(e); if(!d) return; if(OP){ const ts = toursByDist[d.id] || []; if(!ts.length){ toast(`${d.bn}য় ${CFG.opName}-এর ট্যুর নেই`); return; } const set = state.mode === 'wish' ? state.wish : state.selected; const all = ts.every(t => set.has(t)); ts.forEach(t => all ? set.delete(t) : (set.add(t), (state.mode === 'wish' ? state.selected : state.wish).delete(t))); update(); } else toggle(d.id); });
+canvas.addEventListener('pointermove', e => { if(e.pointerType === 'touch') return; const d = hit(e); const id = d ? d.id : null; if(id !== hover){ hover = id; requestRender(); } canvas.style.cursor = d ? 'pointer' : 'default'; if(d){ const r = $('#posterWrap').getBoundingClientRect(); tip.textContent = (OP ? (toursByDist[d.id] || []).map(t => byTour[t].bn).join(', ') || d.bn : d.bn) + (vis(d.id) ? ' ✓' : ''); tip.style.left = (e.clientX - r.left) + 'px'; tip.style.top = (e.clientY - r.top) + 'px'; tip.classList.add('show'); } else tip.classList.remove('show'); });
 canvas.addEventListener('pointerleave', () => { hover = null; tip.classList.remove('show'); requestRender(); });
 
 /* ---------- UI ---------- */
 function toggle(id){ if(state.mode === 'wish'){ if(state.wish.has(id)) state.wish.delete(id); else { state.wish.add(id); state.selected.delete(id); } } else { if(state.selected.has(id)) state.selected.delete(id); else { state.selected.add(id); state.wish.delete(id); } } update(); }
 function buildDivisions(){
   const root = $('#divisions'); root.innerHTML = '';
+  if(OP){ const sec = document.createElement('div'); sec.className = 'division'; sec.dataset.div = 'op'; sec.innerHTML = `<div class="division-head"><h3>${CFG.opName}-এর ট্যুর</h3><span class="n"></span></div><div class="chips"></div>`; const chips = sec.querySelector('.chips'); OP.forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.id = t.id; b.textContent = t.bn + (byId[t.dist] ? ` · ${byId[t.dist].bn}` : ''); b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', () => toggle(t.id)); chips.appendChild(b); }); root.appendChild(sec); return; }
   DIVISIONS.forEach(dv => {
     const sec = document.createElement('div'); sec.className = 'division'; sec.dataset.div = dv.id;
     sec.innerHTML = `<div class="division-head"><h3>${dv.bn}${CFG.groupSuffix}</h3><span class="n"></span><button class="btn small" type="button" data-all>সব</button></div><div class="chips"></div>`;
@@ -711,6 +719,7 @@ function caption(){
   const n = state.selected.size, pct = Math.round(n/TOTAL*100);
   const done = DIVISIONS.filter(dv => DISTRICTS.filter(d => d.div === dv.id).every(d => state.selected.has(d.id))).map(dv => dv.bn);
   const lines = [];
+  if(OP){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const wn = OP.filter(t => state.wish.has(t.id)).map(t => t.bn); lines.push(n ? `🧭 ${CFG.opName}-এর সাথে ঘুরেছি ${BN(n)}টি ট্যুর: ${nm.join(', ')}` : `🧭 ${CFG.opName}-এর সাথে ঘুরতে যাওয়ার লিস্ট বানালাম!`); if(wn.length) lines.push(`🎯 এরপর যাব: ${wn.join(', ')}`); lines.push(''); lines.push(`আপনিও ${CFG.opName}-এর সাথে কোথায় কোথায় গিয়েছেন? ম্যাপ বানান 👉 ${SITE_URL ? SITE_URL + CFG.path : ''}`); lines.push(''); lines.push(CFG.tags); return lines.join('\n'); }
   if(state.duo){ const R = REL[state.rel] || REL.friend; lines.push(R.cap(state.name.trim() || 'আমি', state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু'), n, state.wish.size, U)); }
   else if(n === TOTAL) lines.push(`🎉 ${BN(TOTAL)}টা ${U}র সবগুলোতেই পা পড়ে গেছে!`);
   else if(n === 0) lines.push(`🗺️ ${CFG.place} ${BN(TOTAL)} ${U} ঘুরে দেখার লিস্ট খুললাম, প্রথম টিকটা কোথায় পড়বে?`);
@@ -733,7 +742,7 @@ function update(){
   $('#modeNote').textContent = state.mode === 'wish' ? `এখন টিক দিলে ${U}টা হলুদ হবে: যেখানে যেতে চান। ম্যাপে দুটোই দেখাবে।` : state.mode === 'recap' ? `${YEAR}-এ যেখানে গিয়েছেন শুধু সেগুলোতে টিক দিন; পোস্টারে লেখা থাকবে "${YEAR}-এ"। ডিসেম্বরে শেয়ার করার জন্য।` : `যেখানে গিয়েছেন সেখানে টিক দিন।`;
   $('#modeSeg').style.setProperty('--wish', WISH[state.theme] || '#E9A825');
   document.querySelectorAll('.dgrp').forEach(det => { const ids = DISTRICTS.filter(d => d.dist === det.dataset.dist); const got = ids.filter(d => state.selected.has(d.id)).length; det.querySelector('.n').textContent = `${BN(got)}/${BN(ids.length)}`; det.classList.toggle('has', got > 0); });
-  document.querySelectorAll('.division').forEach(sec => { const ids = DISTRICTS.filter(d => d.div === sec.dataset.div); const got = ids.filter(d => state.selected.has(d.id)).length; sec.querySelector('.n').textContent = `${BN(got)}/${BN(ids.length)}`; sec.querySelector('[data-all]').textContent = got === ids.length ? 'সব বাদ' : 'সবগুলো'; });
+  document.querySelectorAll('.division').forEach(sec => { if(sec.dataset.div === 'op'){ sec.querySelector('.n').textContent = `${BN(state.selected.size)}/${BN(TOTAL)}`; return; } const ids = DISTRICTS.filter(d => d.div === sec.dataset.div); const got = ids.filter(d => state.selected.has(d.id)).length; sec.querySelector('.n').textContent = `${BN(got)}/${BN(ids.length)}`; sec.querySelector('[data-all]').textContent = got === ids.length ? 'সব বাদ' : 'সবগুলো'; });
   document.querySelectorAll('.theme').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.theme === state.theme)));
   document.querySelectorAll('#labelMode button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === state.labelMode)));
   document.querySelectorAll('#sizeMode button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === state.size)));
@@ -746,8 +755,8 @@ function update(){
   $('#duoHint').textContent = state.rel === 'honeymoon' ? 'ছবি না দিলে পোস্টারে "?" বসবে, সেটাই মজা 😉 মোডে "যেতে চাই" বেছে জেলায় টিক দিন।' : 'দুজনের ছবি পাশাপাশি বসবে। "ঘুরেছি" = একসাথে গিয়েছেন, "যেতে চাই" = একসাথে যাবেন।';
   save(); requestRender();
 }
-$('#search').addEventListener('input', e => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('.chip').forEach(b => { const d = byId[b.dataset.id]; b.hidden = !!q && !(d.bn.includes(q) || d.en.toLowerCase().includes(q)); }); document.querySelectorAll('.dgrp').forEach(det => { const any = [...det.querySelectorAll('.chip')].some(b => !b.hidden); det.hidden = !!q && !any; if(q && any) det.open = true; }); document.querySelectorAll('.division').forEach(sec => { sec.hidden = !!q && ![...sec.querySelectorAll('.chip')].some(b => !b.hidden); }); });
-$('#selectAll').addEventListener('click', () => { if(state.mode === 'wish'){ DISTRICTS.forEach(d => !state.selected.has(d.id) && state.wish.add(d.id)); } else { DISTRICTS.forEach(d => state.selected.add(d.id)); state.wish.clear(); } update(); });
+$('#search').addEventListener('input', e => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('.chip').forEach(b => { const d = OP ? byTour[b.dataset.id] : byId[b.dataset.id]; if(!d) return; b.hidden = !!q && !(d.bn.includes(q) || (d.en || '').toLowerCase().includes(q)); }); document.querySelectorAll('.dgrp').forEach(det => { const any = [...det.querySelectorAll('.chip')].some(b => !b.hidden); det.hidden = !!q && !any; if(q && any) det.open = true; }); document.querySelectorAll('.division').forEach(sec => { sec.hidden = !!q && ![...sec.querySelectorAll('.chip')].some(b => !b.hidden); }); });
+$('#selectAll').addEventListener('click', () => { const all = OP ? OP : DISTRICTS; if(state.mode === 'wish'){ all.forEach(d => !state.selected.has(d.id) && state.wish.add(d.id)); } else { all.forEach(d => state.selected.add(d.id)); state.wish.clear(); } update(); });
 $('#clearAll').addEventListener('click', () => { if(state.mode === 'wish') state.wish.clear(); else state.selected.clear(); update(); });
 $('#modeSeg').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.mode = b.dataset.v; state.recap = state.mode === 'recap'; update(); });
 $('#name').addEventListener('input', e => { state.name = e.target.value; update(); });
@@ -830,7 +839,7 @@ function sig(){ return JSON.stringify([[...state.selected].sort(), [...state.wis
 async function uploadMap(){ if(!HOSTED) return null; const sg = sig(); if(lastUrl && sg === lastSig) return lastUrl; if(uploading && uploading.sig === sg) return uploading.p; const p = (async () => { const u = await uploadMapRaw(); if(u){ lastSig = sg; lastUrl = u; } uploading = null; return u; })(); uploading = {sig: sg, p}; return p; }
 async function uploadMapRaw(){ const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
   const [poster, card] = await Promise.all([blobToDataUrl(posterB), blobToDataUrl(cardB)]);
-  const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: (state.duo ? (REL[state.rel]||REL.friend).title(state.name.trim() || 'আমি', state.name2.trim() || 'বন্ধু') : state.name.trim()).slice(0,40), count: state.selected.size, districts:[...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo})});
+  const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: (state.duo ? (REL[state.rel]||REL.friend).title(state.name.trim() || 'আমি', state.name2.trim() || 'বন্ধু') : state.name.trim()).slice(0,40), count: state.selected.size, districts: OP ? [...new Set([...state.selected].map(t => byTour[t].dist))] : [...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo, op: CFG.op || null})});
   const j = await r.json().catch(() => null); if(r.ok && j && j.url){ try{ localStorage.setItem(CFG.key+'-link', j.url); }catch(e){} showLink(j.url); return j.url; } console.warn('share upload failed', j); return null; }
 function showLink(url){ const n = $('#linkNote'); n.hidden = false; n.innerHTML = `আপনার ম্যাপের লিংক: <a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\//,'')}</a>`; }
 try{ const saved = localStorage.getItem(CFG.key+'-link'); if(saved) showLink(saved); }catch(e){}
@@ -853,7 +862,7 @@ $('#quickShare').addEventListener('click', e => openShare(e.currentTarget));
 
 /* ---------- boot ---------- */
 load();
-try{ const q = new URLSearchParams(location.search); let touched = false; (q.get('add')||'').split(',').forEach(id => { if(byId[id]){ state.selected.add(id); state.wish.delete(id); touched = true; } }); (q.get('wish')||'').split(',').forEach(id => { if(byId[id] && !state.selected.has(id)){ state.wish.add(id); state.mode = 'wish'; touched = true; } }); if(touched){ history.replaceState(null, '', location.pathname); setTimeout(() => { toast(q.get('wish') ? 'যেতে চাই লিস্টে যোগ হলো' : 'ম্যাপে টিক পড়ল'); $('#p1').scrollIntoView({behavior:'smooth'}); }, 400); } }catch(e){}
+try{ const q = new URLSearchParams(location.search); let touched = false; (q.get('add')||'').split(',').forEach(id => { if(validId(id)){ state.selected.add(id); state.wish.delete(id); touched = true; } }); (q.get('wish')||'').split(',').forEach(id => { if(validId(id) && !state.selected.has(id)){ state.wish.add(id); state.mode = 'wish'; touched = true; } }); if(touched){ history.replaceState(null, '', location.pathname); setTimeout(() => { toast(q.get('wish') ? 'যেতে চাই লিস্টে যোগ হলো' : 'ম্যাপে টিক পড়ল'); $('#p1').scrollIntoView({behavior:'smooth'}); }, 400); } }catch(e){}
 buildDivisions(); buildThemes(); $('#name').value = state.name; loadPhoto(); update();
 window.__gdb = {state, update, render, renderCard, SIZES, fontPromise};
 })();

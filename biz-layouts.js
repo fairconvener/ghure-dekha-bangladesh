@@ -246,6 +246,18 @@ function placeLabels(c, A, items, xf, bounds, u, fs, obstacles){
   return out;
 }
 
+/* ---------- shared bits for every design ---------- */
+const BADGE_K = { post: .96, square: .8, story: 1.12 };
+function badgeRow(fmt, u){ return (86 * BADGE_K[fmt] + (fmt === 'square' ? 22 : 30)) * u; }
+function drawBadge(c, A, cx, cy, u, fmt, o){
+  if(A.badge) return A.badge(c, cx, cy, u, Object.assign({ k: BADGE_K[fmt] || .82, line2: A.SITE_LABEL + (A.CFG.path || '') }, o || {}));
+  drawCredit(c, A, cx, cy, 18 * u, { muted: '#5E6E65' }); return null;
+}
+function homeOf(A){ return A.byId.bd || A.HOME || null; }
+function counterSuffix(A){ const CFG = A.CFG; if(CFG.map === 'bd') return '/' + A.BN(A.TOTAL); return 'টি ' + (A.UL || A.U); }
+function groupsText(A, got){ const CFG = A.CFG, g = CFG.group || ''; if(CFG.map === 'bd') return `${A.BN((A.DIVISIONS || []).length)}টির মধ্যে ${A.BN(got)}টি ${g}`; return `${A.BN(got)}টি ${g}${/া$/.test(g) ? 'য়' : 'ে'}`; }
+function drawBase(c, A, fill, line, lw){ const B = A.BASE_PATHS; if(!B || !B.length) return; c.fillStyle = fill; for(const p of B) c.fill(p); if(line){ c.lineJoin = 'round'; c.lineWidth = lw; c.strokeStyle = line; for(const p of B) c.stroke(p); } }
+
 /* ---------- the "headline" poster ---------- */
 function headline(c, W, H, opts, A){
   opts = opts || {};
@@ -265,11 +277,11 @@ function headline(c, W, H, opts, A){
   const groups = A.DIVISIONS || [];
   const useGroups = groups.length >= 2 && groups.length <= 12 && !!CFG.group && CFG.group !== 'তালিকা';
   const gotGroups = useGroups ? groups.filter(g => visited.some(d => d.div === g.id)).length : 0;
-  const stats = n ? `${BN(n)}টি ${U}` + (useGroups ? ` · ${BN(groups.length)}টির মধ্যে ${BN(gotGroups)}টি ${CFG.group}` : '') : `ম্যাপে ${U} বেছে নিন`;
+  const stats = n ? `${BN(n)}টি ${U}` + (useGroups ? ` · ${groupsText(A, gotGroups)}` : '') : `ম্যাপে ${U} বেছে নিন`;
   const wishTxt = nw ? `শিগগিরই আরও ${BN(nw)}টি ${U}` : '';
 
   /* ---------- measure: header ---------- */
-  const Ls = Z.logo, Lw = logoBoxW(A, Ls), totStr = '/' + BN(TOTAL);
+  const Ls = Z.logo, Lw = logoBoxW(A, Ls), totStr = counterSuffix(A);
   c.font = F(700, Z.num); const numRef = c.measureText(BN(TOTAL).replace(/./g, '৮')); const numCap = numRef.actualBoundingBoxAscent || Z.num * .72;
   c.font = F(600, Z.num * .34); const totW = c.measureText(totStr).width; const counterW = numRef.width + 8 * u + totW;
   const hookText = (S.hook || '').trim() || C.hook;
@@ -299,7 +311,7 @@ function headline(c, W, H, opts, A){
 
   /* ---------- labels: placed relative to the map's top edge, shifted down once the layout is final ---------- */
   const X = d => mx + d.c[0] * s, Y0 = d => d.c[1] * s;
-  const home = (world && n && ids.length <= 25 && A.byId.bd) ? A.byId.bd : null; /* flight paths get too busy beyond ~25 */
+  const home = (world && n && ids.length <= 25 && homeOf(A)) ? homeOf(A) : null; /* flight paths get too busy beyond ~25 */
   const obstacles = [];
   if(home) obstacles.push({ x: X(home) - 9 * u, y: Y0(home) - 9 * u, w: 18 * u, h: 18 * u });
   for(const d of A.DISTRICTS){ if(d.tiny && (A.vis(d.id) || A.wishv(d.id))) obstacles.push({ x: X(d) - 7 * u, y: Y0(d) - 7 * u, w: 14 * u, h: 14 * u }); }
@@ -355,6 +367,7 @@ function headline(c, W, H, opts, A){
   /* ---------- map ---------- */
   c.save(); c.translate(mx, my); c.scale(s, s);
   if(CFG.shadow){ c.save(); c.shadowColor = alpha(K.deep, .16); c.shadowBlur = 28 * u; c.shadowOffsetY = 10 * u; c.fillStyle = K.land; c.fill(A.OUTLINE_PATH); c.restore(); }
+  drawBase(c, A, K.land, K.line, (world ? .9 : 1.4) * u / s);
   for(const d of A.DISTRICTS){ c.fillStyle = fillOf(d); c.fill(A.PATHS[d.id]); }
   c.lineJoin = 'round'; c.lineWidth = (world ? .9 : 1.4) * u / s; c.strokeStyle = K.line; for(const d of A.DISTRICTS) c.stroke(A.PATHS[d.id]);
   c.save(); c.setLineDash([5 * u / s, 3.5 * u / s]); c.lineWidth = 1.6 * u / s; c.strokeStyle = K.wish; for(const d of A.DISTRICTS){ if(!A.vis(d.id) && A.wishv(d.id)) c.stroke(A.PATHS[d.id]); } c.restore();
@@ -387,7 +400,7 @@ function headline(c, W, H, opts, A){
     const K0 = A.KINDS && A.KINDS[S.kind]; c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.font = F(600, Z.row * .82); c.fillStyle = K.ink;
     const cap = n && K0 && K0.foot ? K0.foot(n) : `ম্যাপে ${U} বেছে নিন`;
     yy += Z.row * 1.45; wrap(c, cap, colW).slice(0, 2).forEach((l, i) => { if(i) yy += Z.row * 1.05; c.fillText(l, x0, yy); });
-    if(useGroups && n){ yy += Z.row * .95; c.font = F(500, Z.row * .7); c.fillStyle = K.muted; c.fillText(`${BN(groups.length)}টির মধ্যে ${BN(gotGroups)}টি ${CFG.group}`, x0, yy); }
+    if(useGroups && n){ yy += Z.row * .95; c.font = F(500, Z.row * .7); c.fillStyle = K.muted; c.fillText(groupsText(A, gotGroups), x0, yy); }
     const listBottom = my + mapH; yy += Z.row * 1.1;
     if(useGroups && S.showDiv !== false){
       const rows = groups.map(g => { const all = A.DISTRICTS.filter(d => d.div === g.id); return { g, tot: all.length, got: all.filter(d => A.vis(d.id)).length }; }).sort((a, b) => (b.got / b.tot - a.got / a.tot) || (b.got - a.got));
@@ -438,7 +451,7 @@ function headline(c, W, H, opts, A){
     groups.forEach((g, i) => { const all = A.DISTRICTS.filter(d => d.div === g.id), got = all.filter(d => A.vis(d.id)).length; const x = P + (i % cards.cols) * (cwc + cards.cg), y2 = cardsY + Math.floor(i / cards.cols) * (cards.chH + cards.cg);
       c.save(); c.shadowColor = alpha(K.deep, K.dark ? .25 : .06); c.shadowBlur = 18 * u; c.shadowOffsetY = 4 * u; rr(c, x, y2, cwc, cards.chH, 20 * u); c.fillStyle = K.band; c.fill(); c.restore();
       c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.font = F(600, 22 * u); c.fillStyle = got ? K.ink : K.muted; c.fillText(ellipsize(c, g.bn, cwc - 36 * u), x + 18 * u, y2 + 33 * u);
-      c.font = F(700, 40 * u); c.fillStyle = got ? K.brandText : K.muted; c.fillText(BN(got), x + 18 * u, y2 + 74 * u); const gw = c.measureText(BN(got)).width; c.font = F(600, 19 * u); c.fillStyle = K.muted; c.fillText('/' + BN(all.length), x + 24 * u + gw, y2 + 74 * u);
+      c.font = F(700, 40 * u); c.fillStyle = got ? K.brandText : K.muted; c.fillText(BN(got), x + 18 * u, y2 + 74 * u); const gw = c.measureText(BN(got)).width; c.font = F(600, 19 * u); c.fillStyle = K.muted; c.fillText(CFG.map === 'bd' ? '/' + BN(all.length) : `টি ${U}`, x + 24 * u + gw, y2 + 74 * u);
       const bw = cwc * .34, bx = x + cwc - 18 * u - bw, byy = y2 + 64 * u; rr(c, bx, byy, bw, 7 * u, 3.5 * u); c.fillStyle = K.land; c.fill(); if(got){ rr(c, bx, byy, Math.max(7 * u, bw * got / all.length), 7 * u, 3.5 * u); c.fillStyle = K.brand; c.fill(); } });
   }
 
@@ -485,7 +498,7 @@ function measureBand(c, A, W, u, Z, C, fmt){
   let bPx = Z.bB, ownRow = false;
   if(bW + 30 * u + hW > cw){ const want = (cw - 30 * u - hW) / bW * Z.bB; if(want >= Z.bB * .7) bPx = want; else { ownRow = true; bPx = fit(c, F, 700, C.bandB, cw, Z.bB, Z.bB * .6); } }
   const padT = (fmt === 'story' ? 46 : fmt === 'square' ? 26 : 34) * u, padB = (fmt === 'story' ? 34 : fmt === 'square' ? 20 : 28) * u;
-  const credRow = Z.cred * 3.1, lift = fmt === 'story' ? 34 * u : 0;
+  const credRow = badgeRow(fmt, u), lift = fmt === 'story' ? 34 * u : 0;
   const h = padT + aPx * .92 + bPx * 1.08 + bPx * .24 + (ownRow ? hPx * 1.7 : 0) + padB + credRow + lift;
   return { h, aPx, lineA, hPx, hashtag, bPx, ownRow, padT, credRow, lift };
 }
@@ -499,10 +512,10 @@ function drawBand(c, A, W, H, u, Z, K, C, fmt, B){
   yy += B.bPx * 1.08; c.font = F(700, B.bPx); c.fillStyle = K.brandBand; c.fillText(C.bandB, P, yy);
   c.font = F(500, B.hPx); c.fillStyle = K.muted; c.textAlign = 'right';
   c.fillText(B.hashtag, W - P, B.ownRow ? yy + B.bPx * .24 + B.hPx * 1.4 : yy);
-  /* credit: small, always present */
+  /* our badge, always present */
   const lineY = H - B.credRow - B.lift;
-  c.fillStyle = alpha(K.muted, .22); c.fillRect(P, lineY, cw, Math.max(1, 1.2 * u));
-  drawCredit(c, A, W / 2, lineY + B.credRow / 2, Z.cred, K);
+  c.fillStyle = alpha(K.muted, .16); c.fillRect(P, lineY, cw, Math.max(1, 1.2 * u));
+  drawBadge(c, A, W / 2, lineY + B.credRow / 2 + 2 * u, u, fmt);
 }
 
 function drawCredit(c, A, cx, cy, px, K){
@@ -518,6 +531,10 @@ function drawCredit(c, A, cx, cy, px, K){
 }
 
 LAYOUTS.headline = headline;
+/* building blocks for the other designs (/biz-formats.js) */
+LAYOUTS._kit = { clamp, graphemes, hex6, rgbOf, toHex, mixHex, alpha, relLum, contrast, readable, rgb2hsl, hsl2hex, palette, genitive, copyFor, initials,
+  bboxes, shades, logoContent, logoBoxW, fit, ellipsize, wrap, layoutHeadline, pillRows, placeLabels, drawCounter, drawLogo, drawBadge, badgeRow, BADGE_K,
+  homeOf, counterSuffix, groupsText, drawBase, scratch };
 /* the editor panel shows these as placeholders */
 headline.defaults = A => copyFor(A);
 headline.label = 'হেডলাইন';

@@ -619,6 +619,9 @@ function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state'
 /* ---------- paths ---------- */
 const PATHS = {}; DISTRICTS.forEach(d => { d.tiny = CFG.tiny && d.a < 4; PATHS[d.id] = new Path2D(d.d || ''); });
 const OUTLINE_PATH = new Path2D(OUTLINE);
+/* curated maps (/study-abroad): countries outside the list are plain land, drawn but not selectable */
+const BASE_PATHS = (typeof BASE_SHAPES !== 'undefined') ? BASE_SHAPES.map(d => new Path2D(d)) : [];
+const HOME = byId.bd || CFG.home || null;
 let photoImg = null, photoImg2 = null;
 function loadPhoto(){ photoImg = null; photoImg2 = null; if(state.photo){ const im = new Image(); im.onload = () => { photoImg = im; requestRender(); }; im.src = state.photo; } if(state.photo2){ const im2 = new Image(); im2.onload = () => { photoImg2 = im2; requestRender(); }; im2.src = state.photo2; } }
 
@@ -696,9 +699,38 @@ const canvas = $('#poster'), ctx = canvas.getContext('2d');
 let mapXf = {s:1, x:0, y:0};
 let hover = null;
 /* internals handed to plug-in layouts (see /biz-layouts.js) */
-const API = { state, CFG, THEMES, brandTheme, WISH, DIV_COLORS, DISTRICTS, DIVISIONS, PATHS, OUTLINE_PATH, OUTLINE, MAP_W, MAP_H, TOTAL, U, UL, KINDS, BIZ, OP, BN, mix, hexRgb, vis, wishv, byId, SITE_LABEL, SIZES, LOGO, get photoImg(){ return photoImg; }, get LOGO_OK(){ return LOGO_OK; }, get hover(){ return hover; }, setXf(xf){ mapXf = xf; }, get mapXf(){ return mapXf; }, get rr(){ return rr; }, get F(){ return F; }, L, NUM, isEN, LOC, PHOTO_ON, dphBox, get dphImg(){ return dphImg; } };
+const API = { state, CFG, THEMES, brandTheme, WISH, DIV_COLORS, DISTRICTS, DIVISIONS, PATHS, OUTLINE_PATH, OUTLINE, MAP_W, MAP_H, TOTAL, U, UL, KINDS, BIZ, OP, BN, mix, hexRgb, vis, wishv, byId, SITE_LABEL, SIZES, LOGO, get photoImg(){ return photoImg; }, get LOGO_OK(){ return LOGO_OK; }, get hover(){ return hover; }, setXf(xf){ mapXf = xf; }, get mapXf(){ return mapXf; }, get rr(){ return rr; }, get F(){ return F; }, get badge(){ return badge; }, BASE_PATHS, HOME, L, NUM, isEN, LOC, PHOTO_ON, dphBox, get dphImg(){ return dphImg; } };
 const rr = (c,x,y,w,h,r) => { c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); };
 const F = (w,px,fam) => `${Math.min(+w||400, 700)} ${px}px "Hind Siliguri","Noto Sans Bengali",sans-serif`;
+/* "ঘুরে দেখা বাংলাদেশ" badge on every poster: round logo medallion + name + web address, big enough to read in a feed.
+   (cx, cy) is the badge centre (align 'left' / 'right': its left / right edge); o.k scales it (1 = post size); returns its box. */
+function badge(c, cx, cy, u, o){
+  o = o || {}; const k = (o.k || 1)*u, logo = LOGO_OK && !o.noLogo;
+  const name = 'ঘুরে দেখা বাংলাদেশ', l2 = o.line2 || SITE_LABEL;
+  const D = 86*k, ring = 5*k, h = 64*k, padL = 16*k, padR = 30*k;
+  c.save(); c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+  const p1 = 29*k; c.font = F(700, p1); const w1 = c.measureText(name).width;
+  let p2 = 18.5*k; c.font = F(600, p2); let w2 = c.measureText(l2).width; if(w2 > w1*1.25){ p2 *= w1*1.25/w2; c.font = F(600, p2); w2 = c.measureText(l2).width; }
+  const tw = Math.max(w1, w2), Wt = logo ? D + padL + tw + padR : padR + tw + padR;
+  const x0 = o.align === 'left' ? cx : o.align === 'right' ? cx - Wt : cx - Wt/2;
+  const light = o.style === 'light';
+  /* body */
+  const bx = logo ? x0 + D/2 : x0, bw = Wt - (logo ? D/2 : 0), by = cy - h/2;
+  c.save(); c.shadowColor = 'rgba(8,40,24,.28)'; c.shadowBlur = 16*k; c.shadowOffsetY = 5*k;
+  const g = c.createLinearGradient(0, by, 0, by + h); if(light){ g.addColorStop(0, '#FFFFFF'); g.addColorStop(1, '#F1F7F3'); } else { g.addColorStop(0, '#17A061'); g.addColorStop(1, '#0B6B40'); }
+  rr(c, bx, by, bw, h, h/2); c.fillStyle = g; c.fill(); c.restore();
+  rr(c, bx + 1*k, by + 1*k, bw - 2*k, h - 2*k, h/2 - 1*k); c.lineWidth = 1.4*k; c.strokeStyle = light ? 'rgba(15,127,76,.28)' : 'rgba(255,255,255,.22)'; c.stroke();
+  /* medallion */
+  if(logo){ const mx = x0 + D/2;
+    c.save(); c.shadowColor = 'rgba(8,40,24,.32)'; c.shadowBlur = 14*k; c.shadowOffsetY = 4*k; c.beginPath(); c.arc(mx, cy, D/2, 0, Math.PI*2); c.fillStyle = '#FFFFFF'; c.fill(); c.restore();
+    c.save(); c.beginPath(); c.arc(mx, cy, D/2 - ring, 0, Math.PI*2); c.clip(); c.drawImage(LOGO, mx - D/2 + ring, cy - D/2 + ring, D - 2*ring, D - 2*ring); c.restore(); }
+  /* text */
+  const tx = logo ? x0 + D + padL : x0 + padR;
+  c.fillStyle = light ? '#0B6B40' : '#FFFFFF'; c.font = F(700, p1); c.fillText(name, tx, cy + 1*k);
+  c.fillStyle = light ? '#3F5D4E' : 'rgba(255,255,255,.88)'; c.font = F(600, p2); c.fillText(l2, tx, cy + 1*k + p2 + 4*k);
+  c.restore();
+  return { x: x0, y: cy - Math.max(D, h)/2, w: Wt, h: Math.max(logo ? D : 0, h) };
+}
 
 function render(c, W, H, opts){
   opts = opts || {};
@@ -746,7 +778,7 @@ function render(c, W, H, opts){
   /* footer sizes */
   const showDiv = state.showDiv;
   const chipCols = CFG.cols, chipH = 50*u, chipGap = 10*u, chipRows = showDiv ? Math.ceil((OP ? OP.length : DIVISIONS.length)/chipCols) : 0;
-  const footH = 16*u + 44*u + (showDiv ? chipRows*chipH + (chipRows-1)*chipGap + 24*u : 0) + 66*u;
+  const footH = 16*u + 44*u + (showDiv ? chipRows*chipH + (chipRows-1)*chipGap + 24*u : 0) + 84*u;
   const mapTop = headTop + 150*u + 40*u, mapBottom = H - P - footH;
   const areaW = W - 2*P, areaH = mapBottom - mapTop;
   const s = Math.min(areaW/MAP_W, areaH/MAP_H);
@@ -760,6 +792,7 @@ function render(c, W, H, opts){
   c.save(); c.setTransform(B*s,0,0,B*s,B*mx,B*my);
   if(CFG.shadow){ c.save(); c.shadowColor = 'rgba(0,0,0,.22)'; c.shadowBlur = 36*u/s; c.shadowOffsetY = 14*u/s; c.fillStyle = t.unvisited; c.fill(OUTLINE_PATH); c.restore(); } else { c.fillStyle = t.unvisited; c.fill(OUTLINE_PATH); }
   const lw = 1.8*u/s;
+  if(BASE_PATHS.length){ c.fillStyle = t.unvisited; for(const p of BASE_PATHS) c.fill(p); c.lineWidth = lw; c.strokeStyle = t.line; c.lineJoin = 'round'; for(const p of BASE_PATHS) c.stroke(p); }
   const wishCol = WISH[state.theme] || '#E9A825'; const wishFill = mix(hexRgb(wishCol), hexRgb(t.paper), 0.45);
   for(const d of DISTRICTS){ const v = vis(d.id); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (wishv(d.id) ? wishFill : t.unvisited); c.fill(PATHS[d.id]); }
   if(PHOTO_ON) dphDraw(c);
@@ -854,14 +887,9 @@ function render(c, W, H, opts){
       c.textBaseline = 'alphabetic';
     });
   }
-  /* credit pill: a button-like call to action so viewers know where to make their own */
-  c.textAlign = 'left'; c.textBaseline = 'middle';
-  const t1 = BIZ ? 'আপনার ব্যবসার ম্যাপ বানান' : OP ? `${CFG.opName}-এর সাথে আপনার ম্যাপ বানান` : L('নিজের ম্যাপ বানান', 'Make your own map'), t2 = (OP || BIZ) ? SITE_LABEL + CFG.path : SITE_LABEL; c.font = F(600, 21*u, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 24*u, 'd'); const w2 = c.measureText(t2).width;
-  const pillH = 46*u, padX = 22*u, gap = 12*u, logoD = LOGO_OK ? pillH - 8*u : 0, logoGap = LOGO_OK ? 10*u : 0, pillW = (LOGO_OK ? 6*u : padX) + logoD + logoGap + w1 + gap + w2 + padX, px0 = W/2 - pillW/2, py0 = H - 30*u - pillH;
-  rr(c, px0, py0, pillW, pillH, pillH/2); c.fillStyle = state.byDiv ? t.accent : t.visited; c.fill();
-  let tx0 = px0 + padX; if(LOGO_OK){ c.save(); c.beginPath(); c.arc(px0 + 4*u + pillH/2, py0 + pillH/2, logoD/2, 0, Math.PI*2); c.closePath(); c.fillStyle = '#FFFFFF'; c.fill(); c.drawImage(LOGO, px0 + 4*u + pillH/2 - logoD/2, py0 + pillH/2 - logoD/2, logoD, logoD); c.restore(); tx0 = px0 + 6*u + logoD + logoGap; }
-  c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.font = F(600, 21*u, 'b'); c.fillText(t1, tx0, py0 + pillH/2 + 1*u);
-  c.font = F(800, 24*u, 'd'); c.fillText(t2, tx0 + w1 + gap, py0 + pillH/2 + 1*u);
+  /* our badge: logo medallion, name, and where to make your own */
+  const l2 = (OP || BIZ) ? SITE_LABEL + CFG.path : L(`নিজের ম্যাপ বানান · ${SITE_LABEL}`, `Make your own · ${SITE_LABEL}`);
+  badge(c, W/2, H - 36*u - 36*u, u, { k: .84, line2: l2 });
   c.textBaseline = 'alphabetic';
   c.restore();
 }
@@ -880,7 +908,9 @@ function renderCard(c, W, H){
     const n = state.selected.size; c.save(); c.translate(px/2, H/2); c.rotate(-Math.PI/2); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = t.accent; c.font = F(800, Math.min(34*u, px*0.55), 'd'); c.fillText(L(`আপনার কয়টা ${U} হলো?`, `How many ${EU(2)} have you been to?`), 0, 0); c.restore();
     c.save(); c.translate(W - px/2, H/2); c.rotate(Math.PI/2); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = t.muted; c.font = F(700, Math.min(30*u, px*0.5), 'd'); c.fillText(SITE_LABEL, 0, 0); c.restore(); }
 }
-async function renderCardBlob(){ await fontPromise; await dphReady(); const W = 1200, H = 1200; const c = document.createElement('canvas'); c.width = W; c.height = H; renderCard(c.getContext('2d'), W, H); return new Promise(r => c.toBlob(r, 'image/jpeg', .88)); }
+/* a poster design may need images (flags) before it can be exported */
+function layoutReady(){ const Lz = state.layout && state.layout !== 'classic' && window.GDB_LAYOUTS && window.GDB_LAYOUTS[state.layout]; return (Lz && typeof Lz.ready === 'function') ? Promise.race([Promise.resolve(Lz.ready(API)).catch(() => {}), new Promise(r => setTimeout(r, 6000))]) : Promise.resolve(); }
+async function renderCardBlob(){ await fontPromise; await dphReady(); await layoutReady(); const W = 1200, H = 1200; const c = document.createElement('canvas'); c.width = W; c.height = H; renderCard(c.getContext('2d'), W, H); return new Promise(r => c.toBlob(r, 'image/jpeg', .88)); }
 const blobToDataUrl = b => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); });
 
 /* ---------- events + public stats ---------- */
@@ -1069,7 +1099,7 @@ $('#dlModal').addEventListener('click', e => { if(e.target === e.currentTarget) 
 let toastT = 0; function toast(msg, ms){ const el = $('#toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), ms || 2600); }
 
 /* ---------- export ---------- */
-async function renderBlob(type){ await fontPromise; await dphReady(); const sz = SIZES[state.size], S = 2; const c = document.createElement('canvas'); c.width = sz.w*S; c.height = sz.h*S; const cc = c.getContext('2d'); render(cc, sz.w, sz.h, {base:S}); return new Promise(res => c.toBlob(res, type === 'png' ? 'image/png' : 'image/jpeg', .92)); }
+async function renderBlob(type){ await fontPromise; await dphReady(); await layoutReady(); const sz = SIZES[state.size], S = 2; const c = document.createElement('canvas'); c.width = sz.w*S; c.height = sz.h*S; const cc = c.getContext('2d'); render(cc, sz.w, sz.h, {base:S}); return new Promise(res => c.toBlob(res, type === 'png' ? 'image/png' : 'image/jpeg', .92)); }
 const downloadsReady = (window.claude && typeof window.claude.use === 'function') ? window.claude.use('downloads').catch(() => null) : Promise.resolve(null);
 async function deliver(filename, blob){
   const dl = await downloadsReady;
@@ -1132,7 +1162,7 @@ const FB_SHARER = 'https://www.facebook.com/sharer/sharer.php?u=';
 let lastSig = '', lastUrl = null, uploading = null;
 function sig(){ return JSON.stringify([[...state.selected].sort(), [...state.wish].sort(), state.name, state.theme, state.size, !!state.photo, state.photo ? state.photo.length : 0, state.recap, state.labelMode, state.byDiv, state.showDiv, state.duo, state.name2, state.rel, state.photo2 ? state.photo2.length : 0, state.lang, state.layout, state.kind, state.hook, state.tagline, state.brandColor, JSON.stringify(state.counts || {}), Object.keys(state.dphotos).filter(id => state.selected.has(id)).sort().map(id => id + ':' + state.dphotos[id].length).join()]); }
 async function uploadMap(){ if(!HOSTED) return null; const sg = sig(); if(lastUrl && sg === lastSig) return lastUrl; if(uploading && uploading.sig === sg) return uploading.p; const p = (async () => { const u = await uploadMapRaw(); if(u){ lastSig = sg; lastUrl = u; } uploading = null; return u; })(); uploading = {sig: sg, p}; return p; }
-async function uploadMapRaw(){ const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; await dphReady(); const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
+async function uploadMapRaw(){ const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; await dphReady(); await layoutReady(); const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
   const [poster, card] = await Promise.all([blobToDataUrl(posterB), blobToDataUrl(cardB)]);
   const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: (state.duo ? (REL[state.rel]||REL.friend).title(state.name.trim() || 'আমি', state.name2.trim() || 'বন্ধু') : state.name.trim()).slice(0,40), count: state.selected.size, districts: OP ? [...new Set([...state.selected].map(t => byTour[t].dist))] : [...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo, op: CFG.op || null, mm: CFG.mm || null, evmap: CFG.evmap || null})});
   const j = await r.json().catch(() => null); if(r.ok && j && j.url){ try{ localStorage.setItem(CFG.key+'-link', j.url); }catch(e){} showLink(j.url); return j.url; } console.warn('share upload failed', j); return null; }

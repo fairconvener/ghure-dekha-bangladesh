@@ -1,4 +1,5 @@
-/* "আমাদের কথা" + অনুদান modal, shared by every page. Opens from any <a href="#about">. */
+/* "আমাদের কথা" + অনুদান modal, shared by every page. Opens from any <a href="#about">.
+   Also: registers the service worker (installable app) and handles any <a href="#install"> ("অ্যাপ হিসেবে রাখুন"). */
 (function(){
   var CSS = '.abm{position:fixed;inset:0;background:rgba(14,22,18,.55);display:none;align-items:flex-end;justify-content:center;z-index:60;padding:0}@media(min-width:640px){.abm{align-items:center;padding:20px}}.abm.open{display:flex}'
   + '.abm .box{background:var(--surface,#fff);color:var(--ink,#1B2A21);width:100%;max-width:440px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;box-shadow:0 30px 80px rgba(0,0,0,.35);position:relative}@media(min-width:640px){.abm .box{border-radius:22px}}'
@@ -38,4 +39,107 @@
   function open(){ var m = ensure(); m.classList.add('open'); document.body.style.overflow = 'hidden'; if(window.gdTrack) try{ gdTrack('AboutOpen'); }catch(e){} }
   document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a[href="#about"]'); if(a){ e.preventDefault(); open(); } });
   if(location.hash === '#about') setTimeout(open, 300);
+})();
+
+/* ---- installable app: service worker + "অ্যাপ হিসেবে রাখুন" ---- */
+(function(){
+  var LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  if('serviceWorker' in navigator && window.isSecureContext && (location.protocol === 'https:' || LOCAL)){
+    var reg = function(){ navigator.serviceWorker.register('/sw.js').catch(function(){}); };
+    if(document.readyState === 'complete') reg(); else window.addEventListener('load', reg);
+  }
+  var deferred = null;
+  window.addEventListener('beforeinstallprompt', function(e){ deferred = e; });
+  var ua = navigator.userAgent || '';
+  var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var inApp = /FBAN|FBAV|FB_IAB|FBIOS|Instagram|Messenger|Line\/|MicroMessenger/i.test(ua);
+  function standalone(){ return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true; }
+  function track(n){ if(window.gdTrack) try{ window.gdTrack(n); }catch(e){} }
+  function hideLinks(){
+    document.querySelectorAll('a[href="#install"]').forEach(function(a){
+      var prev = a.previousSibling;
+      if(prev && prev.nodeType === 3) prev.textContent = prev.textContent.replace(/\s*·\s*$/, '');
+      a.remove();
+    });
+  }
+  var tEl = null, tTimer = 0;
+  function note(msg, ms){
+    if(!tEl){
+      tEl = document.createElement('div'); tEl.setAttribute('role', 'status'); tEl.setAttribute('aria-live', 'polite');
+      tEl.style.cssText = 'position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);max-width:min(440px,calc(100% - 32px));background:var(--ink,#15231C);color:var(--bg,#fff);padding:12px 16px;border-radius:14px;font-weight:600;font-size:15px;line-height:1.5;z-index:90;box-shadow:0 10px 30px rgba(0,0,0,.3);text-align:center;opacity:0;transition:opacity .2s;cursor:pointer';
+      tEl.addEventListener('click', function(){ tEl.style.opacity = '0'; });
+      document.body.appendChild(tEl);
+    }
+    tEl.textContent = msg; tEl.style.opacity = '1'; clearTimeout(tTimer);
+    tTimer = setTimeout(function(){ tEl.style.opacity = '0'; }, ms || 6000);
+  }
+  var CSS = '.inm{position:fixed;inset:0;background:rgba(14,22,18,.55);display:none;align-items:flex-end;justify-content:center;z-index:61}@media(min-width:640px){.inm{align-items:center;padding:20px}}.inm.open{display:flex}'
+    + '.inm .box{background:var(--surface,#fff);color:var(--ink,#1B2A21);width:100%;max-width:420px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;box-shadow:0 30px 80px rgba(0,0,0,.35);position:relative;padding:22px 20px calc(20px + env(safe-area-inset-bottom,0px))}@media(min-width:640px){.inm .box{border-radius:22px}}'
+    + '.inm .x{position:absolute;right:12px;top:12px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line,#D6DED8);background:var(--surface,#fff);color:inherit;font-size:16px;cursor:pointer}'
+    + '.inm .hd{display:flex;align-items:center;gap:12px;padding-right:40px}.inm .hd img{width:52px;height:52px;border-radius:14px;flex:none}.inm h2{margin:0;font-size:20px;line-height:1.3}'
+    + '.inm p{margin:12px 0 0;color:var(--muted,#5E6E65);font-size:15px;line-height:1.6}'
+    + '.inm ol{margin:14px 0 0;padding-left:0;list-style:none;counter-reset:s;display:grid;gap:12px}.inm li{counter-increment:s;position:relative;padding-left:40px;min-height:28px;font-size:15.5px;line-height:1.6}'
+    + '.inm li::before{content:counter(s,bengali);position:absolute;left:0;top:0;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent,#0F7F4C);color:var(--bg,#fff);font-weight:700;font-size:14px}'
+    + '.inm .ic{display:inline-block;vertical-align:-4px;width:20px;height:20px;margin:0 2px}'
+    + '.inm .ok{margin-top:18px;width:100%;font:inherit;font-weight:700;font-size:16px;padding:12px;border-radius:12px;border:0;background:var(--accent,#0F7F4C);color:var(--bg,#fff);cursor:pointer}'
+    + '.inm .ghost{margin-top:8px;width:100%;font:inherit;font-weight:600;font-size:15px;padding:11px;border-radius:12px;border:1px solid var(--line,#D6DED8);background:transparent;color:inherit;cursor:pointer}';
+  var SHARE_IC = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Share বোতাম"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><rect x="5" y="10" width="14" height="11" rx="2"/></svg>';
+  function sheet(title, bodyHtml, extra){
+    var m = document.getElementById('installModal');
+    if(!m){
+      var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
+      m = document.createElement('div'); m.className = 'inm'; m.id = 'installModal';
+      m.innerHTML = '<div class="box" role="dialog" aria-modal="true" aria-labelledby="inmTitle"><button class="x" type="button" aria-label="বন্ধ করুন">✕</button><div class="hd"><img src="/icon-192.png" alt="" width="52" height="52"><h2 id="inmTitle"></h2></div><div class="bd"></div><button class="ok" type="button">বুঝেছি</button></div>';
+      document.body.appendChild(m);
+      var close = function(){ m.classList.remove('open'); document.body.style.overflow = ''; };
+      m.querySelector('.x').addEventListener('click', close); m.querySelector('.ok').addEventListener('click', close);
+      m.addEventListener('click', function(e){ if(e.target === m) close(); });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && m.classList.contains('open')) close(); });
+    }
+    m.querySelector('#inmTitle').textContent = title;
+    m.querySelector('.bd').innerHTML = bodyHtml;
+    if(extra) extra(m);
+    m.classList.add('open'); document.body.style.overflow = 'hidden';
+    m.querySelector('.ok').focus({preventScroll: true});
+  }
+  function copyLink(btn){
+    var url = location.origin + location.pathname;
+    var done = function(ok){ btn.textContent = ok ? '✓ লিংক কপি হয়েছে' : url; };
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function(){ done(true); }, function(){ done(false); }); else done(false);
+  }
+  async function install(){
+    track('InstallClick');
+    if(standalone()){ note('অ্যাপটি এরই মধ্যে আপনার হোম স্ক্রিনে আছে। 👍', 3500); return; }
+    if(deferred){
+      var ev = deferred;
+      try{
+        var r = await ev.prompt(); deferred = null;
+        var c = (r && r.outcome) ? r : await ev.userChoice;
+        if(c && c.outcome === 'accepted'){ track('InstallAccepted'); note('যোগ হচ্ছে! একটু পরে হোম স্ক্রিন বা অ্যাপের তালিকায় "ঘুরে দেখা" পাবেন।'); }
+        return;
+      }catch(e){ /* no user gesture (e.g. opened with #install): fall back to the written steps */ }
+    }
+    if(inApp){
+      sheet('আগে ব্রাউজারে খুলুন',
+        '<p>ফেসবুক বা মেসেঞ্জারের ভেতরের ব্রাউজার থেকে অ্যাপ যোগ করা যায় না। পাতাটা আসল ব্রাউজারে খুলে নিন:</p><ol>'
+        + (isIOS ? '<li>নিচে বা ওপরে <b>⋯</b> চাপুন, তারপর <b>Open in Safari</b> (Safari-তে খুলুন) বেছে নিন।</li>'
+                 : '<li>ওপরের ডান কোণে <b>⋮</b> (তিন ফোঁটা) চাপুন, তারপর <b>Open in browser</b> বা <b>Chrome-এ খুলুন</b> বেছে নিন।</li>')
+        + '<li>ব্রাউজারে পাতাটা খুললে নিচের <b>📲 অ্যাপ হিসেবে রাখুন</b> আবার চাপুন।</li></ol><button class="ghost" type="button" id="inmCopy">🔗 লিংক কপি করুন</button>',
+        function(m){ var b = m.querySelector('#inmCopy'); if(b) b.addEventListener('click', function(){ copyLink(b); }); });
+      return;
+    }
+    if(isIOS){
+      sheet('আইফোনে অ্যাপ হিসেবে রাখুন',
+        '<p>অ্যাপ স্টোর লাগবে না, ৩ ধাপেই হোম স্ক্রিনে চলে আসবে:</p><ol>'
+        + '<li>ব্রাউজারের <b>Share</b> বোতাম ' + SHARE_IC + ' চাপুন (আইফোনে সাধারণত নিচে, আইপ্যাডে ওপরে)।</li>'
+        + '<li>তালিকা একটু নিচে নামিয়ে <b>Add to Home Screen</b> (হোম স্ক্রিনে যোগ করুন) বেছে নিন।</li>'
+        + '<li>ওপরে ডানে <b>Add</b> চাপুন। হোম স্ক্রিনে "ঘুরে দেখা" আইকন চলে আসবে।</li></ol>');
+      return;
+    }
+    note('ব্রাউজারের মেনু (⋮) খুলে "Install app" বা "Add to Home screen" (হোম স্ক্রিনে যোগ করুন) বেছে নিন। অ্যাপ স্টোর লাগবে না।', 8000);
+  }
+  document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a[href="#install"]'); if(a){ e.preventDefault(); install(); } });
+  window.addEventListener('appinstalled', function(){ deferred = null; hideLinks(); track('AppInstalled'); note('অ্যাপ হিসেবে যোগ হয়েছে। হোম স্ক্রিন থেকেই খুলতে পারবেন।', 4500); });
+  function boot(){ if(standalone()) hideLinks(); if(location.hash === '#install') setTimeout(install, 400); }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

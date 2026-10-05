@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>(function(){var H=location.hostname;if(/(^|\.)ghuredekha\.com$|github\.io$/.test(H)){var B='https://ghuredekhabangladesh.com';var f=window.fetch.bind(window);window.fetch=function(u,o){if(typeof u==='string'&&u.indexOf('/api/')===0)u=B+u;return f(u,o);};window.__API_BASE=B;}})();</script>
+<script>(function(){var H=location.hostname;if(/github\.io$/.test(H)){var B='https://ghuredekhabangladesh.com';var f=window.fetch.bind(window);window.fetch=function(u,o){if(typeof u==='string'&&u.indexOf('/api/')===0)u=B+u;return f(u,o);};window.__API_BASE=B;}})();</script>
 <title>সৌদি আরব বিজনেস ম্যাপ: কোন কোন অঞ্চলে স্টুডেন্ট পাঠান বা পার্টনার ইউনিভার্সিটি আছে | ঘুরে দেখা বাংলাদেশ</title>
 <meta name="description" content="স্টাডি অ্যাব্রড এজেন্সির জন্য সৌদি আরব ম্যাপ: সৌদি আরবের যে অঞ্চলে স্টুডেন্ট পাঠিয়েছেন বা পার্টনার ইউনিভার্সিটি আছে সেগুলোতে টিক দিন, লোগো বসান, ফেসবুকে পোস্ট করার মতো পোস্টার নামান। ফ্রি।">
 <link rel="canonical" href="https://ghuredekhabangladesh.com/business/c/sa">
@@ -19,6 +19,7 @@
 <meta name="theme-color" content="#0F7F4C">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
 <meta name="facebook-domain-verification" content="mpuhfxnd52i5ghn2uaux2urdojwuxe">
 <script src="/gd-meta.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -266,6 +267,37 @@ footer b{color:var(--ink)}
 .chip.pcard[aria-pressed="true"] .pk{background:var(--accent);color:#fff;border-color:#fff}
 .chip.pcard .pc{position:absolute;top:6px;left:6px;font-size:9px;color:#fff;background:rgba(0,0,0,.45);padding:2px 6px;border-radius:999px;max-width:60%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chip.pcard.noimg .pt{color:var(--ink);text-shadow:none}.chip.pcard.noimg::before{display:none}
+/* the nav gained a link (ট্রেন্ড): 1px less padding keeps brand + nav on one row on desktop */
+@media (min-width:900px){.nav a{padding:6px 11px}}
+/* poster language + photo map */
+.opt[hidden],.dph[hidden],.dph-skip[hidden]{display:none}
+.opt .hint{color:var(--muted);font-size:13px;margin:0}
+.dph{padding:0;overflow:hidden;border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.dph>summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;gap:10px}
+.dph>summary::-webkit-details-marker{display:none}
+.dph>summary .ico{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);font-size:15px;flex:none}
+.dph>summary h2{font-size:17px;flex:1;min-width:0;line-height:1.3}
+.dph>summary .new{font-size:11px;font-weight:700;color:#fff;background:var(--red);padding:2px 8px;border-radius:999px;flex:none}
+.dph>summary .count{font-family:var(--font-display);font-weight:800;color:var(--accent-ink);font-size:16px;font-variant-numeric:tabular-nums;flex:none}
+.dph>summary::after{content:"";width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translateY(-3px);transition:transform .15s;flex:none;margin-left:2px}
+.dph[open]>summary::after{transform:rotate(-135deg) translateY(-1px)}
+.dph[open]>summary{border-bottom:1px solid var(--line)}
+.dph-body{padding:12px 18px 18px;display:grid;gap:10px}
+.dph-body .note{margin:0}
+.dph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;max-height:460px;overflow:auto;padding:2px}
+.dph-cell{position:relative;border-radius:12px;border:1.5px dashed var(--line);background:var(--bg);margin:0}
+.dph-cell::before{content:"";display:block;padding-top:100%}
+.dph-cell>button.pick{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:10px;overflow:hidden;padding:6px;background:transparent;display:grid;place-items:center;align-content:center;gap:2px;text-align:center;color:var(--ink)}
+.dph-cell .plus{font-size:13px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);padding:3px 10px;border-radius:999px}
+.dph-cell .nm{font-size:13px;font-weight:600;line-height:1.25;overflow-wrap:anywhere}
+.dph-cell.has{border:2px solid var(--accent)}
+.dph-cell.has>button.pick{padding:0;display:block}
+.dph-cell.has img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.dph-cell.has .nm{position:absolute;left:0;right:0;bottom:0;padding:16px 6px 5px;color:#fff;font-size:12px;background:linear-gradient(transparent,rgba(0,0,0,.7));text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.dph-cell .x{position:absolute;top:4px;right:4px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.62);color:#fff;font-size:13px;line-height:1;display:grid;place-items:center;padding:0;z-index:1}
+.dph-cell .x:hover{background:var(--red)}
+.dph-cell.busy::after{content:"⏳";position:absolute;inset:0;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--surface) 70%,transparent);font-size:20px}
+.dph-empty{color:var(--muted);font-size:14px;margin:0;padding:14px;border:1.5px dashed var(--line);border-radius:12px;text-align:center}
 </style>
 </head>
 <body>
@@ -276,7 +308,7 @@ footer b{color:var(--ink)}
       <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="#0F7F4C"/><circle cx="32" cy="32" r="24" fill="#D6262E"/><g transform="translate(17.05,14.00) scale(0.02990)"><path d="M381 1051 365 1052 362 1087 371 1101 384 1099 379 1079ZM396 1023 406 1064 426 1076 440 1093 445 1081 453 1068 466 1067 475 1074 487 1066 492 1053 520 1038 539 1009 562 990 558 959 544 938 530 929 528 900 522 890 522 864 534 851 520 837 532 807 550 783 534 754 556 755 558 836 574 860 587 870 587 882 602 908 611 911 646 939 664 961 684 941 696 920 691 905 698 890 725 887 747 903 790 954 800 992 812 1025 820 1027 823 1060 833 1094 821 1137 822 1175 843 1190 863 1225 863 1249 894 1290 902 1311 913 1310 911 1277 891 1249 900 1238 895 1217 923 1194 935 1180 947 1206 974 1202 982 1233 1000 1224 987 1180 981 1128 987 1090 974 1032 981 1021 969 965 961 904 950 887 947 862 928 845 931 816 924 805 922 775 932 774 916 725 911 696 900 662 876 660 861 680 833 674 840 716 817 737 796 761 809 814 786 833 766 844 751 822 730 772 702 777 687 721 666 688 668 659 677 659 686 638 684 619 697 601 709 604 716 589 711 576 756 583 767 576 769 560 793 566 790 543 825 560 831 537 826 521 837 510 863 513 878 500 888 482 897 439 904 428 893 388 923 401 942 397 943 383 929 374 930 360 884 342 862 327 804 327 765 341 735 338 685 323 645 324 599 334 558 328 515 336 490 326 445 320 383 289 396 229 386 206 385 170 395 158 367 103 352 93 339 99 344 123 332 134 312 141 284 137 265 125 258 111 244 108 230 48 209 36 194 54 225 80 202 83 186 73 149 59 135 37 121 33 105 13 84 0 79 26 105 32 112 57 95 61 77 73 76 87 40 103 42 123 20 157 24 180 34 189 58 189 97 216 94 231 116 250 140 260 160 249 175 257 177 284 197 301 194 332 174 323 130 322 122 329 100 320 93 327 93 363 82 377 55 394 47 378 29 388 34 400 0 445 20 473 42 494 67 511 88 512 121 528 144 528 154 542 152 620 137 631 120 630 115 667 121 689 149 713 157 729 157 746 142 762 147 773 167 774 194 784 175 841 197 876 187 888 198 902 191 912 206 964 202 988 222 1019 215 1041 225 1051 237 1044 240 1057 245 1057 250 1062 265 1026 287 1037 308 1010 320 1049 336 1022 352 1033 368 1033 387 1049ZM541 901 535 918 563 937 566 1000 554 1022 549 1056 567 1063 594 1034 605 963 587 946 583 926 570 912 561 883 545 878ZM549 876 553 862 534 858 525 868 536 880ZM546 1021 525 1046 530 1072 551 1038ZM748 972 756 954 733 922 725 941 738 970ZM707 893 696 901 716 918 722 906ZM288 1093 280 1108 294 1127 307 1112 301 1099ZM300 1027 288 1037 297 1053 309 1043ZM665 977 650 969 650 1007 636 1038 648 1045 671 1024 676 987ZM547 1067 530 1080 544 1090ZM485 1074 475 1075 465 1067 454 1068 445 1082 444 1092 438 1098 442 1104 459 1110 476 1100ZM524 1066 520 1051 497 1068 486 1091 497 1098 520 1082ZM245 1058 236 1072 248 1081 251 1085 248 1089 246 1103 258 1105 266 1085 250 1078 249 1072 257 1066 247 1063ZM237 1057 222 1081 226 1106 237 1110 245 1101 245 1092 248 1083 238 1083 233 1075ZM261 1045 252 1061 258 1065 258 1069 252 1073 269 1086 271 1063Z" fill="#F7F2E6" stroke="#0F7F4C" stroke-width="18" stroke-linejoin="round"/></g></svg>
       ঘুরে দেখা বাংলাদেশ
     </a>
-    <nav class="nav" aria-label="সাইটের অংশ"><a href="/" >🇧🇩 জেলা ম্যাপ</a><a href="/world" >🌍 বিশ্ব</a><a href="/countries">🗺️ দেশ ও মহাদেশ</a><a href="/upazila" >📍 উপজেলা</a><a href="/jela">📖 জেলা গাইড</a><a href="/plan">🧭 ট্রিপ প্ল্যানার</a><a href="/top">🏆 লিডারবোর্ড</a><a href="/quiz">🎮 কুইজ</a><a href="/business" aria-current="page">🏢 ব্যবসা</a></nav>
+    <nav class="nav" aria-label="সাইটের অংশ"><a href="/" >🇧🇩 জেলা ম্যাপ</a><a href="/world" >🌍 বিশ্ব</a><a href="/countries">🗺️ দেশ ও মহাদেশ</a><a href="/upazila" >📍 উপজেলা</a><a href="/jela">📖 জেলা গাইড</a><a href="/plan">🧭 ট্রিপ প্ল্যানার</a><a href="/top">🏆 লিডারবোর্ড</a><a href="/trend">📊 ট্রেন্ড</a><a href="/quiz">🎮 কুইজ</a><a href="/business" aria-current="page">🏢 ব্যবসা</a></nav>
   </div>
 </header>
 
@@ -345,13 +377,112 @@ footer b{color:var(--ink)}
         </div>
       </section>
 
+<script src="/biz-layouts.js?v=2"></script>
+<div class="panel" style="margin-top:0" id="layoutPanel"><h3 style="margin:0 0 8px;font-size:16px">পোস্টারের ডিজাইন</h3>
+  <div id="layoutChips" role="group" aria-label="পোস্টারের ডিজাইন">
+    <button type="button" class="lay" data-layout="headline" aria-pressed="false"><svg viewBox="0 0 40 50" aria-hidden="true"><rect width="40" height="50" rx="4" fill="#EEF3FB"/><rect x="4" y="5" width="13" height="1.8" rx=".9" fill="#2F6BE0"/><rect x="4" y="8.4" width="20" height="3.6" rx="1.2" fill="#14203A"/><rect x="29" y="4" width="7.5" height="7.5" rx="2" fill="#fff" stroke="#C8D3E8" stroke-width=".6"/><rect x="28" y="13.5" width="5.5" height="5" rx="1" fill="#1D4ED8"/><rect x="34.2" y="16.3" width="2.6" height="2.2" rx=".6" fill="#8A97B0"/><path d="M4 23c3-2 6-1 8 0s2 4 0 5-4 1-5 3-3 1-3-1 0-5 0-7zM16 22c3-1 9-1 13 0s7 2 6 4-5 1-7 3-5 3-8 2-5-2-5-4 0-4 1-5z" fill="#C9D2E3"/><path d="M5 23.5c2-1 4-1 6 0s1 3-1 3.5-4 .5-5-.5 0-2.5 0-3zM20 22.6c2-.6 4-.4 5 .4s0 2-2 2.2-4 0-4-1 .4-1.4 1-1.6zM30 30c1.5-.6 3.4 0 3.4 1.2s-1.6 1.8-3 1.4-1.6-2-.4-2.6z" fill="#1D4ED8"/><rect x="4" y="35" width="32" height="1.1" rx=".55" fill="#C9D2E3"/><rect x="4" y="35" width="8" height="1.1" rx=".55" fill="#1D4ED8"/><path d="M0 39.5h40V46a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4z" fill="#fff"/><rect x="4" y="41.6" width="15" height="1.5" rx=".7" fill="#2F6BE0"/><rect x="4" y="44.4" width="20" height="2.8" rx="1" fill="#1D4ED8"/></svg><span><b>হেডলাইন</b><small>বড় শিরোনাম আর বড় সংখ্যা</small></span></button>
+    <button type="button" class="lay" data-layout="classic" aria-pressed="false"><svg viewBox="0 0 40 50" aria-hidden="true"><rect width="40" height="50" rx="4" fill="#F7F2E6"/><rect x="1.8" y="1.8" width="36.4" height="46.4" rx="3.4" fill="none" stroke="#D8262C" stroke-width=".5" stroke-dasharray="1.4 1" opacity=".7"/><rect x="4.5" y="4.5" width="7" height="7" rx="1.8" fill="#fff" stroke="#E2DAC5" stroke-width=".5"/><rect x="13.5" y="5.2" width="10" height="1.4" rx=".7" fill="#8A9187"/><rect x="13.5" y="7.6" width="13" height="3" rx="1" fill="#1B2A21"/><circle cx="33" cy="8" r="4" fill="#D8262C"/><path d="M6 17c3-2 6-1 8 0s2 4 0 5-4 1-5 3-3 1-3-1 0-5 0-7zM18 16c3-1 9-1 13 0s7 2 6 4-5 1-7 3-5 3-8 2-5-2-5-4 0-4 1-5z" fill="#E2DAC5"/><path d="M7 17.5c2-1 4-1 6 0s1 3-1 3.5-4 .5-5-.5 0-2.5 0-3zM22 16.6c2-.6 4-.4 5 .4s0 2-2 2.2-4 0-4-1 .4-1.4 1-1.6z" fill="#118B50"/><rect x="4.5" y="30" width="8" height="3" rx="1.5" fill="#118B50"/><rect x="13.5" y="30" width="9" height="3" rx="1.5" fill="#118B50"/><rect x="23.5" y="30" width="7" height="3" rx="1.5" fill="#118B50"/><rect x="4.5" y="36.5" width="31" height="1.4" rx=".7" fill="#E2DAC5"/><rect x="4.5" y="36.5" width="9" height="1.4" rx=".7" fill="#118B50"/><rect x="9" y="42.5" width="22" height="3.4" rx="1.7" fill="#118B50"/></svg><span><b>ক্লাসিক</b><small>নাম, বৃত্তে সংখ্যা, তালিকা</small></span></button>
+  </div></div>
 <div class="panel" style="margin-top:0"><h3 style="margin:0 0 8px;font-size:16px">ম্যাপটা কীসের?</h3><div class="row" id="kindChips"></div>
-  <label class="field" style="margin-top:10px">এক লাইনের ট্যাগলাইন (ঐচ্ছিক)<input id="tagline" maxlength="70" placeholder="যেমন: ২০১৮ থেকে সারা দেশের স্টুডেন্টের পাশে"></label>
+  <label class="field" style="margin-top:10px">এক লাইনের ট্যাগলাইন (ঐচ্ছিক)<input type="text" id="tagline" maxlength="70" placeholder="যেমন: ২০১৮ থেকে সারা দেশের স্টুডেন্টের পাশে"></label>
   <label class="field" style="margin-top:10px">পোস্টারে বড় হুক লাইন (ঐচ্ছিক, ২ লাইন পর্যন্ত)<textarea id="hook" rows="2" maxlength="60" placeholder="যেমন:&#10;৬৪-তে&#10;আপনি কত?" style="font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:inherit;resize:none"></textarea></label>
   <div class="row" style="align-items:center;margin-top:10px;gap:10px"><label for="brandColor" style="font-weight:700">ব্র্যান্ডের রঙ</label><input type="color" id="brandColor" value="#0F7F4C" style="width:52px;height:36px;border:1px solid var(--line);border-radius:10px;background:none;padding:2px"><span class="muted" style="font-size:13px">লোগোর রঙ দিলে "ব্র্যান্ড" থিমে পুরো পোস্টার সেই রঙে</span></div></div>
   <div class="panel" id="countPanel" style="margin-top:14px" hidden><h3 style="margin:0 0 4px;font-size:16px">প্রতি অঞ্চল সংখ্যা (ঐচ্ছিক)</h3><p class="muted" style="font-size:13px;margin:0 0 8px">যেমন কত স্টুডেন্ট বা কত ভিসা; পোস্টারে নামের পাশে "৫০০+" হিসেবে দেখাবে</p><div id="countList" style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px"></div></div>
-  <style>#modeSeg [data-v="recap"],#duoRow,.switch:has(#duoOn){display:none!important}#kindChips .chip[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}#photoBox{border-radius:18px!important}#photoBox img{border-radius:18px!important;object-fit:contain!important;background:#fff}</style>
-  <script>document.addEventListener('DOMContentLoaded',()=>{const S=window.__gdb.state;const root=document.getElementById('kindChips');Object.entries(window.__gdb.KINDS).forEach(([k,v])=>{const b=document.createElement('button');b.type='button';b.className='chip';b.dataset.kind=k;b.textContent=v.bn;b.addEventListener('click',()=>{S.kind=k;window.__gdb.update();});root.appendChild(b);});const hk=document.getElementById('hook');hk.value=S.hook||'';hk.addEventListener('input',()=>{S.hook=hk.value;window.__gdb.update();});const bc=document.getElementById('brandColor');bc.value=S.brandColor||'#0F7F4C';bc.addEventListener('input',()=>{S.brandColor=bc.value;window.__gdb.THEMES.brand=window.__gdb.brandTheme(bc.value);S.theme='brand';window.__gdb.update();});const tl=document.getElementById('tagline');tl.value=S.tagline||'';tl.addEventListener('input',()=>{S.tagline=tl.value;window.__gdb.update();});try{const q=new URLSearchParams(location.search);if(q.get('kind')&&window.__gdb.KINDS[q.get('kind')]){S.kind=q.get('kind');}if(q.get('hook')){S.hook=q.get('hook').slice(0,60);hk.value=S.hook;}if(q.get('tag')){S.tagline=q.get('tag').slice(0,70);tl.value=S.tagline;}if(q.get('kind')||q.get('hook')||q.get('tag'))window.__gdb.update();}catch(e){}const cp=document.getElementById('countPanel'),cl=document.getElementById('countList');const syncCounts=()=>{if(!window.__gdb.CFG||window.__gdb.CFG.map==='bd'){return;}const ids=[...S.selected];cp.hidden=!ids.length;const have=new Set([...cl.querySelectorAll('[data-cid]')].map(e=>e.dataset.cid));ids.forEach(id=>{if(have.has(id))return;const d=DISTRICTS.find(x=>x.id===id);if(!d)return;const w=document.createElement('label');w.className='field';w.dataset.cid=id;w.style.margin='0';w.innerHTML='<span style="font-size:13px">'+d.bn+'</span><input type="number" min="0" inputmode="numeric" placeholder="সংখ্যা" style="font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:inherit;width:100%">';const inp=w.querySelector('input');inp.value=S.counts[id]||'';inp.addEventListener('input',()=>{if(inp.value)S.counts[id]=+inp.value;else delete S.counts[id];window.__gdb.update();});cl.appendChild(w);});[...cl.querySelectorAll('[data-cid]')].forEach(e=>{if(!S.selected.has(e.dataset.cid)){e.remove();delete S.counts[e.dataset.cid];}});};const sync=()=>{root.querySelectorAll('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.kind===S.kind)));syncCounts();};sync();const u0=window.__gdb.update;window.__gdb.update=function(){u0.apply(this,arguments);sync();};});</script>      <section class="panel" id="p1">
+  <style>#modeSeg [data-v="recap"],#duoRow,.switch:has(#duoOn){display:none!important}
+#kindChips .kchip{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:14px;font-weight:500;line-height:1.3}
+#kindChips .kchip[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+#photoBox{border-radius:18px!important}#photoBox img{border-radius:18px!important;object-fit:contain!important;background:#fff}
+#layoutChips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#layoutChips .lay{display:flex;align-items:center;gap:10px;padding:8px 10px;border:2px solid var(--line);border-radius:14px;background:var(--surface);text-align:left;line-height:1.25;transition:border-color .15s,box-shadow .15s}
+#layoutChips .lay svg{width:44px;height:55px;flex:none;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.14)}
+#layoutChips .lay b{display:block;font-size:15px}
+#layoutChips .lay small{display:block;color:var(--muted);font-size:12px;font-weight:500;margin-top:2px}
+#layoutChips .lay[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+@media (max-width:420px){#layoutChips .lay small{display:none}}</style>
+  <script>(function(){
+  /* runs as soon as the map maker publishes window.__gdb (end of its boot), so the first frame already has the right design */
+  var Q0 = location.search, LS0 = null; try{ LS0 = Object.keys(localStorage); }catch(e){}
+  var started = false;
+  function init(){
+    var G = window.__gdb; if(started || !G || !G.state) return; started = true;
+    var S = G.state, CFG = G.CFG || {}, API = G.API || {}, KINDS = G.KINDS || {}, L = window.GDB_LAYOUTS || {};
+    var $ = function(id){ return document.getElementById(id); };
+    var q = new URLSearchParams(Q0);
+    var hk = $('hook'), tl = $('tagline'), bc = $('brandColor'), nm = $('name');
+    var hkPh = hk.placeholder, tlPh = tl.placeholder;
+    var setBrand = function(col){ S.brandColor = col; G.THEMES.brand = G.brandTheme(col); S.theme = 'brand'; };
+    /* kind chips */
+    var root = $('kindChips');
+    Object.keys(KINDS).forEach(function(k){ var b = document.createElement('button'); b.type = 'button'; b.className = 'kchip'; b.dataset.kind = k; b.textContent = KINDS[k].bn; b.addEventListener('click', function(){ S.kind = k; upd(); }); root.appendChild(b); });
+    /* poster design */
+    var lp = $('layoutPanel');
+    if(!L.headline){ lp.hidden = true; }
+    lp.querySelectorAll('[data-layout]').forEach(function(b){ b.addEventListener('click', function(){ S.layout = b.dataset.layout; upd(); }); });
+    /* text + colour inputs */
+    hk.addEventListener('input', function(){ S.hook = hk.value; upd(); });
+    tl.addEventListener('input', function(){ S.tagline = tl.value; upd(); });
+    bc.addEventListener('input', function(){ setBrand(bc.value); upd(); });
+    function syncInputs(){ hk.value = S.hook || ''; tl.value = S.tagline || ''; bc.value = S.brandColor || '#0F7F4C'; if(nm) nm.value = S.name || ''; }
+    /* logos: keep the whole logo (fit inside a white square) instead of the photo cropper's centre cut, which chops wide wordmarks */
+    var pin = $('photoInput');
+    if(pin) pin.addEventListener('change', function(e){ var f = pin.files && pin.files[0]; if(!f) return; e.stopImmediatePropagation(); var url = URL.createObjectURL(f), im = new Image();
+      im.onload = function(){ var M = 640, sc = Math.min(M / im.width, M / im.height), w = im.width * sc, h = im.height * sc; var c = document.createElement('canvas'); c.width = M; c.height = M; var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, M, M); x.drawImage(im, (M - w) / 2, (M - h) / 2, w, h); var d = c.toDataURL('image/png'); if(d.length > 700000) d = c.toDataURL('image/jpeg', .92); S.photo = d; URL.revokeObjectURL(url); pin.value = ''; G.loadPhoto(); upd(); };
+      im.onerror = function(){ URL.revokeObjectURL(url); pin.value = ''; G.toast('লোগোটি পড়া যায়নি, অন্য ফাইল দিন'); }; im.src = url; }, true);
+    /* per-unit counts (world and country maps) */
+    var cp = $('countPanel'), cl = $('countList');
+    function syncCounts(){ if(CFG.map === 'bd') return; var ids = Array.from(S.selected); cp.hidden = !ids.length; var have = {}; cl.querySelectorAll('[data-cid]').forEach(function(e){ have[e.dataset.cid] = 1; });
+      ids.forEach(function(id){ if(have[id]) return; var d = API.byId ? API.byId[id] : null; if(!d) return; var w = document.createElement('label'); w.className = 'field'; w.dataset.cid = id; w.style.margin = '0'; w.innerHTML = '<span style="font-size:13px"></span><input type="number" min="0" inputmode="numeric" placeholder="সংখ্যা" style="font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:inherit;width:100%">'; w.querySelector('span').textContent = d.bn; var inp = w.querySelector('input'); inp.value = S.counts[id] || ''; inp.addEventListener('input', function(){ if(inp.value) S.counts[id] = +inp.value; else delete S.counts[id]; upd(); }); cl.appendChild(w); });
+      cl.querySelectorAll('[data-cid]').forEach(function(e){ if(!S.selected.has(e.dataset.cid)){ e.remove(); delete S.counts[e.dataset.cid]; } }); }
+    function sync(){
+      root.querySelectorAll('[data-kind]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.kind === S.kind)); });
+      var lay = (S.layout && L[S.layout]) ? S.layout : 'classic';
+      lp.querySelectorAll('[data-layout]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.layout === lay)); });
+      /* headline design: show its default texts as placeholders so it is clear what the poster says */
+      var D = (lay !== 'classic' && L[lay] && L[lay].defaults) ? L[lay].defaults(API) : null;
+      hk.placeholder = D ? D.hook : hkPh; tl.placeholder = D ? D.tagline : tlPh;
+      syncCounts();
+    }
+    var u0 = G.update; G.update = function(){ u0.apply(this, arguments); sync(); };
+    function upd(){ G.update(); }
+    /* URL parameters: ?kind ?hook ?tag ?layout ?size ?color (and ?firm below) */
+    function applyParams(){
+      var k = q.get('kind'); if(k && KINDS[k]) S.kind = k;
+      var h = q.get('hook'); if(h) S.hook = h.slice(0, 60);
+      var t = q.get('tag'); if(t) S.tagline = t.slice(0, 70);
+      var lay = q.get('layout'); if(lay === 'classic' || (lay && L[lay])) S.layout = lay;
+      var sz = q.get('size'); if(sz && G.SIZES && G.SIZES[sz]) S.size = sz;
+      var col = (q.get('color') || '').replace('#', ''); if(/^[0-9a-f]{6}$/i.test(col)) setBrand('#' + col);
+    }
+    var first = LS0 ? LS0.indexOf(CFG.key + '-state') < 0 : false;
+    if(first && CFG.evmap === 'study' && L.headline) S.layout = 'headline';
+    applyParams();
+    var mine = ['kind', 'hook', 'tag', 'layout', 'size', 'color', 'firm', 'sel'].some(function(k){ return q.has(k); });
+    var clean = function(){ if(!mine) return; try{ history.replaceState(null, '', location.pathname + location.hash); }catch(e){} };
+    syncInputs(); upd();
+    /* ?firm=<slug>: open a ready-made agency poster (BIEE exhibitors) so the agency can edit it */
+    var firm = (q.get('firm') || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 40);
+    if(!firm){ clean(); return; }
+    function logoData(url){ return new Promise(function(res, rej){ var im = new Image(); im.onload = function(){ try{ var M = 512, sc = Math.min(1, M / Math.max(im.width, im.height)), w = Math.max(1, Math.round(im.width * sc)), h = Math.max(1, Math.round(im.height * sc)); var c = document.createElement('canvas'); c.width = w; c.height = h; var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(im, 0, 0, w, h); var d = c.toDataURL('image/png'); if(d.length > 600000) d = c.toDataURL('image/jpeg', .92); res(d); }catch(e){ rej(e); } }; im.onerror = rej; im.src = url; }); }
+    fetch('/business/clients/f/' + firm + '.json', {cache: 'no-cache'}).then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(F){
+      S.name = String(F.name || '').slice(0, 80); /* full firm name, even past the input's typing limit */
+      S.selected.clear(); S.wish.clear(); S.counts = {};
+      var ids = q.get('sel') ? q.get('sel').split(',') : (CFG.map === 'bd' ? F.bd : CFG.map === 'world' ? F.countries : []);
+      (ids || []).forEach(function(id){ if(API.byId && API.byId[id]) S.selected.add(id); });
+      if(F.kind && KINDS[F.kind]) S.kind = F.kind;
+      S.tagline = String(F.tag || '').slice(0, 70); S.hook = String(F.hook || '').slice(0, 60);
+      if(/^#[0-9a-f]{6}$/i.test(F.color || '')) setBrand(F.color);
+      applyParams();
+      S.photo = null;
+      return (F.logo ? logoData(F.logo).then(function(d){ S.photo = d; }).catch(function(){}) : Promise.resolve()).then(function(){
+        G.loadPhoto(); syncInputs(); upd(); clean();
+        G.toast(S.name + '-এর ম্যাপ খুলেছে, এখন নিজের মতো বদলে নামিয়ে নিন', 6000);
+      });
+    }).catch(function(e){ console.warn('firm preset', e); clean(); G.toast('এই এজেন্সির রেডি ম্যাপ পাওয়া যায়নি; নিজে বানিয়ে নিন', 5000); });
+  }
+  var cur = window.__gdb;
+  if(!cur){ try{ Object.defineProperty(window, '__gdb', {configurable: true, enumerable: true, get: function(){ return cur; }, set: function(v){ cur = v; Object.defineProperty(window, '__gdb', {value: v, writable: true, configurable: true, enumerable: true}); try{ init(); }catch(e){ console.error(e); } }}); }catch(e){} }
+  document.addEventListener('DOMContentLoaded', function(){ try{ init(); }catch(e){ console.error(e); } });
+})();</script>      <section class="panel" id="p1">
         <div class="panel-head"><b>২</b><h2>কোন কোন অঞ্চলে স্টুডেন্ট বা পার্টনার?</h2><span class="count" id="countTop">০ / ১৩</span></div>
         <div class="progress"><i id="bar"></i></div>
         <div class="seg" id="modeSeg" style="margin-bottom:10px;width:100%">
@@ -368,9 +499,27 @@ footer b{color:var(--ink)}
         <div id="divisions"></div>
       </section>
 
+      <details class="panel dph" id="dphBox" hidden>
+        <summary><span class="ico" aria-hidden="true">📸</span><h2>ফটো ম্যাপ: যেখানে গেছেন, সেখানে নিজের তোলা ছবি</h2><span class="new" id="dphNew">নতুন</span><span class="count" id="dphCount" hidden></span></summary>
+        <div class="dph-body">
+          <p class="note" id="dphNote"></p>
+          <div class="dph-grid" id="dphGrid"></div>
+          <p class="note dph-skip" id="dphSkip" hidden></p>
+          <input type="file" id="dphInput" accept="image/*" hidden>
+        </div>
+      </details>
+
       <section class="panel" id="p3">
         <div class="panel-head"><b>৩</b><h2>রঙ আর লেআউট</h2></div>
         <div class="themes" id="themes"></div>
+        <div class="opt" id="langOpt" hidden>
+          <span class="lbl">পোস্টারের ভাষা</span>
+          <div class="seg" id="langSeg">
+            <button type="button" data-v="bn" aria-pressed="true">বাংলা</button>
+            <button type="button" data-v="en" aria-pressed="false">English</button>
+          </div>
+          <p class="hint" id="langNote"></p>
+        </div>
         <div class="opt">
           <span class="lbl">অঞ্চলর নাম দেখাবে</span>
           <div class="seg" id="labelMode">
@@ -425,13 +574,14 @@ footer b{color:var(--ink)}
       <div class="rank"><h3>সবচেয়ে বেশি ঘোরা অঞ্চল</h3><ol id="topDistricts"></ol></div>
       <div class="rank"><h3>অঞ্চল অনুযায়ী</h3><ol id="topDivisions"></ol></div>
     </div>
+    <p id="trendLink" hidden style="margin:14px 0 0"><a class="btn small" href="/trend" style="text-decoration:none">📊 সব ৬৪ জেলার র‍্যাংকিং ও ম্যাপ দেখুন</a></p>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
     <div><b>ঘুরে দেখা বাংলাদেশ</b> · <a href="/">বাংলাদেশ ম্যাপ</a> · <a href="/world">বিশ্ব ম্যাপ</a> · <a href="/jela">জেলা গাইড</a> · <a href="/countries">দেশ ও মহাদেশ</a> · ব্যবসার জন্য: <a href="/business">জেলা ম্যাপ</a> · <a href="/business/world">বিশ্ব ম্যাপ</a> · <a href="/study-abroad">স্টাডি অ্যাব্রড</a> · <a href="/business/clients">উদাহরণ</a></div>
-    <div>ম্যাপ ডেটা: Natural Earth (public domain) · <a href="/privacy">প্রাইভেসি</a> · <a href="#about">আমাদের কথা ও অনুদান</a></div>
+    <div>ম্যাপ ডেটা: Natural Earth (public domain) · <a href="/privacy">প্রাইভেসি</a> · <a href="#about">আমাদের কথা ও অনুদান</a> · <a href="#install">📲 অ্যাপ হিসেবে রাখুন</a></div>
   </div>
 </footer>
 
@@ -527,22 +677,46 @@ if(BIZ){ THEMES.brand = brandTheme('#0F7F4C'); }
 const WISH = {brand:'#E9A825', flag:'#E9A825', river:'#F0A233', sunset:'#F5B942', hills:'#D9A441', night:'#FFB454', rickshaw:'#F2A93B'};
 const DIV_COLORS = {dhaka:'#D8262C', chattogram:'#0E6E8C', rajshahi:'#E08A1E', khulna:'#2E8B57', barishal:'#7B3FA0', sylhet:'#1D9A8A', rangpur:'#C2185B', mymensingh:'#5C6BC0'};
 const SIZES = {post:{w:1080,h:1350}, square:{w:1080,h:1080}, story:{w:1080,h:1920}};
+/* Bangla locative: জেলা -> জেলায়, দেশ -> দেশে, কাউন্টি -> কাউন্টিতে */
+const LOC = w => /া$/.test(w) ? w + 'য়' : /[িীুূ]$/.test(w) ? w + 'তে' : w + 'ে';
+/* esub/ecap: English poster subtitle and caption (see CFG.en) */
 const REL = {
-  friend:   {bn:'বন্ধু',          sym:'🤝', join:'&',  title:(a,b)=>`${a} & ${b}`,  sub:(n,w,U)=>w ? `একসাথে যেতে চাই ${BN(w)}টি ${U}য়` : `একসাথে ঘুরেছি ${BN(n)}টি ${U}`, cap:(a,b,n,w,U)=>`🤝 ${a} আর ${b}: একসাথে ঘোরা ${BN(n)}টি ${U}, লিস্টে আরও ${BN(w)}টি। কে কে যাবি সাথে?`},
-  couple:   {bn:'জুটি',           sym:'❤️', join:'❤️', title:(a,b)=>`${a} ❤️ ${b}`, sub:(n,w,U)=>w ? `দুজনে ঘুরেছি ${BN(n)}টি, যাব আরও ${BN(w)}টি ${U}য়` : `দুজনে ঘুরেছি ${BN(n)}টি ${U}`, cap:(a,b,n,w,U)=>`❤️ ${a} আর ${b}: দুজনে মিলে ঘোরা ${BN(n)}টি ${U}, স্বপ্নের লিস্টে আরও ${BN(w)}টি।`},
-  honeymoon:{bn:'হানিমুন ড্রিম',   sym:'💍', join:'💍', title:(a,b)=>`${a} 💍 ${b}`, sub:(n,w,U)=>`হানিমুনে যেতে চাই ${BN(w)}টি ${U}য়`, cap:(a,b,n,w,U)=>`💍 বিয়ের পর হানিমুনে ${b}-কে নিয়ে যাব এই ${BN(w)}টি ${U}য়। (${b === 'ভবিষ্যৎ বউ' || b === 'ভবিষ্যৎ বর' ? 'মানুষটা এখনো খুঁজছি 😅' : 'প্ল্যান রেডি, এবার ছুটি লাগবে'})`},
-  family:   {bn:'পরিবার',         sym:'👨‍👩‍👧', join:'+',  title:(a,b)=>`${a} + ${b}`,  sub:(n,w,U)=>w ? `পরিবার নিয়ে ঘুরেছি ${BN(n)}টি, যাব আরও ${BN(w)}টি` : `পরিবার নিয়ে ঘুরেছি ${BN(n)}টি ${U}`, cap:(a,b,n,w,U)=>`👨‍👩‍👧 ${a} আর ${b}: পরিবার নিয়ে ঘোরা ${BN(n)}টি ${U}, বাকেট লিস্টে আরও ${BN(w)}টি।`},
-  besties:  {bn:'বেস্টি গ্যাং',    sym:'🔥', join:'x',  title:(a,b)=>`${a} x ${b}`,  sub:(n,w,U)=>w ? `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি, প্ল্যানে আরও ${BN(w)}টি` : `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি ${U}য়`, cap:(a,b,n,w,U)=>`🔥 ${a} x ${b}: গ্যাং ট্রিপ ${BN(n)}টি ${U}, পরের টার্গেট ${BN(w)}টি। ট্যাগ কর যারা যাবে!`},
+  friend:   {bn:'বন্ধু',          sym:'🤝', join:'&',  title:(a,b)=>`${a} & ${b}`,  sub:(n,w,U)=>w ? `একসাথে যেতে চাই ${BN(w)}টি ${LOC(U)}` : `একসাথে ঘুরেছি ${BN(n)}টি ${U}`, cap:(a,b,n,w,U)=>`🤝 ${a} আর ${b}: একসাথে ঘোরা ${BN(n)}টি ${U}, লিস্টে আরও ${BN(w)}টি। কে কে যাবি সাথে?`,
+    esub:(n,w)=>w ? `Want to explore ${w} ${EU(w)} together` : `Explored ${n} ${EU(n)} together`, ecap:(a,b,n,w)=>`🤝 ${a} and ${b}: ${n} ${EU(n)} explored together, ${w} more on the list. Who's coming along next time?`},
+  couple:   {bn:'জুটি',           sym:'❤️', join:'❤️', title:(a,b)=>`${a} ❤️ ${b}`, sub:(n,w,U)=>w ? `দুজনে ঘুরেছি ${BN(n)}টি, যাব আরও ${BN(w)}টি ${LOC(U)}` : `দুজনে ঘুরেছি ${BN(n)}টি ${U}`, cap:(a,b,n,w,U)=>`❤️ ${a} আর ${b}: দুজনে মিলে ঘোরা ${BN(n)}টি ${U}, স্বপ্নের লিস্টে আরও ${BN(w)}টি।`,
+    esub:(n,w)=>w ? `Explored ${n} together, ${w} more ${EU(w)} to go` : `Explored ${n} ${EU(n)} together`, ecap:(a,b,n,w)=>`❤️ ${a} and ${b}: ${n} ${EU(n)} explored together, ${w} more on our dream list.`},
+  honeymoon:{bn:'হানিমুন ড্রিম',   sym:'💍', join:'💍', title:(a,b)=>`${a} 💍 ${b}`, sub:(n,w,U)=>`হানিমুনে যেতে চাই ${BN(w)}টি ${LOC(U)}`, cap:(a,b,n,w,U)=>`💍 বিয়ের পর হানিমুনে ${b}-কে নিয়ে যাব এই ${BN(w)}টি ${LOC(U)}। (${b === 'ভবিষ্যৎ বউ' || b === 'ভবিষ্যৎ বর' ? 'মানুষটা এখনো খুঁজছি 😅' : 'প্ল্যান রেডি, এবার ছুটি লাগবে'})`,
+    esub:(n,w)=>`Honeymoon dream: ${w} ${EU(w)}`, ecap:(a,b,n,w)=>`💍 After the wedding, I'm taking ${/^future (wife|husband)$/i.test(b) ? 'my ' + b.toLowerCase() : b} on a honeymoon to these ${w} ${EU(w)}. (${/^(future (wife|husband)|ভবিষ্যৎ (বউ|বর))$/i.test(b) ? 'Still looking for the right person 😅' : 'The plan is ready, now we just need the time off'})`},
+  family:   {bn:'পরিবার',         sym:'👨‍👩‍👧', join:'+',  title:(a,b)=>`${a} + ${b}`,  sub:(n,w,U)=>w ? `পরিবার নিয়ে ঘুরেছি ${BN(n)}টি, যাব আরও ${BN(w)}টি` : `পরিবার নিয়ে ঘুরেছি ${BN(n)}টি ${U}`, cap:(a,b,n,w,U)=>`👨‍👩‍👧 ${a} আর ${b}: পরিবার নিয়ে ঘোরা ${BN(n)}টি ${U}, বাকেট লিস্টে আরও ${BN(w)}টি।`,
+    esub:(n,w)=>w ? `Explored ${n} as a family, ${w} more to go` : `Explored ${n} ${EU(n)} as a family`, ecap:(a,b,n,w)=>`👨‍👩‍👧 ${a} and ${b}: ${n} ${EU(n)} explored as a family, ${w} more on the bucket list.`},
+  besties:  {bn:'বেস্টি গ্যাং',    sym:'🔥', join:'x',  title:(a,b)=>`${a} x ${b}`,  sub:(n,w,U)=>w ? `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি, প্ল্যানে আরও ${BN(w)}টি` : `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি ${LOC(U)}`, cap:(a,b,n,w,U)=>`🔥 ${a} x ${b}: গ্যাং ট্রিপ ${BN(n)}টি ${U}, পরের টার্গেট ${BN(w)}টি। ট্যাগ কর যারা যাবে!`,
+    esub:(n,w)=>w ? `${n} squad trips done, ${w} more planned` : `Squad trips to ${n} ${EU(n)}`, ecap:(a,b,n,w)=>`🔥 ${a} x ${b}: squad trips to ${n} ${EU(n)}, next target ${w}. Tag the ones who're coming!`},
 };
 
-const state = {counts:{}, grp:false, kind:(BIZ && CFG.map !== 'bd') ? 'student' : 'branch', tagline:'', brandColor:'#0F7F4C', hook:'', selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:CFG.showDivDefault !== false, labelMode:'visited', size:'post'};
+const state = {counts:{}, grp:false, kind:(BIZ && CFG.map !== 'bd') ? 'student' : 'branch', tagline:'', brandColor:'#0F7F4C', hook:'', selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:CFG.showDivDefault !== false, labelMode:'visited', size:'post', layout:'classic', lang:'bn'};
 const YEAR = BN(new Date().getFullYear());
+/* ---------- poster language: the site UI stays Bangla; poster, share card and caption can be English when the page has CFG.en ---------- */
+const E = CFG.en || {};
+const isEN = () => !!CFG.en && state.lang === 'en' && !BIZ && !OP;
+const L = (bn, en) => isEN() ? en : bn;
+const NUM = n => isEN() ? String(n) : BN(n);
+const YEAR_N = new Date().getFullYear();
+const EU = n => n === 1 ? (E.unit || 'place') : (E.units || 'places');
+const ECAP = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+const EPOSS = p => p + (/s$/i.test(p) ? "'" : "'s");
+const EAND = a => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length-1];
+const nameOf = d => isEN() ? (d.en || d.bn) : d.bn;
+/* photo map: visitors put their own photo inside each visited unit (personal maps only) */
+const PHOTO_ON = !BIZ && !OP;
+state.dphotos = {};
+/* DIV_COLORS only knows Bangladesh's divisions; give continents/regions a colour too so "প্রতি ...-এ আলাদা রঙ" works on personal world/country maps */
+if(!OP){ const PAL = ['#D8262C','#0E6E8C','#E08A1E','#2E8B57','#7B3FA0','#1D9A8A','#C2185B','#5C6BC0','#8D6E63','#00838F','#F4511E','#3949AB']; DIVISIONS.forEach((dv, i) => { if(!DIV_COLORS[dv.id]) DIV_COLORS[dv.id] = PAL[i % PAL.length]; }); }
 
 /* ---------- persistence ---------- */
 function saveProfile(){ if(BIZ) return; try{ localStorage.setItem('gd-profile', JSON.stringify({name: state.name, name2: state.name2, rel: state.rel, duo: state.duo})); if(state.photo) localStorage.setItem('gd-photo', state.photo); else localStorage.removeItem('gd-photo'); if(state.photo2) localStorage.setItem('gd-photo2', state.photo2); else localStorage.removeItem('gd-photo2'); }catch(e){} }
-function save(){ saveProfile(); try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], wish:[...state.wish], recap:state.recap, duo:state.duo, name2:state.name2, rel:state.rel, name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size, kind:state.kind, tagline:state.tagline, brandColor:state.brandColor, hook:state.hook, counts:state.counts})); }catch(e){}
+function save(){ saveProfile(); try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], wish:[...state.wish], recap:state.recap, duo:state.duo, name2:state.name2, rel:state.rel, name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size, kind:state.kind, tagline:state.tagline, brandColor:state.brandColor, hook:state.hook, counts:state.counts, layout:state.layout, lang:state.lang})); }catch(e){}
   try{ if(state.photo) localStorage.setItem(CFG.key+'-photo', state.photo); else localStorage.removeItem(CFG.key+'-photo'); if(state.photo2) localStorage.setItem(CFG.key+'-photo2', state.photo2); else localStorage.removeItem(CFG.key+'-photo2'); }catch(e){} }
-function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => validId(id) && state.selected.add(id)); (s.wish||[]).forEach(id => validId(id) && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.duo = !!s.duo; state.name2 = s.name2||''; if(REL[s.rel]) state.rel = s.rel; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; if(KINDS[s.kind]) state.kind = s.kind; state.tagline = s.tagline || ''; if(/^#[0-9a-f]{6}$/i.test(s.brandColor||'')){ state.brandColor = s.brandColor; if(BIZ) THEMES.brand = brandTheme(s.brandColor); } state.hook = s.hook || ''; if(s.counts && typeof s.counts === 'object') state.counts = s.counts; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; const p2 = localStorage.getItem(CFG.key+'-photo2'); if(p2 && p2.startsWith('data:image')) state.photo2 = p2;
+function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => validId(id) && state.selected.add(id)); (s.wish||[]).forEach(id => validId(id) && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.duo = !!s.duo; state.name2 = s.name2||''; if(REL[s.rel]) state.rel = s.rel; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; if(KINDS[s.kind]) state.kind = s.kind; state.tagline = s.tagline || ''; if(/^#[0-9a-f]{6}$/i.test(s.brandColor||'')){ state.brandColor = s.brandColor; if(BIZ) THEMES.brand = brandTheme(s.brandColor); } state.hook = s.hook || ''; if(s.counts && typeof s.counts === 'object') state.counts = s.counts; if(typeof s.layout === 'string' && /^[a-z]{2,16}$/.test(s.layout)) state.layout = s.layout; if(s.lang === 'en' || s.lang === 'bn') state.lang = s.lang; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; const p2 = localStorage.getItem(CFG.key+'-photo2'); if(p2 && p2.startsWith('data:image')) state.photo2 = p2;
   /* one profile for the whole site: name and photos set on any map are used on every map */
   const pr = BIZ ? null : JSON.parse(localStorage.getItem('gd-profile') || 'null'); if(pr){ if(pr.name) state.name = pr.name; if(pr.name2) state.name2 = pr.name2; if(REL[pr.rel]) state.rel = pr.rel; if(typeof pr.duo === 'boolean') state.duo = pr.duo; } const gp = BIZ ? null : localStorage.getItem('gd-photo'); if(gp && gp.startsWith('data:image')) state.photo = gp; const gp2 = localStorage.getItem('gd-photo2'); if(gp2 && gp2.startsWith('data:image')) state.photo2 = gp2; }catch(e){} }
 
@@ -551,6 +725,70 @@ const PATHS = {}; DISTRICTS.forEach(d => { d.tiny = CFG.tiny && d.a < 4; PATHS[d
 const OUTLINE_PATH = new Path2D(OUTLINE);
 let photoImg = null, photoImg2 = null;
 function loadPhoto(){ photoImg = null; photoImg2 = null; if(state.photo){ const im = new Image(); im.onload = () => { photoImg = im; requestRender(); }; im.src = state.photo; } if(state.photo2){ const im2 = new Image(); im2.onload = () => { photoImg2 = im2; requestRender(); }; im2.src = state.photo2; } }
+
+/* ---------- photo map: one photo per visited unit, clipped into its shape on the poster ---------- */
+const DPH_KEY = CFG.key + '-dph';
+const dphImg = {}, dphLoad = {}, DPH_BOX = {};
+const dphOk = d => !!d && !d.tiny && !!d.d;
+/* where the photo is cover-fitted: the box of the unit's largest ring, grown with big rings nearby
+   (so a photo of France sits on France instead of stretching to French Guiana; the paths are only M/Z + x y pairs) */
+function dphBox(d){
+  if(DPH_BOX[d.id] !== undefined) return DPH_BOX[d.id];
+  const rings = [];
+  for(const seg of (d.d || '').split('M')){
+    const v = seg.match(/-?\d*\.?\d+(?:e[-+]?\d+)?/gi); if(!v || v.length < 6) continue;
+    const k = v.length - (v.length % 2); let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity, a = 0;
+    for(let i = 0; i < k; i += 2){ const x = +v[i], y = +v[i+1], j = (i + 2) % k, X = +v[j], Y = +v[j+1]; a += x*Y - X*y; if(x < x0) x0 = x; if(x > x1) x1 = x; if(y < y0) y0 = y; if(y > y1) y1 = y; }
+    rings.push({a: Math.abs(a)/2, x0, y0, x1, y1});
+  }
+  if(!rings.length) return (DPH_BOX[d.id] = null);
+  rings.sort((p, q) => q.a - p.a);
+  const m = rings[0], b = {x0: m.x0, y0: m.y0, x1: m.x1, y1: m.y1}, A0 = Math.max(1e-6, (m.x1 - m.x0)*(m.y1 - m.y0));
+  for(const r of rings.slice(1)){ if(r.a < 0.1*m.a) break; const nb = {x0: Math.min(b.x0, r.x0), y0: Math.min(b.y0, r.y0), x1: Math.max(b.x1, r.x1), y1: Math.max(b.y1, r.y1)}; if((nb.x1 - nb.x0)*(nb.y1 - nb.y0) <= 4*A0) Object.assign(b, nb); }
+  return (DPH_BOX[d.id] = {x: b.x0, y: b.y0, w: Math.max(1e-3, b.x1 - b.x0), h: Math.max(1e-3, b.y1 - b.y0)});
+}
+function dphSet(id, url){
+  if(!url){ delete state.dphotos[id]; delete dphImg[id]; delete dphLoad[id]; requestRender(); return; }
+  state.dphotos[id] = url; const im = new Image();
+  dphLoad[id] = new Promise(res => { im.onload = () => { if(state.dphotos[id] === url){ dphImg[id] = im; requestRender(); } res(); }; im.onerror = () => { if(state.dphotos[id] === url){ delete state.dphotos[id]; delete dphImg[id]; } res(); }; });
+  im.src = url;
+}
+const dphReady = () => Promise.all(Object.values(dphLoad)).then(() => {}, () => {});
+function dphLoadAll(){ if(!PHOTO_ON) return; try{ const o = JSON.parse(localStorage.getItem(DPH_KEY) || 'null'); if(o && typeof o === 'object') Object.entries(o).forEach(([id, url]) => { if(byId[id] && typeof url === 'string' && url.startsWith('data:image')) dphSet(id, url); }); }catch(e){} }
+let dphWarned = false;
+function dphSave(){
+  if(!PHOTO_ON) return true;
+  const ids = Object.keys(state.dphotos).sort((a, b) => (state.selected.has(b) ? 1 : 0) - (state.selected.has(a) ? 1 : 0));
+  const pack = k => { const o = {}; ids.slice(0, k).forEach(id => { o[id] = state.dphotos[id]; }); return JSON.stringify(o); };
+  try{ if(ids.length) localStorage.setItem(DPH_KEY, pack(ids.length)); else localStorage.removeItem(DPH_KEY); return true; }catch(e){}
+  /* browser storage is full: keep as many as fit (visited first), leave one photo of headroom for the ticks, the rest stay for this visit only */
+  let lo = 1, hi = ids.length - 1, best = 0;
+  try{ localStorage.removeItem(DPH_KEY); }catch(e){}
+  while(lo <= hi){ const mid = (lo + hi) >> 1; try{ localStorage.setItem(DPH_KEY, pack(mid)); best = mid; lo = mid + 1; }catch(e){ hi = mid - 1; } }
+  try{ if(best > 1) localStorage.setItem(DPH_KEY, pack(best - 1)); else localStorage.removeItem(DPH_KEY); }catch(e){}
+  if(!dphWarned){ dphWarned = true; toast('সব ছবি ব্রাউজারে জমা রাখা গেল না। ম্যাপটা এখনই নামিয়ে নিন; পেজ আবার খুললে কয়েকটা ছবি নতুন করে দিতে হতে পারে।', 7000); }
+  return false;
+}
+/* phone photos are big: shrink to at most 480px on the long side (halving first keeps it sharp), JPEG 0.8 */
+function dphShrink(file){
+  return new Promise((res, rej) => {
+    const src = URL.createObjectURL(file); const im = new Image();
+    im.onload = () => { try{
+      const W0 = im.naturalWidth || im.width, H0 = im.naturalHeight || im.height, k = Math.min(1, 480 / Math.max(W0, H0));
+      const w = Math.max(1, Math.round(W0*k)), h = Math.max(1, Math.round(H0*k));
+      let from = im, fw = W0, fh = H0;
+      while(fw > 2*w){ const c2 = document.createElement('canvas'); c2.width = Math.round(fw/2); c2.height = Math.round(fh/2); const x2 = c2.getContext('2d'); x2.imageSmoothingQuality = 'high'; x2.drawImage(from, 0, 0, c2.width, c2.height); from = c2; fw = c2.width; fh = c2.height; }
+      const cv = document.createElement('canvas'); cv.width = w; cv.height = h; const cc = cv.getContext('2d'); cc.fillStyle = '#FFFFFF'; cc.fillRect(0, 0, w, h); cc.imageSmoothingQuality = 'high'; cc.drawImage(from, 0, 0, w, h);
+      res(cv.toDataURL('image/jpeg', .8)); }catch(err){ rej(err); } finally{ URL.revokeObjectURL(src); } };
+    im.onerror = () => { URL.revokeObjectURL(src); rej(new Error('bad image')); };
+    im.src = src;
+  });
+}
+/* draw the photos (map coordinates; called inside the map transform) and then their outlines */
+function dphDraw(c){ for(const d of DISTRICTS){ const im = dphImg[d.id]; if(!im || !state.selected.has(d.id) || !dphOk(d)) continue; const b = dphBox(d); if(!b) continue; const sc = Math.max(b.w/im.width, b.h/im.height), iw = im.width*sc, ih = im.height*sc; c.save(); c.clip(PATHS[d.id]); c.drawImage(im, b.x + (b.w - iw)/2, b.y + (b.h - ih)/2, iw, ih); c.restore(); } }
+function dphStroke(c, t, w){ c.save(); c.lineJoin = 'round'; c.lineWidth = w; for(const d of DISTRICTS){ if(!dphImg[d.id] || !state.selected.has(d.id) || !dphOk(d)) continue; c.strokeStyle = state.byDiv ? (DIV_COLORS[d.div] || t.visited) : t.visited; c.stroke(PATHS[d.id]); } c.restore(); }
+/* visited units that carry a photo (what the poster shows) */
+function dphCount(){ if(!PHOTO_ON) return 0; let k = 0; for(const id of state.selected){ if(state.dphotos[id] && dphOk(byId[id])) k++; } return k; }
 
 /* ---------- fonts ---------- */
 let fontsReady = false;
@@ -561,11 +799,15 @@ if(document.fonts) document.fonts.addEventListener('loadingdone', requestRender)
 const canvas = $('#poster'), ctx = canvas.getContext('2d');
 let mapXf = {s:1, x:0, y:0};
 let hover = null;
+/* internals handed to plug-in layouts (see /biz-layouts.js) */
+const API = { state, CFG, THEMES, brandTheme, WISH, DIV_COLORS, DISTRICTS, DIVISIONS, PATHS, OUTLINE_PATH, OUTLINE, MAP_W, MAP_H, TOTAL, U, UL, KINDS, BIZ, OP, BN, mix, hexRgb, vis, wishv, byId, SITE_LABEL, SIZES, LOGO, get photoImg(){ return photoImg; }, get LOGO_OK(){ return LOGO_OK; }, get hover(){ return hover; }, setXf(xf){ mapXf = xf; }, get mapXf(){ return mapXf; }, get rr(){ return rr; }, get F(){ return F; }, L, NUM, isEN, LOC, PHOTO_ON, dphBox, get dphImg(){ return dphImg; } };
 const rr = (c,x,y,w,h,r) => { c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); };
 const F = (w,px,fam) => `${Math.min(+w||400, 700)} ${px}px "Hind Siliguri","Noto Sans Bengali",sans-serif`;
 
 function render(c, W, H, opts){
   opts = opts || {};
+  /* alternative poster layouts (business templates) plug in here: window.GDB_LAYOUTS[name](c, W, H, opts, API) */
+  if(state.layout && state.layout !== 'classic' && window.GDB_LAYOUTS && typeof window.GDB_LAYOUTS[state.layout] === 'function'){ const B0 = opts.base || 1; c.save(); c.setTransform(B0,0,0,B0,0,0); try{ window.GDB_LAYOUTS[state.layout](c, W, H, opts, API); }catch(err){ console.error(err); } finally { c.restore(); } return; }
   const t0 = THEMES[state.theme], t = (OP && CFG.opColor && state.theme === 'flag') ? Object.assign({}, t0, {visited: CFG.opColor}) : t0, u = W/1080, P = 60*u;
   const n = state.selected.size, pct = Math.round(n/TOTAL*100);
   const B = opts.base || 1; c.save(); c.setTransform(B,0,0,B,0,0); c.clearRect(0,0,W,H);
@@ -575,7 +817,7 @@ function render(c, W, H, opts){
 
   /* header */
   let x = P; let headTop = P;
-  const duo = state.duo; const R = REL[state.rel] || REL.friend; const nm1 = state.name.trim() || 'আমি', nm2 = state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু');
+  const duo = state.duo; const R = REL[state.rel] || REL.friend; const EN = isEN(); const nm1 = state.name.trim() || L('আমি', 'Me'), nm2 = state.name2.trim() || (state.rel === 'honeymoon' ? L('ভবিষ্যৎ বউ', 'Future wife') : L('বন্ধু', 'Friend'));
   if(duo){ const d = 130*u, ov = 38*u; const drawP = (img, cx0) => { c.save(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2, 0, Math.PI*2); c.closePath(); c.fillStyle = t.unvisited; c.fill(); c.clip(); if(img){ const sc = Math.max(d/img.width, d/img.height); const iw = img.width*sc, ih = img.height*sc; c.drawImage(img, cx0+d/2-iw/2, headTop+d/2-ih/2, iw, ih); } else { c.fillStyle = t.muted; c.font = F(800, 64*u, 'd'); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('?', cx0+d/2, headTop+d/2+4*u); c.textBaseline = 'alphabetic'; } c.restore(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2+3*u, 0, Math.PI*2); c.lineWidth = 5*u; c.strokeStyle = t.paper; c.stroke(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2+6*u, 0, Math.PI*2); c.lineWidth = 3*u; c.strokeStyle = t.visited; c.stroke(); };
     drawP(photoImg, x); drawP(photoImg2, x + d - ov);
     const bx = x + d - ov/2, by = headTop + d - 10*u; c.beginPath(); c.arc(bx, by, 24*u, 0, Math.PI*2); c.fillStyle = t.paper; c.fill(); c.font = `${26*u}px sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = t.ink; c.fillText(R.sym, bx, by+2*u); c.textBaseline = 'alphabetic';
@@ -590,16 +832,20 @@ function render(c, W, H, opts){
   c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); if('letterSpacing' in c) c.letterSpacing = '1px';
   if(OP && state.grp){ c.fillText('ট্রাভেল গ্রুপ · আমাদের ট্যুর ডেস্টিনেশন', x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
   else if(OP){ if('letterSpacing' in c) c.letterSpacing = '0px'; const ph = 48*u, py = headTop-2*u; c.font = F(800, 28*u, 'd'); const tw = c.measureText(CFG.opName).width; const pw = tw + 40*u; c.save(); c.shadowColor = 'rgba(0,0,0,.16)'; c.shadowBlur = 8*u; c.shadowOffsetY = 2*u; c.fillStyle = CFG.opColor || t.accent; rr(c, x, py, pw, ph, ph/2); c.fill(); c.restore(); c.fillStyle = '#FFFFFF'; c.textBaseline = 'middle'; c.fillText(CFG.opName, x+20*u, py+ph/2+2*u); c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText(state.grp ? 'ট্রাভেল গ্রুপ' : '-এর সাথে', x+pw+10*u, py+ph/2+8*u); }
-  else { c.fillText(BIZ ? (state.tagline.trim() || (CFG.map === 'world' ? 'আমাদের গ্লোবাল নেটওয়ার্ক' : CFG.map === 'bd' ? 'বাংলাদেশে আমাদের নেটওয়ার্ক' : (CFG.eyebrow || 'আমাদের নেটওয়ার্ক'))) : (CFG.eyebrow || 'ঘুরে দেখা বাংলাদেশ'), x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
-  const title = (OP && state.grp) ? CFG.opName : duo ? R.title(nm1, nm2) : state.recap ? (state.name.trim() ? `${state.name.trim()} · ${YEAR}` : `${YEAR}-এ ${CFG.defaultTitle}`) : (state.name.trim() || CFG.defaultTitle);
+  else { c.fillText(BIZ ? (state.tagline.trim() || (CFG.map === 'world' ? 'আমাদের গ্লোবাল নেটওয়ার্ক' : CFG.map === 'bd' ? 'বাংলাদেশে আমাদের নেটওয়ার্ক' : (CFG.eyebrow || 'আমাদের নেটওয়ার্ক'))) : EN ? (E.eyebrow || 'Ghure Dekha Bangladesh') : (CFG.eyebrow || 'ঘুরে দেখা বাংলাদেশ'), x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
+  const title = (OP && state.grp) ? CFG.opName : duo ? R.title(nm1, nm2) : state.recap ? (state.name.trim() ? `${state.name.trim()} · ${L(YEAR, YEAR_N)}` : L(`${YEAR}-এ ${CFG.defaultTitle}`, `${E.title || CFG.defaultTitle} in ${YEAR_N}`)) : (state.name.trim() || L(CFG.defaultTitle, E.title || CFG.defaultTitle));
   let fs = 62*u; c.font = F(800, fs, 'd'); while(c.measureText(title).width > maxW && fs > 30*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
   c.fillStyle = t.ink; c.fillText(title, x, headTop+100*u);
   c.fillStyle = t.muted; c.font = F(500, 24*u, 'b');
-  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`); c.fillText(BIZ ? ((n ? KINDS[state.kind].sub(n) : `ম্যাপে ${U}গুলো বসান`) + (nw_ ? `, শিগগিরই আরও ${BN(nw_)}টিতে` : '')) : (OP && state.grp) ? (`${BN(n)}টি ডেস্টিনেশনে আমাদের নিয়মিত ট্যুর` + (nw_ ? `, আসছে আরও ${BN(nw_)}টি` : '')) : OP ? (n === 1 ? `${CFG.opName}-এর সাথে ঘুরে এলাম ${OP.find(t => state.selected.has(t.id)).bn}` : n ? `${CFG.opName}-এর সাথে ঘুরেছি ${BN(n)}টি ট্যুর` : `${CFG.opName}-এর সাথে যাওয়ার লিস্ট`) + (nw_ ? `, যাব আরও ${BN(nw_)}টি` : '') : duo ? R.sub(n, nw_, U) : sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : ''), x, headTop+142*u);
+  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${LOC(U)} টিক পড়েনি`);
+  const subEn = (state.recap ? (n ? `Visited ${n} ${EU(n)} in ${YEAR_N}` : `Nowhere yet in ${YEAR_N}`) : (n ? `Visited ${n} of ${TOTAL} ${EU(TOTAL)}` : `No ${EU(0)} ticked yet`)) + (nw_ ? `, ${nw_} on the wishlist` : '');
+  const subLine = BIZ ? ((n ? KINDS[state.kind].sub(n) : `ম্যাপে ${U}গুলো বসান`) + (nw_ ? `, শিগগিরই আরও ${BN(nw_)}টিতে` : '')) : (OP && state.grp) ? (`${BN(n)}টি ডেস্টিনেশনে আমাদের নিয়মিত ট্যুর` + (nw_ ? `, আসছে আরও ${BN(nw_)}টি` : '')) : OP ? (n === 1 ? `${CFG.opName}-এর সাথে ঘুরে এলাম ${OP.find(t => state.selected.has(t.id)).bn}` : n ? `${CFG.opName}-এর সাথে ঘুরেছি ${BN(n)}টি ট্যুর` : `${CFG.opName}-এর সাথে যাওয়ার লিস্ট`) + (nw_ ? `, যাব আরও ${BN(nw_)}টি` : '') : duo ? (EN ? R.esub(n, nw_) : R.sub(n, nw_, U)) : EN ? subEn : sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : '');
+  { let sf = 24*u; while(c.measureText(subLine).width > maxW && sf > 16*u){ sf -= 1*u; c.font = F(500, sf, 'b'); } }
+  c.fillText(subLine, x, headTop+142*u);
   // counter disc
   c.beginPath(); c.arc(discX, discY, discR, 0, Math.PI*2); c.fillStyle = t.accent; c.fill();
-  const discN = (duo && n === 0 && nw_) ? nw_ : n; c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.textAlign = 'center'; c.font = F(800, 64*u, 'd'); c.textBaseline = 'middle'; c.fillText(BN(discN), discX, discY+4*u);
-  c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText((OP || (BIZ && CFG.map !== 'bd')) ? `${U}` : `/ ${BN(TOTAL)} ${U}`, discX, discY+discR+30*u);
+  const discN = (duo && n === 0 && nw_) ? nw_ : n; c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.textAlign = 'center'; c.font = F(800, 64*u, 'd'); c.textBaseline = 'middle'; c.fillText(NUM(discN), discX, discY+4*u);
+  c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); { const dl = (OP || (BIZ && CFG.map !== 'bd')) ? `${U}` : EN ? `/ ${TOTAL} ${EU(TOTAL)}` : `/ ${BN(TOTAL)} ${U}`; const dw = c.measureText(dl).width; c.fillText(dl, Math.min(discX, W - 34*u - dw/2), discY+discR+30*u); }
 
   /* footer sizes */
   const showDiv = state.showDiv;
@@ -620,10 +866,12 @@ function render(c, W, H, opts){
   const lw = 1.8*u/s;
   const wishCol = WISH[state.theme] || '#E9A825'; const wishFill = mix(hexRgb(wishCol), hexRgb(t.paper), 0.45);
   for(const d of DISTRICTS){ const v = vis(d.id); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (wishv(d.id) ? wishFill : t.unvisited); c.fill(PATHS[d.id]); }
+  if(PHOTO_ON) dphDraw(c);
   c.lineWidth = lw; c.strokeStyle = t.line; c.lineJoin = 'round';
   for(const d of DISTRICTS) c.stroke(PATHS[d.id]);
   c.save(); c.setLineDash([5*u/s, 3.5*u/s]); c.lineWidth = 1.6*u/s; c.strokeStyle = wishCol; for(const d of DISTRICTS){ if(!vis(d.id) && wishv(d.id)) c.stroke(PATHS[d.id]); } c.restore();
   if(OUTLINE) c.stroke(OUTLINE_PATH);
+  if(PHOTO_ON) dphStroke(c, t, 3.4*u/s);
   if(hover && opts.interactive){ c.lineWidth = 3.5*u/s; c.strokeStyle = t.accent; c.stroke(PATHS[hover]); }
   c.restore();
 
@@ -639,31 +887,32 @@ function render(c, W, H, opts){
     else if(v){ c.beginPath(); c.arc(cx, cy, 5*u, 0, Math.PI*2); c.fillStyle = state.byDiv ? '#FFFFFF' : t.accent; c.fill(); c.lineWidth = 1.5*u; c.strokeStyle = state.byDiv ? DIV_COLORS[d.div] : t.paper; c.stroke(); }
     const want = state.labelMode === 'all' || (state.labelMode === 'visited' && (v || wishv(d.id)));
     if(!want) continue;
-    const tw = c.measureText(d.bn).width + 6*u, th = lfs*1.25;
+    const lbl = nameOf(d); const tw = c.measureText(lbl).width + 6*u, th = lfs*1.25;
     const offs = v ? [-12, -34, 26, -56, 48] : [-12, -34, 26];
     let box = null;
     for(const o of offs){ const by = cy + o*u; const b = {x:cx-tw/2, y:by-th, w:tw, h:th}; if(b.x < 10*u || b.x+b.w > W-10*u) continue; if(!placed.some(p => b.x < p.x+p.w && b.x+b.w > p.x && b.y < p.y+p.h && b.y+b.h > p.y)){ box = b; box.ty = by; break; } }
     if(!box) continue; placed.push(box);
-    c.lineWidth = 4*u; c.strokeStyle = t.paper; c.strokeText(d.bn, cx, box.ty - 3*u);
-    c.fillStyle = v ? t.ink : (wishv(d.id) ? t.ink : t.muted); c.fillText(d.bn, cx, box.ty - 3*u);
+    c.lineWidth = 4*u; c.strokeStyle = t.paper; c.strokeText(lbl, cx, box.ty - 3*u);
+    c.fillStyle = v ? t.ink : (wishv(d.id) ? t.ink : t.muted); c.fillText(lbl, cx, box.ty - 3*u);
   }
 
   let listEndY = 0;
   /* visited list (world) */
   if(listRows > 0){
-    const names = OP ? OP.filter(t => state.selected.has(t.id)).map(t => t.bn) : DISTRICTS.filter(d => state.selected.has(d.id)).sort((a,b) => (BIZ ? ((+state.counts[b.id]||0) - (+state.counts[a.id]||0)) : 0) || b.a - a.a).map(d => BIZ && +state.counts[d.id] ? `${d.bn} ${BN(+state.counts[d.id])}+` : d.bn);
+    const vlist = OP ? [] : DISTRICTS.filter(d => state.selected.has(d.id)).sort((a,b) => (BIZ ? ((+state.counts[b.id]||0) - (+state.counts[a.id]||0)) : 0) || b.a - a.a);
+    const names = OP ? OP.filter(t => state.selected.has(t.id)).map(t => t.bn) : vlist.map(d => BIZ && +state.counts[d.id] ? `${d.bn} ${BN(+state.counts[d.id])}+` : nameOf(d));
     c.font = F(600, 19*u, 'b'); c.textAlign = 'left'; c.textBaseline = 'middle';
     let cx = P, cy = listTop0, row = 0, i = 0; const padX = 14*u, gap = 8*u, maxX = W - P;
-    c.fillStyle = t.muted; c.font = F(600, 18*u, 'b'); c.fillText(BIZ ? (state.kind === 'student' ? `যে ${U}গুলোতে আমাদের স্টুডেন্ট` : state.kind === 'tour' ? `যে ${U}গুলোতে ট্যুর দিই` : state.kind === 'visa' ? (CFG.map === 'world' ? `যে ${U}গুলোর ভিসা করি` : `যে ${U}গুলো থেকে ক্লায়েন্ট`) : state.kind === 'job' ? `যে ${U}গুলোতে কর্মী পাঠাই` : `যে ${U}গুলোতে আমরা আছি`) : `যে ${U}গুলোতে পা পড়েছে`, P, cy - 24*u);
+    c.fillStyle = t.muted; c.font = F(600, 18*u, 'b'); c.fillText(BIZ ? (state.kind === 'student' ? `যে ${U}গুলোতে আমাদের স্টুডেন্ট` : state.kind === 'tour' ? `যে ${U}গুলোতে ট্যুর দিই` : state.kind === 'visa' ? (CFG.map === 'world' ? `যে ${U}গুলোর ভিসা করি` : `যে ${U}গুলো থেকে ক্লায়েন্ট`) : state.kind === 'job' ? `যে ${U}গুলোতে কর্মী পাঠাই` : `যে ${U}গুলোতে আমরা আছি`) : L(`যে ${U}গুলোতে পা পড়েছে`, `${ECAP(EU(2))} I've set foot in`), P, cy - 24*u);
     for(; i < names.length; i++){
       c.font = F(600, 19*u, 'b'); let w = c.measureText(names[i]).width + 2*padX;
-      const restW = c.measureText(`+${BN(names.length - i)}`).width + 2*padX;
+      const restW = c.measureText(`+${NUM(names.length - i)}`).width + 2*padX;
       if(cx + w > maxX){ row++; cx = P; cy += rowH + rowGap; if(row >= listRows) break; }
       if(row === listRows-1 && i < names.length-1 && cx + w + gap + restW > maxX){ break; }
-      rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = (state.byDiv && !OP && !BIZ) ? DIV_COLORS[DISTRICTS.find(d => d.bn === names[i]).div] : t.visited; c.fill();
+      rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = (state.byDiv && !OP && !BIZ) ? (DIV_COLORS[vlist[i].div] || t.visited) : t.visited; c.fill();
       c.fillStyle = '#FFFFFF'; c.fillText(names[i], cx + padX, cy + rowH/2 + 1*u); cx += w + gap;
     }
-    if(i < names.length){ const lbl = `+${BN(names.length - i)} আরও`; const w = c.measureText(lbl).width + 2*padX; if(cx + w > maxX){ cx = P; } rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = t.unvisited; c.fill(); c.fillStyle = t.ink; c.fillText(lbl, cx + padX, cy + rowH/2 + 1*u); }
+    if(i < names.length){ const lbl = L(`+${BN(names.length - i)} আরও`, `+${names.length - i} more`); const w = c.measureText(lbl).width + 2*padX; if(cx + w > maxX){ cx = P; } rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = t.unvisited; c.fill(); c.fillStyle = t.ink; c.fillText(lbl, cx + padX, cy + rowH/2 + 1*u); }
     c.textBaseline = 'alphabetic'; listEndY = cy + rowH;
   }
   if(BIZ && state.hook.trim()){ const lines = state.hook.trim().split(/\n/).slice(0,2); let fs = 92*u; c.font = F(800, fs, 'd'); const maxHW = (W - 2*P) * 0.55; while(lines.some(l => c.measureText(l).width > maxHW) && fs > 44*u){ fs -= 4*u; c.font = F(800, fs, 'd'); } c.textAlign = 'left'; c.fillStyle = t.ink; let hy = mapBottom - 10*u - (lines.length-1)*fs*1.08; if(CFG.listVisited && listEndY){ const avail = mapBottom - 10*u - (listEndY + 28*u); const need = fs + (lines.length-1)*fs*1.08; if(need > avail){ fs = Math.max(30*u, avail / (1 + (lines.length-1)*1.08)); c.font = F(800, fs, 'd'); hy = listEndY + 28*u + fs; } else { const want = listEndY + 50*u + fs; hy = mapBottom - 10*u - (lines.length-1)*fs*1.08; if(want < hy) hy = want + (hy - want)/2; else hy = want; } } lines.forEach((l, i) => { c.fillStyle = i === lines.length-1 ? t.visited : t.ink; c.fillText(l, P, hy + i*fs*1.08); }); }
@@ -676,8 +925,11 @@ function render(c, W, H, opts){
   else if(OP){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const right = state.wish.size ? (state.grp ? `🚀 আসছে ${BN(state.wish.size)}টি` : `🚀 শিগগিরই আসছি ${BN(state.wish.size)}`) : (n === TOTAL && !state.grp ? 'সব ট্যুর শেষ!' : ''); c.font = F(500, 23*u, 'b'); const rw = right ? c.measureText(right).width + 20*u : 0; const maxLW = W - 2*P - rw; c.font = F(700, 27*u, 'd');
     let line = (showDiv && n > 1) ? (state.grp ? `আমাদের ${BN(n)}টি ট্যুর ডেস্টিনেশন` : `${CFG.opName}-এর সাথে ${BN(n)}টি ট্যুর`) : state.grp ? (n ? `আমরা যাই: ${nm.join(', ')}` : 'ট্যুরে টিক দিন') : !n ? `${CFG.opName}-এর সাথে কোথায় যাব, বাছছি` : n === 1 ? `${CFG.opName}-এর সাথে ${nm[0]} ঘুরে এলাম` : `${CFG.opName}-এর সাথে: ${nm.join(', ')}`; let k = nm.length; while(c.measureText(line).width > maxLW && k > 1){ k--; line = `${state.grp ? 'আমরা যাই' : CFG.opName + '-এর সাথে'}: ${nm.slice(0,k).join(', ')} +${BN(nm.length-k)} আরও`; }
     c.fillText(line, P, y); if(right){ c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(right, W-P, y); } }
-  else { c.fillText(state.recap ? `${YEAR}-এ ${CFG.place} ${BN(pct)}% ঘোরা হলো` : `${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`, P, y);
-  c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(n === TOTAL ? `সব ${U} ঘোরা শেষ!` : (state.wish.size ? `🚀 শিগগিরই আসছি ${BN(state.wish.size)} · বাকি ${BN(TOTAL-n)}` : `বাকি ${BN(TOTAL-n)} ${U}`), W-P, y); }
+  else { const left = EN ? (state.recap ? `${pct}% of ${E.place} explored in ${YEAR_N}` : `${pct}% of ${E.place} explored`) : (state.recap ? `${YEAR}-এ ${CFG.place} ${BN(pct)}% ঘোরা হলো` : `${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`);
+    const right = EN ? (n === TOTAL ? `All ${EU(2)} done!` : (state.wish.size ? `🎯 Wishlist ${state.wish.size} · ${TOTAL-n} to go` : `${TOTAL-n} ${EU(TOTAL-n)} to go`)) : (n === TOTAL ? `সব ${U} ঘোরা শেষ!` : (state.wish.size ? `🚀 শিগগিরই আসছি ${BN(state.wish.size)} · বাকি ${BN(TOTAL-n)}` : `বাকি ${BN(TOTAL-n)} ${U}`));
+    c.font = F(500, 23*u, 'b'); const rw = c.measureText(right).width; let lf = 27*u; c.font = F(700, lf, 'd'); while(c.measureText(left).width > W - 2*P - rw - 24*u && lf > 18*u){ lf -= 1*u; c.font = F(700, lf, 'd'); }
+    c.fillText(left, P, y);
+  c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(right, W-P, y); }
 
   /* division chips */
   if(showDiv && OP){
@@ -700,14 +952,15 @@ function render(c, W, H, opts){
       const full = got === tot;
       rr(c, cx, cy, cw, chipH, 12*u); c.fillStyle = full ? (state.byDiv ? DIV_COLORS[dv.id] : t.visited) : t.unvisited; c.fill();
       if(!full && got){ c.save(); rr(c, cx, cy, cw, chipH, 12*u); c.clip(); c.fillStyle = state.byDiv ? DIV_COLORS[dv.id] : t.visited; c.globalAlpha = .25; c.fillRect(cx, cy, cw*got/tot, chipH); c.restore(); }
-      c.textBaseline = 'middle'; c.textAlign = 'left'; c.fillStyle = full ? '#FFFFFF' : t.ink; c.font = F(600, 21*u, 'b'); c.fillText(dv.bn, cx+14*u, cy+chipH/2+1*u);
-      c.textAlign = 'right'; c.fillStyle = full ? '#FFFFFF' : t.muted; c.font = F(700, 21*u, 'd'); c.fillText(`${BN(got)}/${BN(tot)}`, cx+cw-14*u, cy+chipH/2+1*u);
+      const cnt = `${NUM(got)}/${NUM(tot)}`; c.font = F(700, 21*u, 'd'); const cntW = c.measureText(cnt).width; const dvn = EN ? (dv.en || dv.bn) : dv.bn;
+      c.textBaseline = 'middle'; c.textAlign = 'left'; c.fillStyle = full ? '#FFFFFF' : t.ink; let cf = 21*u; c.font = F(600, cf, 'b'); while(c.measureText(dvn).width > cw - 38*u - cntW && cf > 14*u){ cf -= 1*u; c.font = F(600, cf, 'b'); } c.fillText(dvn, cx+14*u, cy+chipH/2+1*u);
+      c.textAlign = 'right'; c.fillStyle = full ? '#FFFFFF' : t.muted; c.font = F(700, 21*u, 'd'); c.fillText(cnt, cx+cw-14*u, cy+chipH/2+1*u);
       c.textBaseline = 'alphabetic';
     });
   }
   /* credit pill: a button-like call to action so viewers know where to make their own */
   c.textAlign = 'left'; c.textBaseline = 'middle';
-  const t1 = BIZ ? 'আপনার ব্যবসার ম্যাপ বানান' : OP ? `${CFG.opName}-এর সাথে আপনার ম্যাপ বানান` : 'নিজের ম্যাপ বানান', t2 = (OP || BIZ) ? SITE_LABEL + CFG.path : SITE_LABEL; c.font = F(600, 21*u, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 24*u, 'd'); const w2 = c.measureText(t2).width;
+  const t1 = BIZ ? 'আপনার ব্যবসার ম্যাপ বানান' : OP ? `${CFG.opName}-এর সাথে আপনার ম্যাপ বানান` : L('নিজের ম্যাপ বানান', 'Make your own map'), t2 = (OP || BIZ) ? SITE_LABEL + CFG.path : SITE_LABEL; c.font = F(600, 21*u, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 24*u, 'd'); const w2 = c.measureText(t2).width;
   const pillH = 46*u, padX = 22*u, gap = 12*u, logoD = LOGO_OK ? pillH - 8*u : 0, logoGap = LOGO_OK ? 10*u : 0, pillW = (LOGO_OK ? 6*u : padX) + logoD + logoGap + w1 + gap + w2 + padX, px0 = W/2 - pillW/2, py0 = H - 30*u - pillH;
   rr(c, px0, py0, pillW, pillH, pillH/2); c.fillStyle = state.byDiv ? t.accent : t.visited; c.fill();
   let tx0 = px0 + padX; if(LOGO_OK){ c.save(); c.beginPath(); c.arc(px0 + 4*u + pillH/2, py0 + pillH/2, logoD/2, 0, Math.PI*2); c.closePath(); c.fillStyle = '#FFFFFF'; c.fill(); c.drawImage(LOGO, px0 + 4*u + pillH/2 - logoD/2, py0 + pillH/2 - logoD/2, logoD, logoD); c.restore(); tx0 = px0 + 6*u + logoD + logoGap; }
@@ -728,10 +981,10 @@ function renderCard(c, W, H){
   c.save(); c.shadowColor = 'rgba(0,0,0,.28)'; c.shadowBlur = 40*u; c.shadowOffsetY = 16*u; c.fillStyle = t.paper; rr(c, px, py, pw, ph, 14*u); c.fill(); c.restore();
   c.save(); rr(c, px, py, pw, ph, 14*u); c.clip(); c.drawImage(off, px, py, pw, ph); c.restore();
   if(state.size !== 'square'){ /* side strips carry the question when there is room */
-    const n = state.selected.size; c.save(); c.translate(px/2, H/2); c.rotate(-Math.PI/2); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = t.accent; c.font = F(800, Math.min(34*u, px*0.55), 'd'); c.fillText(`আপনার কয়টা ${U} হলো?`, 0, 0); c.restore();
+    const n = state.selected.size; c.save(); c.translate(px/2, H/2); c.rotate(-Math.PI/2); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = t.accent; c.font = F(800, Math.min(34*u, px*0.55), 'd'); c.fillText(L(`আপনার কয়টা ${U} হলো?`, `How many ${EU(2)} have you been to?`), 0, 0); c.restore();
     c.save(); c.translate(W - px/2, H/2); c.rotate(Math.PI/2); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = t.muted; c.font = F(700, Math.min(30*u, px*0.5), 'd'); c.fillText(SITE_LABEL, 0, 0); c.restore(); }
 }
-async function renderCardBlob(){ await fontPromise; const W = 1200, H = 1200; const c = document.createElement('canvas'); c.width = W; c.height = H; renderCard(c.getContext('2d'), W, H); return new Promise(r => c.toBlob(r, 'image/jpeg', .88)); }
+async function renderCardBlob(){ await fontPromise; await dphReady(); const W = 1200, H = 1200; const c = document.createElement('canvas'); c.width = W; c.height = H; renderCard(c.getContext('2d'), W, H); return new Promise(r => c.toBlob(r, 'image/jpeg', .88)); }
 const blobToDataUrl = b => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); });
 
 /* ---------- events + public stats ---------- */
@@ -754,6 +1007,7 @@ async function loadStats(){
     const ts = s.updated_at ? new Date(s.updated_at) : null; $('#statsUpdated').textContent = ts ? 'আপডেট: ' + BN(ts.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', timeZone:'Asia/Dhaka'})) : '';
     /* show the public counter only once the numbers mean something */
     $('#stats').hidden = !(Number(s.maps_total || 0) >= 200 || Number(s.visits_total || 0) >= 1000);
+    if(CFG.map === 'bd' && !BIZ && !OP && $('#trendLink')) $('#trendLink').hidden = false;
   }catch(e){}
 }
 loadStats();
@@ -766,9 +1020,12 @@ function hit(ev){ const r = canvas.getBoundingClientRect(); const px = (ev.clien
 const tip = $('#tip');
 let downPos = null;
 canvas.addEventListener('pointerdown', e => { downPos = {x:e.clientX, y:e.clientY}; });
-canvas.addEventListener('pointerup', e => { if(!downPos) return; const moved = Math.hypot(e.clientX-downPos.x, e.clientY-downPos.y) > 8; downPos = null; if(moved) return; const d = hit(e); if(!d) return; if(OP){ const ts = toursByDist[d.id] || []; if(!ts.length){ toast(`${d.bn}য় ${CFG.opName}-এর ট্যুর নেই`); return; } const set = state.mode === 'wish' ? state.wish : state.selected; const all = ts.every(t => set.has(t)); ts.forEach(t => all ? set.delete(t) : (set.add(t), (state.mode === 'wish' ? state.selected : state.wish).delete(t))); update(); } else toggle(d.id); });
-canvas.addEventListener('pointermove', e => { if(e.pointerType === 'touch') return; const d = hit(e); const id = d ? d.id : null; if(id !== hover){ hover = id; requestRender(); } canvas.style.cursor = d ? 'pointer' : 'default'; if(d){ const r = $('#posterWrap').getBoundingClientRect(); tip.textContent = (OP ? (toursByDist[d.id] || []).map(t => byTour[t].bn).join(', ') || d.bn : d.bn) + (vis(d.id) ? ' ✓' : ''); tip.style.left = (e.clientX - r.left) + 'px'; tip.style.top = (e.clientY - r.top) + 'px'; tip.classList.add('show'); } else tip.classList.remove('show'); });
+canvas.addEventListener('pointerup', e => { if(!downPos) return; const moved = Math.hypot(e.clientX-downPos.x, e.clientY-downPos.y) > 8; downPos = null; if(moved) return; const d = hit(e); if(!d) return; if(dphOpen() && state.selected.has(d.id) && dphOk(d)){ dphTap = {id: d.id, t: Date.now()}; return; } if(OP){ const ts = toursByDist[d.id] || []; if(!ts.length){ toast(`${d.bn}য় ${CFG.opName}-এর ট্যুর নেই`); return; } const set = state.mode === 'wish' ? state.wish : state.selected; const all = ts.every(t => set.has(t)); ts.forEach(t => all ? set.delete(t) : (set.add(t), (state.mode === 'wish' ? state.selected : state.wish).delete(t))); update(); } else toggle(d.id); });
+canvas.addEventListener('pointermove', e => { if(e.pointerType === 'touch') return; const d = hit(e); const id = d ? d.id : null; if(id !== hover){ hover = id; requestRender(); } canvas.style.cursor = d ? 'pointer' : 'default'; if(d){ const r = $('#posterWrap').getBoundingClientRect(); tip.textContent = (dphOpen() && state.selected.has(d.id) && dphOk(d)) ? `📸 ${d.bn}: ${state.dphotos[d.id] ? 'নতুন ছবি দিতে চাপুন' : 'ছবি দিতে চাপুন'}` : (OP ? (toursByDist[d.id] || []).map(t => byTour[t].bn).join(', ') || d.bn : d.bn) + (vis(d.id) ? ' ✓' : ''); tip.style.left = (e.clientX - r.left) + 'px'; tip.style.top = (e.clientY - r.top) + 'px'; tip.classList.add('show'); } else tip.classList.remove('show'); });
 canvas.addEventListener('pointerleave', () => { hover = null; tip.classList.remove('show'); requestRender(); });
+/* photo map: the file picker opens from the click that follows the tap (iOS only lets a click open it) */
+let dphTap = null;
+canvas.addEventListener('click', () => { const t = dphTap; dphTap = null; if(t && Date.now() - t.t < 1500) dphPick(t.id); });
 
 /* ---------- UI ---------- */
 function toggle(id){ if(state.mode === 'wish'){ if(state.wish.has(id)) state.wish.delete(id); else { state.wish.add(id); state.selected.delete(id); } } else { if(state.selected.has(id)) state.selected.delete(id); else { state.selected.add(id); state.wish.delete(id); } } update(); }
@@ -793,6 +1050,7 @@ function caption(){
   if(BIZ){ const K = KINDS[state.kind]; const nm = state.name.trim() || 'আমরা'; const dn = DISTRICTS.filter(d => state.selected.has(d.id)).map(d => d.bn); const wn = DISTRICTS.filter(d => state.wish.has(d.id)).map(d => d.bn); lines.push(K.cap(nm, n)); if(state.tagline.trim()) lines.push(state.tagline.trim()); const dn2 = DISTRICTS.filter(d => state.selected.has(d.id)).sort((a,b) => (+state.counts[b.id]||0) - (+state.counts[a.id]||0)).map(d => +state.counts[d.id] ? `${d.bn} ${BN(+state.counts[d.id])}+` : d.bn); if(dn2.length) lines.push(`📍 ${dn2.slice(0,12).join(', ')}${dn2.length > 12 ? ` আরও ${BN(dn2.length-12)}টি` : ''}`); if(wn.length) lines.push(`🚀 শিগগিরই: ${wn.slice(0,8).join(', ')}`); lines.push(''); lines.push(`আপনার ব্যবসা কয় জেলায়? ফ্রি কভারেজ ম্যাপ বানান 👉 ${SITE_URL ? SITE_URL + CFG.path : 'ঘুরে দেখা বাংলাদেশ'}`); return lines.join('\n'); }
   if(OP && state.grp){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const wn = OP.filter(t => state.wish.has(t.id)).map(t => t.bn); lines.push(`🧭 ${CFG.opName}-এর সাথে ঘুরতে পারেন ${BN(n)}টি জায়গায়: ${nm.join(', ')}`); if(wn.length) lines.push(`🚀 শিগগিরই আসছে: ${wn.join(', ')}`); lines.push(''); lines.push(`আপনি ${CFG.opName}-এর সাথে কয়টায় গেছেন? নিজের ট্যুর ম্যাপ বানিয়ে কমেন্টে দিন 👉 ${SITE_URL ? SITE_URL + CFG.path : CFG.opName}`); return lines.join('\n'); }
   if(OP){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const wn = OP.filter(t => state.wish.has(t.id)).map(t => t.bn); lines.push(n ? `🧭 ${CFG.opName}-এর সাথে ঘুরেছি ${BN(n)}টি ট্যুর: ${nm.join(', ')}` : `🧭 ${CFG.opName}-এর সাথে ঘুরতে যাওয়ার লিস্ট বানালাম!`); if(wn.length) lines.push(`🎯 এরপর যাব: ${wn.join(', ')}`); lines.push(''); lines.push(`আপনিও ${CFG.opName}-এর সাথে কোথায় কোথায় গিয়েছেন? ম্যাপ বানান 👉 ${SITE_URL ? SITE_URL + CFG.path : ''}`); lines.push(''); lines.push(CFG.tags); return lines.join('\n'); }
+  if(isEN()) return captionEN();
   if(state.duo){ const R = REL[state.rel] || REL.friend; lines.push(R.cap(state.name.trim() || 'আমি', state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু'), n, state.wish.size, U)); }
   else if(n === TOTAL) lines.push(`🎉 ${BN(TOTAL)}টা ${U}র সবগুলোতেই পা পড়ে গেছে!`);
   else if(n === 0) lines.push(`🗺️ ${CFG.place} ${BN(TOTAL)} ${U} ঘুরে দেখার লিস্ট খুললাম, প্রথম টিকটা কোথায় পড়বে?`);
@@ -800,11 +1058,31 @@ function caption(){
   if(done.length && n !== TOTAL) lines.push(`✅ ${done.join(', ')} ${CFG.groupSuffix ? CFG.group + 'ের' : ''} সব ${U} ঘোরা শেষ।`);
   if(n && n !== TOTAL) lines.push(`⏳ লিস্টে বাকি আরও ${BN(TOTAL-n)}টি ${U}।`);
   if(state.wish.size){ const wn = DISTRICTS.filter(d => state.wish.has(d.id)).map(d => d.bn); lines.push(`🎯 ${state.duo ? 'একসাথে যাব' : 'এরপর যেতে চাই'}: ${wn.slice(0,8).join(', ')}${wn.length > 8 ? ` আরও ${BN(wn.length-8)}টি` : ''}`); }
+  if(dphCount()) lines.push(state.duo ? '📸 ম্যাপের ছবিগুলো আমাদের নিজেদের তোলা' : '📸 ম্যাপের ছবিগুলো আমার নিজের তোলা');
   if(state.recap) lines[0] = lines[0].replace('এখন পর্যন্ত', `${YEAR} সালে`);
   lines.push('');
-  lines.push(`আপনার কয়টা ${U} হলো? ২ মিনিটে নিজের ম্যাপ বানিয়ে দেখান 👉 ${SITE_URL ? SITE_URL + CFG.path : 'ঘুরে দেখা বাংলাদেশ'}`);
+  lines.push(`আপনার কয়টা ${U} হলো? ২ মিনিটে নিজের ম্যাপ বানিয়ে কমেন্টে দিন 👉 ${SITE_URL ? SITE_URL + CFG.path : 'ঘুরে দেখা বাংলাদেশ'}`);
   lines.push('');
   lines.push(CFG.tags);
+  return lines.join('\n');
+}
+/* the personal-map caption in English (CFG.en: unit, units, place, group, tags) */
+function captionEN(){
+  const n = state.selected.size, T = TOTAL, pct = Math.round(n/T*100), w = state.wish.size, PL = E.place || 'Bangladesh', PS = EPOSS(PL);
+  const done = DIVISIONS.filter(dv => dv.id !== 'all' && dv.id !== 'other' && DISTRICTS.filter(d => d.div === dv.id).every(d => state.selected.has(d.id))).map(dv => dv.en || dv.bn);
+  const lines = [];
+  if(state.duo){ const R = REL[state.rel] || REL.friend; lines.push(R.ecap(state.name.trim() || 'Me', state.name2.trim() || (state.rel === 'honeymoon' ? 'Future wife' : 'Friend'), n, w)); }
+  else if(n === T) lines.push(state.recap ? `🎉 ${YEAR_N} was the year: I set foot in every one of ${PS} ${T} ${EU(T)}!` : `🎉 I've set foot in every one of ${PS} ${T} ${EU(T)}!`);
+  else if(n === 0) lines.push(`🗺️ Just started ticking off ${PS} ${T} ${EU(T)}. Where will the first tick go?`);
+  else lines.push(state.recap ? `🗺️ In ${YEAR_N} I set foot in ${n} of ${PS} ${T} ${EU(T)}, that's ${pct}%!` : `🗺️ I've set foot in ${n} of ${PS} ${T} ${EU(T)} so far, that's ${pct}%!`);
+  if(done.length && n !== T){ const grp = (E.group && E.group !== 'continent') ? ` ${E.group}${done.length > 1 ? 's' : ''}` : ''; lines.push(`✅ Every ${EU(1)} in ${grp ? 'the ' : ''}${EAND(done)}${grp} done.`); }
+  if(n && n !== T) lines.push(`⏳ ${T-n} ${EU(T-n)} still to go.`);
+  if(w){ const wn = DISTRICTS.filter(d => state.wish.has(d.id)).map(d => d.en || d.bn); lines.push(`🎯 ${state.duo ? 'Going together next' : 'Next on the list'}: ${wn.slice(0,8).join(', ')}${wn.length > 8 ? ` and ${wn.length-8} more` : ''}`); }
+  if(dphCount()) lines.push(state.duo ? '📸 All the photos on the map are our own' : '📸 All the photos on the map are my own');
+  lines.push('');
+  lines.push(`How many ${EU(2)} have you been to? Make your own map in 2 minutes and drop it in the comments 👉 ${SITE_URL ? SITE_URL + CFG.path : 'Ghure Dekha Bangladesh'}`);
+  lines.push('');
+  lines.push(E.tags || '#GhureDekhaBangladesh #Travel');
   return lines.join('\n');
 }
 function update(){
@@ -826,7 +1104,38 @@ function update(){
   $('#duoOn').setAttribute('aria-checked', String(state.duo)); $('#duoBox').hidden = !state.duo; document.querySelectorAll('#relChips .chip').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.rel === state.rel)));
   const box2 = $('#photoBox2'); if(state.photo2){ box2.innerHTML = `<img src="${state.photo2}" alt="">`; $('#photoRemove2').hidden = false; $('#photoBtn2').textContent = 'লোগো বদলান'; } else { box2.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>'; $('#photoRemove2').hidden = true; $('#photoBtn2').textContent = 'দ্বিতীয় ছবি'; }
   $('#duoHint').textContent = state.rel === 'honeymoon' ? 'ছবি না দিলে পোস্টারে "?" বসবে, সেটাই মজা 😉 মোডে "যেতে চাই" বেছে জেলায় টিক দিন।' : 'দুজনের ছবি পাশাপাশি বসবে। "ঘুরেছি" = একসাথে গিয়েছেন, "যেতে চাই" = একসাথে যাবেন।';
+  if(CFG.en){ const en = state.lang === 'en'; document.querySelectorAll('#langSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === (en ? 'en' : 'bn')))); const bnName = /[ঀ-৿]/.test(state.name + (state.duo ? state.name2 : '')); $('#langNote').textContent = en ? ('পোস্টার আর ক্যাপশন ইংরেজিতে হবে, সাইট বাংলাতেই থাকবে।' + (bnName ? ' নামটা ইংরেজি অক্ষরে লিখলে পুরো পোস্টারই ইংরেজি হবে।' : '')) : 'ইংরেজিতে পোস্ট করতে চাইলে English বেছে নিন: পোস্টার আর ক্যাপশন ইংরেজি হবে।'; }
+  dphRefresh();
   save(); requestRender();
+}
+/* ---------- photo map UI: a grid of the visited units, each with "+ ছবি" or its thumbnail ---------- */
+let dphTarget = null, dphSig = null;
+const dphOpen = () => PHOTO_ON && $('#dphBox').open;
+function dphPick(id){ dphTarget = id; const inp = $('#dphInput'); inp.value = ''; inp.click(); }
+function dphRefresh(force){
+  if(!PHOTO_ON) return;
+  const units = DISTRICTS.filter(d => state.selected.has(d.id) && dphOk(d)).sort((a, b) => a.bn.localeCompare(b.bn, 'bn'));
+  const have = units.filter(d => state.dphotos[d.id]).length;
+  const cnt = $('#dphCount'); cnt.hidden = !have; cnt.textContent = `${BN(have)}/${BN(units.length)}`; $('#dphNew').hidden = !!have;
+  if(!$('#dphBox').open){ dphSig = null; return; }
+  const sg = units.map(d => d.id + ':' + (state.dphotos[d.id] ? state.dphotos[d.id].length : 0)).join(',');
+  if(sg === dphSig && !force) return; dphSig = sg;
+  $('#dphNote').textContent = `যে ${U}গুলোতে গেছেন, সেগুলোর প্রতিটার ভেতরে নিজের তোলা একটা ছবি বসান; পোস্টারটা হয়ে উঠবে আপনার ভ্রমণের কোলাজ। এই অংশ খোলা থাকলে প্রিভিউ ম্যাপে টিক দেওয়া ${LOC(U)} চাপলেও ছবি বাছাই করা যায়। ছবিগুলো আপনার ব্রাউজারেই জমা থাকে।`;
+  const skipped = [...state.selected].filter(id => byId[id] && !dphOk(byId[id])).length;
+  const sk = $('#dphSkip'); sk.hidden = !skipped; sk.textContent = skipped ? `ম্যাপে ছোট বিন্দু হয়ে থাকা ${BN(skipped)}টি ${LOC(U)} ছবি বসে না।` : '';
+  const grid = $('#dphGrid'); grid.textContent = '';
+  if(!units.length){ const p = document.createElement('p'); p.className = 'dph-empty'; p.textContent = `আগে ওপরে যেখানে যেখানে গেছেন টিক দিন, তারপর এখানে প্রতিটা ${LOC(U)} একটা করে ছবি বসাতে পারবেন।`; grid.appendChild(p); return; }
+  units.forEach(d => {
+    const url = state.dphotos[d.id];
+    const cell = document.createElement('div'); cell.className = 'dph-cell' + (url ? ' has' : ''); cell.dataset.id = d.id;
+    const pick = document.createElement('button'); pick.type = 'button'; pick.className = 'pick'; pick.title = url ? 'চাপলে নতুন ছবি দিতে পারবেন' : 'ছবি দিন';
+    if(url){ const im = document.createElement('img'); im.alt = ''; im.decoding = 'async'; im.src = url; pick.appendChild(im); pick.setAttribute('aria-label', `${d.bn}: নতুন ছবি দিন`); }
+    else { const pl = document.createElement('span'); pl.className = 'plus'; pl.textContent = '+ ছবি'; pick.appendChild(pl); pick.setAttribute('aria-label', `${d.bn}: ছবি দিন`); }
+    const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = d.bn; pick.appendChild(nm);
+    pick.addEventListener('click', () => dphPick(d.id)); cell.appendChild(pick);
+    if(url){ const x = document.createElement('button'); x.type = 'button'; x.className = 'x'; x.textContent = '✕'; x.setAttribute('aria-label', `${d.bn}: ছবিটা সরিয়ে দিন`); x.addEventListener('click', () => { dphSet(d.id, null); dphSave(); update(); }); cell.appendChild(x); }
+    grid.appendChild(cell);
+  });
 }
 $('#search').addEventListener('input', e => { const q = e.target.value.trim().toLowerCase(); document.querySelectorAll('.chip').forEach(b => { const d = OP ? byTour[b.dataset.id] : byId[b.dataset.id]; if(!d) return; b.hidden = !!q && !(d.bn.includes(q) || (d.en || '').toLowerCase().includes(q)); }); document.querySelectorAll('.dgrp').forEach(det => { const any = [...det.querySelectorAll('.chip')].some(b => !b.hidden); det.hidden = !!q && !any; if(q && any) det.open = true; }); document.querySelectorAll('.division').forEach(sec => { sec.hidden = !!q && ![...sec.querySelectorAll('.chip')].some(b => !b.hidden); }); });
 $('#selectAll').addEventListener('click', () => { const all = OP ? OP : DISTRICTS; if(state.mode === 'wish'){ all.forEach(d => !state.selected.has(d.id) && state.wish.add(d.id)); } else { all.forEach(d => state.selected.add(d.id)); state.wish.clear(); } update(); });
@@ -843,6 +1152,15 @@ $('#labelMode').addEventListener('click', e => { const b = e.target.closest('but
 $('#sizeMode').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.size = b.dataset.v; update(); });
 $('#byDiv').addEventListener('click', () => { state.byDiv = !state.byDiv; update(); });
 $('#showDiv').addEventListener('click', () => { state.showDiv = !state.showDiv; update(); });
+$('#langSeg').addEventListener('click', e => { const b = e.target.closest('button'); if(!b || !CFG.en) return; state.lang = b.dataset.v === 'en' ? 'en' : 'bn'; update(); });
+$('#dphBox').addEventListener('toggle', () => { dphRefresh(true); });
+$('#dphInput').addEventListener('change', async e => {
+  const f = e.target.files && e.target.files[0]; const id = dphTarget; if(!f || !id || !byId[id]) return;
+  const cell = document.querySelector(`.dph-cell[data-id="${CSS.escape(id)}"]`); if(cell) cell.classList.add('busy');
+  try{ const url = await dphShrink(f); dphSet(id, url); if(!state.selected.has(id)){ state.selected.add(id); state.wish.delete(id); } const warned = dphWarned, ok = dphSave(); update(); if(ok || warned) toast(`📸 ${LOC(byId[id].bn)} ছবি বসল`); /* else the one-time storage warning stays on screen */ }
+  catch(err){ toast('ছবিটি পড়া যায়নি, অন্য ছবি দিন'); }
+  finally{ if(cell) cell.classList.remove('busy'); e.target.value = ''; }
+});
 $('#photoBtn').addEventListener('click', () => $('#photoInput').click());
 $('#photoRemove').addEventListener('click', () => { state.photo = null; loadPhoto(); update(); });
 $('#photoInput').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if(!f) return; const url = URL.createObjectURL(f); const im = new Image(); im.onload = () => { const S = 640, c = document.createElement('canvas'); c.width = S; c.height = S; const cc = c.getContext('2d'); const sc = Math.max(S/im.width, S/im.height); const w = im.width*sc, h = im.height*sc; cc.drawImage(im, S/2-w/2, S/2-h/2, w, h); state.photo = c.toDataURL('image/jpeg', .88); URL.revokeObjectURL(url); loadPhoto(); update(); e.target.value = ''; }; im.onerror = () => { toast('ছবিটি পড়া যায়নি, অন্য ছবি দিন'); URL.revokeObjectURL(url); }; im.src = url; });
@@ -855,7 +1173,7 @@ $('#dlModal').addEventListener('click', e => { if(e.target === e.currentTarget) 
 let toastT = 0; function toast(msg, ms){ const el = $('#toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), ms || 2600); }
 
 /* ---------- export ---------- */
-async function renderBlob(type){ await fontPromise; const sz = SIZES[state.size], S = 2; const c = document.createElement('canvas'); c.width = sz.w*S; c.height = sz.h*S; const cc = c.getContext('2d'); render(cc, sz.w, sz.h, {base:S}); return new Promise(res => c.toBlob(res, type === 'png' ? 'image/png' : 'image/jpeg', .92)); }
+async function renderBlob(type){ await fontPromise; await dphReady(); const sz = SIZES[state.size], S = 2; const c = document.createElement('canvas'); c.width = sz.w*S; c.height = sz.h*S; const cc = c.getContext('2d'); render(cc, sz.w, sz.h, {base:S}); return new Promise(res => c.toBlob(res, type === 'png' ? 'image/png' : 'image/jpeg', .92)); }
 const downloadsReady = (window.claude && typeof window.claude.use === 'function') ? window.claude.use('downloads').catch(() => null) : Promise.resolve(null);
 async function deliver(filename, blob){
   const dl = await downloadsReady;
@@ -908,9 +1226,9 @@ $('#shareCopy').addEventListener('click', async () => { const ok = await copyTex
 $('#shareSave').addEventListener('click', async e => { const b = e.currentTarget; b.disabled = true; try{ await deliver(fname('png'), shareBlob); logEvent('download'); } finally{ b.disabled = false; } });
 const FB_SHARER = 'https://www.facebook.com/sharer/sharer.php?u=';
 let lastSig = '', lastUrl = null, uploading = null;
-function sig(){ return JSON.stringify([[...state.selected].sort(), [...state.wish].sort(), state.name, state.theme, state.size, !!state.photo, state.photo ? state.photo.length : 0, state.recap, state.labelMode, state.byDiv, state.showDiv, state.duo, state.name2, state.rel, state.photo2 ? state.photo2.length : 0]); }
+function sig(){ return JSON.stringify([[...state.selected].sort(), [...state.wish].sort(), state.name, state.theme, state.size, !!state.photo, state.photo ? state.photo.length : 0, state.recap, state.labelMode, state.byDiv, state.showDiv, state.duo, state.name2, state.rel, state.photo2 ? state.photo2.length : 0, state.lang, state.layout, state.kind, state.hook, state.tagline, state.brandColor, JSON.stringify(state.counts || {}), Object.keys(state.dphotos).filter(id => state.selected.has(id)).sort().map(id => id + ':' + state.dphotos[id].length).join()]); }
 async function uploadMap(){ if(!HOSTED) return null; const sg = sig(); if(lastUrl && sg === lastSig) return lastUrl; if(uploading && uploading.sig === sg) return uploading.p; const p = (async () => { const u = await uploadMapRaw(); if(u){ lastSig = sg; lastUrl = u; } uploading = null; return u; })(); uploading = {sig: sg, p}; return p; }
-async function uploadMapRaw(){ const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
+async function uploadMapRaw(){ const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; await dphReady(); const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
   const [poster, card] = await Promise.all([blobToDataUrl(posterB), blobToDataUrl(cardB)]);
   const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: (state.duo ? (REL[state.rel]||REL.friend).title(state.name.trim() || 'আমি', state.name2.trim() || 'বন্ধু') : state.name.trim()).slice(0,40), count: state.selected.size, districts: OP ? [...new Set([...state.selected].map(t => byTour[t].dist))] : [...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo, op: CFG.op || null, mm: CFG.mm || null, evmap: CFG.evmap || null})});
   const j = await r.json().catch(() => null); if(r.ok && j && j.url){ try{ localStorage.setItem(CFG.key+'-link', j.url); }catch(e){} showLink(j.url); return j.url; } console.warn('share upload failed', j); return null; }
@@ -936,10 +1254,12 @@ $('#quickShare').addEventListener('click', e => openShare(e.currentTarget));
 /* ---------- boot ---------- */
 load();
 try{ const q = new URLSearchParams(location.search); let touched = false; (q.get('add')||'').split(',').forEach(id => { if(validId(id)){ state.selected.add(id); state.wish.delete(id); touched = true; } }); (q.get('wish')||'').split(',').forEach(id => { if(validId(id) && !state.selected.has(id)){ state.wish.add(id); state.mode = 'wish'; touched = true; } }); if(touched){ history.replaceState(null, '', location.pathname); const ids = (q.get('wish') || q.get('add') || '').split(',').filter(validId); const nm = ids.map(id => OP ? byTour[id].bn : byId[id].bn).join(', '); setTimeout(() => { toast(q.get('wish') ? `🎯 ${nm} "যেতে চাই" লিস্টে যোগ হলো; ম্যাপে হলুদ, নিচের লিস্টে হাইলাইট` : `✅ ${nm} ম্যাপে টিক পড়ল`, 6000); const chip = document.querySelector(`.chip[data-id="${ids[0]}"]`); (chip || $('#p1')).scrollIntoView({behavior:'smooth', block:'center'}); if(chip){ chip.style.outline = '3px solid var(--accent)'; chip.style.outlineOffset = '2px'; setTimeout(() => { chip.style.outline = ''; chip.style.outlineOffset = ''; }, 6000); } }, 500); } }catch(e){}
+if(CFG.en && !BIZ && !OP) $('#langOpt').hidden = false;
+if(PHOTO_ON){ $('#dphBox').hidden = false; dphLoadAll(); }
 buildDivisions(); buildThemes(); $('#name').value = state.name; loadPhoto(); update();
-window.__gdb = {state, update, render, renderCard, SIZES, fontPromise, OP, KINDS, THEMES, brandTheme, CFG};
+window.__gdb = {state, update, render, renderCard, SIZES, fontPromise, OP, KINDS, THEMES, brandTheme, CFG, API, loadPhoto, requestRender, toast, L, NUM, isEN, photoMap: {set: dphSet, save: dphSave, ready: dphReady, count: dphCount}};
 })();
 </script>
-<script src="/about.js?v=3" defer></script>
+<script src="/about.js?v=4" defer></script>
 </body>
 </html>

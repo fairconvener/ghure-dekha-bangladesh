@@ -1,0 +1,25 @@
+{
+  "id": "/",
+  "name": "ঘুরে দেখা বাংলাদেশ",
+  "short_name": "ঘুরে দেখা",
+  "description": "কোন কোন জেলায় গেছেন টিক দিয়ে নিজের ভ্রমণ ম্যাপ বানান; সাথে ৬৪ জেলার গাইড, ট্রিপ প্ল্যানার আর কুইজ।",
+  "lang": "bn",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F7F2E6",
+  "theme_color": "#0F7F4C",
+  "categories": ["travel", "lifestyle"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "জেলা গাইড", "short_name": "গাইড", "url": "/jela?source=pwa", "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "ট্রিপ প্ল্যানার", "short_name": "প্ল্যানার", "url": "/plan?source=pwa", "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "কোথায় বেশি ঘোরেন", "short_name": "ট্রেন্ড", "url": "/trend?source=pwa", "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }] }
+  ]
+}

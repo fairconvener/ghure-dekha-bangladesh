@@ -541,10 +541,6 @@ function render(c, W, H, opts){
 
   /* header */
   let x = P; let headTop = P;
-  if(OP){ const bc = CFG.opColor || t.accent; const sq = 72*u; c.save(); c.shadowColor = 'rgba(0,0,0,.18)'; c.shadowBlur = 10*u; c.shadowOffsetY = 3*u; c.fillStyle = bc; rr(c, P, headTop, sq, sq, 18*u); c.fill(); c.restore(); c.fillStyle = '#FFFFFF'; c.font = F(800, 40*u, 'd'); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(CFG.opName[0], P+sq/2, headTop+sq/2+2*u); c.textBaseline = 'alphabetic'; c.textAlign = 'left';
-    c.fillStyle = bc; c.font = F(800, 58*u, 'd'); c.fillText(CFG.opName, P+sq+22*u, headTop+50*u);
-    c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText(CFG.opTag || 'ট্রাভেল গ্রুপ', P+sq+24*u, headTop+sq-2*u);
-    headTop += sq + 34*u; }
   const duo = state.duo; const R = REL[state.rel] || REL.friend; const nm1 = state.name.trim() || 'আমি', nm2 = state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু');
   if(duo){ const d = 130*u, ov = 38*u; const drawP = (img, cx0) => { c.save(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2, 0, Math.PI*2); c.closePath(); c.fillStyle = t.unvisited; c.fill(); c.clip(); if(img){ const sc = Math.max(d/img.width, d/img.height); const iw = img.width*sc, ih = img.height*sc; c.drawImage(img, cx0+d/2-iw/2, headTop+d/2-ih/2, iw, ih); } else { c.fillStyle = t.muted; c.font = F(800, 64*u, 'd'); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('?', cx0+d/2, headTop+d/2+4*u); c.textBaseline = 'alphabetic'; } c.restore(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2+3*u, 0, Math.PI*2); c.lineWidth = 5*u; c.strokeStyle = t.paper; c.stroke(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2+6*u, 0, Math.PI*2); c.lineWidth = 3*u; c.strokeStyle = t.visited; c.stroke(); };
     drawP(photoImg, x); drawP(photoImg2, x + d - ov);
@@ -557,7 +553,7 @@ function render(c, W, H, opts){
   const maxW = (discX - discR - 24*u) - x;
   c.textBaseline = 'alphabetic'; c.textAlign = 'left';
   c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); if('letterSpacing' in c) c.letterSpacing = '1px';
-  if(OP){ c.fillText(`${CFG.opName}-এর সাথে`, x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
+  if(OP){ if('letterSpacing' in c) c.letterSpacing = '0px'; const ph = 48*u, py = headTop-2*u; c.font = F(800, 28*u, 'd'); const tw = c.measureText(CFG.opName).width; const pw = tw + 40*u; c.save(); c.shadowColor = 'rgba(0,0,0,.16)'; c.shadowBlur = 8*u; c.shadowOffsetY = 2*u; c.fillStyle = CFG.opColor || t.accent; rr(c, x, py, pw, ph, ph/2); c.fill(); c.restore(); c.fillStyle = '#FFFFFF'; c.textBaseline = 'middle'; c.fillText(CFG.opName, x+20*u, py+ph/2+2*u); c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText('-এর সাথে', x+pw+10*u, py+ph/2+8*u); }
   else { c.fillText(CFG.eyebrow || 'ঘুরে দেখা বাংলাদেশ', x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
   const title = duo ? R.title(nm1, nm2) : state.recap ? (state.name.trim() ? `${state.name.trim()} · ${YEAR}` : `${YEAR}-এ ${CFG.defaultTitle}`) : (state.name.trim() || CFG.defaultTitle);
   let fs = 62*u; c.font = F(800, fs, 'd'); while(c.measureText(title).width > maxW && fs > 30*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }

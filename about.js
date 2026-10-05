@@ -1,3 +1,39 @@
+/* ---- one copy helper for every page (window.gdCopy(text) -> Promise<boolean>) ----
+   Starts copying synchronously inside the tap: iPhone browsers drop the permission after any await,
+   and some in-app browsers have no async Clipboard API at all. */
+(function(){
+  var IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  function execCopy(text, withSel){
+    var fired = false, ok = false, ta = null, sel = document.getSelection();
+    var onBefore = function(e){ e.preventDefault(); };
+    var onCopy = function(e){ try{ if(e.clipboardData){ e.clipboardData.setData('text/plain', text); e.preventDefault(); fired = true; } }catch(err){} };
+    document.addEventListener('beforecopy', onBefore, true); document.addEventListener('copy', onCopy, true);
+    try{
+      if(withSel){
+        ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.setAttribute('aria-hidden', 'true'); ta.tabIndex = -1;
+        ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;margin:0;padding:0;border:0;outline:0;overflow:hidden;font-size:16px;color:transparent;background:transparent;white-space:pre;-webkit-user-select:text;user-select:text';
+        document.body.appendChild(ta);
+        if(IOS){ ta.contentEditable = 'true'; ta.readOnly = false; var r = document.createRange(); r.selectNodeContents(ta); sel.removeAllRanges(); sel.addRange(r); ta.setSelectionRange(0, text.length); ta.readOnly = true; }
+        else { ta.select(); ta.setSelectionRange(0, text.length); }
+      }
+      ok = document.execCommand('copy');
+    }catch(e){ ok = false; }
+    document.removeEventListener('beforecopy', onBefore, true); document.removeEventListener('copy', onCopy, true);
+    if(ta){ ta.remove(); try{ sel.removeAllRanges(); }catch(e){} }
+    return ok && (fired || withSel);
+  }
+  window.gdCopy = function(text){
+    text = String(text == null ? '' : text);
+    var ok = false; try{ ok = execCopy(text, false) || execCopy(text, true); }catch(e){}
+    var p = null;
+    if(navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext){ try{ p = navigator.clipboard.writeText(text); }catch(e){ p = null; } }
+    if(p && !ok) return p.then(function(){ return true; }, function(){ return false; });
+    if(p && p.catch) p.catch(function(){});
+    return Promise.resolve(ok);
+  };
+  window.gdCopyStrict = function(text){ return window.gdCopy(text).then(function(ok){ if(!ok) throw new Error('copy failed'); return true; }); };
+})();
+
 /* "আমাদের কথা" + অনুদান modal, shared by every page. Opens from any <a href="#about">.
    Also: registers the service worker (installable app) and handles any <a href="#install"> ("অ্যাপ হিসেবে রাখুন"). */
 (function(){
@@ -31,8 +67,7 @@
     m.querySelector('#abCopy').addEventListener('click', function(){
       var n = m.querySelector('#abNum').textContent, b = m.querySelector('#abCopy');
       var done = function(ok){ b.textContent = ok ? '✓ কপি হয়েছে' : 'কপি হয়নি'; setTimeout(function(){ b.textContent = 'নম্বর কপি'; }, 1800); };
-      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(n).then(function(){ done(true); }, function(){ done(false); });
-      else { try{ var t = document.createElement('textarea'); t.value = n; document.body.appendChild(t); t.select(); done(document.execCommand('copy')); t.remove(); }catch(e){ done(false); } }
+      window.gdCopy(n).then(done);
     });
     return m;
   }
@@ -105,7 +140,7 @@
   function copyLink(btn){
     var url = location.origin + location.pathname;
     var done = function(ok){ btn.textContent = ok ? '✓ লিংক কপি হয়েছে' : url; };
-    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function(){ done(true); }, function(){ done(false); }); else done(false);
+    window.gdCopy(url).then(done);
   }
   async function install(){
     track('InstallClick');

@@ -70,7 +70,7 @@ h1,h2,h3{font-family:var(--font-display);line-height:1.2;margin:0;text-wrap:bala
 .brand{font-size:18px}
 @media (max-width:640px){.top .wrap{display:grid;grid-template-columns:1fr;gap:6px;padding-block:8px}.brand{font-size:17px}}
 .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);font-weight:600;font-size:14px;white-space:nowrap}
-
+[hidden]{display:none!important}
 
 .wrap{max-width:1180px;margin-inline:auto;padding-inline:16px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:600;line-height:1.2;text-decoration:none;color:var(--ink);cursor:pointer;transition:transform .08s,background .15s}
@@ -164,6 +164,6 @@ h2.sec{margin:26px 0 0;font-size:20px}
 <script>window.BN=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);let _tt=0;window.toast=m=>{const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>e.classList.remove('show'),2600)};</script>
 
 <script>(function(){const q=document.getElementById('q');q.addEventListener('input',()=>{const v=q.value.trim().toLowerCase();document.querySelectorAll('.cgrid li').forEach(li=>{li.style.display=!v||li.dataset.s.includes(v)?'':'none';});document.querySelectorAll('h2.sec').forEach(h=>{const ul=h.nextElementSibling;if(ul&&ul.classList.contains('cgrid'))h.style.display=[...ul.children].some(x=>x.style.display!=='none')?'':'none';});});})();</script>
-<script src="/about.js?v=4" defer></script>
+<script src="/about.js?v=5" defer></script>
 </body>
 </html>

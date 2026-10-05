@@ -286,6 +286,6 @@ home.addEventListener('click', e => { const b = e.target.closest('.mode'); if(b)
 const q = new URLSearchParams(location.search); let m0 = q.get('m'); if(!m0){ try{ m0 = sessionStorage.getItem('gdb-quiz-mode') === 'spin' ? 'spin' : null; }catch(e){} } if(m0) start(m0);
 })();
 </script>
-<script src="/about.js?v=2" defer></script>
+<script src="/about.js?v=3" defer></script>
 </body>
 </html>

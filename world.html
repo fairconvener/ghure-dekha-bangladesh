@@ -612,25 +612,19 @@ function render(c, W, H, opts){
 
 /* ---------- landscape share card (1200x630 for Facebook link preview) ---------- */
 function renderCard(c, W, H){
-  const t = THEMES[state.theme], n = state.selected.size, pct = Math.round(n/TOTAL*100), u = W/1200;
+  /* square 1200x1200: Facebook shows 1:1 link previews full-width on mobile, so the designed poster shows whole, not cropped to a banner */
+  const t = THEMES[state.theme], u = W/1200;
   c.setTransform(1,0,0,1,0,0); c.fillStyle = t.paper; c.fillRect(0,0,W,H);
-  c.save(); c.strokeStyle = t.accent; c.globalAlpha = .45; c.lineWidth = 3*u; c.setLineDash([11*u,8*u]); rr(c, 18*u, 18*u, W-36*u, H-36*u, 16*u); c.stroke(); c.restore();
-  const sz = SIZES.post; const off = document.createElement('canvas'); off.width = sz.w; off.height = sz.h; render(off.getContext('2d'), sz.w, sz.h, {});
-  const ph = H - 60*u, pw = ph * sz.w/sz.h, px = W - pw - 56*u, py = 30*u;
-  c.save(); c.translate(px+pw/2, py+ph/2); c.rotate(-2.5*Math.PI/180); c.shadowColor = 'rgba(0,0,0,.3)'; c.shadowBlur = 40*u; c.shadowOffsetY = 18*u; c.fillStyle = t.paper; rr(c, -pw/2, -ph/2, pw, ph, 14*u); c.fill(); c.shadowColor = 'transparent'; c.save(); rr(c, -pw/2, -ph/2, pw, ph, 14*u); c.clip(); c.drawImage(off, -pw/2, -ph/2, pw, ph); c.restore(); c.restore();
-  const x = 64*u, maxW = px - 40*u - x;
-  c.textAlign = 'left'; c.textBaseline = 'alphabetic';
-  c.fillStyle = t.muted; c.font = F(600, 24*u, 'b'); c.fillText('ঘুরে দেখা বাংলাদেশ', x, 96*u);
-  c.fillStyle = t.ink; c.font = F(800, 120*u, 'd'); c.fillText(BN(n), x, 220*u);
-  const nw = c.measureText(BN(n)).width; c.fillStyle = t.muted; c.font = F(700, 40*u, 'd'); c.fillText(`/ ${BN(TOTAL)} ${U}`, x + nw + 14*u, 220*u);
-  const name = state.duo ? (REL[state.rel]||REL.friend).title(state.name.trim() || 'আমি', state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু')) : (state.name.trim() || CFG.defaultTitle); let fs = 46*u; c.font = F(800, fs, 'd'); while(c.measureText(name).width > maxW && fs > 24*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
-  c.fillStyle = t.ink; c.fillText(name, x, 300*u);
-  c.fillStyle = t.muted; c.font = F(500, 28*u, 'b'); c.fillText(`${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`, x, 352*u);
-  rr(c, x, 400*u, maxW, 16*u, 8*u); c.fillStyle = t.unvisited; c.fill(); if(n){ rr(c, x, 400*u, Math.max(16*u, maxW*n/TOTAL), 16*u, 8*u); c.fillStyle = t.visited; c.fill(); }
-  c.fillStyle = t.accent; c.font = F(700, 26*u, 'd'); c.fillText(`আপনার কয়টা ${U} হলো?`, x, 480*u);
-  { c.textBaseline = 'middle'; const t1 = 'নিজের ম্যাপ বানান', t2 = SITE_LABEL; c.font = F(600, 22*u, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 26*u, 'd'); const w2 = c.measureText(t2).width; const ph = 50*u, pw = 44*u + w1 + 12*u + w2; rr(c, x, 505*u, pw, ph, ph/2); c.fillStyle = t.visited; c.fill(); c.fillStyle = '#FFFFFF'; c.font = F(600, 22*u, 'b'); c.fillText(t1, x + 22*u, 505*u + ph/2 + 1*u); c.font = F(800, 26*u, 'd'); c.fillText(t2, x + 22*u + w1 + 12*u, 505*u + ph/2 + 1*u); c.textBaseline = 'alphabetic'; }
+  c.save(); c.strokeStyle = t.accent; c.globalAlpha = .35; c.lineWidth = 3*u; c.setLineDash([11*u,8*u]); rr(c, 16*u, 16*u, W-32*u, H-32*u, 16*u); c.stroke(); c.restore();
+  const sz = SIZES[state.size]; const off = document.createElement('canvas'); off.width = sz.w; off.height = sz.h; render(off.getContext('2d'), sz.w, sz.h, {});
+  const m = 44*u; const sc = Math.min((W-2*m)/sz.w, (H-2*m)/sz.h); const pw = sz.w*sc, ph = sz.h*sc, px = (W-pw)/2, py = (H-ph)/2;
+  c.save(); c.shadowColor = 'rgba(0,0,0,.28)'; c.shadowBlur = 40*u; c.shadowOffsetY = 16*u; c.fillStyle = t.paper; rr(c, px, py, pw, ph, 14*u); c.fill(); c.restore();
+  c.save(); rr(c, px, py, pw, ph, 14*u); c.clip(); c.drawImage(off, px, py, pw, ph); c.restore();
+  if(state.size !== 'square'){ /* side strips carry the question when there is room */
+    const n = state.selected.size; c.save(); c.translate(px/2, H/2); c.rotate(-Math.PI/2); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = t.accent; c.font = F(800, Math.min(34*u, px*0.55), 'd'); c.fillText(`আপনার কয়টা ${U} হলো?`, 0, 0); c.restore();
+    c.save(); c.translate(W - px/2, H/2); c.rotate(Math.PI/2); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = t.muted; c.font = F(700, Math.min(30*u, px*0.5), 'd'); c.fillText(SITE_LABEL, 0, 0); c.restore(); }
 }
-async function renderCardBlob(){ await fontPromise; const W = 1200, H = 630; const c = document.createElement('canvas'); c.width = W; c.height = H; renderCard(c.getContext('2d'), W, H); return new Promise(r => c.toBlob(r, 'image/jpeg', .88)); }
+async function renderCardBlob(){ await fontPromise; const W = 1200, H = 1200; const c = document.createElement('canvas'); c.width = W; c.height = H; renderCard(c.getContext('2d'), W, H); return new Promise(r => c.toBlob(r, 'image/jpeg', .88)); }
 const blobToDataUrl = b => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); });
 
 /* ---------- events + public stats ---------- */

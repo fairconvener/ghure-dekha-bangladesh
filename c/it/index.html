@@ -473,6 +473,7 @@ const HOSTED = /^https?:$/.test(location.protocol) && !/^(localhost|127\.0\.0\.1
 const SITE_URL = HOSTED ? location.origin : '';
 const SITE_LABEL = /(^|\.)ghuredekha\.com$/i.test(location.hostname) ? 'ghuredekha.com' : 'ghuredekhabangladesh.com';
 const BN = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+const LOGO = new Image(); let LOGO_OK = false; LOGO.onload = () => { LOGO_OK = true; if(typeof requestRender === 'function') requestRender(); }; LOGO.src = '/favicon.svg';
 const $ = s => document.querySelector(s);
 const TOTAL = (typeof TOURS !== 'undefined') ? TOURS.length : DISTRICTS.length; const U = CFG.unit;
 const byId = Object.fromEntries(DISTRICTS.map(d => [d.id, d]));
@@ -700,10 +701,11 @@ function render(c, W, H, opts){
   /* credit pill: a button-like call to action so viewers know where to make their own */
   c.textAlign = 'left'; c.textBaseline = 'middle';
   const t1 = BIZ ? 'আপনার ব্যবসার ম্যাপ বানান' : OP ? `${CFG.opName}-এর সাথে আপনার ম্যাপ বানান` : 'নিজের ম্যাপ বানান', t2 = (OP || BIZ) ? SITE_LABEL + CFG.path : SITE_LABEL; c.font = F(600, 21*u, 'b'); const w1 = c.measureText(t1).width; c.font = F(800, 24*u, 'd'); const w2 = c.measureText(t2).width;
-  const pillH = 46*u, padX = 22*u, gap = 12*u, pillW = padX*2 + w1 + gap + w2, px0 = W/2 - pillW/2, py0 = H - 30*u - pillH;
+  const pillH = 46*u, padX = 22*u, gap = 12*u, logoD = LOGO_OK ? pillH - 8*u : 0, logoGap = LOGO_OK ? 10*u : 0, pillW = (LOGO_OK ? 6*u : padX) + logoD + logoGap + w1 + gap + w2 + padX, px0 = W/2 - pillW/2, py0 = H - 30*u - pillH;
   rr(c, px0, py0, pillW, pillH, pillH/2); c.fillStyle = state.byDiv ? t.accent : t.visited; c.fill();
-  c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.font = F(600, 21*u, 'b'); c.fillText(t1, px0 + padX, py0 + pillH/2 + 1*u);
-  c.font = F(800, 24*u, 'd'); c.fillText(t2, px0 + padX + w1 + gap, py0 + pillH/2 + 1*u);
+  let tx0 = px0 + padX; if(LOGO_OK){ c.save(); c.beginPath(); c.arc(px0 + 4*u + pillH/2, py0 + pillH/2, logoD/2, 0, Math.PI*2); c.closePath(); c.fillStyle = '#FFFFFF'; c.fill(); c.drawImage(LOGO, px0 + 4*u + pillH/2 - logoD/2, py0 + pillH/2 - logoD/2, logoD, logoD); c.restore(); tx0 = px0 + 6*u + logoD + logoGap; }
+  c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.font = F(600, 21*u, 'b'); c.fillText(t1, tx0, py0 + pillH/2 + 1*u);
+  c.font = F(800, 24*u, 'd'); c.fillText(t2, tx0 + w1 + gap, py0 + pillH/2 + 1*u);
   c.textBaseline = 'alphabetic';
   c.restore();
 }

@@ -540,7 +540,11 @@ function render(c, W, H, opts){
   c.save(); c.strokeStyle = t.accent; c.globalAlpha = .45; c.lineWidth = 3*u; c.setLineDash([11*u, 8*u]); rr(c, 22*u, 22*u, W-44*u, H-44*u, 18*u); c.stroke(); c.restore();
 
   /* header */
-  let x = P; const headTop = P;
+  let x = P; let headTop = P;
+  if(OP){ const bc = CFG.opColor || t.accent; const sq = 72*u; c.save(); c.shadowColor = 'rgba(0,0,0,.18)'; c.shadowBlur = 10*u; c.shadowOffsetY = 3*u; c.fillStyle = bc; rr(c, P, headTop, sq, sq, 18*u); c.fill(); c.restore(); c.fillStyle = '#FFFFFF'; c.font = F(800, 40*u, 'd'); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(CFG.opName[0], P+sq/2, headTop+sq/2+2*u); c.textBaseline = 'alphabetic'; c.textAlign = 'left';
+    c.fillStyle = bc; c.font = F(800, 58*u, 'd'); c.fillText(CFG.opName, P+sq+22*u, headTop+50*u);
+    c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText(CFG.opTag || 'ট্রাভেল গ্রুপ', P+sq+24*u, headTop+sq-2*u);
+    headTop += sq + 34*u; }
   const duo = state.duo; const R = REL[state.rel] || REL.friend; const nm1 = state.name.trim() || 'আমি', nm2 = state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু');
   if(duo){ const d = 130*u, ov = 38*u; const drawP = (img, cx0) => { c.save(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2, 0, Math.PI*2); c.closePath(); c.fillStyle = t.unvisited; c.fill(); c.clip(); if(img){ const sc = Math.max(d/img.width, d/img.height); const iw = img.width*sc, ih = img.height*sc; c.drawImage(img, cx0+d/2-iw/2, headTop+d/2-ih/2, iw, ih); } else { c.fillStyle = t.muted; c.font = F(800, 64*u, 'd'); c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('?', cx0+d/2, headTop+d/2+4*u); c.textBaseline = 'alphabetic'; } c.restore(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2+3*u, 0, Math.PI*2); c.lineWidth = 5*u; c.strokeStyle = t.paper; c.stroke(); c.beginPath(); c.arc(cx0+d/2, headTop+d/2, d/2+6*u, 0, Math.PI*2); c.lineWidth = 3*u; c.strokeStyle = t.visited; c.stroke(); };
     drawP(photoImg, x); drawP(photoImg2, x + d - ov);
@@ -553,17 +557,17 @@ function render(c, W, H, opts){
   const maxW = (discX - discR - 24*u) - x;
   c.textBaseline = 'alphabetic'; c.textAlign = 'left';
   c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); if('letterSpacing' in c) c.letterSpacing = '1px';
-  if(OP){ if('letterSpacing' in c) c.letterSpacing = '0px'; const ph = 54*u, py = headTop-6*u; c.font = F(800, 34*u, 'd'); const tw = c.measureText(CFG.opName).width; const pw = tw + 44*u; c.save(); c.shadowColor = 'rgba(0,0,0,.18)'; c.shadowBlur = 10*u; c.shadowOffsetY = 3*u; c.fillStyle = CFG.opColor || t.accent; rr(c, x, py, pw, ph, ph/2); c.fill(); c.restore(); c.fillStyle = '#FFFFFF'; c.textBaseline = 'middle'; c.fillText(CFG.opName, x+22*u, py+ph/2+2*u); c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText('-এর সাথে', x+pw+10*u, py+ph/2+8*u); }
+  if(OP){ c.fillText(`${CFG.opName}-এর সাথে`, x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
   else { c.fillText(CFG.eyebrow || 'ঘুরে দেখা বাংলাদেশ', x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
   const title = duo ? R.title(nm1, nm2) : state.recap ? (state.name.trim() ? `${state.name.trim()} · ${YEAR}` : `${YEAR}-এ ${CFG.defaultTitle}`) : (state.name.trim() || CFG.defaultTitle);
   let fs = 62*u; c.font = F(800, fs, 'd'); while(c.measureText(title).width > maxW && fs > 30*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
   c.fillStyle = t.ink; c.fillText(title, x, headTop+100*u);
   c.fillStyle = t.muted; c.font = F(500, 24*u, 'b');
-  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`); c.fillText(OP ? (n ? `${CFG.opName}-এর ${BN(TOTAL)} ট্যুরের মধ্যে গিয়েছি ${BN(n)}টি` : `${CFG.opName}-এর সাথে যাওয়ার লিস্ট`) + (nw_ ? `, যাব আরও ${BN(nw_)}টি` : '') : duo ? R.sub(n, nw_, U) : sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : ''), x, headTop+142*u);
+  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`); c.fillText(OP ? (n === 1 ? `${CFG.opName}-এর সাথে ঘুরে এলাম ${OP.find(t => state.selected.has(t.id)).bn}` : n ? `${CFG.opName}-এর সাথে ঘুরেছি ${BN(n)}টি ট্যুর` : `${CFG.opName}-এর সাথে যাওয়ার লিস্ট`) + (nw_ ? `, যাব আরও ${BN(nw_)}টি` : '') : duo ? R.sub(n, nw_, U) : sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : ''), x, headTop+142*u);
   // counter disc
   c.beginPath(); c.arc(discX, discY, discR, 0, Math.PI*2); c.fillStyle = t.accent; c.fill();
   const discN = (duo && n === 0 && nw_) ? nw_ : n; c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.textAlign = 'center'; c.font = F(800, 64*u, 'd'); c.textBaseline = 'middle'; c.fillText(BN(discN), discX, discY+4*u);
-  c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText(`/ ${BN(TOTAL)} ${U}`, discX, discY+discR+30*u);
+  c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText(OP ? `${U}` : `/ ${BN(TOTAL)} ${U}`, discX, discY+discR+30*u);
 
   /* footer sizes */
   const showDiv = state.showDiv;
@@ -630,11 +634,14 @@ function render(c, W, H, opts){
   }
   /* progress */
   let y = mapBottom + 10*u;
-  const barH = 16*u; rr(c, P, y, W-2*P, barH, barH/2); c.fillStyle = t.unvisited; c.fill();
-  if(n){ rr(c, P, y, Math.max(barH, (W-2*P)*n/TOTAL), barH, barH/2); c.fillStyle = state.byDiv ? t.accent : (OP && CFG.opColor ? CFG.opColor : t.visited); c.fill(); }
+  const barH = 16*u; if(OP){ c.fillStyle = CFG.opColor || t.visited; rr(c, P, y+barH/2-2*u, W-2*P, 4*u, 2*u); c.fill(); } else { rr(c, P, y, W-2*P, barH, barH/2); c.fillStyle = t.unvisited; c.fill(); }
+  if(n && !OP){ rr(c, P, y, Math.max(barH, (W-2*P)*n/TOTAL), barH, barH/2); c.fillStyle = state.byDiv ? t.accent : (OP && CFG.opColor ? CFG.opColor : t.visited); c.fill(); }
   y += barH + 36*u;
-  c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); c.fillText(state.recap ? `${YEAR}-এ ${CFG.place} ${BN(pct)}% ঘোরা হলো` : `${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`, P, y);
-  c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(n === TOTAL ? `সব ${U} ঘোরা শেষ!` : (state.wish.size ? `🎯 যেতে চাই ${BN(state.wish.size)} · বাকি ${BN(TOTAL-n)}` : `বাকি ${BN(TOTAL-n)} ${U}`), W-P, y);
+  c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); if(OP){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const right = state.wish.size ? `🎯 যেতে চাই ${BN(state.wish.size)}` : (n === TOTAL ? 'সব ট্যুর শেষ!' : ''); c.font = F(500, 23*u, 'b'); const rw = right ? c.measureText(right).width + 20*u : 0; const maxLW = W - 2*P - rw; c.font = F(700, 27*u, 'd');
+    let line = !n ? `${CFG.opName}-এর সাথে কোথায় যাব, বাছছি` : n === 1 ? `${CFG.opName}-এর সাথে ${nm[0]} ঘুরে এলাম` : `${CFG.opName}-এর সাথে: ${nm.join(', ')}`; let k = nm.length; while(c.measureText(line).width > maxLW && k > 1){ k--; line = `${CFG.opName}-এর সাথে: ${nm.slice(0,k).join(', ')} +${BN(nm.length-k)} আরও`; }
+    c.fillText(line, P, y); if(right){ c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(right, W-P, y); } }
+  else { c.fillText(state.recap ? `${YEAR}-এ ${CFG.place} ${BN(pct)}% ঘোরা হলো` : `${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`, P, y);
+  c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(n === TOTAL ? `সব ${U} ঘোরা শেষ!` : (state.wish.size ? `🎯 যেতে চাই ${BN(state.wish.size)} · বাকি ${BN(TOTAL-n)}` : `বাকি ${BN(TOTAL-n)} ${U}`), W-P, y); }
 
   /* division chips */
   if(showDiv){

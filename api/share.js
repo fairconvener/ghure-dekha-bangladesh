@@ -1,4 +1,4 @@
-import { put } from '@vercel/blob';
+import { upload } from './_store.js';
 import { randomBytes } from 'node:crypto';
 import { rpc } from './_db.js';
 
@@ -36,18 +36,17 @@ export default async function handler(req, res) {
     const districts = Array.isArray(body.districts) ? body.districts.filter(d => typeof d === 'string' && /^[a-z-]{2,30}$/.test(d)).slice(0, 600) : [];
     const theme = /^[a-z]{2,12}$/.test(String(body.theme || '')) ? body.theme : 'flag';
     const size = /^(post|square|story)$/.test(String(body.size || '')) ? body.size : 'post';
-    const id = randomBytes(6).toString('base64url').replace(/[^a-zA-Z0-9]/g, '').slice(0, 8) || randomBytes(4).toString('hex');
-    const opts = { access: 'public', addRandomSuffix: false, cacheControlMaxAge: 31536000 };
+    let id = ''; while (id.length < 6) id = randomBytes(6).toString('base64url').replace(/[^a-zA-Z0-9]/g, '').slice(0, 8);
     const [p, c] = await Promise.all([
-      put(`maps/${id}.jpg`, poster, { ...opts, contentType: 'image/jpeg' }),
-      put(`maps/${id}-card.jpg`, card, { ...opts, contentType: 'image/jpeg' }),
+      upload(`maps/${id}.jpg`, poster, 'image/jpeg'),
+      upload(`maps/${id}-card.jpg`, card, 'image/jpeg'),
     ]);
-    const meta = { id, map, mm, name, count, districts, theme, size, poster: p.url, card: c.url, createdAt: new Date().toISOString(), ua: String(req.headers['user-agent'] || '').slice(0, 200) };
-    await put(`maps/${id}.json`, JSON.stringify(meta), { ...opts, contentType: 'application/json' });
+    const meta = { id, map, mm, name, count, districts, theme, size, poster: p, card: c, createdAt: new Date().toISOString(), ua: String(req.headers['user-agent'] || '').slice(0, 200) };
+    await upload(`maps/${id}.json`, JSON.stringify(meta), 'application/json');
     try { await rpc('gdb_log_event', { p_type: 'share', p_count: count, p_districts: districts, p_has_photo: !!body.has_photo, p_theme: theme, p_map_id: id, p_ua: meta.ua, p_map: (/^[a-z0-9-]{2,24}$/.test(String(body.evmap || '')) ? body.evmap : map), p_name: name || null }, { timeout: 4000 }); } catch (e) { /* stats are best-effort */ }
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const proto = req.headers['x-forwarded-proto'] || 'https';
-    return res.status(200).json({ id, url: `${proto}://${host}/m/${id}`, poster: p.url, card: c.url });
+    return res.status(200).json({ id, url: `${proto}://${host}/m/${id}`, poster: p, card: c });
   } catch (e) {
     return bad(res, e.message || 'upload failed');
   }

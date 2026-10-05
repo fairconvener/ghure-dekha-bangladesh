@@ -1,4 +1,4 @@
-import { put } from '@vercel/blob';
+import { upload } from './_store.js';
 import { randomBytes } from 'node:crypto';
 import { rpc } from './_db.js';
 
@@ -23,8 +23,8 @@ export default async function handler(req, res) {
   if (buf.length < 5000 || buf.length > 4 * 1024 * 1024 || buf[0] !== 0xff || buf[1] !== 0xd8) return res.status(400).json({ error: 'ছবিটা ঠিক নেই (JPEG, ৪ MB-এর কম)' });
   try {
     const id = randomBytes(8).toString('base64url').replace(/[^a-zA-Z0-9]/g, '').slice(0, 10) || randomBytes(5).toString('hex');
-    const b = await put(`photos/${id}.jpg`, buf, { access: 'public', addRandomSuffix: false, contentType: 'image/jpeg', cacheControlMaxAge: 31536000 });
-    const rid = await rpc('gdb_add_photo', { p_page: page, p_item: item, p_url: b.url, p_name: name || null, p_ua: String(req.headers['user-agent'] || '').slice(0, 200) });
-    return res.status(200).json({ ok: true, id: rid, url: b.url });
+    const url = await upload(`photos/${id}.jpg`, buf, 'image/jpeg');
+    const rid = await rpc('gdb_add_photo', { p_page: page, p_item: item, p_url: url, p_name: name || null, p_ua: String(req.headers['user-agent'] || '').slice(0, 200) });
+    return res.status(200).json({ ok: true, id: rid, url });
   } catch (e) { return res.status(500).json({ error: 'আপলোড হয়নি, একটু পরে আবার চেষ্টা করুন' }); }
 }

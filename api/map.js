@@ -1,4 +1,4 @@
-import { list } from '@vercel/blob';
+import { getJson } from './_store.js';
 
 const BN = n => String(n).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -10,11 +10,7 @@ export default async function handler(req, res) {
   const site = `${proto}://${host}`;
   if (!id) { res.statusCode = 302; res.setHeader('Location', '/'); return res.end(); }
   let meta = null;
-  try {
-    const r = await list({ prefix: `maps/${id}.json`, limit: 1 });
-    const b = (r.blobs || []).find(x => x.pathname === `maps/${id}.json`);
-    if (b) { const f = await fetch(b.url, { cache: 'no-store' }); if (f.ok) meta = await f.json(); }
-  } catch (e) { meta = null; }
+  meta = await getJson(`maps/${id}.json`);
   if (!meta) {
     res.statusCode = 404; res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.end(`<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ম্যাপ পাওয়া যায়নি</title><meta http-equiv="refresh" content="3;url=/"></head><body style="font-family:sans-serif;text-align:center;padding:60px 16px"><h2>এই ম্যাপটা পাওয়া যায়নি</h2><p><a href="/">নিজের ম্যাপ বানান</a></p></body></html>`);

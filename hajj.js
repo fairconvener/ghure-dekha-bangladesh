@@ -26,7 +26,7 @@ const RELS = {
     title: T => `আমার স্বপ্নের ${T}`, quote: 'জীবনে একবার হলেও আল্লাহর ঘরে',
     cap: (t, a, b, yr) => [`🕋 ইনশাআল্লাহ${yr}, জীবনের সবচেয়ে বড় স্বপ্ন: ${t.bn}।`, 'ঢাকা থেকে মক্কা-মদিনা, আল্লাহর ঘরে যাওয়ার অপেক্ষা। আল্লাহ কবুল করুন 🤲'] }
 };
-const AVATARS = [['hijab-back', 'হিজাব, পেছন থেকে'], ['hijab-1', 'হিজাব'], ['hijab-2', 'হিজাব ২'], ['hair', 'খোলা চুল'], ['mosque', 'মসজিদের সামনে']];
+const AVATARS = [['hijab-back', 'হিজাব, পেছন থেকে'], ['hijab-1', 'হিজাব'], ['hijab-2', 'হিজাব ২'], ['hair', 'খোলা চুল'], ['saree', 'শাড়ি'], ['mosque', 'মসজিদের সামনে']];
 const okPhoto = v => typeof v === 'string' && (v.startsWith('data:image') || /^\/img\/avatars\/[a-z0-9-]+\.jpg$/.test(v));
 const looksFemale = nm => !nm || /বউ|বৌ|স্ত্রী|বেগম|জীবনসঙ্গী|wife|bride/i.test(nm);
 
@@ -240,7 +240,7 @@ $('#hjBtn1').addEventListener('click', () => $('#hjIn1').click()); $('#hjBtn2').
 $('#hjIn1').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if(f) readPhoto(f, d => { S.photo = d; e.target.value = ''; img(d); sync(); }); });
 $('#hjIn2').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if(f) readPhoto(f, d => { S.photo2 = d; e.target.value = ''; img(d); sync(); }); });
 $('#hjRm1').addEventListener('click', () => { S.photo = null; sync(); }); $('#hjRm2').addEventListener('click', () => { S.photo2 = null; sync(); });
-(function(){ const row = $('#hjAv'); AVATARS.forEach(([k, lb]) => { const x = document.createElement('button'); x.type = 'button'; x.dataset.av = `/img/avatars/${k}.jpg`; x.setAttribute('aria-label', lb); x.innerHTML = `<img src="/img/avatars/${k}.jpg" alt="" width="58" height="58" loading="lazy">`; x.addEventListener('click', () => { S.photo2 = x.dataset.av; img(S.photo2); sync(); }); row.appendChild(x); }); })();
+(function(){ const row = $('#hjAv'); AVATARS.forEach(([k, lb]) => { const x = document.createElement('button'); x.type = 'button'; x.dataset.av = `/img/avatars/${k}.jpg`; x.setAttribute('aria-label', lb); x.innerHTML = `<img src="/img/avatars/${k}.jpg" alt="" width="52" height="52" loading="lazy">`; x.addEventListener('click', () => { S.photo2 = x.dataset.av; img(S.photo2); sync(); }); row.appendChild(x); }); })();
 $('#hjName').value = S.name; $('#hjName2').value = S.name2; $('#hjYear').value = S.year;
 
 /* ---------- export / share ---------- */

@@ -174,8 +174,8 @@ label.field input[type=text]{padding:11px 14px;border:1px solid var(--line);bord
 .photo .ph svg{width:28px;height:28px;color:var(--muted)}
 .photo .meta{display:grid;gap:6px;min-width:0}
 .avpick{margin-top:10px}.avpick small{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
-.avrow{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin}
-.avrow button{flex:none;width:58px;height:58px;border-radius:50%;padding:0;border:2px solid var(--line);background:var(--surface-2);overflow:hidden;cursor:pointer}
+.avrow{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin}
+.avrow button{flex:none;width:52px;height:52px;border-radius:50%;padding:0;border:2px solid var(--line);background:var(--surface-2);overflow:hidden;cursor:pointer}
 .avrow button img{width:100%;height:100%;object-fit:cover;display:block}
 .avrow button[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
 .photo small{color:var(--muted);font-size:13px}
@@ -675,7 +675,7 @@ const BASE_PATHS = (typeof BASE_SHAPES !== 'undefined') ? BASE_SHAPES.map(d => n
 const HOME = byId.bd || CFG.home || null;
 let photoImg = null, photoImg2 = null;
 /* ready-made pictures (for a future spouse nobody has a photo of yet); stored as a path, uploads stay data URLs */
-const AVATARS = [['hijab-back', 'হিজাব, পেছন থেকে'], ['hijab-1', 'হিজাব'], ['hijab-2', 'হিজাব ২'], ['hair', 'খোলা চুল'], ['mosque', 'মসজিদের সামনে']];
+const AVATARS = [['hijab-back', 'হিজাব, পেছন থেকে'], ['hijab-1', 'হিজাব'], ['hijab-2', 'হিজাব ২'], ['hair', 'খোলা চুল'], ['saree', 'শাড়ি'], ['mosque', 'মসজিদের সামনে']];
 const okPhoto = v => typeof v === 'string' && (v.startsWith('data:image') || /^\/img\/avatars\/[a-z0-9-]+\.jpg$/.test(v));
 let AV_DEF = null;
 /* honeymoon poster without a second photo: a back-view hijab picture for "ভবিষ্যৎ বউ" (not for a future husband) */
@@ -1150,7 +1150,7 @@ $('#duoOn').addEventListener('click', () => { state.duo = !state.duo; if(state.d
 (function(){ const root = $('#relChips'); Object.entries(REL).forEach(([k, r]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.rel = k; b.textContent = `${r.sym} ${r.bn}`; b.addEventListener('click', () => { const was = (REL[state.rel] || {}).heart; state.rel = k; if(r.heart){ state.mode = 'wish'; if(!state.name2.trim()) $('#name2').placeholder = 'ভবিষ্যৎ বউ / বর'; } else if(was && state.mode === 'wish') state.mode = 'visited'; update(); }); root.appendChild(b); }); if(!BIZ){ [['umrah', '🕋 উমরা ট্রিপ'], ['hajj', '🕋 হজ ট্রিপ']].forEach(([t, l]) => { const a = document.createElement('a'); a.className = 'chip hjlink'; a.href = '/' + t; a.textContent = l + ' →'; a.title = 'ঢাকা থেকে মক্কা-মদিনা, ছবিসহ স্বপ্নের ম্যাপ'; a.addEventListener('click', () => { save(); const m = { honeymoon: 'future', couple: 'spouse', family: 'parents' }[state.rel]; a.href = '/' + t + (m ? '?rel=' + m : ''); }); root.appendChild(a); }); } })();
 $('#photoBtn2').addEventListener('click', () => $('#photoInput2').click());
 $('#photoRemove2').addEventListener('click', () => { state.photo2 = null; loadPhoto(); update(); });
-(function(){ const row = document.querySelector('#avPick .avrow'); if(!row) return; AVATARS.forEach(([k, label]) => { const b = document.createElement('button'); b.type = 'button'; b.dataset.av = '/img/avatars/' + k + '.jpg'; b.setAttribute('aria-label', label); b.setAttribute('aria-pressed', 'false'); b.innerHTML = `<img src="/img/avatars/${k}.jpg" alt="" loading="lazy" width="58" height="58">`; b.addEventListener('click', () => { state.photo2 = b.dataset.av; loadPhoto(); update(); }); row.appendChild(b); }); })();
+(function(){ const row = document.querySelector('#avPick .avrow'); if(!row) return; AVATARS.forEach(([k, label]) => { const b = document.createElement('button'); b.type = 'button'; b.dataset.av = '/img/avatars/' + k + '.jpg'; b.setAttribute('aria-label', label); b.setAttribute('aria-pressed', 'false'); b.innerHTML = `<img src="/img/avatars/${k}.jpg" alt="" loading="lazy" width="52" height="52">`; b.addEventListener('click', () => { state.photo2 = b.dataset.av; loadPhoto(); update(); }); row.appendChild(b); }); })();
 $('#photoInput2').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if(!f) return; const url = URL.createObjectURL(f); const im = new Image(); im.onload = () => { const S = 640, c = document.createElement('canvas'); c.width = S; c.height = S; const cc = c.getContext('2d'); const sc = Math.max(S/im.width, S/im.height); const w = im.width*sc, h = im.height*sc; cc.drawImage(im, S/2-w/2, S/2-h/2, w, h); state.photo2 = c.toDataURL('image/jpeg', .88); URL.revokeObjectURL(url); loadPhoto(); update(); e.target.value = ''; }; im.onerror = () => { toast('ছবিটি পড়া যায়নি'); URL.revokeObjectURL(url); }; im.src = url; });
 $('#labelMode').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.labelMode = b.dataset.v; update(); });
 $('#sizeMode').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.size = b.dataset.v; update(); });

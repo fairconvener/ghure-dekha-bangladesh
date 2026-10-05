@@ -143,7 +143,48 @@ body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none
 
 @media print{.top,footer,.noprint,.verify,.toast{display:none!important}body::before{display:none}body{background:#fff;color:#000}.panel,.card{border:1px solid #ccc;break-inside:avoid}}
 </style>
-
+<style>
+.dl-tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.2px;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,#C8952F 18%,var(--surface));color:#8a5d12;border:1px solid color-mix(in srgb,#C8952F 45%,transparent)}
+.dl-prof{display:grid;gap:12px;margin-top:16px;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.dl-prof .hd{display:flex;gap:12px;align-items:center}
+.dl-prof .lg{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:14px;color:#fff;font-family:var(--font-display);font-weight:800;font-size:26px;flex:none}
+.dl-prof .hd b{font-family:var(--font-display);font-size:21px;display:block;line-height:1.2}
+.dl-prof .hd small{color:var(--muted);font-size:13px}
+.dl-prof p{margin:0;font-size:15px;line-height:1.6}
+.dl-pts{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.dl-pts li{font-size:13px;padding:5px 10px;border-radius:999px;background:var(--surface-2,#f1efe8);border:1px solid var(--line)}
+.dl-row{display:flex;flex-wrap:wrap;gap:8px}
+.dl-prof a.btn,#packages a.btn{text-decoration:none}
+.dl-list{display:grid;gap:14px;margin-top:16px}
+@media (min-width:860px){.dl-list{grid-template-columns:1fr 1fr}}
+.dl-card{display:grid;gap:12px;align-content:start;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--surface);scroll-margin-top:90px}
+.dl-card:target{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent,#0F7F4C) 40%,transparent)}
+.dl-top{display:flex;gap:12px;justify-content:space-between;align-items:flex-start}
+.dl-top h3{font-size:19px;line-height:1.3;margin:4px 0 6px;font-family:var(--font-display)}
+.dl-top p{margin:0;font-size:14px;line-height:1.55;color:var(--muted)}
+.dl-kind{font-size:12px;font-weight:700;color:var(--muted)}
+.dl-price{text-align:right;flex:none}
+.dl-price b{display:block;font-family:var(--font-display);font-size:26px;line-height:1;color:var(--accent,#0F7F4C)}
+.dl-price small{font-size:12px;color:var(--muted)}
+.dl-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.dl-chips li{font-size:13px;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent,#0F7F4C) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--accent,#0F7F4C) 25%,transparent)}
+.dl-sched{display:grid;gap:4px;margin:0;font-size:14px}
+.dl-sched div{display:grid;grid-template-columns:52px 1fr;gap:8px}
+.dl-sched dt{font-weight:700;color:var(--muted)}.dl-sched dd{margin:0}
+.dl-card details{border-top:1px dashed var(--line);padding-top:8px}
+.dl-card summary{cursor:pointer;font-weight:700;font-size:14px}
+.dl-card details ul,.dl-card details ol{margin:8px 0 2px;padding-left:20px;display:grid;gap:4px;font-size:14px;line-height:1.5}
+.dl-book{display:grid;gap:8px;padding:12px;border-radius:14px;background:color-mix(in srgb,#25D366 7%,var(--surface));border:1px solid color-mix(in srgb,#25D366 30%,transparent)}
+.dl-book .f{display:grid;grid-template-columns:1fr 92px;gap:8px}
+.dl-book input,.dl-book select{min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg,#fff);font:inherit;font-size:16px;color:inherit}
+.dl-book button{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 14px;border:0;border-radius:12px;background:#1FA855;color:#fff;font:inherit;font-weight:700;font-size:16px;cursor:pointer}
+.dl-book small{font-size:12.5px;color:var(--muted);line-height:1.5}
+.dl-mini{display:grid;grid-template-columns:1fr auto;gap:10px 14px;align-items:center;padding:14px 16px;border:1px solid color-mix(in srgb,#C8952F 40%,var(--line));border-radius:16px;background:var(--surface);text-decoration:none;color:inherit}
+.dl-mini b{font-family:var(--font-display);font-size:17px;line-height:1.3;display:block}
+.dl-mini small{color:var(--muted);font-size:13px;line-height:1.45;display:block;margin-top:3px}
+.dl-mini .go{grid-column:1/-1;justify-self:start;font-size:14px;font-weight:700;color:var(--accent,#0F7F4C)}
+.dl-note{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+</style>
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -153,6 +194,7 @@ body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none
 <main class="wrap">
 <section class="hero"><h1>ট্রাভেল গ্রুপের সাথে <em>ঘোরা</em> ম্যাপ</h1><p>যে গ্রুপের সাথে ঘুরেছেন, তার পেজে গিয়ে ট্যুরগুলোতে টিক দিন, নিজের ট্যুর ম্যাপ বানান, গ্রুপে পোস্ট করুন। ট্রাভেল গ্রুপ বা এজেন্সি চালান? আপনার গ্রুপের পেজ ফ্রি-তে চাই: <a href="https://www.facebook.com/Galib.Dhaka" rel="noopener">মেসেজ দিন</a>।</p></section>
 <div class="grid c2"><a class="card" href="/g/poribrajok" style="text-decoration:none;color:inherit;border-color:#0E6E8C55"><div class="row" style="align-items:center"><span style="display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#0E6E8C;color:#fff;font-family:var(--font-display);font-weight:800;font-size:22px">প</span><div><h3 style="font-size:18px">পরিব্রাজক</h3><div class="muted" style="font-size:13px">৯০ হাজার+ সদস্যের ট্রাভেল গ্রুপ, নিয়মিত গ্রুপ ট্যুর</div></div></div><p class="muted" style="margin:0;font-size:14px">16টি ট্যুর: সাজেক ভ্যালি, সীতাকুণ্ড, মহেশখালী, কক্সবাজার, সেন্ট মার্টিন, আলীর গুহা...</p><span class="btn small primary" style="width:max-content">আমার ট্যুর ম্যাপ বানাই</span></a><a class="card" href="/g/zadventure" style="text-decoration:none;color:inherit;border-color:#C2410C55"><div class="row" style="align-items:center"><span style="display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#C2410C;color:#fff;font-family:var(--font-display);font-weight:800;font-size:22px">Z</span><div><h3 style="font-size:18px">Zadventure</h3><div class="muted" style="font-size:13px">ট্রাভেল গ্রুপ, নিয়মিত গ্রুপ ট্যুর · অ্যাডমিন: Zakir Hossain</div></div></div><p class="muted" style="margin:0;font-size:14px">13টি ট্যুর: সাজেক ভ্যালি, সেন্ট মার্টিন, কক্সবাজার, নীলগিরি ও নীলাচল, রাতারগুল, জাফলং...</p><span class="btn small primary" style="width:max-content">আমার ট্যুর ম্যাপ বানাই</span></a></div>
+<section style="margin-top:24px"><h2 style="font-size:20px;margin:0 0 4px"><span class="dl-tag">পার্টনার ট্যুর</span> গ্রুপ ট্যুর প্যাকেজ</h2><p class="muted" style="margin:0 0 10px;font-size:14px">ঢাকা থেকে, জনপ্রতি দাম। বুকিং হোয়াটসঅ্যাপে, ঘুরে দেখা বাংলাদেশের মাধ্যমে।</p><div style="display:grid;gap:10px"><a class="dl-mini" href="/g/poribrajok#sylhet-sadapathor"><div><b>সিলেট: সাদাপাথর, ভোলাগঞ্জ, রাতারগুল আর চা বাগান</b><small>পরিব্রাজক · ডে লং ট্যুর, রিজার্ভ বাস · সাদাপাথর, ভোলাগঞ্জ, রাতারগুল সোয়াম্প ফরেস্ট, চা বাগান</small></div><div class="dl-price"><b>৳১,৩৫০</b><small>জনপ্রতি</small></div><span class="go">বিস্তারিত ও বুকিং →</span></a><a class="dl-mini" href="/g/poribrajok#sreemangal-day"><div><b>শ্রীমঙ্গল: লাউয়াছড়া, মাধবপুর লেক আর চা বাগান</b><small>পরিব্রাজক · ডে লং ট্যুর, বাসে · লাউয়াছড়া জাতীয় উদ্যান, মাধবপুর লেক, চা বাগান, রাবার বাগান</small></div><div class="dl-price"><b>৳১,৫৫০</b><small>জনপ্রতি</small></div><span class="go">বিস্তারিত ও বুকিং →</span></a></div></section>
 <section class="panel" style="margin-top:24px"><h2 style="font-size:20px">ট্রাভেল গ্রুপ/এজেন্সি কী পায়</h2><ul style="margin:10px 0 0;padding-left:20px;display:grid;gap:6px"><li>নিজের নামের পেজ: আপনার সব ট্যুর ডেস্টিনেশন ম্যাপে, বুকিং বোতামসহ</li><li>আপনার ট্রাভেলাররা "আপনার সাথে ঘুরেছি" ম্যাপ বানিয়ে ফেসবুকে পোস্ট করে, প্রতিটা পোস্টারে আপনার নাম: ফ্রি প্রচার</li><li>"যেতে চাই" লিস্ট থেকে বোঝা যায় কোন ট্যুরের চাহিদা বেশি</li><li>গ্রুপের সদস্যদের লিডারবোর্ড: কে কয়টা ট্যুরে গেছে</li></ul></section>
 </main>
 <footer><div class="wrap">

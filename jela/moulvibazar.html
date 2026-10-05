@@ -212,6 +212,47 @@ body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none
 .divhead{margin:26px 0 10px;display:flex;align-items:baseline;gap:10px}
 .divhead h2{font-size:22px}.divhead span{color:var(--muted);font-size:14px}
 .search{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font:inherit;font-size:16px;color:inherit;margin:14px 0 4px;box-sizing:border-box}
+</style><style>
+.dl-tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.2px;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,#C8952F 18%,var(--surface));color:#8a5d12;border:1px solid color-mix(in srgb,#C8952F 45%,transparent)}
+.dl-prof{display:grid;gap:12px;margin-top:16px;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.dl-prof .hd{display:flex;gap:12px;align-items:center}
+.dl-prof .lg{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:14px;color:#fff;font-family:var(--font-display);font-weight:800;font-size:26px;flex:none}
+.dl-prof .hd b{font-family:var(--font-display);font-size:21px;display:block;line-height:1.2}
+.dl-prof .hd small{color:var(--muted);font-size:13px}
+.dl-prof p{margin:0;font-size:15px;line-height:1.6}
+.dl-pts{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.dl-pts li{font-size:13px;padding:5px 10px;border-radius:999px;background:var(--surface-2,#f1efe8);border:1px solid var(--line)}
+.dl-row{display:flex;flex-wrap:wrap;gap:8px}
+.dl-prof a.btn,#packages a.btn{text-decoration:none}
+.dl-list{display:grid;gap:14px;margin-top:16px}
+@media (min-width:860px){.dl-list{grid-template-columns:1fr 1fr}}
+.dl-card{display:grid;gap:12px;align-content:start;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--surface);scroll-margin-top:90px}
+.dl-card:target{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent,#0F7F4C) 40%,transparent)}
+.dl-top{display:flex;gap:12px;justify-content:space-between;align-items:flex-start}
+.dl-top h3{font-size:19px;line-height:1.3;margin:4px 0 6px;font-family:var(--font-display)}
+.dl-top p{margin:0;font-size:14px;line-height:1.55;color:var(--muted)}
+.dl-kind{font-size:12px;font-weight:700;color:var(--muted)}
+.dl-price{text-align:right;flex:none}
+.dl-price b{display:block;font-family:var(--font-display);font-size:26px;line-height:1;color:var(--accent,#0F7F4C)}
+.dl-price small{font-size:12px;color:var(--muted)}
+.dl-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.dl-chips li{font-size:13px;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent,#0F7F4C) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--accent,#0F7F4C) 25%,transparent)}
+.dl-sched{display:grid;gap:4px;margin:0;font-size:14px}
+.dl-sched div{display:grid;grid-template-columns:52px 1fr;gap:8px}
+.dl-sched dt{font-weight:700;color:var(--muted)}.dl-sched dd{margin:0}
+.dl-card details{border-top:1px dashed var(--line);padding-top:8px}
+.dl-card summary{cursor:pointer;font-weight:700;font-size:14px}
+.dl-card details ul,.dl-card details ol{margin:8px 0 2px;padding-left:20px;display:grid;gap:4px;font-size:14px;line-height:1.5}
+.dl-book{display:grid;gap:8px;padding:12px;border-radius:14px;background:color-mix(in srgb,#25D366 7%,var(--surface));border:1px solid color-mix(in srgb,#25D366 30%,transparent)}
+.dl-book .f{display:grid;grid-template-columns:1fr 92px;gap:8px}
+.dl-book input,.dl-book select{min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg,#fff);font:inherit;font-size:16px;color:inherit}
+.dl-book button{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 14px;border:0;border-radius:12px;background:#1FA855;color:#fff;font:inherit;font-weight:700;font-size:16px;cursor:pointer}
+.dl-book small{font-size:12.5px;color:var(--muted);line-height:1.5}
+.dl-mini{display:grid;grid-template-columns:1fr auto;gap:10px 14px;align-items:center;padding:14px 16px;border:1px solid color-mix(in srgb,#C8952F 40%,var(--line));border-radius:16px;background:var(--surface);text-decoration:none;color:inherit}
+.dl-mini b{font-family:var(--font-display);font-size:17px;line-height:1.3;display:block}
+.dl-mini small{color:var(--muted);font-size:13px;line-height:1.45;display:block;margin-top:3px}
+.dl-mini .go{grid-column:1/-1;justify-self:start;font-size:14px;font-weight:700;color:var(--accent,#0F7F4C)}
+.dl-note{font-size:12.5px;color:var(--muted);margin:10px 0 0}
 </style>
 </head>
 <body>
@@ -250,6 +291,7 @@ This work was made by Nahid Sultan and released under the li · CC BY-SA 4.0</a>
       <div class="card"><span class="ic">💡</span><div><b>টিপস</b>লাউয়াছড়ায় সকাল সকাল যান, বন্যপ্রাণী দেখার সম্ভাবনা বেশি থাকে।<div class="verify" data-page="jela/moulvibazar" data-item="tip"></div></div></div>
     </div>
   </section>
+  <section class="sec"><div class="sec-head"><span class="dl-tag">পার্টনার ট্যুর</span><h2>গ্রুপের সাথে মৌলভীবাজার যান</h2></div><div style="display:grid;gap:10px"><a class="dl-mini" href="/g/poribrajok#sreemangal-day"><div><b>শ্রীমঙ্গল: লাউয়াছড়া, মাধবপুর লেক আর চা বাগান</b><small>পরিব্রাজক · ডে লং ট্যুর, বাসে · লাউয়াছড়া জাতীয় উদ্যান, মাধবপুর লেক, চা বাগান, রাবার বাগান</small></div><div class="dl-price"><b>৳১,৫৫০</b><small>জনপ্রতি</small></div><span class="go">বিস্তারিত ও বুকিং →</span></a></div><p class="dl-note">ঢাকা থেকে বাসে গ্রুপ ট্যুর, খাবার আর ঘোরা এক দামে। বুকিং ঘুরে দেখা বাংলাদেশের মাধ্যমে।</p></section>
   <section class="sec"><div class="sec-head"><b>৩</b><h2>কাছের জেলা</h2></div>
     <div class="near"><a href="/jela/habiganj"><img src="/img/55c468fce5bc.jpg" alt="" loading="lazy"><span>হবিগঞ্জ<small>৫২ কিমি দূরে</small></span></a><a href="/jela/sylhet"><img src="/img/cac363bd754e.jpg" alt="" loading="lazy"><span>সিলেট<small>৫৩ কিমি দূরে</small></span></a><a href="/jela/sunamganj"><img src="/img/53c40e6819cd.jpg" alt="" loading="lazy"><span>সুনামগঞ্জ<small>৭৫ কিমি দূরে</small></span></a><a href="/jela/brahmanbaria"><img src="/img/f1035deb3b48.jpg" alt="" loading="lazy"><span>ব্রাহ্মণবাড়িয়া<small>৯৯ কিমি দূরে</small></span></a></div>
   </section>

@@ -144,22 +144,40 @@ body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none
 .hj-grid{display:grid;gap:20px;grid-template-columns:1fr}
 .hj-grid>*{min-width:0}
 @media (min-width:980px){.hj-grid{grid-template-columns:minmax(0,1fr) 420px;align-items:start}.hj-prev{position:sticky;top:84px}}
-.hj-wrap{--ar:.8;width:min(100%,calc(76vh * var(--ar)));margin-inline:auto;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);background:#0A4434}
+.hj-wrap{--ar:.8;position:relative;width:min(100%,calc(72vh * var(--ar)));margin-inline:auto;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);background:#0A4434;touch-action:pan-y}
 .hj-wrap canvas{display:block;width:100%;height:auto}
+.hj-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.38);color:#fff;font-size:24px;line-height:1;display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(2px)}
+.hj-nav:hover{background:rgba(0,0,0,.55)}#hjPrev{left:8px}#hjNext{right:8px}
+.hj-designs{display:flex;gap:10px;overflow-x:auto;padding:12px 4px 6px;scrollbar-width:thin;scroll-snap-type:x proximity}
+.hj-designs button{flex:none;width:76px;padding:0;border:0;background:none;display:grid;justify-items:center;gap:4px;cursor:pointer;scroll-snap-align:center;color:var(--muted);font:inherit;font-size:12.5px;line-height:1.2}
+.hj-designs img{width:68px;height:68px;border-radius:14px;object-fit:cover;border:2px solid var(--line);display:block}
+.hj-designs [aria-pressed="true"] img{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.hj-designs [aria-pressed="true"] span{color:var(--ink);font-weight:600}
+.hj-swipe{margin:2px 0 0;text-align:center;color:var(--muted);font-size:13px}
 .hj-actions{justify-content:center;margin-top:12px}
 .hj-actions .btn{min-width:150px;justify-content:center}
 .hj-ctl{display:grid;gap:14px}.hj-ctl>*{min-width:0}
 .hj-ctl h2{font-size:17px;margin:0 0 10px}
 .hj-ctl .seg{width:100%}.hj-ctl .seg button{flex:1;font-size:15px;padding:9px 12px}
 .hj .photo{display:flex;align-items:center;gap:14px;margin-top:12px}
-.hj .photo .ph{width:72px;height:72px;border-radius:50%;background:var(--surface-2);border:2px dashed var(--line);display:grid;place-items:center;overflow:hidden;flex:none;font-size:28px}
-.hj .photo .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.hj .ph{width:72px;height:72px;border-radius:50%;background:var(--surface-2);border:2px dashed var(--line);display:grid;place-items:center;overflow:hidden;flex:none;font-size:28px}
+.hj .ph img{width:100%;height:100%;object-fit:cover;display:block}
 .hj .photo .meta{display:grid;gap:6px;min-width:0}.hj .photo small{color:var(--muted);font-size:13px}
-.hj .avpick{margin-top:10px}.hj .avpick small{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
+.hj .quick{margin-top:8px}
+.hj .avpick{margin-top:12px}.hj .avpick>small{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
+.hj .avgrp{display:flex;flex-direction:column;gap:8px}.hj .avgrp.m-first{flex-direction:column-reverse}
+.hj .avg{display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;gap:6px}.hj .avg>span{font-size:12.5px;color:var(--muted);line-height:1.2}
 .hj .avrow{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin}
 .hj .avrow button{flex:none;width:52px;height:52px;border-radius:50%;padding:0;border:2px solid var(--line);background:var(--surface-2);overflow:hidden;cursor:pointer}
 .hj .avrow button img{width:100%;height:100%;object-fit:cover;display:block}
 .hj .avrow button[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.hj .pslots{display:grid;gap:12px;margin-top:12px}
+.hj .pslot{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:center}
+.hj .pslot .ph{width:64px;height:64px;font-size:24px}
+.hj .pslot .meta{display:grid;gap:6px;min-width:0}
+.hj .pslot input[type=text]{width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font:inherit;font-size:15px;color:inherit}
+.hj .pslot .row{gap:6px;flex-wrap:wrap}
+.hj .sibbox{margin-top:16px;padding-top:12px;border-top:1px dashed var(--line)}.hj .sibbox>small{display:block;color:var(--muted);font-size:13px;margin-bottom:8px}
 #hjCaption{width:100%;min-height:150px;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font:inherit;font-size:15px;color:inherit;resize:vertical;margin-bottom:10px}
 .hj-more{padding-block:8px 34px}.hj-more h2{font-size:20px;margin:0 0 8px}.hj-more p{color:var(--muted);margin:0 0 10px;max-width:72ch}
 .hj-more .row a{text-decoration:none}
@@ -172,28 +190,40 @@ body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none
 </div></header>
 <section class="hero hj-hero"><div class="wrap">
   <h1>স্বপ্নের উমরা: <em>ঢাকা থেকে মক্কা-মদিনা</em></h1>
-  <p>বিয়ের পর প্রথম সফর, মা-বাবাকে নিয়ে, নাকি একা? নিজের আর প্রিয় মানুষের ছবি দিন, ম্যাপে রুট আঁকা পোস্টার নামিয়ে ফেসবুকে দিন। ছবি আপনার ফোনেই থাকে, কোথাও আপলোড হয় না।</p>
+  <p>বিয়ের পর প্রথম সফর, মা-বাবা আর ভাই-বোনকে নিয়ে, নাকি একা? সবার ছবি দিন, ৯টা ডিজাইনের একটা বেছে পোস্টার নামিয়ে ফেসবুকে দিন। ছবি আপনার ফোনেই থাকে, কোথাও আপলোড হয় না।</p>
 </div></section>
 <main class="hj" id="maker"><div class="wrap hj-grid">
   <div class="hj-prev">
-    <div class="hj-wrap" id="hjWrap"><canvas id="hjPoster" width="1080" height="1350" aria-label="হজ-উমরার স্বপ্নের ম্যাপ"></canvas></div>
-    <div class="row hj-actions"><button class="btn primary" id="hjDl" type="button">⬇ ছবি নামান</button><button class="btn" id="hjShare" type="button">ফেসবুকে পোস্ট</button></div>
+    <div class="hj-wrap" id="hjWrap"><canvas id="hjPoster" width="1080" height="1350" aria-label="হজ-উমরার স্বপ্নের পোস্টার"></canvas><button class="hj-nav" id="hjPrev" type="button" aria-label="আগের ডিজাইন">‹</button><button class="hj-nav" id="hjNext" type="button" aria-label="পরের ডিজাইন">›</button></div>
+    <div class="hj-designs" id="hjDesigns" role="group" aria-label="ডিজাইন"></div>
+    <p class="hj-swipe">পোস্টারে ডানে-বামে সোয়াইপ করেও ডিজাইন বদলানো যায়</p>
+    <div class="row hj-actions"><button class="btn primary" id="hjDl" type="button">⬇ ছবি নামান</button><button class="btn hj-copy" type="button">ক্যাপশন কপি</button></div>
   </div>
   <div class="hj-ctl">
     <div class="panel"><h2>১. কোন সফর?</h2><div class="seg" role="group" aria-label="সফর"><button type="button" data-trip="umrah" aria-pressed="false">🕋 উমরা</button><button type="button" data-trip="hajj" aria-pressed="false">🕋 হজ</button></div></div>
-    <div class="panel"><h2>২. কাকে নিয়ে?</h2><div class="chips" role="group" aria-label="কাকে নিয়ে"><button type="button" class="chip" data-rel="future" aria-pressed="false">💍 বিয়ের পর</button><button type="button" class="chip" data-rel="spouse" aria-pressed="false">❤️ জীবনসঙ্গীর সাথে</button><button type="button" class="chip" data-rel="parents" aria-pressed="false">👪 মা-বাবাকে নিয়ে</button><button type="button" class="chip" data-rel="solo" aria-pressed="false">🙋 একা</button></div></div>
+    <div class="panel"><h2>২. কাকে নিয়ে?</h2><div class="chips" role="group" aria-label="কাকে নিয়ে"><button type="button" class="chip" data-rel="future" aria-pressed="false">💍 বিয়ের পর</button><button type="button" class="chip" data-rel="spouse" aria-pressed="false">❤️ জীবনসঙ্গীর সাথে</button><button type="button" class="chip" data-rel="parents" aria-pressed="false">👪 মা-বাবা / পরিবার</button><button type="button" class="chip" data-rel="solo" aria-pressed="false">🙋 একা</button></div></div>
     <div class="panel"><h2>৩. নাম আর ছবি</h2>
       <label class="field">আপনার নাম<input type="text" id="hjName" maxlength="40" placeholder="যেমন: মাহমুদ গালিব" autocomplete="name"></label>
       <div class="photo"><div class="ph" id="hjPh1"></div><div class="meta"><div class="row"><button class="btn small" id="hjBtn1" type="button">আপনার ছবি</button><button class="btn small" id="hjRm1" type="button" hidden>ছবি সরান</button></div><small>ছবি আপনার ফোনেই থাকে, কোথাও যায় না</small><input type="file" id="hjIn1" accept="image/*" hidden></div></div>
       <div id="hjTwo">
-        <label class="field" style="margin-top:14px"><span id="hjName2Label">দ্বিতীয় জনের নাম</span><input type="text" id="hjName2" maxlength="40"></label>
-        <div class="photo"><div class="ph" id="hjPh2"></div><div class="meta"><div class="row"><button class="btn small" id="hjBtn2" type="button">দ্বিতীয় ছবি</button><button class="btn small" id="hjRm2" type="button" hidden>ছবি সরান</button></div><small id="hjNote2">ভবিষ্যৎ বউ বা স্ত্রীর ছবি না দিলে পেছন ফেরা হিজাবের ছবিটা বসবে</small><input type="file" id="hjIn2" accept="image/*" hidden></div></div>
-        <div class="avpick" id="hjAvBox"><small>ছবি নেই? এখান থেকে একটা বেছে নিন:</small><div class="avrow" id="hjAv" role="group" aria-label="তৈরি ছবি"></div></div>
+        <label class="field" style="margin-top:14px">দ্বিতীয় জনের নাম<input type="text" id="hjName2" maxlength="40"></label>
+        <div class="chips quick" id="hjQuick" role="group" aria-label="বউ না বর"></div>
+        <div class="photo"><div class="ph" id="hjPh2"></div><div class="meta"><div class="row"><button class="btn small" id="hjBtn2" type="button">দ্বিতীয় ছবি</button><button class="btn small" id="hjRm2" type="button" hidden>ছবি সরান</button></div><small id="hjNote2">ছবি না দিলে পেছন ফেরা হিজাবের ছবিটা বসবে</small><input type="file" id="hjIn2" accept="image/*" hidden></div></div>
+        <div class="avpick" id="hjAvBox"><small>ছবি নেই? এখান থেকে একটা বেছে নিন:</small><div class="avgrp" id="hjAvGrp">
+          <div class="avg"><span>👰 কনে</span><div class="avrow" id="hjAvF" role="group" aria-label="কনের তৈরি ছবি"></div></div>
+          <div class="avg"><span>🤵 বর</span><div class="avrow" id="hjAvM" role="group" aria-label="বরের তৈরি ছবি"></div></div>
+        </div></div>
+      </div>
+      <div id="hjFam" hidden>
+        <p style="margin:14px 0 8px;font-weight:600">আব্বু-আম্মুর ছবি কীভাবে দেবেন?</p>
+        <div class="chips" role="group" aria-label="আব্বু-আম্মুর ছবি"><button type="button" class="chip" data-pmode="together" aria-pressed="false">একসাথে একটা ছবি</button><button type="button" class="chip" data-pmode="separate" aria-pressed="false">আলাদা দুটো ছবি</button><button type="button" class="chip" data-pmode="ammu" aria-pressed="false">শুধু আম্মু</button><button type="button" class="chip" data-pmode="abbu" aria-pressed="false">শুধু আব্বু</button></div>
+        <div class="pslots" id="hjPar"></div>
+        <div class="sibbox"><small>ভাই-বোনও যাবে? চাইলে যোগ করুন (৩ জন পর্যন্ত):</small><div class="row"><button class="btn small" id="hjAddBon" type="button">+ বোন</button><button class="btn small" id="hjAddBhai" type="button">+ ভাই</button></div><div class="pslots" id="hjSibs"></div></div>
       </div>
     </div>
     <div class="panel"><h2>৪. কবে? (ঐচ্ছিক)</h2><label class="field">সাল, পোস্টারে "ইনশাআল্লাহ"-এর পাশে বসবে<input type="text" id="hjYear" inputmode="numeric" maxlength="12" placeholder="যেমন: ২০২৭"></label></div>
     <div class="panel"><h2>৫. পোস্টারের মাপ</h2><div class="seg" role="group" aria-label="মাপ"><button type="button" data-size="post" aria-pressed="false">পোস্ট ৪:৫</button><button type="button" data-size="square" aria-pressed="false">স্কয়ার</button><button type="button" data-size="story" aria-pressed="false">স্টোরি</button></div></div>
-    <div class="panel"><h2>ক্যাপশন</h2><textarea id="hjCaption" readonly aria-label="পোস্টের ক্যাপশন"></textarea><div class="row"><button class="btn" id="hjCopy" type="button">ক্যাপশন কপি</button></div></div>
+    <div class="panel"><h2>ক্যাপশন</h2><textarea id="hjCaption" readonly aria-label="পোস্টের ক্যাপশন"></textarea><div class="row"><button class="btn hj-copy" type="button">ক্যাপশন কপি</button></div></div>
   </div>
 </div></main>
 <section class="wrap hj-more">
@@ -209,7 +239,7 @@ body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>window.BN=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);let _tt=0;window.toast=m=>{const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>e.classList.remove('show'),2600)};</script>
 
-<script src="/hajj-map.js?v=1"></script><script src="/hajj.js?v=3"></script>
+<script src="/hajj-map.js?v=1"></script><script src="/hajj.js?v=4"></script>
 <script src="/about.js?v=5" defer></script>
 </body>
 </html>

@@ -174,6 +174,8 @@ label.field input[type=text]{padding:11px 14px;border:1px solid var(--line);bord
 .photo .ph svg{width:28px;height:28px;color:var(--muted)}
 .photo .meta{display:grid;gap:6px;min-width:0}
 .avpick{margin-top:10px}.avpick small{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
+.avgrp{display:flex;flex-direction:column;gap:8px}.avgrp.m-first{flex-direction:column-reverse}
+.avg{display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;gap:6px}.avg>span{font-size:12.5px;color:var(--muted);line-height:1.2}
 .avrow{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin}
 .avrow button{flex:none;width:52px;height:52px;border-radius:50%;padding:0;border:2px solid var(--line);background:var(--surface-2);overflow:hidden;cursor:pointer}
 .avrow button img{width:100%;height:100%;object-fit:cover;display:block}
@@ -378,11 +380,12 @@ footer b{color:var(--ink)}
           <label class="field">দ্বিতীয় জনের নাম
             <input type="text" id="name2" maxlength="40" placeholder="যেমন: রাফি, বা 'ভবিষ্যৎ বউ' 😄">
           </label>
+          <div class="chips" id="n2Quick" role="group" aria-label="বউ না বর" style="margin:8px 0 12px" hidden><button type="button" class="chip" data-q="ভবিষ্যৎ বউ" aria-pressed="false">👰 ভবিষ্যৎ বউ</button><button type="button" class="chip" data-q="ভবিষ্যৎ বর" aria-pressed="false">🤵 ভবিষ্যৎ বর</button></div>
           <div class="photo">
             <div class="ph" id="photoBox2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg></div>
             <div class="meta"><div class="row"><button class="btn small" id="photoBtn2" type="button">দ্বিতীয় ছবি</button><button class="btn small" id="photoRemove2" type="button" hidden>ছবি সরান</button></div><small id="duoHint">হানিমুনে দ্বিতীয় ছবি না দিলে ভবিষ্যৎ বউয়ের জায়গায় পেছন ফেরা হিজাবের ছবিটা বসবে</small><input type="file" id="photoInput2" accept="image/*" hidden></div>
           </div>
-          <div class="avpick" id="avPick"><small>ছবি নেই? ভবিষ্যতের মানুষের জন্য এখান থেকে একটা বেছে নিন:</small><div class="avrow" role="group" aria-label="তৈরি ছবি"></div></div>
+          <div class="avpick" id="avPick"><small>ছবি নেই? ভবিষ্যতের মানুষের জন্য এখান থেকে একটা বেছে নিন:</small><div class="avgrp" id="avGrp"><div class="avg"><span>👰 কনে</span><div class="avrow" data-g="f" role="group" aria-label="কনের তৈরি ছবি"></div></div><div class="avg"><span>🤵 বর</span><div class="avrow" data-g="m" role="group" aria-label="বরের তৈরি ছবি"></div></div></div></div>
         </div>
       </section>
 
@@ -673,11 +676,17 @@ const BASE_PATHS = (typeof BASE_SHAPES !== 'undefined') ? BASE_SHAPES.map(d => n
 const HOME = byId.bd || CFG.home || null;
 let photoImg = null, photoImg2 = null;
 /* ready-made pictures (for a future spouse nobody has a photo of yet); stored as a path, uploads stay data URLs */
-const AVATARS = [['hijab-back', 'হিজাব, পেছন থেকে'], ['hijab-1', 'হিজাব'], ['hijab-2', 'হিজাব ২'], ['hair', 'খোলা চুল'], ['saree', 'শাড়ি'], ['mosque', 'মসজিদের সামনে']];
+const AVATARS = [['hijab-back', 'হিজাব, পেছন থেকে', 'f'], ['hijab-1', 'হিজাব', 'f'], ['hijab-2', 'হিজাব ২', 'f'], ['hair', 'খোলা চুল', 'f'], ['saree', 'শাড়ি', 'f'], ['mosque', 'মসজিদের সামনে', 'f'],
+  ['groom-art', 'পাঞ্জাবি, আঁকা', 'm'], ['groom-panjabi', 'পাঞ্জাবি', 'm'], ['groom-tupi', 'টুপি-পাঞ্জাবি', 'm'], ['groom-blazer', 'ব্লেজার', 'm']];
+const AV_G = Object.fromEntries(AVATARS.map(([k, , g]) => ['/img/avatars/' + k + '.jpg', g]));
+const MALE2 = nm => /(^|\s)বর$|ভবিষ্যৎ\s*বর|স্বামী|জামাই|husband|groom/i.test(nm || '');
 const okPhoto = v => typeof v === 'string' && (v.startsWith('data:image') || /^\/img\/avatars\/[a-z0-9-]+\.jpg$/.test(v));
-let AV_DEF = null;
-/* honeymoon poster without a second photo: a back-view hijab picture for "ভবিষ্যৎ বউ" (not for a future husband) */
-function defaultPhoto2(){ if(!state.duo || !(REL[state.rel] || {}).heart || state.photo2) return null; const nm = state.name2.trim(); if(nm && !/বউ|বৌ|স্ত্রী|বেগম|wife|bride/i.test(nm)) return null; if(!AV_DEF){ AV_DEF = new Image(); AV_DEF.onload = () => requestRender(); AV_DEF.src = '/img/avatars/hijab-back.jpg'; } return AV_DEF.complete && AV_DEF.naturalWidth ? AV_DEF : null; }
+const AV_IM = {};
+/* honeymoon poster without a second photo: a back-view hijab picture for "ভবিষ্যৎ বউ", a drawn groom for "ভবিষ্যৎ বর" */
+function defaultPhoto2(){ if(!state.duo || !(REL[state.rel] || {}).heart || state.photo2) return null; const nm = state.name2.trim(); const male = MALE2(nm);
+  if(!male && nm && !/বউ|বৌ|স্ত্রী|বেগম|wife|bride/i.test(nm)) return null;
+  const src = male ? '/img/avatars/groom-art.jpg' : '/img/avatars/hijab-back.jpg'; let im = AV_IM[src]; if(!im){ im = AV_IM[src] = new Image(); im.onload = () => requestRender(); im.src = src; }
+  return im.complete && im.naturalWidth ? im : null; }
 function loadPhoto(){ photoImg = null; photoImg2 = null; if(state.photo){ const im = new Image(); im.onload = () => { photoImg = im; requestRender(); }; im.src = state.photo; } if(state.photo2){ const im2 = new Image(); im2.onload = () => { photoImg2 = im2; requestRender(); }; im2.src = state.photo2; } }
 
 /* ---------- photo map: one photo per visited unit, clipped into its shape on the poster ---------- */
@@ -1104,7 +1113,11 @@ function update(){
   const box = $('#photoBox'); if(state.photo){ box.innerHTML = `<img src="${state.photo}" alt="">`; $('#photoRemove').hidden = false; $('#photoBtn').textContent = 'ছবি বদলান'; } else { box.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>'; $('#photoRemove').hidden = true; $('#photoBtn').textContent = 'ছবি আপলোড করুন'; }
   $('#duoOn').setAttribute('aria-checked', String(state.duo)); $('#duoBox').hidden = !state.duo; document.querySelectorAll('#avPick [data-av]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.av === state.photo2))); document.querySelectorAll('#relChips .chip[data-rel]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.rel === state.rel)));
   const box2 = $('#photoBox2'); if(state.photo2){ box2.innerHTML = `<img src="${state.photo2}" alt="">`; $('#photoRemove2').hidden = false; $('#photoBtn2').textContent = 'ছবি বদলান'; } else { box2.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>'; $('#photoRemove2').hidden = true; $('#photoBtn2').textContent = 'দ্বিতীয় ছবি'; }
-  $('#duoHint').textContent = state.rel === 'honeymoon' ? 'ছবি না দিলে ভবিষ্যৎ বউয়ের জায়গায় পেছন ফেরা হিজাবের ছবিটা বসবে, নিচ থেকে অন্য ছবিও বাছতে পারেন। ম্যাপে ট্যাপ করলে জায়গাটা "হানিমুনে যাব" তালিকায় যোগ হবে।' : 'দুজনের ছবি পাশাপাশি বসবে। "ঘুরেছি" = একসাথে গিয়েছেন, "যেতে চাই" = একসাথে যাবেন।';
+  { const male = MALE2(state.name2.trim()), hm = state.rel === 'honeymoon';
+    $('#duoHint').textContent = hm ? (male ? 'ছবি না দিলে ভবিষ্যৎ বরের জায়গায় পাঞ্জাবি পরা আঁকা ছবিটা বসবে' : 'ছবি না দিলে ভবিষ্যৎ বউয়ের জায়গায় পেছন ফেরা হিজাবের ছবিটা বসবে') + ', নিচ থেকে অন্য ছবিও বাছতে পারেন। ম্যাপে ট্যাপ করলে জায়গাটা "হানিমুনে যাব" তালিকায় যোগ হবে।' : 'দুজনের ছবি পাশাপাশি বসবে। "ঘুরেছি" = একসাথে গিয়েছেন, "যেতে চাই" = একসাথে যাবেন।';
+    const ag = document.getElementById('avGrp'); if(ag) ag.classList.toggle('m-first', male);
+    const qk = document.getElementById('n2Quick'); if(qk){ qk.hidden = !hm; qk.querySelectorAll('[data-q]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.q === state.name2.trim()))); }
+    const ap = document.getElementById('avPick'); if(ap) ap.hidden = !(hm || state.rel === 'couple'); }
   if(CFG.en){ const en = state.lang === 'en'; document.querySelectorAll('#langSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === (en ? 'en' : 'bn')))); const bnName = /[ঀ-৿]/.test(state.name + (state.duo ? state.name2 : '')); $('#langNote').textContent = en ? ('পোস্টার আর ক্যাপশন ইংরেজিতে হবে, সাইট বাংলাতেই থাকবে।' + (bnName ? ' নামটা ইংরেজি অক্ষরে লিখলে পুরো পোস্টারই ইংরেজি হবে।' : '')) : 'ইংরেজিতে পোস্ট করতে চাইলে English বেছে নিন: পোস্টার আর ক্যাপশন ইংরেজি হবে।'; }
   dphRefresh();
   save(); requestRender();
@@ -1148,7 +1161,8 @@ $('#duoOn').addEventListener('click', () => { state.duo = !state.duo; if(state.d
 (function(){ const root = $('#relChips'); Object.entries(REL).forEach(([k, r]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.rel = k; b.textContent = `${r.sym} ${r.bn}`; b.addEventListener('click', () => { const was = (REL[state.rel] || {}).heart; state.rel = k; if(r.heart){ state.mode = 'wish'; if(!state.name2.trim()) $('#name2').placeholder = 'ভবিষ্যৎ বউ / বর'; } else if(was && state.mode === 'wish') state.mode = 'visited'; update(); }); root.appendChild(b); }); if(!BIZ){ [['umrah', '🕋 উমরা ট্রিপ'], ['hajj', '🕋 হজ ট্রিপ']].forEach(([t, l]) => { const a = document.createElement('a'); a.className = 'chip hjlink'; a.href = '/' + t; a.textContent = l + ' →'; a.title = 'ঢাকা থেকে মক্কা-মদিনা, ছবিসহ স্বপ্নের ম্যাপ'; a.addEventListener('click', () => { save(); const m = { honeymoon: 'future', couple: 'spouse', family: 'parents' }[state.rel]; a.href = '/' + t + (m ? '?rel=' + m : ''); }); root.appendChild(a); }); } })();
 $('#photoBtn2').addEventListener('click', () => $('#photoInput2').click());
 $('#photoRemove2').addEventListener('click', () => { state.photo2 = null; loadPhoto(); update(); });
-(function(){ const row = document.querySelector('#avPick .avrow'); if(!row) return; AVATARS.forEach(([k, label]) => { const b = document.createElement('button'); b.type = 'button'; b.dataset.av = '/img/avatars/' + k + '.jpg'; b.setAttribute('aria-label', label); b.setAttribute('aria-pressed', 'false'); b.innerHTML = `<img src="/img/avatars/${k}.jpg" alt="" loading="lazy" width="52" height="52">`; b.addEventListener('click', () => { state.photo2 = b.dataset.av; loadPhoto(); update(); }); row.appendChild(b); }); })();
+(function(){ const qk = document.getElementById('n2Quick'); if(qk) qk.addEventListener('click', e => { const b = e.target.closest('[data-q]'); if(!b) return; state.name2 = b.dataset.q; $('#name2').value = state.name2; const g = AV_G[state.photo2]; if(g && g !== (MALE2(state.name2) ? 'm' : 'f')){ state.photo2 = null; loadPhoto(); } update(); }); })();
+(function(){ document.querySelectorAll('#avPick .avrow').forEach(row => AVATARS.filter(a => a[2] === row.dataset.g).forEach(([k, label]) => { const b = document.createElement('button'); b.type = 'button'; b.dataset.av = '/img/avatars/' + k + '.jpg'; b.setAttribute('aria-label', label); b.setAttribute('aria-pressed', 'false'); b.innerHTML = `<img src="/img/avatars/${k}.jpg" alt="" loading="lazy" width="52" height="52">`; b.title = label; b.addEventListener('click', () => { state.photo2 = b.dataset.av; loadPhoto(); update(); }); row.appendChild(b); })); })();
 $('#photoInput2').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if(!f) return; const url = URL.createObjectURL(f); const im = new Image(); im.onload = () => { const S = 640, c = document.createElement('canvas'); c.width = S; c.height = S; const cc = c.getContext('2d'); const sc = Math.max(S/im.width, S/im.height); const w = im.width*sc, h = im.height*sc; cc.drawImage(im, S/2-w/2, S/2-h/2, w, h); state.photo2 = c.toDataURL('image/jpeg', .88); URL.revokeObjectURL(url); loadPhoto(); update(); e.target.value = ''; }; im.onerror = () => { toast('ছবিটি পড়া যায়নি'); URL.revokeObjectURL(url); }; im.src = url; });
 $('#labelMode').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.labelMode = b.dataset.v; update(); });
 $('#sizeMode').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.size = b.dataset.v; update(); });

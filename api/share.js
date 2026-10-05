@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     ]);
     const meta = { id, map, mm, name, count, districts, theme, size, poster: p.url, card: c.url, createdAt: new Date().toISOString(), ua: String(req.headers['user-agent'] || '').slice(0, 200) };
     await put(`maps/${id}.json`, JSON.stringify(meta), { ...opts, contentType: 'application/json' });
-    try { await rpc('gdb_log_event', { p_type: 'share', p_count: count, p_districts: districts, p_has_photo: !!body.has_photo, p_theme: theme, p_map_id: id, p_ua: meta.ua, p_map: map, p_name: name || null }, { timeout: 4000 }); } catch (e) { /* stats are best-effort */ }
+    try { await rpc('gdb_log_event', { p_type: 'share', p_count: count, p_districts: districts, p_has_photo: !!body.has_photo, p_theme: theme, p_map_id: id, p_ua: meta.ua, p_map: (/^[a-z0-9-]{2,24}$/.test(String(body.evmap || '')) ? body.evmap : map), p_name: name || null }, { timeout: 4000 }); } catch (e) { /* stats are best-effort */ }
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const proto = req.headers['x-forwarded-proto'] || 'https';
     return res.status(200).json({ id, url: `${proto}://${host}/m/${id}`, poster: p.url, card: c.url });

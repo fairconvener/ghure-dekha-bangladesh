@@ -466,7 +466,7 @@ footer b{color:var(--ink)}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <script>
-const CFG = {"map": "c-dk", "eyebrow": "ডেনমার্কে আমাদের নেটওয়ার্ক", "key": "gdbizc-dk", "path": "/business/c/dk", "unit": "অঞ্চল", "gen": "অঞ্চলের", "group": "তালিকা", "groupSuffix": "", "place": "ডেনমার্কের", "defaultTitle": "আমাদের নেটওয়ার্ক", "cols": 4, "shadow": false, "tiny": true, "listVisited": true, "labelPx": 16, "file": "ghure-dekha-business-dk", "tags": "#StudyAbroad #Denmark #ঘুরেদেখাবাংলাদেশ", "mm": {"total": 5, "unit": "অঞ্চল", "gen": "অঞ্চলের", "place": "ডেনমার্কের", "title": "ডেনমার্ক (ব্যবসা)", "home": "/business/c/dk"}, "biz": true, "showDivDefault": false};
+const CFG = {"map": "c-dk", "eyebrow": "ডেনমার্কে আমাদের নেটওয়ার্ক", "key": "gdbizc-dk", "path": "/business/c/dk", "unit": "অঞ্চল", "gen": "অঞ্চলের", "group": "তালিকা", "groupSuffix": "", "place": "ডেনমার্কের", "defaultTitle": "আমাদের নেটওয়ার্ক", "cols": 4, "shadow": false, "tiny": true, "listVisited": true, "labelPx": 16, "file": "ghure-dekha-business-dk", "tags": "#StudyAbroad #Denmark #ঘুরেদেখাবাংলাদেশ", "mm": {"total": 5, "unit": "অঞ্চল", "gen": "অঞ্চলের", "place": "ডেনমার্কের", "title": "ডেনমার্ক (ব্যবসা)", "home": "/business/c/dk"}, "biz": true, "evmap": "biz-c-dk", "showDivDefault": false};
 const MAP_W=1000,MAP_H=790.3;
 const OUTLINE="";
 const DIVISIONS=[{"id": "all", "bn": "সব", "en": "All"}];
@@ -735,7 +735,7 @@ async function renderCardBlob(){ await fontPromise; const W = 1200, H = 1200; co
 const blobToDataUrl = b => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); });
 
 /* ---------- events + public stats ---------- */
-function logEvent(type){ if(!HOSTED) return; const body = JSON.stringify({type, map: CFG.map, op: CFG.op || null, count: state.selected.size, districts: OP ? [...new Set([...state.selected].map(t => byTour[t].dist))] : [...state.selected], has_photo: !!state.photo, theme: state.theme}); try{ fetch('/api/event', {method:'POST', headers:{'content-type':'application/json'}, body, keepalive:true}).catch(()=>{}); }catch(e){} }
+function logEvent(type){ if(!HOSTED) return; const body = JSON.stringify({type, map: CFG.evmap || CFG.map, op: CFG.op || null, count: state.selected.size, districts: OP ? [...new Set([...state.selected].map(t => byTour[t].dist))] : [...state.selected], has_photo: !!state.photo, theme: state.theme}); try{ fetch('/api/event', {method:'POST', headers:{'content-type':'application/json'}, body, keepalive:true}).catch(()=>{}); }catch(e){} }
 try{ if(HOSTED && !sessionStorage.getItem(CFG.key+'-visited')){ sessionStorage.setItem(CFG.key+'-visited','1'); logEvent('visit'); } }catch(e){ logEvent('visit'); }
 async function loadStats(){
   if(!HOSTED || OP) return;
@@ -912,7 +912,7 @@ function sig(){ return JSON.stringify([[...state.selected].sort(), [...state.wis
 async function uploadMap(){ if(!HOSTED) return null; const sg = sig(); if(lastUrl && sg === lastSig) return lastUrl; if(uploading && uploading.sig === sg) return uploading.p; const p = (async () => { const u = await uploadMapRaw(); if(u){ lastSig = sg; lastUrl = u; } uploading = null; return u; })(); uploading = {sig: sg, p}; return p; }
 async function uploadMapRaw(){ const [posterB, cardB] = await Promise.all([ (async () => { await fontPromise; const sz = SIZES[state.size]; const c = document.createElement('canvas'); c.width = sz.w*2; c.height = sz.h*2; render(c.getContext('2d'), sz.w, sz.h, {base:2}); return new Promise(r => c.toBlob(r, 'image/jpeg', .86)); })(), renderCardBlob() ]);
   const [poster, card] = await Promise.all([blobToDataUrl(posterB), blobToDataUrl(cardB)]);
-  const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: (state.duo ? (REL[state.rel]||REL.friend).title(state.name.trim() || 'আমি', state.name2.trim() || 'বন্ধু') : state.name.trim()).slice(0,40), count: state.selected.size, districts: OP ? [...new Set([...state.selected].map(t => byTour[t].dist))] : [...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo, op: CFG.op || null, mm: CFG.mm || null})});
+  const r = await fetch('/api/share', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({poster, card, map: CFG.map, name: (state.duo ? (REL[state.rel]||REL.friend).title(state.name.trim() || 'আমি', state.name2.trim() || 'বন্ধু') : state.name.trim()).slice(0,40), count: state.selected.size, districts: OP ? [...new Set([...state.selected].map(t => byTour[t].dist))] : [...state.selected], theme: state.theme, size: state.size, has_photo: !!state.photo, op: CFG.op || null, mm: CFG.mm || null, evmap: CFG.evmap || null})});
   const j = await r.json().catch(() => null); if(r.ok && j && j.url){ try{ localStorage.setItem(CFG.key+'-link', j.url); }catch(e){} showLink(j.url); return j.url; } console.warn('share upload failed', j); return null; }
 function showLink(url){ const n = $('#linkNote'); n.hidden = false; n.innerHTML = `আপনার ম্যাপের লিংক: <a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\//,'')}</a>`; }
 try{ const saved = localStorage.getItem(CFG.key+'-link'); if(saved) showLink(saved); }catch(e){}

@@ -424,7 +424,7 @@ footer b{color:var(--ink)}
 
 <footer>
   <div class="wrap">
-    <div><b>ঘুরে দেখা বাংলাদেশ</b> · <a href="/">বাংলাদেশ ম্যাপ</a> · <a href="/world">বিশ্ব ম্যাপ</a> · <a href="/jela">জেলা গাইড</a> · <a href="/countries">দেশ ও মহাদেশ</a> · ব্যবসার জন্য: <a href="/business">জেলা ম্যাপ</a> · <a href="/business/world">বিশ্ব ম্যাপ</a> · <a href="/business/clients">উদাহরণ</a></div>
+    <div><b>ঘুরে দেখা বাংলাদেশ</b> · <a href="/">বাংলাদেশ ম্যাপ</a> · <a href="/world">বিশ্ব ম্যাপ</a> · <a href="/jela">জেলা গাইড</a> · <a href="/countries">দেশ ও মহাদেশ</a> · ব্যবসার জন্য: <a href="/business">জেলা ম্যাপ</a> · <a href="/business/world">বিশ্ব ম্যাপ</a> · <a href="/study-abroad">স্টাডি অ্যাব্রড</a> · <a href="/business/clients">উদাহরণ</a></div>
     <div>ম্যাপ ডেটা: geoBoundaries (CC BY 4.0) · <a href="/privacy">প্রাইভেসি</a></div>
   </div>
 <p style="text-align:center;margin:0 0 12px"><a class="btn small" href="/g">🧭 অন্য ট্রাভেল গ্রুপের ম্যাপ</a></p></footer>
@@ -479,14 +479,14 @@ const $ = s => document.querySelector(s);
 const TOTAL = (typeof TOURS !== 'undefined') ? TOURS.length : DISTRICTS.length; const U = CFG.unit;
 const byId = Object.fromEntries(DISTRICTS.map(d => [d.id, d]));
 /* operator (tour group) mode: selections are tour ids, districts light up through their tours */
-const BIZ = !!CFG.biz; const KINDS = (BIZ && CFG.map === 'world') ? {
-  student: {bn:'স্টুডেন্ট পাঠাই', eye:'আমরা পাঠাই', sub:n=>`${BN(n)}টি দেশে আমরা স্টুডেন্ট পাঠাই`, foot:n=>`${BN(n)} দেশে স্টুডেন্ট পাঠিয়েছি`, cap:(nm,n)=>`🎓 ${nm}-এর স্টুডেন্ট এখন ${BN(n)}টি দেশে!`},
-  visa:    {bn:'ভিসা প্রসেস করি', eye:'ভিসা সার্ভিস', sub:n=>`${BN(n)}টি দেশের ভিসা প্রসেস করি`, foot:n=>`${BN(n)} দেশের ভিসা প্রসেসিং`, cap:(nm,n)=>`🛂 ${nm} ${BN(n)}টি দেশের ভিসা প্রসেস করে!`},
-  tour:    {bn:'ট্যুর প্যাকেজ দিই', eye:'আমাদের ট্যুর', sub:n=>`${BN(n)}টি দেশে আমরা ট্যুর প্যাকেজ দিই`, foot:n=>`${BN(n)} দেশে ট্যুর প্যাকেজ`, cap:(nm,n)=>`✈️ ${nm}-এর সাথে ঘুরতে পারেন ${BN(n)}টি দেশে!`},
-  partner: {bn:'পার্টনার ইউনিভার্সিটি', eye:'আমাদের পার্টনার', sub:n=>`${BN(n)}টি দেশে আমাদের পার্টনার ইউনিভার্সিটি`, foot:n=>`${BN(n)} দেশে পার্টনার ইউনিভার্সিটি`, cap:(nm,n)=>`🤝 ${nm}-এর পার্টনার ইউনিভার্সিটি ${BN(n)}টি দেশে!`},
-  office:  {bn:'অফিস আছে', eye:'আমরা আছি', sub:n=>`${BN(n)}টি দেশে আমাদের অফিস`, foot:n=>`${BN(n)} দেশে অফিস`, cap:(nm,n)=>`📍 ${nm} এখন ${BN(n)}টি দেশে!`},
-  job:     {bn:'জব / ওয়ার্ক ভিসা', eye:'ওয়ার্ক ভিসা', sub:n=>`${BN(n)}টি দেশে আমরা কর্মী পাঠাই`, foot:n=>`${BN(n)} দেশে কর্মী পাঠিয়েছি`, cap:(nm,n)=>`💼 ${nm}-এর মাধ্যমে কর্মীরা এখন ${BN(n)}টি দেশে!`},
-  service: {bn:'সার্ভিস দিই', eye:'সার্ভিস এরিয়া', sub:n=>`${BN(n)}টি দেশে আমরা সার্ভিস দিই`, foot:n=>`${BN(n)} দেশে সার্ভিস দিই`, cap:(nm,n)=>`🌍 ${nm} সার্ভিস দিচ্ছে ${BN(n)}টি দেশে!`}
+const BIZ = !!CFG.biz; const UL = U.endsWith('া') ? U+'য়' : U+'ে'; const KINDS = (BIZ && CFG.map !== 'bd') ? {
+  student: {bn:'স্টুডেন্ট পাঠাই', eye:'আমরা পাঠাই', sub:n=>`${BN(n)}টি ${UL} আমরা স্টুডেন্ট পাঠাই`, foot:n=>`${BN(n)} ${UL} স্টুডেন্ট পাঠিয়েছি`, cap:(nm,n)=>`🎓 ${nm}-এর স্টুডেন্ট এখন ${BN(n)}টি ${UL}!`},
+  visa:    {bn:'ভিসা প্রসেস করি', eye:'ভিসা সার্ভিস', sub:n=>`${BN(n)}টি ${UL}র ভিসা প্রসেস করি`, foot:n=>`${BN(n)} ${UL}র ভিসা প্রসেসিং`, cap:(nm,n)=>`🛂 ${nm} ${BN(n)}টি ${UL}র ভিসা প্রসেস করে!`},
+  tour:    {bn:'ট্যুর প্যাকেজ দিই', eye:'আমাদের ট্যুর', sub:n=>`${BN(n)}টি ${UL} আমরা ট্যুর প্যাকেজ দিই`, foot:n=>`${BN(n)} ${UL} ট্যুর প্যাকেজ`, cap:(nm,n)=>`✈️ ${nm}-এর সাথে ঘুরতে পারেন ${BN(n)}টি ${UL}!`},
+  partner: {bn:'পার্টনার ইউনিভার্সিটি', eye:'আমাদের পার্টনার', sub:n=>`${BN(n)}টি ${UL} আমাদের পার্টনার ইউনিভার্সিটি`, foot:n=>`${BN(n)} ${UL} পার্টনার ইউনিভার্সিটি`, cap:(nm,n)=>`🤝 ${nm}-এর পার্টনার ইউনিভার্সিটি ${BN(n)}টি ${UL}!`},
+  office:  {bn:'অফিস আছে', eye:'আমরা আছি', sub:n=>`${BN(n)}টি ${UL} আমাদের অফিস`, foot:n=>`${BN(n)} ${UL} অফিস`, cap:(nm,n)=>`📍 ${nm} এখন ${BN(n)}টি ${UL}!`},
+  job:     {bn:'জব / ওয়ার্ক ভিসা', eye:'ওয়ার্ক ভিসা', sub:n=>`${BN(n)}টি ${UL} আমরা কর্মী পাঠাই`, foot:n=>`${BN(n)} ${UL} কর্মী পাঠিয়েছি`, cap:(nm,n)=>`💼 ${nm}-এর মাধ্যমে কর্মীরা এখন ${BN(n)}টি ${UL}!`},
+  service: {bn:'সার্ভিস দিই', eye:'সার্ভিস এরিয়া', sub:n=>`${BN(n)}টি ${UL} আমরা সার্ভিস দিই`, foot:n=>`${BN(n)} ${UL} সার্ভিস দিই`, cap:(nm,n)=>`🌍 ${nm} সার্ভিস দিচ্ছে ${BN(n)}টি ${UL}!`}
 } : {
   branch: {bn:'শাখা / অফিস আছে', eye:'আমরা আছি', sub:n=>`${BN(TOTAL)} জেলার ${BN(n)}টিতে আমাদের শাখা`, foot:n=>`${BN(n)} জেলায় আমাদের শাখা / অফিস`, cap:(nm,n)=>`📍 ${nm} এখন ${BN(n)} জেলায়!`},
   tour:    {bn:'ট্যুর দিই', eye:'আমাদের ট্যুর', sub:n=>`${BN(n)} জেলায় আমাদের ট্যুর প্যাকেজ`, foot:n=>`${BN(n)} জেলায় ট্যুর দিই`, cap:(nm,n)=>`🧭 ${nm}-এর সাথে ঘুরতে পারেন ${BN(n)} জেলায়!`},
@@ -529,7 +529,7 @@ const REL = {
   besties:  {bn:'বেস্টি গ্যাং',    sym:'🔥', join:'x',  title:(a,b)=>`${a} x ${b}`,  sub:(n,w,U)=>w ? `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি, প্ল্যানে আরও ${BN(w)}টি` : `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি ${U}য়`, cap:(a,b,n,w,U)=>`🔥 ${a} x ${b}: গ্যাং ট্রিপ ${BN(n)}টি ${U}, পরের টার্গেট ${BN(w)}টি। ট্যাগ কর যারা যাবে!`},
 };
 
-const state = {counts:{}, grp:false, kind:(BIZ && CFG.map === 'world') ? 'student' : 'branch', tagline:'', brandColor:'#0F7F4C', hook:'', selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:CFG.showDivDefault !== false, labelMode:'visited', size:'post'};
+const state = {counts:{}, grp:false, kind:(BIZ && CFG.map !== 'bd') ? 'student' : 'branch', tagline:'', brandColor:'#0F7F4C', hook:'', selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:CFG.showDivDefault !== false, labelMode:'visited', size:'post'};
 const YEAR = BN(new Date().getFullYear());
 
 /* ---------- persistence ---------- */
@@ -584,16 +584,16 @@ function render(c, W, H, opts){
   c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); if('letterSpacing' in c) c.letterSpacing = '1px';
   if(OP && state.grp){ c.fillText('ট্রাভেল গ্রুপ · আমাদের ট্যুর ডেস্টিনেশন', x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
   else if(OP){ if('letterSpacing' in c) c.letterSpacing = '0px'; const ph = 48*u, py = headTop-2*u; c.font = F(800, 28*u, 'd'); const tw = c.measureText(CFG.opName).width; const pw = tw + 40*u; c.save(); c.shadowColor = 'rgba(0,0,0,.16)'; c.shadowBlur = 8*u; c.shadowOffsetY = 2*u; c.fillStyle = CFG.opColor || t.accent; rr(c, x, py, pw, ph, ph/2); c.fill(); c.restore(); c.fillStyle = '#FFFFFF'; c.textBaseline = 'middle'; c.fillText(CFG.opName, x+20*u, py+ph/2+2*u); c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText(state.grp ? 'ট্রাভেল গ্রুপ' : '-এর সাথে', x+pw+10*u, py+ph/2+8*u); }
-  else { c.fillText(BIZ ? (state.tagline.trim() || (CFG.map === 'world' ? 'আমাদের গ্লোবাল নেটওয়ার্ক' : 'বাংলাদেশে আমাদের নেটওয়ার্ক')) : (CFG.eyebrow || 'ঘুরে দেখা বাংলাদেশ'), x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
+  else { c.fillText(BIZ ? (state.tagline.trim() || (CFG.map === 'world' ? 'আমাদের গ্লোবাল নেটওয়ার্ক' : CFG.map === 'bd' ? 'বাংলাদেশে আমাদের নেটওয়ার্ক' : (CFG.eyebrow || 'আমাদের নেটওয়ার্ক'))) : (CFG.eyebrow || 'ঘুরে দেখা বাংলাদেশ'), x, headTop+34*u); if('letterSpacing' in c) c.letterSpacing = '0px'; }
   const title = (OP && state.grp) ? CFG.opName : duo ? R.title(nm1, nm2) : state.recap ? (state.name.trim() ? `${state.name.trim()} · ${YEAR}` : `${YEAR}-এ ${CFG.defaultTitle}`) : (state.name.trim() || CFG.defaultTitle);
   let fs = 62*u; c.font = F(800, fs, 'd'); while(c.measureText(title).width > maxW && fs > 30*u){ fs -= 2*u; c.font = F(800, fs, 'd'); }
   c.fillStyle = t.ink; c.fillText(title, x, headTop+100*u);
   c.fillStyle = t.muted; c.font = F(500, 24*u, 'b');
-  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`); c.fillText(BIZ ? ((n ? KINDS[state.kind].sub(n) : (CFG.map === 'world' ? 'ম্যাপে দেশগুলো বসান' : 'ম্যাপে জেলাগুলো বসান')) + (nw_ ? `, শিগগিরই আরও ${BN(nw_)}টিতে` : '')) : (OP && state.grp) ? (`${BN(n)}টি ডেস্টিনেশনে আমাদের নিয়মিত ট্যুর` + (nw_ ? `, আসছে আরও ${BN(nw_)}টি` : '')) : OP ? (n === 1 ? `${CFG.opName}-এর সাথে ঘুরে এলাম ${OP.find(t => state.selected.has(t.id)).bn}` : n ? `${CFG.opName}-এর সাথে ঘুরেছি ${BN(n)}টি ট্যুর` : `${CFG.opName}-এর সাথে যাওয়ার লিস্ট`) + (nw_ ? `, যাব আরও ${BN(nw_)}টি` : '') : duo ? R.sub(n, nw_, U) : sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : ''), x, headTop+142*u);
+  const nw_ = state.wish.size; const sub = state.recap ? (n ? `${YEAR}-এ ঘুরেছি ${BN(n)}টি ${U}` : `${YEAR}-এ এখনো কোথাও যাওয়া হয়নি`) : (n ? `${BN(TOTAL)} ${CFG.gen} মধ্যে ঘুরেছি ${BN(n)}টি` : `এখনো কোনো ${U}য় টিক পড়েনি`); c.fillText(BIZ ? ((n ? KINDS[state.kind].sub(n) : `ম্যাপে ${U}গুলো বসান`) + (nw_ ? `, শিগগিরই আরও ${BN(nw_)}টিতে` : '')) : (OP && state.grp) ? (`${BN(n)}টি ডেস্টিনেশনে আমাদের নিয়মিত ট্যুর` + (nw_ ? `, আসছে আরও ${BN(nw_)}টি` : '')) : OP ? (n === 1 ? `${CFG.opName}-এর সাথে ঘুরে এলাম ${OP.find(t => state.selected.has(t.id)).bn}` : n ? `${CFG.opName}-এর সাথে ঘুরেছি ${BN(n)}টি ট্যুর` : `${CFG.opName}-এর সাথে যাওয়ার লিস্ট`) + (nw_ ? `, যাব আরও ${BN(nw_)}টি` : '') : duo ? R.sub(n, nw_, U) : sub + (nw_ ? `, যেতে চাই ${BN(nw_)}টি` : ''), x, headTop+142*u);
   // counter disc
   c.beginPath(); c.arc(discX, discY, discR, 0, Math.PI*2); c.fillStyle = t.accent; c.fill();
   const discN = (duo && n === 0 && nw_) ? nw_ : n; c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.textAlign = 'center'; c.font = F(800, 64*u, 'd'); c.textBaseline = 'middle'; c.fillText(BN(discN), discX, discY+4*u);
-  c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText((OP || (BIZ && CFG.map === 'world')) ? `${U}` : `/ ${BN(TOTAL)} ${U}`, discX, discY+discR+30*u);
+  c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText((OP || (BIZ && CFG.map !== 'bd')) ? `${U}` : `/ ${BN(TOTAL)} ${U}`, discX, discY+discR+30*u);
 
   /* footer sizes */
   const showDiv = state.showDiv;
@@ -612,10 +612,11 @@ function render(c, W, H, opts){
   c.save(); c.setTransform(B*s,0,0,B*s,B*mx,B*my);
   if(CFG.shadow){ c.save(); c.shadowColor = 'rgba(0,0,0,.22)'; c.shadowBlur = 36*u/s; c.shadowOffsetY = 14*u/s; c.fillStyle = t.unvisited; c.fill(OUTLINE_PATH); c.restore(); } else { c.fillStyle = t.unvisited; c.fill(OUTLINE_PATH); }
   const lw = 1.8*u/s;
-  const wishCol = WISH[state.theme] || '#E9A825';
-  for(const d of DISTRICTS){ const v = vis(d.id); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (wishv(d.id) ? wishCol : t.unvisited); c.fill(PATHS[d.id]); }
+  const wishCol = WISH[state.theme] || '#E9A825'; const wishFill = mix(hexRgb(wishCol), hexRgb(t.paper), 0.6);
+  for(const d of DISTRICTS){ const v = vis(d.id); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (wishv(d.id) ? wishFill : t.unvisited); c.fill(PATHS[d.id]); }
   c.lineWidth = lw; c.strokeStyle = t.line; c.lineJoin = 'round';
   for(const d of DISTRICTS) c.stroke(PATHS[d.id]);
+  c.save(); c.setLineDash([5*u/s, 3.5*u/s]); c.lineWidth = 1.6*u/s; c.strokeStyle = wishCol; for(const d of DISTRICTS){ if(!vis(d.id) && wishv(d.id)) c.stroke(PATHS[d.id]); } c.restore();
   if(OUTLINE) c.stroke(OUTLINE_PATH);
   if(hover && opts.interactive){ c.lineWidth = 3.5*u/s; c.strokeStyle = t.accent; c.stroke(PATHS[hover]); }
   c.restore();
@@ -628,7 +629,7 @@ function render(c, W, H, opts){
   for(const d of order){
     const v = vis(d.id);
     const cx = mx + d.c[0]*s, cy = my + d.c[1]*s;
-    if(d.tiny){ const wv = wishv(d.id); c.beginPath(); c.arc(cx, cy, (v || wv ? 6 : 3.5)*u, 0, Math.PI*2); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (wv ? wishCol : t.unvisited); c.fill(); c.lineWidth = 1.5*u; c.strokeStyle = v ? t.paper : t.muted; c.globalAlpha = v ? 1 : .7; c.stroke(); c.globalAlpha = 1; if(hover === d.id && opts.interactive){ c.lineWidth = 3*u; c.strokeStyle = t.accent; c.stroke(); } }
+    if(d.tiny){ const wv = wishv(d.id); c.beginPath(); c.arc(cx, cy, (v || wv ? 6 : 3.5)*u, 0, Math.PI*2); c.fillStyle = v ? (state.byDiv ? DIV_COLORS[d.div] : t.visited) : (wv ? wishFill : t.unvisited); c.fill(); c.lineWidth = 1.5*u; c.strokeStyle = v ? t.paper : wv ? wishCol : t.muted; c.globalAlpha = v ? 1 : .7; c.stroke(); c.globalAlpha = 1; if(hover === d.id && opts.interactive){ c.lineWidth = 3*u; c.strokeStyle = t.accent; c.stroke(); } }
     else if(v){ c.beginPath(); c.arc(cx, cy, 5*u, 0, Math.PI*2); c.fillStyle = state.byDiv ? '#FFFFFF' : t.accent; c.fill(); c.lineWidth = 1.5*u; c.strokeStyle = state.byDiv ? DIV_COLORS[d.div] : t.paper; c.stroke(); }
     const want = state.labelMode === 'all' || (state.labelMode === 'visited' && (v || wishv(d.id)));
     if(!want) continue;
@@ -665,7 +666,7 @@ function render(c, W, H, opts){
   const barH = 16*u; if(OP){ c.fillStyle = CFG.opColor || t.visited; rr(c, P, y+barH/2-2*u, W-2*P, 4*u, 2*u); c.fill(); } else { rr(c, P, y, W-2*P, barH, barH/2); c.fillStyle = t.unvisited; c.fill(); }
   if(n && !OP){ rr(c, P, y, Math.max(barH, (W-2*P)*n/TOTAL), barH, barH/2); c.fillStyle = state.byDiv ? t.accent : (OP && CFG.opColor ? CFG.opColor : t.visited); c.fill(); }
   y += barH + 36*u;
-  c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); if(BIZ){ const K = KINDS[state.kind]; c.fillText(n ? K.foot(n) : (CFG.map === 'world' ? 'দেশে টিক দিন' : 'জেলায় টিক দিন'), P, y); c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(state.wish.size ? `🚀 শিগগিরই আসছি ${BN(state.wish.size)} জেলায়` : (n === TOTAL ? (CFG.map === 'world' ? 'সারা বিশ্বে!' : '১০০% বাংলাদেশ') : CFG.map === 'world' ? '' : `${BN(TOTAL)} ${CFG.gen} ${BN(n)}টি`), W-P, y); }
+  c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); if(BIZ){ const K = KINDS[state.kind]; c.fillText(n ? K.foot(n) : `${UL} টিক দিন`, P, y); c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(state.wish.size ? `🚀 শিগগিরই আসছি ${BN(state.wish.size)} ${UL}` : (n === TOTAL ? (CFG.map === 'world' ? 'সারা বিশ্বে!' : '১০০% বাংলাদেশ') : CFG.map === 'world' ? '' : `${BN(TOTAL)} ${CFG.gen} ${BN(n)}টি`), W-P, y); }
   else if(OP){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const right = state.wish.size ? (state.grp ? `🚀 আসছে ${BN(state.wish.size)}টি` : `🎯 যেতে চাই ${BN(state.wish.size)}`) : (n === TOTAL && !state.grp ? 'সব ট্যুর শেষ!' : ''); c.font = F(500, 23*u, 'b'); const rw = right ? c.measureText(right).width + 20*u : 0; const maxLW = W - 2*P - rw; c.font = F(700, 27*u, 'd');
     let line = (showDiv && n > 1) ? (state.grp ? `আমাদের ${BN(n)}টি ট্যুর ডেস্টিনেশন` : `${CFG.opName}-এর সাথে ${BN(n)}টি ট্যুর`) : state.grp ? (n ? `আমরা যাই: ${nm.join(', ')}` : 'ট্যুরে টিক দিন') : !n ? `${CFG.opName}-এর সাথে কোথায় যাব, বাছছি` : n === 1 ? `${CFG.opName}-এর সাথে ${nm[0]} ঘুরে এলাম` : `${CFG.opName}-এর সাথে: ${nm.join(', ')}`; let k = nm.length; while(c.measureText(line).width > maxLW && k > 1){ k--; line = `${state.grp ? 'আমরা যাই' : CFG.opName + '-এর সাথে'}: ${nm.slice(0,k).join(', ')} +${BN(nm.length-k)} আরও`; }
     c.fillText(line, P, y); if(right){ c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(right, W-P, y); } }

@@ -476,7 +476,14 @@ const $ = s => document.querySelector(s);
 const TOTAL = (typeof TOURS !== 'undefined') ? TOURS.length : DISTRICTS.length; const U = CFG.unit;
 const byId = Object.fromEntries(DISTRICTS.map(d => [d.id, d]));
 /* operator (tour group) mode: selections are tour ids, districts light up through their tours */
-const BIZ = !!CFG.biz; const KINDS = {
+const BIZ = !!CFG.biz; const KINDS = (BIZ && CFG.map === 'world') ? {
+  student: {bn:'স্টুডেন্ট পাঠাই', eye:'আমরা পাঠাই', sub:n=>`${BN(n)}টি দেশে আমাদের স্টুডেন্ট`, foot:n=>`${BN(n)} দেশে স্টুডেন্ট পাঠিয়েছি`, cap:(nm,n)=>`🎓 ${nm}-এর স্টুডেন্ট এখন ${BN(n)}টি দেশে!`},
+  visa:    {bn:'ভিসা প্রসেস করি', eye:'ভিসা সার্ভিস', sub:n=>`${BN(n)}টি দেশের ভিসা প্রসেস করি`, foot:n=>`${BN(n)} দেশের ভিসা প্রসেসিং`, cap:(nm,n)=>`🛂 ${nm} ${BN(n)}টি দেশের ভিসা প্রসেস করে!`},
+  tour:    {bn:'ট্যুর প্যাকেজ দিই', eye:'আমাদের ট্যুর', sub:n=>`${BN(n)}টি দেশে ট্যুর প্যাকেজ`, foot:n=>`${BN(n)} দেশে ট্যুর প্যাকেজ`, cap:(nm,n)=>`✈️ ${nm}-এর সাথে ঘুরতে পারেন ${BN(n)}টি দেশে!`},
+  partner: {bn:'পার্টনার ইউনিভার্সিটি', eye:'আমাদের পার্টনার', sub:n=>`${BN(n)}টি দেশে পার্টনার ইউনিভার্সিটি`, foot:n=>`${BN(n)} দেশে পার্টনার ইউনিভার্সিটি`, cap:(nm,n)=>`🤝 ${nm}-এর পার্টনার ইউনিভার্সিটি ${BN(n)}টি দেশে!`},
+  office:  {bn:'অফিস আছে', eye:'আমরা আছি', sub:n=>`${BN(n)}টি দেশে আমাদের অফিস`, foot:n=>`${BN(n)} দেশে অফিস`, cap:(nm,n)=>`📍 ${nm} এখন ${BN(n)}টি দেশে!`},
+  service: {bn:'সার্ভিস দিই', eye:'সার্ভিস এরিয়া', sub:n=>`${BN(n)}টি দেশে আমাদের সার্ভিস`, foot:n=>`${BN(n)} দেশে সার্ভিস দিই`, cap:(nm,n)=>`🌍 ${nm} সার্ভিস দিচ্ছে ${BN(n)}টি দেশে!`}
+} : {
   branch: {bn:'শাখা / অফিস আছে', eye:'আমরা আছি', sub:n=>`${BN(TOTAL)} জেলার ${BN(n)}টিতে আমাদের শাখা`, foot:n=>`${BN(n)} জেলায় আমাদের শাখা / অফিস`, cap:(nm,n)=>`📍 ${nm} এখন ${BN(n)} জেলায়!`},
   student: {bn:'স্টুডেন্ট পাঠিয়েছি', eye:'সারা দেশ থেকে', sub:n=>`${BN(n)} জেলার স্টুডেন্ট আমাদের সাথে বিদেশে`, foot:n=>`${BN(n)} জেলা থেকে স্টুডেন্ট পাঠিয়েছি`, cap:(nm,n)=>`🎓 ${nm}-এর সাথে ${BN(n)} জেলার স্টুডেন্ট বিদেশে পড়তে গেছে!`},
   delivery:{bn:'ডেলিভারি দিই', eye:'ডেলিভারি কভারেজ', sub:n=>`${BN(n)} জেলায় হোম ডেলিভারি`, foot:n=>`${BN(n)} জেলায় ডেলিভারি দিই`, cap:(nm,n)=>`🚚 ${nm} এখন ${BN(n)} জেলায় ডেলিভারি দিচ্ছে!`},
@@ -516,14 +523,14 @@ const REL = {
   besties:  {bn:'বেস্টি গ্যাং',    sym:'🔥', join:'x',  title:(a,b)=>`${a} x ${b}`,  sub:(n,w,U)=>w ? `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি, প্ল্যানে আরও ${BN(w)}টি` : `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি ${U}য়`, cap:(a,b,n,w,U)=>`🔥 ${a} x ${b}: গ্যাং ট্রিপ ${BN(n)}টি ${U}, পরের টার্গেট ${BN(w)}টি। ট্যাগ কর যারা যাবে!`},
 };
 
-const state = {grp:false, kind:'branch', tagline:'', brandColor:'#0F7F4C', hook:'', selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:CFG.showDivDefault !== false, labelMode:'visited', size:'post'};
+const state = {counts:{}, grp:false, kind:(BIZ && CFG.map === 'world') ? 'student' : 'branch', tagline:'', brandColor:'#0F7F4C', hook:'', selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:CFG.showDivDefault !== false, labelMode:'visited', size:'post'};
 const YEAR = BN(new Date().getFullYear());
 
 /* ---------- persistence ---------- */
 function saveProfile(){ if(BIZ) return; try{ localStorage.setItem('gd-profile', JSON.stringify({name: state.name, name2: state.name2, rel: state.rel, duo: state.duo})); if(state.photo) localStorage.setItem('gd-photo', state.photo); else localStorage.removeItem('gd-photo'); if(state.photo2) localStorage.setItem('gd-photo2', state.photo2); else localStorage.removeItem('gd-photo2'); }catch(e){} }
-function save(){ saveProfile(); try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], wish:[...state.wish], recap:state.recap, duo:state.duo, name2:state.name2, rel:state.rel, name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size, kind:state.kind, tagline:state.tagline, brandColor:state.brandColor, hook:state.hook})); }catch(e){}
+function save(){ saveProfile(); try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], wish:[...state.wish], recap:state.recap, duo:state.duo, name2:state.name2, rel:state.rel, name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size, kind:state.kind, tagline:state.tagline, brandColor:state.brandColor, hook:state.hook, counts:state.counts})); }catch(e){}
   try{ if(state.photo) localStorage.setItem(CFG.key+'-photo', state.photo); else localStorage.removeItem(CFG.key+'-photo'); if(state.photo2) localStorage.setItem(CFG.key+'-photo2', state.photo2); else localStorage.removeItem(CFG.key+'-photo2'); }catch(e){} }
-function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => validId(id) && state.selected.add(id)); (s.wish||[]).forEach(id => validId(id) && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.duo = !!s.duo; state.name2 = s.name2||''; if(REL[s.rel]) state.rel = s.rel; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; if(KINDS[s.kind]) state.kind = s.kind; state.tagline = s.tagline || ''; if(/^#[0-9a-f]{6}$/i.test(s.brandColor||'')){ state.brandColor = s.brandColor; if(BIZ) THEMES.brand = brandTheme(s.brandColor); } state.hook = s.hook || ''; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; const p2 = localStorage.getItem(CFG.key+'-photo2'); if(p2 && p2.startsWith('data:image')) state.photo2 = p2;
+function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => validId(id) && state.selected.add(id)); (s.wish||[]).forEach(id => validId(id) && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.duo = !!s.duo; state.name2 = s.name2||''; if(REL[s.rel]) state.rel = s.rel; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; if(KINDS[s.kind]) state.kind = s.kind; state.tagline = s.tagline || ''; if(/^#[0-9a-f]{6}$/i.test(s.brandColor||'')){ state.brandColor = s.brandColor; if(BIZ) THEMES.brand = brandTheme(s.brandColor); } state.hook = s.hook || ''; if(s.counts && typeof s.counts === 'object') state.counts = s.counts; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; const p2 = localStorage.getItem(CFG.key+'-photo2'); if(p2 && p2.startsWith('data:image')) state.photo2 = p2;
   /* one profile for the whole site: name and photos set on any map are used on every map */
   const pr = BIZ ? null : JSON.parse(localStorage.getItem('gd-profile') || 'null'); if(pr){ if(pr.name) state.name = pr.name; if(pr.name2) state.name2 = pr.name2; if(REL[pr.rel]) state.rel = pr.rel; if(typeof pr.duo === 'boolean') state.duo = pr.duo; } const gp = BIZ ? null : localStorage.getItem('gd-photo'); if(gp && gp.startsWith('data:image')) state.photo = gp; const gp2 = localStorage.getItem('gd-photo2'); if(gp2 && gp2.startsWith('data:image')) state.photo2 = gp2; }catch(e){} }
 
@@ -580,7 +587,7 @@ function render(c, W, H, opts){
   // counter disc
   c.beginPath(); c.arc(discX, discY, discR, 0, Math.PI*2); c.fillStyle = t.accent; c.fill();
   const discN = (duo && n === 0 && nw_) ? nw_ : n; c.fillStyle = state.theme === 'night' ? t.paper : '#FFFFFF'; c.textAlign = 'center'; c.font = F(800, 64*u, 'd'); c.textBaseline = 'middle'; c.fillText(BN(discN), discX, discY+4*u);
-  c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText(OP ? `${U}` : `/ ${BN(TOTAL)} ${U}`, discX, discY+discR+30*u);
+  c.textBaseline = 'alphabetic'; c.fillStyle = t.muted; c.font = F(600, 22*u, 'b'); c.fillText((OP || (BIZ && CFG.map === 'world')) ? `${U}` : `/ ${BN(TOTAL)} ${U}`, discX, discY+discR+30*u);
 
   /* footer sizes */
   const showDiv = state.showDiv;
@@ -589,7 +596,7 @@ function render(c, W, H, opts){
   const mapTop = headTop + 150*u + 40*u, mapBottom = H - P - footH;
   const areaW = W - 2*P, areaH = mapBottom - mapTop;
   const s = Math.min(areaW/MAP_W, areaH/MAP_H);
-  let mx = P + (areaW - MAP_W*s)/2; let my = mapTop + (areaH - MAP_H*s)/2; if(BIZ && state.hook.trim()) mx = W - P - MAP_W*s;
+  let mx = P + (areaW - MAP_W*s)/2; let my = mapTop + (areaH - MAP_H*s)/2; if(BIZ && state.hook.trim() && !CFG.listVisited) mx = W - P - MAP_W*s;
   // wide maps leave room under them: list the visited names there
   let listRows = 0; const rowH = 40*u, rowGap = 10*u, listTop0 = mapTop + MAP_H*s + 36*u;
   if(CFG.listVisited && n){ const free = mapBottom - listTop0; listRows = Math.min(6, Math.floor((free + rowGap)/(rowH+rowGap))); if(listRows > 0) my = mapTop + 8*u; }
@@ -628,30 +635,31 @@ function render(c, W, H, opts){
     c.fillStyle = v ? t.ink : (wishv(d.id) ? t.ink : t.muted); c.fillText(d.bn, cx, box.ty - 3*u);
   }
 
+  let listEndY = 0;
   /* visited list (world) */
   if(listRows > 0){
-    const names = OP ? OP.filter(t => state.selected.has(t.id)).map(t => t.bn) : DISTRICTS.filter(d => state.selected.has(d.id)).sort((a,b) => b.a - a.a).map(d => d.bn);
+    const names = OP ? OP.filter(t => state.selected.has(t.id)).map(t => t.bn) : DISTRICTS.filter(d => state.selected.has(d.id)).sort((a,b) => (BIZ ? ((+state.counts[b.id]||0) - (+state.counts[a.id]||0)) : 0) || b.a - a.a).map(d => BIZ && +state.counts[d.id] ? `${d.bn} ${BN(+state.counts[d.id])}+` : d.bn);
     c.font = F(600, 19*u, 'b'); c.textAlign = 'left'; c.textBaseline = 'middle';
     let cx = P, cy = listTop0, row = 0, i = 0; const padX = 14*u, gap = 8*u, maxX = W - P;
-    c.fillStyle = t.muted; c.font = F(600, 18*u, 'b'); c.fillText(`যে ${U}গুলোতে পা পড়েছে`, P, cy - 24*u);
+    c.fillStyle = t.muted; c.font = F(600, 18*u, 'b'); c.fillText(BIZ ? (state.kind === 'student' ? `যে ${U}গুলোতে আমাদের স্টুডেন্ট` : state.kind === 'tour' ? `যে ${U}গুলোতে ট্যুর দিই` : state.kind === 'visa' ? `যে ${U}গুলোর ভিসা করি` : `যে ${U}গুলোতে আমরা আছি`) : `যে ${U}গুলোতে পা পড়েছে`, P, cy - 24*u);
     for(; i < names.length; i++){
       c.font = F(600, 19*u, 'b'); let w = c.measureText(names[i]).width + 2*padX;
       const restW = c.measureText(`+${BN(names.length - i)}`).width + 2*padX;
       if(cx + w > maxX){ row++; cx = P; cy += rowH + rowGap; if(row >= listRows) break; }
       if(row === listRows-1 && i < names.length-1 && cx + w + gap + restW > maxX){ break; }
-      rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = (state.byDiv && !OP) ? DIV_COLORS[DISTRICTS.find(d => d.bn === names[i]).div] : t.visited; c.fill();
+      rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = (state.byDiv && !OP && !BIZ) ? DIV_COLORS[DISTRICTS.find(d => d.bn === names[i]).div] : t.visited; c.fill();
       c.fillStyle = '#FFFFFF'; c.fillText(names[i], cx + padX, cy + rowH/2 + 1*u); cx += w + gap;
     }
     if(i < names.length){ const lbl = `+${BN(names.length - i)} আরও`; const w = c.measureText(lbl).width + 2*padX; if(cx + w > maxX){ cx = P; } rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = t.unvisited; c.fill(); c.fillStyle = t.ink; c.fillText(lbl, cx + padX, cy + rowH/2 + 1*u); }
-    c.textBaseline = 'alphabetic';
+    c.textBaseline = 'alphabetic'; listEndY = cy + rowH;
   }
-  if(BIZ && state.hook.trim()){ const lines = state.hook.trim().split(/\n/).slice(0,2); let fs = 92*u; c.font = F(800, fs, 'd'); const maxHW = (W - 2*P) * 0.55; while(lines.some(l => c.measureText(l).width > maxHW) && fs > 44*u){ fs -= 4*u; c.font = F(800, fs, 'd'); } c.textAlign = 'left'; c.fillStyle = t.ink; let hy = mapBottom - 10*u - (lines.length-1)*fs*1.08; lines.forEach((l, i) => { c.fillStyle = i === lines.length-1 ? t.visited : t.ink; c.fillText(l, P, hy + i*fs*1.08); }); }
+  if(BIZ && state.hook.trim()){ const lines = state.hook.trim().split(/\n/).slice(0,2); let fs = 92*u; c.font = F(800, fs, 'd'); const maxHW = (W - 2*P) * 0.55; while(lines.some(l => c.measureText(l).width > maxHW) && fs > 44*u){ fs -= 4*u; c.font = F(800, fs, 'd'); } c.textAlign = 'left'; c.fillStyle = t.ink; let hy = mapBottom - 10*u - (lines.length-1)*fs*1.08; if(CFG.listVisited && listEndY){ const want = listEndY + 50*u + fs; if(want < hy) hy = want + (hy - want)/2; } lines.forEach((l, i) => { c.fillStyle = i === lines.length-1 ? t.visited : t.ink; c.fillText(l, P, hy + i*fs*1.08); }); }
   /* progress */
   let y = mapBottom + 10*u;
   const barH = 16*u; if(OP){ c.fillStyle = CFG.opColor || t.visited; rr(c, P, y+barH/2-2*u, W-2*P, 4*u, 2*u); c.fill(); } else { rr(c, P, y, W-2*P, barH, barH/2); c.fillStyle = t.unvisited; c.fill(); }
   if(n && !OP){ rr(c, P, y, Math.max(barH, (W-2*P)*n/TOTAL), barH, barH/2); c.fillStyle = state.byDiv ? t.accent : (OP && CFG.opColor ? CFG.opColor : t.visited); c.fill(); }
   y += barH + 36*u;
-  c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); if(BIZ){ const K = KINDS[state.kind]; c.fillText(n ? K.foot(n) : 'জেলায় টিক দিন', P, y); c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(state.wish.size ? `🚀 শিগগিরই আসছি ${BN(state.wish.size)} জেলায়` : (n === TOTAL ? '১০০% বাংলাদেশ' : `${BN(TOTAL)} জেলার ${BN(n)}টি`), W-P, y); }
+  c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); if(BIZ){ const K = KINDS[state.kind]; c.fillText(n ? K.foot(n) : 'জেলায় টিক দিন', P, y); c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(state.wish.size ? `🚀 শিগগিরই আসছি ${BN(state.wish.size)} জেলায়` : (n === TOTAL ? (CFG.map === 'world' ? 'সারা বিশ্বে!' : '১০০% বাংলাদেশ') : CFG.map === 'world' ? '' : `${BN(TOTAL)} ${CFG.gen} ${BN(n)}টি`), W-P, y); }
   else if(OP){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const right = state.wish.size ? (state.grp ? `🚀 আসছে ${BN(state.wish.size)}টি` : `🎯 যেতে চাই ${BN(state.wish.size)}`) : (n === TOTAL && !state.grp ? 'সব ট্যুর শেষ!' : ''); c.font = F(500, 23*u, 'b'); const rw = right ? c.measureText(right).width + 20*u : 0; const maxLW = W - 2*P - rw; c.font = F(700, 27*u, 'd');
     let line = (showDiv && n > 1) ? (state.grp ? `আমাদের ${BN(n)}টি ট্যুর ডেস্টিনেশন` : `${CFG.opName}-এর সাথে ${BN(n)}টি ট্যুর`) : state.grp ? (n ? `আমরা যাই: ${nm.join(', ')}` : 'ট্যুরে টিক দিন') : !n ? `${CFG.opName}-এর সাথে কোথায় যাব, বাছছি` : n === 1 ? `${CFG.opName}-এর সাথে ${nm[0]} ঘুরে এলাম` : `${CFG.opName}-এর সাথে: ${nm.join(', ')}`; let k = nm.length; while(c.measureText(line).width > maxLW && k > 1){ k--; line = `${state.grp ? 'আমরা যাই' : CFG.opName + '-এর সাথে'}: ${nm.slice(0,k).join(', ')} +${BN(nm.length-k)} আরও`; }
     c.fillText(line, P, y); if(right){ c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(right, W-P, y); } }
@@ -768,7 +776,7 @@ function caption(){
   const n = state.selected.size, pct = Math.round(n/TOTAL*100);
   const done = DIVISIONS.filter(dv => DISTRICTS.filter(d => d.div === dv.id).every(d => state.selected.has(d.id))).map(dv => dv.bn);
   const lines = [];
-  if(BIZ){ const K = KINDS[state.kind]; const nm = state.name.trim() || 'আমরা'; const dn = DISTRICTS.filter(d => state.selected.has(d.id)).map(d => d.bn); const wn = DISTRICTS.filter(d => state.wish.has(d.id)).map(d => d.bn); lines.push(K.cap(nm, n)); if(state.tagline.trim()) lines.push(state.tagline.trim()); if(dn.length) lines.push(`📍 ${dn.slice(0,12).join(', ')}${dn.length > 12 ? ` আরও ${BN(dn.length-12)}টি` : ''}`); if(wn.length) lines.push(`🚀 শিগগিরই: ${wn.slice(0,8).join(', ')}`); lines.push(''); lines.push(`আপনার ব্যবসা কয় জেলায়? ফ্রি কভারেজ ম্যাপ বানান 👉 ${SITE_URL ? SITE_URL + CFG.path : 'ঘুরে দেখা বাংলাদেশ'}`); return lines.join('\n'); }
+  if(BIZ){ const K = KINDS[state.kind]; const nm = state.name.trim() || 'আমরা'; const dn = DISTRICTS.filter(d => state.selected.has(d.id)).map(d => d.bn); const wn = DISTRICTS.filter(d => state.wish.has(d.id)).map(d => d.bn); lines.push(K.cap(nm, n)); if(state.tagline.trim()) lines.push(state.tagline.trim()); const dn2 = DISTRICTS.filter(d => state.selected.has(d.id)).sort((a,b) => (+state.counts[b.id]||0) - (+state.counts[a.id]||0)).map(d => +state.counts[d.id] ? `${d.bn} ${BN(+state.counts[d.id])}+` : d.bn); if(dn2.length) lines.push(`📍 ${dn2.slice(0,12).join(', ')}${dn2.length > 12 ? ` আরও ${BN(dn2.length-12)}টি` : ''}`); if(wn.length) lines.push(`🚀 শিগগিরই: ${wn.slice(0,8).join(', ')}`); lines.push(''); lines.push(`আপনার ব্যবসা কয় জেলায়? ফ্রি কভারেজ ম্যাপ বানান 👉 ${SITE_URL ? SITE_URL + CFG.path : 'ঘুরে দেখা বাংলাদেশ'}`); return lines.join('\n'); }
   if(OP && state.grp){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const wn = OP.filter(t => state.wish.has(t.id)).map(t => t.bn); lines.push(`🧭 ${CFG.opName}-এর সাথে ঘুরতে পারেন ${BN(n)}টি জায়গায়: ${nm.join(', ')}`); if(wn.length) lines.push(`🚀 শিগগিরই আসছে: ${wn.join(', ')}`); lines.push(''); lines.push(`আপনি ${CFG.opName}-এর সাথে কয়টায় গেছেন? নিজের ট্যুর ম্যাপ বানিয়ে কমেন্টে দিন 👉 ${SITE_URL ? SITE_URL + CFG.path : CFG.opName}`); return lines.join('\n'); }
   if(OP){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const wn = OP.filter(t => state.wish.has(t.id)).map(t => t.bn); lines.push(n ? `🧭 ${CFG.opName}-এর সাথে ঘুরেছি ${BN(n)}টি ট্যুর: ${nm.join(', ')}` : `🧭 ${CFG.opName}-এর সাথে ঘুরতে যাওয়ার লিস্ট বানালাম!`); if(wn.length) lines.push(`🎯 এরপর যাব: ${wn.join(', ')}`); lines.push(''); lines.push(`আপনিও ${CFG.opName}-এর সাথে কোথায় কোথায় গিয়েছেন? ম্যাপ বানান 👉 ${SITE_URL ? SITE_URL + CFG.path : ''}`); lines.push(''); lines.push(CFG.tags); return lines.join('\n'); }
   if(state.duo){ const R = REL[state.rel] || REL.friend; lines.push(R.cap(state.name.trim() || 'আমি', state.name2.trim() || (state.rel === 'honeymoon' ? 'ভবিষ্যৎ বউ' : 'বন্ধু'), n, state.wish.size, U)); }
@@ -915,7 +923,7 @@ $('#quickShare').addEventListener('click', e => openShare(e.currentTarget));
 load();
 try{ const q = new URLSearchParams(location.search); let touched = false; (q.get('add')||'').split(',').forEach(id => { if(validId(id)){ state.selected.add(id); state.wish.delete(id); touched = true; } }); (q.get('wish')||'').split(',').forEach(id => { if(validId(id) && !state.selected.has(id)){ state.wish.add(id); state.mode = 'wish'; touched = true; } }); if(touched){ history.replaceState(null, '', location.pathname); setTimeout(() => { toast(q.get('wish') ? 'যেতে চাই লিস্টে যোগ হলো' : 'ম্যাপে টিক পড়ল'); $('#p1').scrollIntoView({behavior:'smooth'}); }, 400); } }catch(e){}
 buildDivisions(); buildThemes(); $('#name').value = state.name; loadPhoto(); update();
-window.__gdb = {state, update, render, renderCard, SIZES, fontPromise, OP, KINDS, THEMES, brandTheme};
+window.__gdb = {state, update, render, renderCard, SIZES, fontPromise, OP, KINDS, THEMES, brandTheme, CFG};
 })();
 </script>
 </body>

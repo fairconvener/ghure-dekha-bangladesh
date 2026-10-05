@@ -180,7 +180,7 @@ function badge(c, cx, cy, u, k, line2){
   c.restore();
 }
 /* eyebrow ("ইনশাআল্লাহ ২০২৭"), title (one or two lines), names; returns the y below the names */
-function header(c, W, u, Z, y, cw, col, shadow){
+function header(c, W, u, Z, y, cw, col, shadow, wrapAt){
   const R = RELS[S.rel], T = TRIPS[S.trip].bn, yr = S.year.trim() ? ' ' + BN(S.year.trim()) : '';
   c.save(); c.textAlign = 'center'; c.textBaseline = 'alphabetic';
   if(shadow){ c.shadowColor = shadow; c.shadowBlur = 14 * u; }
@@ -188,7 +188,7 @@ function header(c, W, u, Z, y, cw, col, shadow){
   c.fillStyle = col.eye; c.fillText(eyeT, W / 2, y);
   c.strokeStyle = hexA(col.eye, .6); c.lineWidth = 2 * u; [-1, 1].forEach(sgn => { const x0 = W / 2 + sgn * (ew / 2 + 22 * u), x1 = x0 + sgn * 120 * u; c.beginPath(); c.moveTo(x0, y - Z.eye * .34); c.lineTo(x1, y - Z.eye * .34); c.stroke(); c.save(); c.translate(x0 + sgn * 6 * u, y - Z.eye * .34); c.rotate(Math.PI / 4); c.fillStyle = col.eye; c.fillRect(-4 * u, -4 * u, 8 * u, 8 * u); c.restore(); });
   const title = R.title(T); let tp = fit(c, 700, title, cw, Z.title, Z.title * .7); let lines = [title];
-  if(tp < Z.title * .8 && title.includes(' ')){ c.font = F(700, Z.title); lines = wrap2(c, title, cw); tp = Math.min(Z.title, ...lines.map(l => fit(c, 700, l, cw, Z.title, Z.tmin))); }
+  if(tp < Z.title * (wrapAt || .8) && title.includes(' ')){ c.font = F(700, Z.title); lines = wrap2(c, title, cw); tp = Math.min(Z.title, ...lines.map(l => fit(c, 700, l, cw, Z.title, Z.tmin))); }
   c.font = F(700, tp); c.fillStyle = col.title; lines.forEach((l, i) => { y += (i ? tp * 1.12 : tp * 1.2); c.fillText(l, W / 2, y); });
   const a = S.name.trim() || 'আমি';
   const names = !R.two ? S.name.trim() : S.rel === 'parents' ? joinO([a, ...collapse(fam().map(p => p.label))]) : `${a} ও ${S.name2.trim() || R.name2}`;
@@ -324,7 +324,7 @@ function renderPhoto(c, W, H, D){
   const fv0 = yQuote - qp * 2.4, fv = c.createLinearGradient(0, fv0, 0, H); fv.addColorStop(0, `rgba(${foot.veil},0)`); fv.addColorStop(.45, `rgba(${foot.veil},${foot.veil === '0,0,0' ? .38 : .55})`); fv.addColorStop(1, `rgba(${foot.veil},${foot.veil === '0,0,0' ? .5 : .7})`);
   c.fillStyle = fv; c.fillRect(0, fv0, W, H - fv0);
   /* header */
-  header(c, W, u, Z, Z.top, W * (fmt === 'square' ? .66 : .8), head, head.shadow);
+  header(c, W, u, Z, Z.top, W * (fmt === 'square' ? .56 : .8), head, head.shadow, fmt === 'square' ? .93 : .8);
   /* the people, between the Kaaba and Masjid an-Nabawi */
   const PEO = people(), N = PEO.length, labPx = 25 * u * (fmt === 'story' ? 1.15 : fmt === 'square' ? .9 : 1);
   const span = W * (N <= 2 ? .46 : .5), pr = fitR(N, span, Z.pr);

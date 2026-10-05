@@ -839,10 +839,14 @@ async function armShare(){
   const on = (url) => { b.removeAttribute('aria-disabled'); b.style.opacity = ''; b.style.pointerEvents = ''; b.textContent = 'ফেসবুকে পোস্ট করুন'; b.href = FB_SHARER + encodeURIComponent(url); };
   if(!HOSTED){ on(location.href); return; }
   off('⏳ প্রিভিউ লিংক তৈরি হচ্ছে...');
-  try{ const u = await uploadMap(); if(u){ on(u); $('#shareHint').textContent = 'লিংক তৈরি! বোতাম চাপলে ফেসবুক খুলবে, ম্যাপের প্রিভিউ দেখাবে, "Post" চাপলেই শেষ। ক্যাপশন কপি করে পোস্টে পেস্ট করুন।'; } else { on(SITE_URL + CFG.path); $('#shareHint').textContent = 'ম্যাপের লিংক বানানো যায়নি; সাইটের লিংকসহ পোস্ট খুলবে, "ম্যাপ সেভ" করে ছবিটা যোগ করে দিন।'; } }
+  try{ const u = await uploadMap(); if(u){ on(u); $('#shareHint').textContent = (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && navigator.share) ? 'লিংক তৈরি! বোতাম চাপলে শেয়ার মেনু খুলবে, সেখানে Facebook বেছে নিন: অ্যাপে ম্যাপের প্রিভিউসহ পোস্ট তৈরি হবে, ক্যাপশন পেস্ট করে Post চাপুন।' : 'লিংক তৈরি! বোতাম চাপলে ফেসবুক খুলবে, ম্যাপের প্রিভিউ দেখাবে, "Post" চাপলেই শেষ। ক্যাপশন কপি করে পোস্টে পেস্ট করুন।'; } else { on(SITE_URL + CFG.path); $('#shareHint').textContent = 'ম্যাপের লিংক বানানো যায়নি; সাইটের লিংকসহ পোস্ট খুলবে, "ম্যাপ সেভ" করে ছবিটা যোগ করে দিন।'; } }
   catch(e){ console.error(e); on(SITE_URL + CFG.path); }
 }
-$('#sharePost').addEventListener('click', e => { const b = e.currentTarget; if(b.getAttribute('aria-disabled') === 'true'){ e.preventDefault(); return; } copyText($('#shareCaption').value).catch(() => {}); toast('ফেসবুক খুলছে, Post চাপুন'); });
+const MOBILE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+$('#sharePost').addEventListener('click', async e => { const b = e.currentTarget; if(b.getAttribute('aria-disabled') === 'true'){ e.preventDefault(); return; }
+  const mapUrl = decodeURIComponent((b.href.split('?u=')[1] || '')); const cap = $('#shareCaption').value;
+  if(MOBILE && navigator.share && mapUrl){ e.preventDefault(); copyText(cap).catch(() => {}); try{ await navigator.share({title: 'ঘুরে দেখা বাংলাদেশ', text: cap, url: mapUrl}); toast('ফেসবুক অ্যাপে পোস্ট করুন; ক্যাপশন কপি আছে, পেস্ট করে দিন'); }catch(err){ if(err && err.name !== 'AbortError'){ window.open(b.href, '_blank'); } } return; }
+  copyText(cap).catch(() => {}); toast('ফেসবুক খুলছে, Post চাপুন'); });
 $('#shareFb').addEventListener('click', e => openShare(e.currentTarget));
 $('#quickShare').addEventListener('click', e => openShare(e.currentTarget));
 

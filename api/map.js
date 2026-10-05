@@ -20,7 +20,9 @@ export default async function handler(req, res) {
     return res.end(`<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ম্যাপ পাওয়া যায়নি</title><meta http-equiv="refresh" content="3;url=/"></head><body style="font-family:sans-serif;text-align:center;padding:60px 16px"><h2>এই ম্যাপটা পাওয়া যায়নি</h2><p><a href="/">নিজের ম্যাপ বানান</a></p></body></html>`);
   }
   const world = meta.map === 'world', upz = meta.map === 'upazila';
-  const TOTAL = world ? 195 : upz ? 545 : 64, UNIT = world ? 'দেশ' : upz ? 'উপজেলা' : 'জেলা', GEN = world ? 'দেশের' : upz ? 'উপজেলার' : 'জেলার', PLACE = world ? 'পৃথিবীর' : 'বাংলাদেশের', HOME = world ? '/world' : upz ? '/upazila' : '/';
+  const mm = meta.mm && meta.mm.total ? meta.mm : null;
+  const TOTAL = mm ? mm.total : world ? 195 : upz ? 545 : 64, UNIT = mm ? (mm.unit || 'অঞ্চল') : world ? 'দেশ' : upz ? 'উপজেলা' : 'জেলা', GEN = mm ? (mm.gen || UNIT + 'র') : world ? 'দেশের' : upz ? 'উপজেলার' : 'জেলার', PLACE = mm ? (mm.place || '') : world ? 'পৃথিবীর' : 'বাংলাদেশের', HOME = mm ? (mm.home || '/') : world ? '/world' : upz ? '/upazila' : '/';
+  const PLACE_N = mm ? (mm.title || PLACE) : world ? 'পৃথিবী' : 'বাংলাদেশ';
   const n = meta.count || 0, pct = Math.round(n / TOTAL * 100);
   const name = meta.name || '';
   const title = name ? `${name} ${PLACE} ${BN(TOTAL)} ${GEN} মধ্যে ${BN(n)}টি ${UNIT} ঘুরেছেন!` : `${PLACE} ${BN(TOTAL)} ${GEN} মধ্যে ${BN(n)}টি ${UNIT} ঘোরা হয়েছে!`;
@@ -78,7 +80,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:0 16px 30px}
 <h1>${esc(title)}</h1>
 <p class="sub">${esc(desc)}</p>
 <img class="poster" src="${meta.poster}" alt="${esc(name || 'ভ্রমণ')} ম্যাপ" width="1080" height="${meta.size === 'story' ? 1920 : meta.size === 'square' ? 1080 : 1350}">
-<div class="stat"><span>${BN(n)} / ${BN(TOTAL)} ${UNIT}</span><span>${BN(pct)}% ${world ? 'পৃথিবী' : 'বাংলাদেশ'}</span><span>বাকি ${BN(TOTAL - n)} ${UNIT}</span></div>
+<div class="stat"><span>${BN(n)} / ${BN(TOTAL)} ${UNIT}</span><span>${BN(pct)}% ${esc(PLACE_N)}</span><span>বাকি ${BN(TOTAL - n)} ${UNIT}</span></div>
 <div class="cta">
 <a class="btn primary" href="${HOME}">আপনিও নিজের ম্যাপ বানান - ফ্রি</a>
 <a class="btn" href="${share}" target="_blank" rel="noopener">এই ম্যাপটা ফেসবুকে শেয়ার করুন</a>

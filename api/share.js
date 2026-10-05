@@ -29,8 +29,10 @@ export default async function handler(req, res) {
     const poster = parseDataUrl(body.poster, 'poster');
     const card = parseDataUrl(body.card, 'card');
     const name = String(body.name || '').replace(/[\r\n\t<>]/g, ' ').trim().slice(0, 40);
-    const map = ['world','upazila'].includes(body.map) ? body.map : 'bd';
-    const count = Math.max(0, Math.min(map === 'world' ? 195 : map === 'upazila' ? 545 : 64, parseInt(body.count, 10) || 0));
+    const map = /^[a-z0-9-]{2,24}$/.test(String(body.map || '')) ? body.map : 'bd';
+    const count = Math.max(0, Math.min(map === 'world' ? 195 : map === 'upazila' ? 545 : map === 'bd' ? 64 : 5000, parseInt(body.count, 10) || 0));
+    const txt = (v, n) => typeof v === 'string' ? v.replace(/[\r\n\t<>"]/g, ' ').trim().slice(0, n) : '';
+    const mm = body.mm && typeof body.mm === 'object' ? { total: Math.max(1, Math.min(5000, parseInt(body.mm.total, 10) || 0)), unit: txt(body.mm.unit, 20), gen: txt(body.mm.gen, 24), place: txt(body.mm.place, 40), title: txt(body.mm.title, 40), home: /^\/[a-z0-9\/-]{0,40}$/.test(String(body.mm.home || '')) ? body.mm.home : '/' } : null;
     const districts = Array.isArray(body.districts) ? body.districts.filter(d => typeof d === 'string' && /^[a-z-]{2,30}$/.test(d)).slice(0, 600) : [];
     const theme = /^[a-z]{2,12}$/.test(String(body.theme || '')) ? body.theme : 'flag';
     const size = /^(post|square|story)$/.test(String(body.size || '')) ? body.size : 'post';
@@ -40,7 +42,7 @@ export default async function handler(req, res) {
       put(`maps/${id}.jpg`, poster, { ...opts, contentType: 'image/jpeg' }),
       put(`maps/${id}-card.jpg`, card, { ...opts, contentType: 'image/jpeg' }),
     ]);
-    const meta = { id, map, name, count, districts, theme, size, poster: p.url, card: c.url, createdAt: new Date().toISOString(), ua: String(req.headers['user-agent'] || '').slice(0, 200) };
+    const meta = { id, map, mm, name, count, districts, theme, size, poster: p.url, card: c.url, createdAt: new Date().toISOString(), ua: String(req.headers['user-agent'] || '').slice(0, 200) };
     await put(`maps/${id}.json`, JSON.stringify(meta), { ...opts, contentType: 'application/json' });
     try { await rpc('gdb_log_event', { p_type: 'share', p_count: count, p_districts: districts, p_has_photo: !!body.has_photo, p_theme: theme, p_map_id: id, p_ua: meta.ua, p_map: map, p_name: name || null }, { timeout: 4000 }); } catch (e) { /* stats are best-effort */ }
     const host = req.headers['x-forwarded-host'] || req.headers.host;

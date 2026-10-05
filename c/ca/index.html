@@ -394,9 +394,8 @@ footer b{color:var(--ink)}
         <div class="caption">
           <span class="lbl" style="font-weight:600;font-size:14px">সাথে এই ক্যাপশনটা দিতে পারেন</span>
           <textarea id="captionText" readonly></textarea>
-          <div class="row"><button class="btn primary" id="shareFb" type="button">ফেসবুকে পোস্ট করুন</button><button class="btn" id="copyCaption" type="button">ক্যাপশন কপি</button><button class="btn" id="shareNative" type="button" hidden>📤 শেয়ার</button><button class="btn" id="makeLink" type="button" hidden>🔗 ম্যাপের লিংক</button></div>
+          <div class="row"><button class="btn primary" id="copyCaption" type="button">ক্যাপশন কপি</button><button class="btn" id="shareFb" type="button" hidden>ফেসবুকে পোস্ট করুন</button><button class="btn" id="shareNative" type="button" hidden>📤 শেয়ার</button><button class="btn" id="makeLink" type="button" hidden>🔗 ম্যাপের লিংক</button></div>
           <p class="note" id="linkNote" hidden></p>
-          <p class="note">পোস্ট চাপলে আগে পোস্টটা কেমন দেখাবে তার প্রিভিউ পাবেন, তারপর এক ক্লিকে ফেসবুক।</p>
         </div>
       </section>
 
@@ -877,7 +876,7 @@ function legacyCopy(text){ const ta = document.createElement('textarea'); ta.val
 async function copyAny(text){ let ok = false; if(navigator.clipboard && window.isSecureContext){ try{ await navigator.clipboard.writeText(text); ok = true; }catch(e){} } if(!ok) ok = legacyCopy(text); return ok; }
 async function copyCaption(){ const text = caption(); const ok = await copyAny(text); if(ok) toast('ক্যাপশন কপি হয়েছে'); else if(navigator.share){ try{ await navigator.share({text}); }catch(e){} } else { const ta = $('#captionText'); ta.readOnly = false; ta.focus(); ta.select(); toast('টেক্সট সিলেক্ট হয়েছে, ধরে রেখে Copy চাপুন'); } }
 $('#copyCaption').addEventListener('click', copyCaption);
-if(navigator.share){ $('#shareNative').hidden = false; $('#shareNative').addEventListener('click', async e => { const b = e.currentTarget; b.disabled = true; try{ const blob = await renderBlob('png'); const file = new File([blob], fname('png'), {type:'image/png'}); const data = {text: caption()}; if(navigator.canShare && navigator.canShare({files:[file]})) data.files = [file]; await navigator.share(data); logEvent('download'); }catch(err){ if(err && err.name !== 'AbortError') toast('শেয়ার করা যায়নি'); } finally{ b.disabled = false; } }); }
+if(navigator.share){ $('#shareNative').addEventListener('click', async e => { const b = e.currentTarget; b.disabled = true; try{ const blob = await renderBlob('png'); const file = new File([blob], fname('png'), {type:'image/png'}); const data = {text: caption()}; if(navigator.canShare && navigator.canShare({files:[file]})) data.files = [file]; await navigator.share(data); logEvent('download'); }catch(err){ if(err && err.name !== 'AbortError') toast('শেয়ার করা যায়নি'); } finally{ b.disabled = false; } }); }
 let shareBlob = null, shareUrl = null;
 async function copyText(text){ return copyAny(text); }
 async function openShare(btn){

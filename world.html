@@ -391,7 +391,7 @@ footer b{color:var(--ink)}
         <div class="caption">
           <span class="lbl" style="font-weight:600;font-size:14px">সাথে এই ক্যাপশনটা দিতে পারেন</span>
           <textarea id="captionText" readonly></textarea>
-          <div class="row"><button class="btn primary" id="shareFb" type="button">ফেসবুকে পোস্ট করুন</button><button class="btn" id="copyCaption" type="button">ক্যাপশন কপি</button><button class="btn" id="shareNative" type="button" hidden>📤 শেয়ার</button><button class="btn" id="makeLink" type="button">🔗 ম্যাপের লিংক</button></div>
+          <div class="row"><button class="btn primary" id="shareFb" type="button">ফেসবুকে পোস্ট করুন</button><button class="btn" id="copyCaption" type="button">ক্যাপশন কপি</button><button class="btn" id="shareNative" type="button" hidden>📤 শেয়ার</button><button class="btn" id="makeLink" type="button" hidden>🔗 ম্যাপের লিংক</button></div>
           <p class="note" id="linkNote" hidden></p>
           <p class="note">পোস্ট চাপলে আগে পোস্টটা কেমন দেখাবে তার প্রিভিউ পাবেন, তারপর এক ক্লিকে ফেসবুক।</p>
         </div>
@@ -482,6 +482,7 @@ const BIZ = !!CFG.biz; const KINDS = {
   dealer:  {bn:'ডিলার / পার্টনার', eye:'আমাদের নেটওয়ার্ক', sub:n=>`${BN(n)} জেলায় ডিলার ও পার্টনার`, foot:n=>`${BN(n)} জেলায় ডিলার / পার্টনার`, cap:(nm,n)=>`🤝 ${nm}-এর ডিলার নেটওয়ার্ক এখন ${BN(n)} জেলায়!`},
   customer:{bn:'কাস্টমার আছে', eye:'আমাদের কাস্টমার', sub:n=>`${BN(n)} জেলায় আমাদের কাস্টমার`, foot:n=>`${BN(n)} জেলায় আমাদের কাস্টমার`, cap:(nm,n)=>`❤️ ${nm}-এর কাস্টমার এখন ${BN(n)} জেলায়!`},
   service: {bn:'সার্ভিস দিই', eye:'সার্ভিস এরিয়া', sub:n=>`${BN(n)} জেলায় আমাদের সার্ভিস`, foot:n=>`${BN(n)} জেলায় সার্ভিস দিই`, cap:(nm,n)=>`🛠️ ${nm} এখন ${BN(n)} জেলায় সার্ভিস দিচ্ছে!`},
+  seminar: {bn:'সেমিনার / ক্যাম্পেইন করেছি', eye:'আমরা গিয়েছি', sub:n=>`${BN(n)} জেলায় সেমিনার ও ক্যাম্পেইন করেছি`, foot:n=>`${BN(n)} জেলায় সেমিনার / ক্যাম্পেইন`, cap:(nm,n)=>`🎤 ${nm} সেমিনার করেছে ${BN(n)} জেলায়!`},
   event:   {bn:'ইভেন্ট করেছি', eye:'আমাদের ইভেন্ট', sub:n=>`${BN(n)} জেলায় ইভেন্ট করেছি`, foot:n=>`${BN(n)} জেলায় ইভেন্ট / ক্যাম্পেইন`, cap:(nm,n)=>`🎪 ${nm} ইভেন্ট করেছে ${BN(n)} জেলায়!`}
 };
 const OP = (typeof TOURS !== 'undefined') ? TOURS : null; const byTour = OP ? Object.fromEntries(OP.map(t => [t.id, t])) : {};
@@ -499,7 +500,11 @@ const THEMES = {
   night:  {name:'রাত',      paper:'#131A22', unvisited:'#2A3542', visited:'#3FD38F', accent:'#FFB454', ink:'#F2F5F7', muted:'#9AA7B3', line:'#131A22'},
   rickshaw:{name:'রিকশা',   paper:'#FFF0F5', unvisited:'#F6CFDF', visited:'#D81B60', accent:'#0E9C8E', ink:'#2B1020', muted:'#7A5566', line:'#FFF0F5'},
 };
-const WISH = {flag:'#E9A825', river:'#F0A233', sunset:'#F5B942', hills:'#D9A441', night:'#FFB454', rickshaw:'#F2A93B'};
+function hexRgb(h){ h = h.replace('#',''); if(h.length === 3) h = h.split('').map(c => c+c).join(''); const n = parseInt(h, 16); return [n>>16&255, n>>8&255, n&255]; }
+function mix(a, b, t){ return '#' + a.map((v,i) => Math.round(v + (b[i]-v)*t).toString(16).padStart(2,'0')).join(''); }
+function brandTheme(hex){ const c = hexRgb(hex); const W = [255,255,255], K = [20,28,24]; const lum = (0.299*c[0]+0.587*c[1]+0.114*c[2])/255; return {name:'ব্র্যান্ড', paper: mix(c, W, .92), unvisited: mix(c, W, .72), visited: hex, accent: mix(c, K, .35), ink: mix(c, K, .8), muted: mix(c, K, .45), line: mix(c, W, .92)}; }
+if(BIZ){ THEMES.brand = brandTheme('#0F7F4C'); }
+const WISH = {brand:'#E9A825', flag:'#E9A825', river:'#F0A233', sunset:'#F5B942', hills:'#D9A441', night:'#FFB454', rickshaw:'#F2A93B'};
 const DIV_COLORS = {dhaka:'#D8262C', chattogram:'#0E6E8C', rajshahi:'#E08A1E', khulna:'#2E8B57', barishal:'#7B3FA0', sylhet:'#1D9A8A', rangpur:'#C2185B', mymensingh:'#5C6BC0'};
 const SIZES = {post:{w:1080,h:1350}, square:{w:1080,h:1080}, story:{w:1080,h:1920}};
 const REL = {
@@ -510,14 +515,14 @@ const REL = {
   besties:  {bn:'বেস্টি গ্যাং',    sym:'🔥', join:'x',  title:(a,b)=>`${a} x ${b}`,  sub:(n,w,U)=>w ? `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি, প্ল্যানে আরও ${BN(w)}টি` : `গ্যাং ট্রিপ হয়েছে ${BN(n)}টি ${U}য়`, cap:(a,b,n,w,U)=>`🔥 ${a} x ${b}: গ্যাং ট্রিপ ${BN(n)}টি ${U}, পরের টার্গেট ${BN(w)}টি। ট্যাগ কর যারা যাবে!`},
 };
 
-const state = {kind:'branch', tagline:'', selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:CFG.showDivDefault !== false, labelMode:'visited', size:'post'};
+const state = {kind:'branch', tagline:'', brandColor:'#0F7F4C', hook:'', selected:new Set(), wish:new Set(), mode:'visited', recap:false, duo:false, name2:'', photo2:null, rel:'friend', name:'', photo:null, theme:'flag', byDiv:false, showDiv:CFG.showDivDefault !== false, labelMode:'visited', size:'post'};
 const YEAR = BN(new Date().getFullYear());
 
 /* ---------- persistence ---------- */
 function saveProfile(){ if(BIZ) return; try{ localStorage.setItem('gd-profile', JSON.stringify({name: state.name, name2: state.name2, rel: state.rel, duo: state.duo})); if(state.photo) localStorage.setItem('gd-photo', state.photo); else localStorage.removeItem('gd-photo'); if(state.photo2) localStorage.setItem('gd-photo2', state.photo2); else localStorage.removeItem('gd-photo2'); }catch(e){} }
-function save(){ saveProfile(); try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], wish:[...state.wish], recap:state.recap, duo:state.duo, name2:state.name2, rel:state.rel, name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size, kind:state.kind, tagline:state.tagline})); }catch(e){}
+function save(){ saveProfile(); try{ localStorage.setItem(CFG.key+'-state', JSON.stringify({selected:[...state.selected], wish:[...state.wish], recap:state.recap, duo:state.duo, name2:state.name2, rel:state.rel, name:state.name, theme:state.theme, byDiv:state.byDiv, showDiv:state.showDiv, labelMode:state.labelMode, size:state.size, kind:state.kind, tagline:state.tagline, brandColor:state.brandColor, hook:state.hook})); }catch(e){}
   try{ if(state.photo) localStorage.setItem(CFG.key+'-photo', state.photo); else localStorage.removeItem(CFG.key+'-photo'); if(state.photo2) localStorage.setItem(CFG.key+'-photo2', state.photo2); else localStorage.removeItem(CFG.key+'-photo2'); }catch(e){} }
-function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => validId(id) && state.selected.add(id)); (s.wish||[]).forEach(id => validId(id) && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.duo = !!s.duo; state.name2 = s.name2||''; if(REL[s.rel]) state.rel = s.rel; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; if(KINDS[s.kind]) state.kind = s.kind; state.tagline = s.tagline || ''; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; const p2 = localStorage.getItem(CFG.key+'-photo2'); if(p2 && p2.startsWith('data:image')) state.photo2 = p2;
+function load(){ try{ const s = JSON.parse(localStorage.getItem(CFG.key+'-state')||'null'); if(s){ (s.selected||[]).forEach(id => validId(id) && state.selected.add(id)); (s.wish||[]).forEach(id => validId(id) && !state.selected.has(id) && state.wish.add(id)); state.recap = !!s.recap; state.duo = !!s.duo; state.name2 = s.name2||''; if(REL[s.rel]) state.rel = s.rel; state.name = s.name||''; if(THEMES[s.theme]) state.theme = s.theme; state.byDiv = !!s.byDiv; state.showDiv = s.showDiv !== false; if(['visited','all','none'].includes(s.labelMode)) state.labelMode = s.labelMode; if(SIZES[s.size]) state.size = s.size; if(KINDS[s.kind]) state.kind = s.kind; state.tagline = s.tagline || ''; if(/^#[0-9a-f]{6}$/i.test(s.brandColor||'')){ state.brandColor = s.brandColor; if(BIZ) THEMES.brand = brandTheme(s.brandColor); } state.hook = s.hook || ''; } const p = localStorage.getItem(CFG.key+'-photo'); if(p && p.startsWith('data:image')) state.photo = p; const p2 = localStorage.getItem(CFG.key+'-photo2'); if(p2 && p2.startsWith('data:image')) state.photo2 = p2;
   /* one profile for the whole site: name and photos set on any map are used on every map */
   const pr = BIZ ? null : JSON.parse(localStorage.getItem('gd-profile') || 'null'); if(pr){ if(pr.name) state.name = pr.name; if(pr.name2) state.name2 = pr.name2; if(REL[pr.rel]) state.rel = pr.rel; if(typeof pr.duo === 'boolean') state.duo = pr.duo; } const gp = BIZ ? null : localStorage.getItem('gd-photo'); if(gp && gp.startsWith('data:image')) state.photo = gp; const gp2 = localStorage.getItem('gd-photo2'); if(gp2 && gp2.startsWith('data:image')) state.photo2 = gp2; }catch(e){} }
 
@@ -582,7 +587,7 @@ function render(c, W, H, opts){
   const mapTop = headTop + 150*u + 40*u, mapBottom = H - P - footH;
   const areaW = W - 2*P, areaH = mapBottom - mapTop;
   const s = Math.min(areaW/MAP_W, areaH/MAP_H);
-  const mx = P + (areaW - MAP_W*s)/2; let my = mapTop + (areaH - MAP_H*s)/2;
+  let mx = P + (areaW - MAP_W*s)/2; let my = mapTop + (areaH - MAP_H*s)/2; if(BIZ && state.hook.trim()) mx = W - P - MAP_W*s;
   // wide maps leave room under them: list the visited names there
   let listRows = 0; const rowH = 40*u, rowGap = 10*u, listTop0 = mapTop + MAP_H*s + 36*u;
   if(CFG.listVisited && n){ const free = mapBottom - listTop0; listRows = Math.min(6, Math.floor((free + rowGap)/(rowH+rowGap))); if(listRows > 0) my = mapTop + 8*u; }
@@ -638,12 +643,13 @@ function render(c, W, H, opts){
     if(i < names.length){ const lbl = `+${BN(names.length - i)} আরও`; const w = c.measureText(lbl).width + 2*padX; if(cx + w > maxX){ cx = P; } rr(c, cx, cy, w, rowH, rowH/2); c.fillStyle = t.unvisited; c.fill(); c.fillStyle = t.ink; c.fillText(lbl, cx + padX, cy + rowH/2 + 1*u); }
     c.textBaseline = 'alphabetic';
   }
+  if(BIZ && state.hook.trim()){ const lines = state.hook.trim().split(/\n/).slice(0,2); let fs = 92*u; c.font = F(800, fs, 'd'); const maxHW = (W - 2*P) * 0.55; while(lines.some(l => c.measureText(l).width > maxHW) && fs > 44*u){ fs -= 4*u; c.font = F(800, fs, 'd'); } c.textAlign = 'left'; c.fillStyle = t.ink; let hy = mapBottom - 10*u - (lines.length-1)*fs*1.08; lines.forEach((l, i) => { c.fillStyle = i === lines.length-1 ? t.visited : t.ink; c.fillText(l, P, hy + i*fs*1.08); }); }
   /* progress */
   let y = mapBottom + 10*u;
   const barH = 16*u; if(OP){ c.fillStyle = CFG.opColor || t.visited; rr(c, P, y+barH/2-2*u, W-2*P, 4*u, 2*u); c.fill(); } else { rr(c, P, y, W-2*P, barH, barH/2); c.fillStyle = t.unvisited; c.fill(); }
   if(n && !OP){ rr(c, P, y, Math.max(barH, (W-2*P)*n/TOTAL), barH, barH/2); c.fillStyle = state.byDiv ? t.accent : (OP && CFG.opColor ? CFG.opColor : t.visited); c.fill(); }
   y += barH + 36*u;
-  c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); if(BIZ){ const K = KINDS[state.kind]; c.fillText(n ? K.foot(n) : 'জেলায় টিক দিন', P, y); c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(state.wish.size ? `🚀 শিগগিরই আসছি ${BN(state.wish.size)} জেলায়` : (n === TOTAL ? 'সারা দেশে!' : `${BN(TOTAL)} জেলার ${BN(n)}টি`), W-P, y); }
+  c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); if(BIZ){ const K = KINDS[state.kind]; c.fillText(n ? K.foot(n) : 'জেলায় টিক দিন', P, y); c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(state.wish.size ? `🚀 শিগগিরই আসছি ${BN(state.wish.size)} জেলায়` : (n === TOTAL ? '১০০% বাংলাদেশ' : `${BN(TOTAL)} জেলার ${BN(n)}টি`), W-P, y); }
   else if(OP){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const right = state.wish.size ? `🎯 যেতে চাই ${BN(state.wish.size)}` : (n === TOTAL ? 'সব ট্যুর শেষ!' : ''); c.font = F(500, 23*u, 'b'); const rw = right ? c.measureText(right).width + 20*u : 0; const maxLW = W - 2*P - rw; c.font = F(700, 27*u, 'd');
     let line = !n ? `${CFG.opName}-এর সাথে কোথায় যাব, বাছছি` : n === 1 ? `${CFG.opName}-এর সাথে ${nm[0]} ঘুরে এলাম` : `${CFG.opName}-এর সাথে: ${nm.join(', ')}`; let k = nm.length; while(c.measureText(line).width > maxLW && k > 1){ k--; line = `${CFG.opName}-এর সাথে: ${nm.slice(0,k).join(', ')} +${BN(nm.length-k)} আরও`; }
     c.fillText(line, P, y); if(right){ c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(right, W-P, y); } }

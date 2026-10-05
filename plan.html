@@ -106,7 +106,34 @@ footer .wrap{display:grid;gap:8px}footer b{color:var(--ink)}
 .tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
 .muted{color:var(--muted)}
 .crumbs{font-size:13px;color:var(--muted);margin-bottom:8px}.crumbs a{color:inherit}
-@media print{.top,footer,.noprint,.verify,.toast{display:none!important}body{background:#fff;color:#000}.panel,.card{border:1px solid #ccc;break-inside:avoid}}
+
+/* ---- modern glow / motion (respects reduced motion) ---- */
+:root{--glow:0 0 0 1px color-mix(in srgb,var(--accent) 35%,transparent),0 10px 30px -8px color-mix(in srgb,var(--accent) 55%,transparent)}
+body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(40% 35% at 15% 10%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 70%),radial-gradient(35% 30% at 85% 20%,color-mix(in srgb,#E9A825 14%,transparent),transparent 70%),radial-gradient(45% 40% at 70% 90%,color-mix(in srgb,#0E6E8C 12%,transparent),transparent 70%);filter:blur(40px);animation:aurora 18s ease-in-out infinite alternate}
+@keyframes aurora{0%{transform:translate3d(0,0,0) rotate(0deg)}100%{transform:translate3d(3%,2%,0) rotate(4deg)}}
+.hero h1 em,.cover .tx h1 em{background:linear-gradient(90deg,var(--accent) 0%,#1D9A8A 35%,#E9A825 60%,var(--accent) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 7s linear infinite}
+@keyframes shimmer{to{background-position:250% 0}}
+.btn.primary{background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 70%,#1D9A8A));box-shadow:var(--glow);position:relative;overflow:hidden}
+.btn.primary::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);transform:translateX(-120%);transition:transform .6s}
+.btn.primary:hover::after{transform:translateX(120%)}
+.btn.primary:hover{transform:translateY(-1px);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 45%,transparent),0 16px 36px -10px color-mix(in srgb,var(--accent) 70%,transparent)}
+.panel,.card,.tile,.rank,.mode,.qcard,.day,.spot,.jcard{transition:transform .18s ease,box-shadow .18s ease,border-color .18s}
+.card:hover,.jcard:hover,.mode:hover,.spot:hover{transform:translateY(-2px);box-shadow:0 14px 34px -14px rgba(21,35,28,.35);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.chip[aria-pressed="true"],.opt.ok{animation:pop .28s cubic-bezier(.2,.9,.3,1.4);box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 50%,transparent)}
+@keyframes pop{0%{transform:scale(.92)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.nav a[aria-current]{box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 1px color-mix(in srgb,var(--accent) 30%,transparent),0 6px 18px -8px color-mix(in srgb,var(--accent) 60%,transparent)}
+.poster-wrap{box-shadow:var(--shadow),0 0 0 1px color-mix(in srgb,var(--accent) 18%,transparent);transition:box-shadow .3s}
+.poster-wrap:hover{box-shadow:var(--shadow),0 0 0 2px color-mix(in srgb,var(--accent) 40%,transparent),0 0 60px -10px color-mix(in srgb,var(--accent) 45%,transparent)}
+.progress i,.qbar i{background:linear-gradient(90deg,var(--accent),#1D9A8A,#E9A825);background-size:200% 100%;animation:flow 3s linear infinite}
+@keyframes flow{to{background-position:200% 0}}
+.toggle[aria-checked="true"]{box-shadow:0 0 12px -2px color-mix(in srgb,var(--accent) 70%,transparent)}
+.fab,.fabp{box-shadow:0 10px 30px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.08);backdrop-filter:blur(8px)}
+.fab button,.fabp button{box-shadow:0 0 18px -4px color-mix(in srgb,var(--accent) 90%,transparent)}
+.tile b,.summary b,.score .big{text-shadow:0 0 18px color-mix(in srgb,var(--accent) 35%,transparent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 50%,transparent),0 0 28px -4px color-mix(in srgb,var(--accent) 80%,transparent)}:root:not([data-theme="light"]) body::before{opacity:.9}}
+@media (prefers-reduced-motion:reduce){body::before,.hero h1 em,.progress i,.qbar i{animation:none}.btn.primary::after{display:none}}
+
+@media print{.top,footer,.noprint,.verify,.toast{display:none!important}body::before{display:none}body{background:#fff;color:#000}.panel,.card{border:1px solid #ccc;break-inside:avoid}}
 </style>
 <style>
 .plan{display:grid;gap:14px;padding-block:8px 40px}

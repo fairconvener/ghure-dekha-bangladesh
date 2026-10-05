@@ -588,7 +588,7 @@ function render(c, W, H, opts){
 
   /* footer sizes */
   const showDiv = state.showDiv;
-  const chipCols = CFG.cols, chipH = 50*u, chipGap = 10*u, chipRows = showDiv ? Math.ceil(DIVISIONS.length/chipCols) : 0;
+  const chipCols = CFG.cols, chipH = 50*u, chipGap = 10*u, chipRows = showDiv ? Math.ceil((OP ? OP.length : DIVISIONS.length)/chipCols) : 0;
   const footH = 16*u + 44*u + (showDiv ? chipRows*chipH + (chipRows-1)*chipGap + 24*u : 0) + 66*u;
   const mapTop = headTop + 150*u + 40*u, mapBottom = H - P - footH;
   const areaW = W - 2*P, areaH = mapBottom - mapTop;
@@ -657,13 +657,25 @@ function render(c, W, H, opts){
   y += barH + 36*u;
   c.textAlign = 'left'; c.fillStyle = t.ink; c.font = F(700, 27*u, 'd'); if(BIZ){ const K = KINDS[state.kind]; c.fillText(n ? K.foot(n) : 'জেলায় টিক দিন', P, y); c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(state.wish.size ? `🚀 শিগগিরই আসছি ${BN(state.wish.size)} জেলায়` : (n === TOTAL ? '১০০% বাংলাদেশ' : `${BN(TOTAL)} জেলার ${BN(n)}টি`), W-P, y); }
   else if(OP){ const nm = OP.filter(t => state.selected.has(t.id)).map(t => t.bn); const right = state.wish.size ? (state.grp ? `🚀 আসছে ${BN(state.wish.size)}টি` : `🚀 শিগগিরই আসছি ${BN(state.wish.size)}`) : (n === TOTAL && !state.grp ? 'সব ট্যুর শেষ!' : ''); c.font = F(500, 23*u, 'b'); const rw = right ? c.measureText(right).width + 20*u : 0; const maxLW = W - 2*P - rw; c.font = F(700, 27*u, 'd');
-    let line = state.grp ? (n ? `আমরা যাই: ${nm.join(', ')}` : 'ট্যুরে টিক দিন') : !n ? `${CFG.opName}-এর সাথে কোথায় যাব, বাছছি` : n === 1 ? `${CFG.opName}-এর সাথে ${nm[0]} ঘুরে এলাম` : `${CFG.opName}-এর সাথে: ${nm.join(', ')}`; let k = nm.length; while(c.measureText(line).width > maxLW && k > 1){ k--; line = `${state.grp ? 'আমরা যাই' : CFG.opName + '-এর সাথে'}: ${nm.slice(0,k).join(', ')} +${BN(nm.length-k)} আরও`; }
+    let line = (showDiv && n > 1) ? (state.grp ? `আমাদের ${BN(n)}টি ট্যুর ডেস্টিনেশন` : `${CFG.opName}-এর সাথে ${BN(n)}টি ট্যুর`) : state.grp ? (n ? `আমরা যাই: ${nm.join(', ')}` : 'ট্যুরে টিক দিন') : !n ? `${CFG.opName}-এর সাথে কোথায় যাব, বাছছি` : n === 1 ? `${CFG.opName}-এর সাথে ${nm[0]} ঘুরে এলাম` : `${CFG.opName}-এর সাথে: ${nm.join(', ')}`; let k = nm.length; while(c.measureText(line).width > maxLW && k > 1){ k--; line = `${state.grp ? 'আমরা যাই' : CFG.opName + '-এর সাথে'}: ${nm.slice(0,k).join(', ')} +${BN(nm.length-k)} আরও`; }
     c.fillText(line, P, y); if(right){ c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(right, W-P, y); } }
   else { c.fillText(state.recap ? `${YEAR}-এ ${CFG.place} ${BN(pct)}% ঘোরা হলো` : `${CFG.place} ${BN(pct)}% ঘোরা হয়ে গেছে`, P, y);
   c.textAlign = 'right'; c.fillStyle = t.muted; c.font = F(500, 23*u, 'b'); c.fillText(n === TOTAL ? `সব ${U} ঘোরা শেষ!` : (state.wish.size ? `🚀 শিগগিরই আসছি ${BN(state.wish.size)} · বাকি ${BN(TOTAL-n)}` : `বাকি ${BN(TOTAL-n)} ${U}`), W-P, y); }
 
   /* division chips */
-  if(showDiv){
+  if(showDiv && OP){
+    y += 24*u; const cols = chipCols, cw = (W-2*P - (cols-1)*chipGap)/cols; const wishCol2 = WISH[state.theme] || '#E9A825';
+    OP.forEach((tr, i) => {
+      const cx = P + (i%cols)*(cw+chipGap), cy = y + Math.floor(i/cols)*(chipH+chipGap); const done = state.selected.has(tr.id), wsh = state.wish.has(tr.id);
+      rr(c, cx, cy, cw, chipH, 12*u); c.fillStyle = done ? t.visited : wsh ? wishCol2 : t.unvisited; c.fill();
+      c.textBaseline = 'middle'; c.textAlign = 'left'; c.fillStyle = (done || wsh) ? '#FFFFFF' : t.muted; c.font = F(done ? 700 : 500, 20*u, 'b');
+      let nm = tr.bn; const maxTW = cw - 28*u - 24*u; while(c.measureText(nm).width > maxTW && nm.length > 3) nm = nm.slice(0, -2) + '…';
+      c.fillText(nm, cx+14*u, cy+chipH/2+1*u);
+      c.textAlign = 'right'; c.font = `${20*u}px sans-serif`; c.fillText(done ? '✓' : wsh ? '🎯' : '', cx+cw-12*u, cy+chipH/2+1*u);
+      c.textBaseline = 'alphabetic';
+    });
+  }
+  else if(showDiv){
     y += 24*u; const cols = chipCols, cw = (W-2*P - (cols-1)*chipGap)/cols;
     DIVISIONS.forEach((dv, i) => {
       const tot = DISTRICTS.filter(d => d.div === dv.id).length, got = DISTRICTS.filter(d => d.div === dv.id && vis(d.id)).length;

@@ -249,6 +249,20 @@ footer b{color:var(--ink)}
 .sheet-actions .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sheet-actions .hint{color:var(--muted);font-size:13px;margin:0;text-align:center}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.chips.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media (min-width:700px){.chips.pgrid{grid-template-columns:repeat(3,1fr)}}
+.chip.pcard{position:relative;display:block;aspect-ratio:4/3;width:100%;padding:0;border-radius:14px;overflow:hidden;background:var(--surface-2) center/cover no-repeat;border:2px solid transparent;text-align:left;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.chip.pcard.noimg{background-image:linear-gradient(135deg,var(--accent-soft,#DCEFE4),var(--surface-2))}
+.chip.pcard::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.15) 55%,rgba(0,0,0,0) 100%)}
+.chip.pcard .pt{position:absolute;left:10px;right:8px;bottom:8px;color:#fff;display:grid;line-height:1.25;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.chip.pcard .pt b{font-family:var(--font-display);font-size:15px;font-weight:800}
+.chip.pcard .pt small{font-size:11px;opacity:.9}
+.chip.pcard .pk{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.9);color:transparent;display:grid;place-items:center;font-weight:900;font-size:15px;border:2px solid rgba(255,255,255,.9);transition:.15s}
+.chip.pcard[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 30%,transparent),0 6px 18px rgba(0,0,0,.15)}
+.chip.pcard[aria-pressed="true"] .pk{background:var(--accent);color:#fff;border-color:#fff}
+.chip.pcard .pc{position:absolute;top:6px;left:6px;font-size:9px;color:#fff;background:rgba(0,0,0,.45);padding:2px 6px;border-radius:999px;max-width:60%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip.pcard.noimg .pt{color:var(--ink);text-shadow:none}.chip.pcard.noimg::before{display:none}
 </style>
 </head>
 <body>
@@ -704,7 +718,7 @@ canvas.addEventListener('pointerleave', () => { hover = null; tip.classList.remo
 function toggle(id){ if(state.mode === 'wish'){ if(state.wish.has(id)) state.wish.delete(id); else { state.wish.add(id); state.selected.delete(id); } } else { if(state.selected.has(id)) state.selected.delete(id); else { state.selected.add(id); state.wish.delete(id); } } update(); }
 function buildDivisions(){
   const root = $('#divisions'); root.innerHTML = '';
-  if(OP){ const sec = document.createElement('div'); sec.className = 'division'; sec.dataset.div = 'op'; sec.innerHTML = `<div class="division-head"><h3>${CFG.opName}-এর ট্যুর</h3><span class="n"></span></div><div class="chips"></div>`; const chips = sec.querySelector('.chips'); OP.forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.id = t.id; b.textContent = t.bn + (byId[t.dist] ? ` · ${byId[t.dist].bn}` : ''); b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', () => toggle(t.id)); chips.appendChild(b); }); root.appendChild(sec); return; }
+  if(OP){ const sec = document.createElement('div'); sec.className = 'division'; sec.dataset.div = 'op'; sec.innerHTML = `<div class="division-head"><h3>${CFG.opName}-এর ট্যুর</h3><span class="n"></span></div><div class="chips"></div>`; const chips = sec.querySelector('.chips'); chips.classList.add('pgrid'); OP.forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip pcard'; b.dataset.id = t.id; const dn = byId[t.dist] ? byId[t.dist].bn : ''; if(t.img){ b.style.backgroundImage = `url("${t.img.src}")`; } else b.classList.add('noimg'); b.innerHTML = `<span class="pk">✓</span><span class="pt"><b>${t.bn}</b><small>${dn}</small></span>${t.img && t.img.author ? `<span class="pc" title="${t.img.author.replace(/"/g,'')} · Wikimedia">📷 ${t.img.author.replace(/</g,'')}</span>` : ''}`; b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', () => toggle(t.id)); chips.appendChild(b); }); root.appendChild(sec); return; }
   DIVISIONS.forEach(dv => {
     const sec = document.createElement('div'); sec.className = 'division'; sec.dataset.div = dv.id;
     sec.innerHTML = `<div class="division-head"><h3>${dv.bn}${CFG.groupSuffix}</h3><span class="n"></span><button class="btn small" type="button" data-all>সব</button></div><div class="chips"></div>`;

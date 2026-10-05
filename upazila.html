@@ -675,7 +675,8 @@ async function loadStats(){
     const dl = DIVISIONS.map(x => [x.bn, dv[x.id]||0]).sort((a,b) => b[1]-a[1]); const maxV = dl.length && dl[0][1] ? dl[0][1] : 1;
     $('#topDivisions').innerHTML = dl.slice(0,5).map(([bn,n]) => `<li>${bn}<span>${fmt(n)}</span><i style="--w:${Math.round(n/maxV*100)}%"></i></li>`).join('');
     const ts = s.updated_at ? new Date(s.updated_at) : null; $('#statsUpdated').textContent = ts ? 'আপডেট: ' + BN(ts.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', timeZone:'Asia/Dhaka'})) : '';
-    $('#stats').hidden = false;
+    /* show the public counter only once the numbers mean something */
+    $('#stats').hidden = !(Number(s.maps_total || 0) >= 200 || Number(s.visits_total || 0) >= 1000);
   }catch(e){}
 }
 loadStats();

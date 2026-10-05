@@ -206,6 +206,7 @@ const mapSvg = (id, cls) => `<svg class="${cls||'qmap'}" viewBox="0 0 1000 ${MAP
 const game = $('#game'), home = $('#home');
 let st = null, timer = 0;
 function start(mode){
+  try{ sessionStorage.setItem('gdb-quiz-mode', mode); }catch(e){}
   home.hidden = true; clearInterval(timer); window.scrollTo({top: 0});
   if(mode === 'spin') return spin();
   const n = mode === 'div' ? 15 : 10; const pool = mode === 'photo' ? shuffle(PH).slice(0, n) : shuffle(QD).slice(0, n);
@@ -228,7 +229,7 @@ function finish(){
   const name = {shape: 'জেলা চেনো', photo: 'ছবিটা কোন জেলার', div: 'কোন বিভাগে'}[st.mode];
   const text = `🎮 "${name}" কুইজে আমার স্কোর ${BN(st.score)}! ${msg}\nআপনি কত পান? খেলুন 👉 https://ghuredekhabangladesh.com/quiz\n#ঘুরেদেখাবাংলাদেশ`;
   game.innerHTML = `<div class="qcard score"><div class="muted">${name}</div><div class="big">${BN(st.score)}</div><div class="msg">${msg}</div><div class="actions"><button class="btn primary" id="again" type="button">🔁 আবার খেলি</button><button class="btn" id="share" type="button">📋 স্কোর কপি</button><a class="btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://ghuredekhabangladesh.com/quiz')}" target="_blank" rel="noopener">ফেসবুকে শেয়ার</a><a class="btn" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">💬 হোয়াটসঅ্যাপ</a></div><button class="btn" id="homeBtn" type="button">← অন্য খেলা</button></div>`;
-  $('#again').addEventListener('click', () => start(st.mode)); $('#homeBtn').addEventListener('click', () => { game.innerHTML = ''; home.hidden = false; });
+  $('#again').addEventListener('click', () => start(st.mode)); $('#homeBtn').addEventListener('click', () => { game.innerHTML = ''; home.hidden = false; try{ sessionStorage.removeItem('gdb-quiz-mode'); sessionStorage.removeItem('gdb-spin-pick'); }catch(e){} });
   $('#share').addEventListener('click', async () => { try{ await navigator.clipboard.writeText(text); toast('কপি হয়েছে, পোস্টে পেস্ট করুন'); }catch(e){ toast('কপি করা যায়নি'); } });
   if(window.gdTrack) gdTrack('QuizDone', {mode: st.mode, score: st.score});
   try{ const best = JSON.parse(localStorage.getItem('gdb-quiz') || '{}'); if(!best[st.mode] || st.score > best[st.mode]){ best[st.mode] = st.score; localStorage.setItem('gdb-quiz', JSON.stringify(best)); toast('🏅 নতুন ব্যক্তিগত রেকর্ড!'); } }catch(e){}
@@ -237,14 +238,15 @@ function spin(){
   let visited = new Set(); try{ const s = JSON.parse(localStorage.getItem('gdb-state') || 'null'); if(s && s.selected) visited = new Set(s.selected); }catch(e){}
   const pool = QD.filter(d => !visited.has(d.id)); let rot = 0;
   game.innerHTML = `<div class="spin"><p class="muted">${visited.size ? `আপনার ম্যাপে ${BN(visited.size)}টি জেলায় টিক আছে; বাকি ${BN(pool.length)}টির মধ্যে থেকে বাছবে।` : 'ম্যাপে টিক না থাকায় ৬৪ জেলা থেকেই বাছবে।'}</p><div class="pin"></div><div class="wheel" id="wheel"></div><button class="btn primary big" id="go" type="button">🎲 চাকা ঘোরান</button><div id="res"></div><button class="btn" id="homeBtn" type="button">← অন্য খেলা</button></div>`;
-  $('#homeBtn').addEventListener('click', () => { game.innerHTML = ''; home.hidden = false; });
-  $('#go').addEventListener('click', () => { const b = $('#go'); b.disabled = true; rot += 1440 + Math.floor(Math.random()*360); $('#wheel').style.transform = `rotate(${rot}deg)`; const d = pool[Math.floor(Math.random()*pool.length)];
-    setTimeout(async () => { const g = GUIDE[d.id]; $('#res').innerHTML = `<div class="pick"><canvas id="pc" width="1080" height="1350" style="width:100%;height:auto;border-radius:12px;box-shadow:var(--shadow);display:block"></canvas><div class="actions"><button class="btn primary" id="dl" type="button">⬇ ছবি ডাউনলোড</button><button class="btn" id="sh" type="button">📤 শেয়ার</button><a class="btn" href="/jela/${d.id}">📖 গাইড</a><a class="btn" href="/plan?d=${d.id}">🧭 প্ল্যান</a><a class="btn" href="/?wish=${d.id}">🎯 যেতে চাই</a><button class="btn" id="re" type="button">🎲 আবার</button></div><p class="note" style="text-align:center">ছবিটা স্টোরি বা পোস্টে দিন: "পরের গন্তব্য ${d.bn}"</p></div>`;
+  $('#homeBtn').addEventListener('click', () => { game.innerHTML = ''; home.hidden = false; try{ sessionStorage.removeItem('gdb-quiz-mode'); sessionStorage.removeItem('gdb-spin-pick'); }catch(e){} });
+  const showPick = async (d) => { const b = $('#go'); try{ sessionStorage.setItem('gdb-spin-pick', d.id); }catch(e){} const g = GUIDE[d.id]; $('#res').innerHTML = `<div class="pick"><canvas id="pc" width="1080" height="1350" style="width:100%;height:auto;border-radius:12px;box-shadow:var(--shadow);display:block"></canvas><div class="actions"><button class="btn primary" id="dl" type="button">⬇ ছবি ডাউনলোড</button><button class="btn" id="sh" type="button">📤 শেয়ার</button><a class="btn" href="/jela/${d.id}" target="_blank" rel="noopener">📖 গাইড</a><a class="btn" href="/plan?d=${d.id}" target="_blank" rel="noopener">🧭 প্ল্যান</a><a class="btn" href="/?wish=${d.id}" target="_blank" rel="noopener">🎯 যেতে চাই</a><button class="btn" id="re" type="button">🎲 আবার</button></div><p class="note" style="text-align:center">ছবিটা স্টোরি বা পোস্টে দিন: "পরের গন্তব্য ${d.bn}"</p></div>`;
       const cv = $('#pc'); await renderPick(cv, d, g);
       const toBlob = () => new Promise(r => cv.toBlob(r, 'image/png'));
       $('#dl').addEventListener('click', async () => { const bl = await toBlob(); const a = document.createElement('a'); a.href = URL.createObjectURL(bl); a.download = `porer-gontobbo-${d.id}.png`; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000); toast('ডাউনলোড শুরু হয়েছে'); });
       $('#sh').addEventListener('click', async () => { const text = `🎯 আমার পরের গন্তব্য: ${d.bn}! চাকা ঘুরিয়ে বেছে নিলাম 😄 আপনারটা কোথায়? 👉 https://ghuredekhabangladesh.com/quiz?m=spin #ঘুরেদেখাবাংলাদেশ`; try{ const bl = await toBlob(); const file = new File([bl], `porer-gontobbo-${d.id}.png`, {type:'image/png'}); if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})) await navigator.share({text, files:[file]}); else if(navigator.share) await navigator.share({text}); else { await navigator.clipboard.writeText(text); toast('ক্যাপশন কপি হয়েছে, ছবিটা ডাউনলোড করে পোস্ট করুন'); } }catch(e){ if(e && e.name !== 'AbortError') toast('শেয়ার করা যায়নি'); } });
-      $('#re').addEventListener('click', () => { $('#res').innerHTML = ''; b.disabled = false; b.click(); }); b.disabled = false; if(window.gdTrack) gdTrack('SpinPick', {d: d.id}); }, 4100); });
+      $('#re').addEventListener('click', () => { $('#res').innerHTML = ''; try{ sessionStorage.removeItem('gdb-spin-pick'); }catch(e){} b.disabled = false; b.click(); }); b.disabled = false; };
+  $('#go').addEventListener('click', () => { const b = $('#go'); b.disabled = true; rot += 1440 + Math.floor(Math.random()*360); $('#wheel').style.transform = `rotate(${rot}deg)`; const d = pool[Math.floor(Math.random()*pool.length)]; if(window.gdTrack) gdTrack('SpinPick', {d: d.id}); setTimeout(() => showPick(d), 4100); });
+  try{ const sv = sessionStorage.getItem('gdb-spin-pick'); const d0 = sv && QD.find(x => x.id === sv); if(d0){ rot = 1500; $('#wheel').style.transition = 'none'; $('#wheel').style.transform = `rotate(${rot}deg)`; showPick(d0); } }catch(e){}
 }
 const rr = (c,x,y,w,h,r) => { c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); };
 const F = (w,px,fam) => `${Math.min(+w||400,700)} ${px}px "Hind Siliguri","Noto Sans Bengali",sans-serif`;
@@ -281,7 +283,7 @@ async function renderPick(cv, d, g){
 }
 function wrap(c, text, x, y, maxW, lh){ const words = text.split(' '); let line = ''; for(const w of words){ const t = line ? line + ' ' + w : w; if(c.measureText(t).width > maxW && line){ c.fillText(line, x, y); y += lh; line = w; } else line = t; } if(line) c.fillText(line, x, y); }
 home.addEventListener('click', e => { const b = e.target.closest('.mode'); if(b) start(b.dataset.m); });
-const q = new URLSearchParams(location.search); if(q.get('m')) start(q.get('m'));
+const q = new URLSearchParams(location.search); let m0 = q.get('m'); if(!m0){ try{ m0 = sessionStorage.getItem('gdb-quiz-mode') === 'spin' ? 'spin' : null; }catch(e){} } if(m0) start(m0);
 })();
 </script>
 </body>

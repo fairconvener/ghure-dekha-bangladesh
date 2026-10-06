@@ -14,7 +14,7 @@ English summary: each district guide (/jela/<district>) covers places to see, ho
 - [৬৪ জেলার ম্যাপ মেকার](https://ghuredekhabangladesh.com/): যে জেলাগুলোতে গিয়েছেন টিক দিন, নাম আর ছবি বসিয়ে নিজের ভ্রমণ ম্যাপ নামান; ফ্রি (Bangladesh travel map poster maker)
 - [নিজের জেলার উপজেলা ম্যাপ](https://ghuredekhabangladesh.com/zila): ৬৪ জেলার যেকোনোটার উপজেলাগুলো নিয়ে ভ্রমণ ম্যাপ (district upazila maps)
 - [উপজেলা ম্যাপ](https://ghuredekhabangladesh.com/upazila): সারা দেশের ৫৪৫ উপজেলা ও মেট্রো থানার ভ্রমণ ম্যাপ (all upazilas)
-- [পার্টনার গ্রুপ ট্যুর: পরিব্রাজক](https://ghuredekhabangladesh.com/g/poribrajok): ঢাকা থেকে গ্রুপ ট্যুর প্যাকেজ: সিলেট: সাদাপাথর, ভোলাগঞ্জ, রাতারগুল আর চা বাগান, ৳১,৩৫০ জনপ্রতি (পরিব্রাজক); শ্রীমঙ্গল: লাউয়াছড়া, মাধবপুর লেক আর চা বাগান, ৳১,৫৫০ জনপ্রতি (পরিব্রাজক); বুকিং হোয়াটসঅ্যাপে (partner group tours)
+- [পার্টনার গ্রুপ ট্যুর: পরিব্রাজক](https://ghuredekhabangladesh.com/g/poribrajok): ঢাকা থেকে গ্রুপ ট্যুর প্যাকেজ: সিলেট: সাদাপাথর, ভোলাগঞ্জ, রাতারগুল আর চা বাগান, ৳১,৩৫০ জনপ্রতি (পরিব্রাজক); শ্রীমঙ্গল: লাউয়াছড়া, মাধবপুর লেক আর চা বাগান, ৳১,৫৫০ জনপ্রতি (পরিব্রাজক); সিট বুকিং পাতা থেকেই (partner group tours)
 - [সব জেলা গাইড ও ট্রেনের সময় এক ফাইলে](https://ghuredekhabangladesh.com/llms-full.txt): ৬৪ জেলার পুরো গাইড আর ঢাকা থেকে সব ট্রেনের সময়, Markdown-এ (full text for AI assistants)
 
 ## তথ্যের উৎস (Data sources)
@@ -139,7 +139,7 @@ English summary: each district guide (/jela/<district>) covers places to see, ho
 - [Trip planner](https://ghuredekhabangladesh.com/en/plan): choose districts to get a route on the map, which train leaves when, a day-by-day plan and an estimated cost
 - [Upazila map of your district](https://ghuredekhabangladesh.com/en/zila): a travel map of the upazilas of any of the 64 districts
 - [Upazila map](https://ghuredekhabangladesh.com/en/upazila): a travel map of all 545 upazilas and metro thanas of the country
-- [Partner group tours: Poribrajok](https://ghuredekhabangladesh.com/en/g/poribrajok): group tour packages from Dhaka: Sylhet: Sada Pathor, Bholaganj, Ratargul and tea gardens, Tk 1,350 per person (Poribrajok (The Traveller)); Sreemangal: Lawachara, Madhabpur Lake and tea gardens, Tk 1,550 per person (Poribrajok (The Traveller)); booking on WhatsApp
+- [Partner group tours: Poribrajok](https://ghuredekhabangladesh.com/en/g/poribrajok): group tour packages from Dhaka: Sylhet: Sada Pathor, Bholaganj, Ratargul and tea gardens, Tk 1,350 per person (Poribrajok (The Traveller)); Sreemangal: Lawachara, Madhabpur Lake and tea gardens, Tk 1,550 per person (Poribrajok (The Traveller)); seat booking on the page
 - [World travel map](https://ghuredekhabangladesh.com/en/world): tick the countries you have been to among 195 and make your map
 - [Country and continent maps](https://ghuredekhabangladesh.com/en/countries): travel maps by the states or provinces of a country, or by the countries of a continent
 - [Hajj and Umrah map](https://ghuredekhabangladesh.com/en/umrah): a dream map from Dhaka to Makkah and Madinah, with your photo

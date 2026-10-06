@@ -390,8 +390,8 @@ function render(c, W, H){ const D = DMAP[S.design] || DMAP.map; if(D.k === 'map'
 function caption(){
   const t = TRIPS[S.trip], R = RELS[S.rel]; const a = S.name.trim() || (EN ? 'Me' : 'আমি'), b = S.name2.trim() || R.name2; const yr = S.year.trim() ? ' ' + BN(S.year.trim()) : '';
   const L = R.cap(t, a, b, yr, S.rel === 'future' && (!S.name2.trim() || (EN ? /^future (wife|husband)$/i : /^ভবিষ্যৎ (বউ|বর)$/).test(S.name2.trim())));
-  if(EN) return [...L, '', `Make your own dream ${t.bn} map with photos, free 👉 https://${SITE_LABEL}/en/${S.trip}`, '', `${t.tag} #GhureDekhaBangladesh`].join('\n');
-  return [...L, '', `আপনার স্বপ্নের ${t.bn}র ম্যাপ বানান, ছবি দিয়ে, ফ্রি 👉 https://${SITE_LABEL}/${S.trip}`, '', `${t.tag} #ঘুরেদেখাবাংলাদেশ`].join('\n');
+  if(EN) return [...L, '', `Make your own dream ${t.bn} map with photos, free 👉 https://${SITE_LABEL}/en/${S.trip}`, '👍 Follow us on Facebook: https://www.facebook.com/profile.php?id=61594879211002', '', `${t.tag} #GhureDekhaBangladesh`].join('\n');
+  return [...L, '', `আপনার স্বপ্নের ${t.bn}র ম্যাপ বানান, ছবি দিয়ে, ফ্রি 👉 https://${SITE_LABEL}/${S.trip}`, '👍 ফেসবুক পেজ: https://www.facebook.com/profile.php?id=61594879211002', '', `${t.tag} #ঘুরেদেখাবাংলাদেশ`].join('\n');
 }
 
 /* ---------- UI ---------- */

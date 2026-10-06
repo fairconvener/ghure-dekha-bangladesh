@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   const action = String(body.action || (req.query && req.query.action) || 'overview');
   const arg = body.arg != null ? String(body.arg).slice(0, 200) : (req.query && req.query.arg ? String(req.query.arg).slice(0, 200) : null);
   const id = body.id != null ? parseInt(body.id, 10) : null;
-  if (!['overview', 'feedback', 'set_feedback', 'photos', 'set_photo', 'hide_name', 'bookings', 'set_booking', 'note_booking'].includes(action)) return res.status(400).json({ error: 'bad action' });
+  if (!['overview', 'feedback', 'set_feedback', 'photos', 'set_photo', 'hide_name', 'bookings', 'set_booking', 'note_booking', 'listings', 'set_listing'].includes(action)) return res.status(400).json({ error: 'bad action' });
   try { const r = await rpc('gdb_admin', { p_key: key, p_action: action, p_arg: arg, p_id: Number.isFinite(id) ? id : null }, { timeout: 10000 }); return res.status(200).json(r || {}); }
   catch (e) { return res.status(500).json({ error: 'db error' }); }
 }

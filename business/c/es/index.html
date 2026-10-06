@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="facebook-domain-verification" content="mpuhfxnd52i5ghn2uaux2urdojwuxe">
-<script src="/gd-meta.js?v=2" defer></script>
+<script src="/gd-meta.js?v=3" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap">
@@ -161,6 +161,9 @@ label.field input[type=text]{padding:11px 14px;border:1px solid var(--line);bord
 .photo .ph img{width:100%;height:100%;object-fit:cover;display:block}
 .photo .ph svg{width:28px;height:28px;color:var(--muted)}
 .photo .meta{display:grid;gap:6px;min-width:0}
+.optin{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:14px;line-height:1.45;cursor:pointer}
+.optin input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--accent)}
+.optin small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
 .avpick{margin-top:10px}.avpick small{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
 .avgrp{display:flex;flex-direction:column;gap:8px}.avgrp.m-first{flex-direction:column-reverse}
 .avg{display:grid;grid-template-columns:44px minmax(0,1fr);align-items:center;gap:6px}.avg>span{font-size:12.5px;color:var(--muted);line-height:1.2}
@@ -451,6 +454,7 @@ a.card:hover,button.mode:hover{border-color:color-mix(in srgb,var(--accent) 45%,
             <input type="file" id="photoInput" accept="image/*" hidden>
           </div>
         </div>
+        <label class="optin" id="listRow" hidden><input type="checkbox" id="listMe"><span>ঘুরে দেখা বাংলাদেশের প্রতিষ্ঠান তালিকায় আমাদের নাম আর লোগো দেখানো যাবে<small>টিক দিলে ম্যাপ নামানোর সময় নাম আর লোগো আমাদের কাছে আসবে; দেখে তারপর তালিকায় দেব।</small></span></label>
       </section>
 
 <script src="/biz-layouts.js?v=3"></script><script src="/biz-formats.js?v=1"></script>
@@ -704,7 +708,7 @@ a.card:hover,button.mode:hover{border-color:color-mix(in srgb,var(--accent) 45%,
 </section>
 
 <!-- @footer: copied from shell.footer_html() by sync_copies(), edit it there -->
-<footer class="ft"><div class="ft-art"><img src="/art/footer.svg?v=2" width="1600" height="240" alt="" decoding="async" loading="lazy"></div><div class="wrap ft-in"><div class="ft-top"><div class="ft-brand"><div class="ft-id"><a class="ft-name" href="/"><img src="/favicon.svg" width="42" height="42" alt="">ঘুরে দেখা বাংলাদেশ</a><p>ভ্রমণপ্রেমীদের জন্য সহজ প্ল্যাটফর্ম: ম্যাপ, গাইড, প্ল্যান আর বাছাই করা ট্যুর, এক জায়গায়।</p></div><p class="ft-contact"><a href="https://wa.me/8801913770940" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2Z"/><path fill="currentColor" d="M9.2 7.6c-.3 0-.6.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.2-.5-.3l-1.8-.9c-.3-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.4-1.8-.1-.3 0-.4.1-.5l.4-.5.3-.5v-.5l-.8-2c-.2-.5-.4-.5-.6-.5h-.5Z"/></svg>হোয়াটসঅ্যাপ</a><a href="https://www.facebook.com/Galib.Dhaka" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2.5a9.5 9.5 0 0 0-1.5 18.9v-6.6H8.1V12h2.4V9.9c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3H15c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.8h-2.2v6.6A9.5 9.5 0 0 0 12 2.5Z"/></svg>ফেসবুক</a></p></div><nav class="ft-cols" aria-label="সাইটের সব অংশ"><div><h2>ম্যাপ</h2><ul><li><a href="/">৬৪ জেলা</a></li><li><a href="/zila">নিজের জেলা</a></li><li><a href="/world">বিশ্ব</a></li><li><a href="/umrah">হজ-উমরা</a></li><li><a href="/level">বাংলাদেশ লেভেল</a></li><li><a href="/countries">দেশ ও মহাদেশ</a></li><li><a href="/upazila">সব উপজেলা</a></li></ul></div><div><h2>দর্শনীয় স্থান</h2><ul><li><a href="/jela">৬৪ জেলার গাইড</a></li><li><a href="/jela/coxs-bazar">কক্সবাজার</a></li><li><a href="/jela/bandarban">বান্দরবান</a></li><li><a href="/jela/rangamati">রাঙ্গামাটি</a></li><li><a href="/jela/sylhet">সিলেট</a></li><li><a href="/jela/moulvibazar">মৌলভীবাজার</a></li></ul></div><div><h2>ট্রিপ প্ল্যান</h2><ul><li><a href="/plan">প্ল্যানার</a></li><li><a href="/train">ট্রেনের সময়সূচি</a></li><li><a href="/g/poribrajok">পার্টনার ট্যুর</a></li><li><a href="/g#join">পার্টনার হোন</a></li></ul></div><div><h2>ব্যবসার জন্য</h2><ul><li><a href="/business">জেলা ম্যাপ</a></li><li><a href="/business/world">বিশ্ব ম্যাপ</a></li><li><a href="/study-abroad">স্টাডি অ্যাব্রড</a></li><li><a href="/business/clients">উদাহরণ</a></li></ul></div><div><h2>আরও</h2><ul><li><a href="/top">লিডারবোর্ড</a></li><li><a href="/trend">ট্রেন্ড</a></li><li><a href="/quiz">কুইজ</a></li><li><a href="#about">আমাদের কথা</a></li><li><a href="/privacy">প্রাইভেসি</a></li><li><a href="#install">📲 অ্যাপ হিসেবে রাখুন</a></li></ul></div></nav></div><div class="ft-bar"><p>© ২০২৬ ঘুরে দেখা বাংলাদেশ</p><p>ম্যাপ ডেটা: Natural Earth (public domain)</p><p>ভুল বা পুরোনো তথ্য প্রতিটি অংশের নিচের বোতামে জানান, যাচাই করে আপডেট করি।</p></div></div></footer>
+<footer class="ft"><div class="ft-art"><img src="/art/footer.svg?v=2" width="1600" height="240" alt="" decoding="async" loading="lazy"></div><div class="wrap ft-in"><div class="ft-top"><div class="ft-brand"><div class="ft-id"><a class="ft-name" href="/"><img src="/favicon.svg" width="42" height="42" alt="">ঘুরে দেখা বাংলাদেশ</a><p>ভ্রমণপ্রেমীদের জন্য সহজ প্ল্যাটফর্ম: ম্যাপ, গাইড, প্ল্যান আর বাছাই করা ট্যুর, এক জায়গায়।</p></div><p class="ft-contact"><a href="https://wa.me/8801913770940" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2Z"/><path fill="currentColor" d="M9.2 7.6c-.3 0-.6.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.2-.2-.5-.3l-1.8-.9c-.3-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.4-1.8-.1-.3 0-.4.1-.5l.4-.5.3-.5v-.5l-.8-2c-.2-.5-.4-.5-.6-.5h-.5Z"/></svg>হোয়াটসঅ্যাপ</a><a href="https://www.facebook.com/profile.php?id=61594879211002" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2.5a9.5 9.5 0 0 0-1.5 18.9v-6.6H8.1V12h2.4V9.9c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3H15c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.8h-2.2v6.6A9.5 9.5 0 0 0 12 2.5Z"/></svg>ফেসবুক পেজ</a></p></div><nav class="ft-cols" aria-label="সাইটের সব অংশ"><div><h2>ম্যাপ</h2><ul><li><a href="/">৬৪ জেলা</a></li><li><a href="/zila">নিজের জেলা</a></li><li><a href="/world">বিশ্ব</a></li><li><a href="/umrah">হজ-উমরা</a></li><li><a href="/level">বাংলাদেশ লেভেল</a></li><li><a href="/countries">দেশ ও মহাদেশ</a></li><li><a href="/upazila">সব উপজেলা</a></li></ul></div><div><h2>দর্শনীয় স্থান</h2><ul><li><a href="/jela">৬৪ জেলার গাইড</a></li><li><a href="/jela/coxs-bazar">কক্সবাজার</a></li><li><a href="/jela/bandarban">বান্দরবান</a></li><li><a href="/jela/rangamati">রাঙ্গামাটি</a></li><li><a href="/jela/sylhet">সিলেট</a></li><li><a href="/jela/moulvibazar">মৌলভীবাজার</a></li></ul></div><div><h2>ট্রিপ প্ল্যান</h2><ul><li><a href="/plan">প্ল্যানার</a></li><li><a href="/train">ট্রেনের সময়সূচি</a></li><li><a href="/g/poribrajok">পার্টনার ট্যুর</a></li><li><a href="/g#join">পার্টনার হোন</a></li></ul></div><div><h2>ব্যবসার জন্য</h2><ul><li><a href="/business">জেলা ম্যাপ</a></li><li><a href="/business/world">বিশ্ব ম্যাপ</a></li><li><a href="/study-abroad">স্টাডি অ্যাব্রড</a></li><li><a href="/business/clients">উদাহরণ</a></li></ul></div><div><h2>আরও</h2><ul><li><a href="/top">লিডারবোর্ড</a></li><li><a href="/trend">ট্রেন্ড</a></li><li><a href="/quiz">কুইজ</a></li><li><a href="#about">আমাদের কথা</a></li><li><a href="/privacy">প্রাইভেসি</a></li><li><a href="#install">📲 অ্যাপ হিসেবে রাখুন</a></li></ul></div></nav></div><div class="ft-bar"><p>© ২০২৬ ঘুরে দেখা বাংলাদেশ</p><p>ম্যাপ ডেটা: Natural Earth (public domain)</p><p>ভুল বা পুরোনো তথ্য প্রতিটি অংশের নিচের বোতামে জানান, যাচাই করে আপডেট করি।</p></div></div></footer>
 <!-- @footer-end -->
 
 <div class="fab" id="fab"><span id="fabCount">০ / ৫২</span><button type="button" id="fabBtn">⬇ নামান</button></div>
@@ -1244,7 +1248,19 @@ async function renderCardBlob(){ await fontPromise; await dphReady(); await layo
 const blobToDataUrl = b => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); });
 
 /* ---------- events + public stats ---------- */
-function logEvent(type){ if(!HOSTED) return; const body = JSON.stringify({type, map: CFG.evmap || CFG.map, op: CFG.op || null, count: state.selected.size, districts: OP ? [...new Set([...state.selected].map(t => byTour[t].dist))] : [...state.selected], has_photo: !!state.photo, theme: state.theme}); try{ fetch('/api/event', {method:'POST', headers:{'content-type':'application/json'}, body, keepalive:true}).catch(()=>{}); }catch(e){} }
+/* business maps (/study-abroad, /business): with the tick under the logo, a download also sends the name and logo to
+   /api/listing (gdb.listings); the admin checks them at /admin before anything is listed publicly. Once per name+logo+places. */
+let listedSig = '';
+function jpegLogo(src){ return new Promise((res, rej) => { const im = new Image(); im.onload = () => { const M = 512, sc = Math.min(1, M / Math.max(im.width, im.height)); const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(im.width * sc)); c.height = Math.max(1, Math.round(im.height * sc)); const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(im, 0, 0, c.width, c.height); res(c.toDataURL('image/jpeg', .9)); }; im.onerror = rej; im.src = src; }); }
+async function sendListing(){
+  const box = $('#listMe'); if(!BIZ || !HOSTED || !box || !box.checked) return;
+  const name = state.name.trim(); if(name.length < 2 || !state.photo) return;
+  const sg = [name, state.photo.length, [...state.selected].sort().join(',')].join('|'); if(sg === listedSig) return; listedSig = sg;
+  try{ const logo = await jpegLogo(state.photo); const r = await fetch('/api/listing', {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify({name, logo, page: CFG.evmap || CFG.map, places: [...state.selected], kind: state.kind || null, lang: UIEN ? 'en' : 'bn'})}); if(!r.ok) listedSig = ''; }
+  catch(e){ listedSig = ''; }
+}
+if(BIZ && $('#listRow')) $('#listRow').hidden = false;
+function logEvent(type){ if(type === 'download') sendListing(); if(!HOSTED) return; const body = JSON.stringify({type, map: CFG.evmap || CFG.map, op: CFG.op || null, count: state.selected.size, districts: OP ? [...new Set([...state.selected].map(t => byTour[t].dist))] : [...state.selected], has_photo: !!state.photo, theme: state.theme}); try{ fetch('/api/event', {method:'POST', headers:{'content-type':'application/json'}, body, keepalive:true}).catch(()=>{}); }catch(e){} }
 try{ if(HOSTED && !sessionStorage.getItem(CFG.key+'-visited')){ sessionStorage.setItem(CFG.key+'-visited','1'); logEvent('visit'); } }catch(e){ logEvent('visit'); }
 async function loadStats(){
   if(!HOSTED || OP || !$('#stats')) return; /* the home page has no stats strip */
@@ -1299,7 +1315,9 @@ function buildDivisions(){
   });
 }
 function buildThemes(){ const root = $('#themes'); Object.entries(THEMES).forEach(([k,t]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'theme'; b.dataset.theme = k; b.innerHTML = `<span class="sw"><i style="background:${t.paper}"></i><i style="background:${t.unvisited}"></i><i style="background:${t.visited}"></i><i style="background:${t.accent}"></i></span><span>${T(t.name, t.en || t.name)}</span>`; b.addEventListener('click', () => { state.theme = k; update(); }); root.appendChild(b); }); }
-function caption(){
+/* every caption ends with the site's Facebook page, just before the hashtags */
+function caption(){ const lines = captionBody().split('\n'); const add = isEN() ? '👍 Follow us on Facebook: https://www.facebook.com/profile.php?id=61594879211002' : '👍 ফেসবুক পেজ: https://www.facebook.com/profile.php?id=61594879211002'; let i = lines.length; while(i > 0 && !lines[i-1].trim()) i--; if(i > 0 && lines[i-1].trim().startsWith('#')) lines.splice(i-1, 0, add); else lines.push(add); return lines.join('\n'); }
+function captionBody(){
   if((BIZ || OP) && isEN()) return captionBizEN();
   const n = state.selected.size, pct = Math.round(n/TOTAL*100);
   const done = DIVISIONS.filter(dv => DISTRICTS.filter(d => d.div === dv.id).every(d => state.selected.has(d.id))).map(dv => dv.bn);

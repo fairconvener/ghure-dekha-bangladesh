@@ -11,11 +11,6 @@
       ],
       "destination": "https://ghuredekhabangladesh.com/$1",
       "permanent": true
-    },
-    {
-      "source": "/en/plan",
-      "destination": "/plan",
-      "permanent": false
     }
   ],
   "rewrites": [

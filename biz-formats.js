@@ -7,7 +7,7 @@
 const LAYOUTS = window.GDB_LAYOUTS = window.GDB_LAYOUTS || {};
 const KIT = LAYOUTS._kit; if(!KIT) return;
 const { clamp, mixHex, alpha, contrast, palette, copyFor, fit, ellipsize, wrap, layoutHeadline, pillRows, placeLabels,
-        drawLogo, drawCounter, drawBadge, badgeRow, homeOf, counterSuffix, groupsText, drawBase, logoBoxW, shades } = KIT;
+        drawLogo, drawCounter, drawBadge, badgeRow, homeOf, counterSuffix, groupsText, drawBase, logoBoxW, shades, useLang, enName, PAGE_EN } = KIT;
 
 /* ---------- flags: PNG copies of /flags/*.svg so every browser can draw them on a canvas ---------- */
 const FL = {}; let rt = 0;
@@ -22,13 +22,13 @@ function flagsReady(A){ return Promise.all(A.DISTRICTS.filter(d => A.vis(d.id)).
 function rng(seed){ return () => { seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function fmtOf(W, H){ const r = H / W; return r > 1.6 ? 'story' : r < 1.1 ? 'square' : 'post'; }
 function setup(W, H, A){
-  const S = A.state, CFG = A.CFG, u = W / 1080, fmt = fmtOf(W, H), K = palette(A), C = copyFor(A);
+  useLang(A); const S = A.state, CFG = A.CFG, u = W / 1080, fmt = fmtOf(W, H), K = palette(A), C = copyFor(A);
   const counts = S.counts || {}, cnt = id => +counts[id] || 0;
   const visited = A.DISTRICTS.filter(d => A.vis(d.id)).sort((a, b) => (cnt(b.id) - cnt(a.id)) || (b.a - a.a));
-  return { W, H, S, CFG, u, fmt, K, C, cnt, visited, n: S.selected.size, world: CFG.map === 'world', F: A.F, BN: A.BN, U: A.U,
+  return { W, H, S, CFG, u, fmt, K, C, cnt, visited, n: S.selected.size, world: CFG.map === 'world', F: A.F, BN: A.NUM || A.BN, U: A.U, EN: KIT.en(), nameOf: d => enName(A, d),
     hook: (S.hook || '').trim() || C.hook, tagline: (S.tagline || '').trim() || C.tagline, name: (S.name || '').trim() };
 }
-const label = (b, d) => d.bn + (b.cnt(d.id) ? ` ${b.BN(b.cnt(d.id))}+` : '');
+const label = (b, d) => b.nameOf(d) + (b.cnt(d.id) ? ` ${b.BN(b.cnt(d.id))}+` : '');
 const hasLogo = (A, b, opts) => !!(A.photoImg && A.photoImg.width) || !!b.name || !!opts.interactive;
 function fitMap(A, x, y, w, h){ const s = Math.max(.01, Math.min(w / A.MAP_W, h / A.MAP_H)); return { s, x: x + (w - A.MAP_W * s) / 2, y: y + (h - A.MAP_H * s) / 2, w: A.MAP_W * s, h: A.MAP_H * s }; }
 function shadow(c, col, blur, oy, B){ c.shadowColor = col; c.shadowBlur = blur * B; c.shadowOffsetX = 0; c.shadowOffsetY = (oy || 0) * B; }
@@ -182,7 +182,7 @@ function dream(c, W, H, opts, A){
     wish: GOLD, wishFill: mixHex(LAND, GOLD, .22), hover: '#FFFFFF', dotRing: '#0B1636' });
   const rt0 = b.world && n && n <= 30 ? drawRoutes(c, A, m, u, B, b.visited, { from: 'rgba(255,236,190,.15)', to: 'rgba(245,201,90,.95)', lw: 2.4, glow: 'rgba(245,201,90,.7)', glowBlur: 8 }) : null;
   if(rt0) homeDot(c, rt0.x, rt0.y, u, '#FFFFFF', GOLD, 'rgba(245,201,90,.25)');
-  const homeLbl = rt0 && !A.vis('bd') ? [{ id: 'bd', text: rt0.home.bn, ax: rt0.x, ay: rt0.y - m.y, tiny: true, w: 700, col: GOLD }] : [];
+  const homeLbl = rt0 && !A.vis('bd') ? [{ id: 'bd', text: b.nameOf(rt0.home), ax: rt0.x, ay: rt0.y - m.y, tiny: true, w: 700, col: GOLD }] : [];
   if(A.state.labelMode !== 'none') mapLabels(c, A, b, m, Z.lab * (n > 24 ? .9 : 1), () => '#3A2A05', '#FFFFFF', 'rgba(8,14,36,.9)', homeLbl);
 
   /* count + tagline */
@@ -195,7 +195,7 @@ function dream(c, W, H, opts, A){
   ctaBlock(c, b, W / 2, y, cw, Z.bA, Z.bB, SOFT, gb, alpha(SOFT, .8), true);
   drawBadge(c, A, W / 2, H - badgeH / 2 - (fmt === 'story' ? 30 * u : 4 * u), u, fmt);
 }
-dream.label = 'বড় স্বপ্ন'; dream.sub = 'রাতের আকাশে সোনালি দেশ';
+dream.label = PAGE_EN ? 'Big dream' : 'বড় স্বপ্ন'; dream.sub = PAGE_EN ? 'Golden countries on a night sky' : 'রাতের আকাশে সোনালি দেশ';
 dream.defaults = A => copyFor(A);
 
 /* =====================================================================================
@@ -273,7 +273,8 @@ function globe(c, W, H, opts, A){
 
   /* tagline row + pills */
   let y = m.y + m.h + Z.gap * .8 + Z.row + spare * .28;
-  const stats = n ? `${BN(n)}টি ${b.U}` + ((A.DIVISIONS || []).length >= 2 ? ` · ${groupsText(A, (A.DIVISIONS || []).filter(gq => b.visited.some(d => d.div === gq.id)).length)}` : '') : `ম্যাপে ${b.U} বেছে নিন`;
+  const gtxt = (A.DIVISIONS || []).length >= 2 ? ` · ${groupsText(A, (A.DIVISIONS || []).filter(gq => b.visited.some(d => d.div === gq.id)).length)}` : '';
+  const stats = b.EN ? (n ? `${n} ${A.EU(n)}` + gtxt : `Pick ${A.EU(2)} on the map`) : n ? `${BN(n)}টি ${b.U}` + gtxt : `ম্যাপে ${b.U} বেছে নিন`;
   c.textBaseline = 'alphabetic'; const rpx = fit(c, F, 500, stats, cw * .5, Z.row * .8, Z.row * .6); c.font = F(500, rpx); const rw = c.measureText(stats).width;
   fit(c, F, 700, b.tagline, cw - rw - 26 * u, Z.row, Z.row * .7); c.fillStyle = K.deep; c.textAlign = 'left'; c.fillText(ellipsize(c, b.tagline, cw - rw - 26 * u), P, y);
   c.font = F(500, rpx); c.fillStyle = K.muted; c.textAlign = 'right'; c.fillText(stats, W - P, y);
@@ -295,7 +296,7 @@ function globe(c, W, H, opts, A){
   c.font = F(500, Z.row * .82); c.fillStyle = alpha(onBrand, .78); c.textAlign = 'right'; c.fillText(ellipsize(c, C.hashtag, hashW), W - P, yy);
   drawBadge(c, A, W / 2, H - badgeH / 2 - (fmt === 'story' ? 26 * u : 4 * u), u, fmt, { style: 'light' });
 }
-globe.label = 'পৃথিবী জুড়ে'; globe.sub = 'দেশে দেশে পতাকা আর রুট';
+globe.label = PAGE_EN ? 'Around the world' : 'পৃথিবী জুড়ে'; globe.sub = PAGE_EN ? 'Flags and routes, country by country' : 'দেশে দেশে পতাকা আর রুট';
 globe.defaults = A => copyFor(A);
 globe.ready = A => flagsReady(A);
 globe.available = A => A.CFG.map === 'world';
@@ -361,13 +362,13 @@ function campus(c, W, H, opts, A){
     for(let i = 0; i < cardsN; i++){
       const x = P + (i % cols) * (cwc + cg), yc = y + Math.floor(i / cols) * (chh + cg);
       c.save(); shadow(c, alpha(K.deep, K.dark ? .3 : .08), 14 * u, 4 * u, B); KIT_rr(c, x, yc, cwc, chh, 16 * u); c.fillStyle = card; c.fill(); c.restore();
-      if(i === shown.length){ c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = F(700, Z.nm); c.fillStyle = K.brandText; c.fillText(`+${BN(more)} আরও`, x + cwc / 2, yc + chh / 2 + 1 * u); continue; }
+      if(i === shown.length){ c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = F(700, Z.nm); c.fillStyle = K.brandText; c.fillText(b.EN ? `+${more} more` : `+${BN(more)} আরও`, x + cwc / 2, yc + chh / 2 + 1 * u); continue; }
       const d = shown[i], fx = x + 14 * u, fy = yc + (chh - fh) / 2;
       if(b.world) rectFlag(c, d.id, fx, fy, fw, fh, 7 * u, u); else { KIT_rr(c, fx, fy, fh, fh, fh / 2); c.fillStyle = fillOf(d); c.fill(); }
       const tx = fx + (b.world ? fw : fh) + 14 * u, tw = x + cwc - 12 * u - tx;
       c.textAlign = 'left'; c.textBaseline = 'alphabetic';
       const c1 = b.cnt(d.id) ? `${BN(b.cnt(d.id))}+` : '';
-      const npx = fit(c, F, 700, d.bn, tw, Z.nm, Z.nm * .66); c.font = F(700, npx); c.fillStyle = K.deep; c.fillText(ellipsize(c, d.bn, tw), tx, yc + chh * (c1 ? .46 : .56));
+      const dn = b.nameOf(d), npx = fit(c, F, 700, dn, tw, Z.nm, Z.nm * .66); c.font = F(700, npx); c.fillStyle = K.deep; c.fillText(ellipsize(c, dn, tw), tx, yc + chh * (c1 ? .46 : .56));
       if(c1){ c.font = F(700, Z.nm * .78); c.fillStyle = K.brandText; c.fillText(c1, tx, yc + chh * .8); }
     }
     y += cardsH + Z.gap;
@@ -377,7 +378,7 @@ function campus(c, W, H, opts, A){
   ctaBlock(c, b, W / 2, y, cw, Z.bA, Z.bB, K.muted, K.brandText, alpha(K.muted, .85), true);
   drawBadge(c, A, W / 2, H - badgeH / 2 - (fmt === 'story' ? 26 * u : 4 * u), u, fmt);
 }
-campus.label = 'স্বপ্নের ক্যাম্পাস'; campus.sub = 'পতাকাসহ গন্তব্যের কার্ড';
+campus.label = PAGE_EN ? 'Dream campus' : 'স্বপ্নের ক্যাম্পাস'; campus.sub = PAGE_EN ? 'Destination cards with flags' : 'পতাকাসহ গন্তব্যের কার্ড';
 campus.defaults = A => copyFor(A);
 campus.ready = A => flagsReady(A);
 campus.available = A => A.CFG.map === 'world';
@@ -434,7 +435,7 @@ function minimal(c, W, H, opts, A){
   if(A.state.labelMode !== 'none') mapLabels(c, A, b, m, Z.lab * (n > 24 ? .9 : 1), d => contrast('#FFFFFF', fillOf(d)) >= 2.8 ? '#FFFFFF' : K.deep, K.deep, alpha(bg, .92));
   drawBadge(c, A, W / 2, H - badgeH / 2 - (fmt === 'story' ? 30 * u : 4 * u), u, fmt);
 }
-minimal.label = 'কম লেখা'; minimal.sub = 'লোগো, সংখ্যা আর বড় ম্যাপ';
+minimal.label = PAGE_EN ? 'Minimal' : 'কম লেখা'; minimal.sub = PAGE_EN ? 'Logo, number and a big map' : 'লোগো, সংখ্যা আর বড় ম্যাপ';
 minimal.defaults = A => copyFor(A);
 
 LAYOUTS.dream = dream; LAYOUTS.globe = globe; LAYOUTS.campus = campus; LAYOUTS.minimal = minimal;

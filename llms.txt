@@ -1,10 +1,10 @@
 # ঘুরে দেখা বাংলাদেশ (Ghure Dekha Bangladesh)
 
-> বাংলাদেশ ভ্রমণের ফ্রি বাংলা ওয়েবসাইট: ৬৪ জেলার ভ্রমণ গাইড, ঢাকা থেকে ট্রেনের সময়সূচি, ট্রিপ প্ল্যানার, আর যে জেলাগুলোতে ঘুরেছেন সেগুলোতে টিক দিয়ে নিজের ভ্রমণ ম্যাপ-পোস্টার বানানোর টুল। A free Bangla-language travel site for Bangladesh: travel guides for all 64 districts, Dhaka train timetables from Bangladesh Railway, a trip planner, and a map-poster maker for the districts (and countries) you have visited.
+> বাংলাদেশ ভ্রমণের ফ্রি বাংলা ওয়েবসাইট: ৬৪ জেলার ভ্রমণ গাইড, ঢাকা থেকে ট্রেনের সময়সূচি, ট্রিপ প্ল্যানার, আর যে জেলাগুলোতে ঘুরেছেন সেগুলোতে টিক দিয়ে নিজের ভ্রমণ ম্যাপ-পোস্টার বানানোর টুল। A free travel site for Bangladesh, in Bangla with an English version: travel guides for all 64 districts, Dhaka train timetables from Bangladesh Railway, a trip planner, and a map-poster maker for the districts (and countries) you have visited.
 
-সাইটের ভাষা বাংলা; ঠিকানা ghuredekhabangladesh.com (ghuredekha.com-এও খোলে)। ম্যাপ বানাতে অ্যাকাউন্ট লাগে না। প্রতিটি জেলা গাইডে আছে: কী দেখবেন (দর্শনীয় জায়গা), ঢাকা থেকে কীভাবে যাবেন, কোথায় থাকবেন, কী খাবেন, কখন যাবেন, কত দিন লাগে, টিপস আর সাধারণ প্রশ্নের উত্তর।
+সাইটের ভাষা বাংলা, পুরো সাইটের ইংরেজি সংস্করণ /en-এ; ঠিকানা ghuredekhabangladesh.com (ghuredekha.com-এও খোলে)। ম্যাপ বানাতে অ্যাকাউন্ট লাগে না। প্রতিটি জেলা গাইডে আছে: কী দেখবেন (দর্শনীয় জায়গা), ঢাকা থেকে কীভাবে যাবেন, কোথায় থাকবেন, কী খাবেন, কখন যাবেন, কত দিন লাগে, টিপস আর সাধারণ প্রশ্নের উত্তর।
 
-English summary: each district guide (/jela/<district>) covers places to see, how to get there from Dhaka, where to stay (hotel prices are estimates), local food, the best season, how many days to plan and tips. The train pages (/train/dhaka-<place>) list every direct train from Dhaka (Kamalapur) with number, departure, arrival, travel time and weekly off day, from the Bangladesh Railway e-ticket timetable fetched on 6 October 2026.
+English summary: each district guide (/jela/<district>) covers places to see, how to get there from Dhaka, where to stay (hotel prices are estimates), local food, the best season, how many days to plan and tips. The train pages (/train/dhaka-<place>) list every direct train from Dhaka (Kamalapur) with number, departure, arrival, travel time and weekly off day, from the Bangladesh Railway e-ticket timetable fetched on 6 October 2026. English version: the pages have English twins under /en (for example https://ghuredekhabangladesh.com/en/jela/coxs-bazar and https://ghuredekhabangladesh.com/en/train/dhaka-sylhet), listed in the English section below.
 
 ## মূল অংশ (Main sections)
 
@@ -130,6 +130,130 @@ English summary: each district guide (/jela/<district>) covers places to see, ho
 - [ঢাকা থেকে সিলেট (Dhaka to Sylhet)](https://ghuredekhabangladesh.com/train/dhaka-sylhet): ৪টি ট্রেন, দ্রুততম ৬ ঘণ্টা ৩০ মিনিট
 - [ঢাকা থেকে টাঙ্গাইল (Dhaka to Tangail)](https://ghuredekhabangladesh.com/train/dhaka-tangail): ৮টি ট্রেন, দ্রুততম ১ ঘণ্টা ৪৭ মিনিট
 - [ঢাকা থেকে ঠাকুরগাঁও (Dhaka to Thakurgaon)](https://ghuredekhabangladesh.com/train/dhaka-thakurgaon): ৩টি ট্রেন, দ্রুততম ৯ ঘণ্টা ৩ মিনিট
+
+## English version
+
+- [Bangladesh travel map maker](https://ghuredekhabangladesh.com/en): tick the districts you have been to, add your name and photo and download your own travel map; free
+- [Travel guides to all 64 districts](https://ghuredekhabangladesh.com/en/jela): what to see in each district, how to get there, where to stay, what to eat and when to go
+- [Dhaka train timetables](https://ghuredekhabangladesh.com/en/train): direct trains from Dhaka to 37 destinations: departure and arrival times and weekly off days
+- [Upazila map of your district](https://ghuredekhabangladesh.com/en/zila): a travel map of the upazilas of any of the 64 districts
+- [Upazila map](https://ghuredekhabangladesh.com/en/upazila): a travel map of all 545 upazilas and metro thanas of the country
+- [Partner group tours: Poribrajok](https://ghuredekhabangladesh.com/en/g/poribrajok): group tour packages from Dhaka: Sylhet: Sada Pathor, Bholaganj, Ratargul and tea gardens, Tk 1,350 per person (Poribrajok (The Traveller)); Sreemangal: Lawachara, Madhabpur Lake and tea gardens, Tk 1,550 per person (Poribrajok (The Traveller)); booking on WhatsApp
+- [World travel map](https://ghuredekhabangladesh.com/en/world): tick the countries you have been to among 195 and make your map
+- [Country and continent maps](https://ghuredekhabangladesh.com/en/countries): travel maps by the states or provinces of a country, or by the countries of a continent
+- [Hajj and Umrah map](https://ghuredekhabangladesh.com/en/umrah): a dream map from Dhaka to Makkah and Madinah, with your photo
+- [What is your Bangladesh level? Level map of the 64 districts](https://ghuredekhabangladesh.com/en/level): Give each of the 64 districts a level: lived there, stayed the night, visited, stopped or passed through. See your level out of 320 and share the picture. Free, no account needed.
+- [Quiz](https://ghuredekhabangladesh.com/en/quiz): name the district from its shape on the map or from a photo
+- [Where Bangladeshis travel most](https://ghuredekhabangladesh.com/en/trend): which districts people have been to most, from the maps made on this site
+- [Business coverage map](https://ghuredekhabangladesh.com/en/business): tick the districts of your branches or service area and make a map with your logo
+- [Study-abroad agency map](https://ghuredekhabangladesh.com/en/study-abroad): a map of the countries you send students to
+
+## District travel guides in English
+
+- [Dhaka travel guide](https://ghuredekhabangladesh.com/en/jela/dhaka): Dhaka Division; places to see: Lalbagh Fort, Ahsan Manzil, National Parliament House and 3 more; best time November to February
+- [Faridpur travel guide](https://ghuredekhabangladesh.com/en/jela/faridpur): Dhaka Division; places to see: Baishrashi Zamindar Bari, Padma River Ghat, Jasimuddin's Home and 3 more; best time October to March
+- [Gazipur travel guide](https://ghuredekhabangladesh.com/en/jela/gazipur): Dhaka Division; places to see: Bhawal National Park, Bangabandhu Safari Park, Rajendrapur National Park and 3 more; best time October to March
+- [Gopalganj travel guide](https://ghuredekhabangladesh.com/en/jela/gopalganj): Dhaka Division; places to see: Bangabandhu Mausoleum, Orakandi Thakurbari, Ujani Zamindar Bari and 2 more; best time October to March
+- [Kishoreganj travel guide](https://ghuredekhabangladesh.com/en/jela/kishoreganj): Dhaka Division; places to see: Egarosindur, Nikli Haor, Itna and Astagram Haor and 2 more; best time June to October (for the haor in the monsoon), November to February
+- [Madaripur travel guide](https://ghuredekhabangladesh.com/en/jela/madaripur): Dhaka Division; places to see: Shakuni Lake, Auliapur Neelkuthi, Shah Madar Dargah and 2 more; best time October to March
+- [Manikganj travel guide](https://ghuredekhabangladesh.com/en/jela/manikganj): Dhaka Division; places to see: Baliati Zamindar Bari, Teota Zamindar Bari, Dhankora Zamindar Bari and 2 more; best time October to March
+- [Munshiganj travel guide](https://ghuredekhabangladesh.com/en/jela/munshiganj): Dhaka Division; places to see: Idrakpur Fort, Mawa Ghat, Bikrampur Museum and 2 more; best time October to March
+- [Narayanganj travel guide](https://ghuredekhabangladesh.com/en/jela/narayanganj): Dhaka Division; places to see: Panam Nagar, Sonargaon, Folk Art Museum, Sonargaon, Mazar of Ghiyasuddin Azam Shah and 2 more; best time November to February
+- [Narsingdi travel guide](https://ghuredekhabangladesh.com/en/jela/narsingdi): Dhaka Division; places to see: Wari-Bateshwar, Belabo Countryside, Madhabdi Textile Area and 3 more; best time October to March
+- [Rajbari travel guide](https://ghuredekhabangladesh.com/en/jela/rajbari): Dhaka Division; places to see: Goalanda Ghat, Daulatdia Ghat, Nalia Twin Temples and 2 more; best time October to March
+- [Shariatpur travel guide](https://ghuredekhabangladesh.com/en/jela/shariatpur): Dhaka Division; places to see: Padma Bridge Jajira, Mahisar Dighi, Rudrakar Math and 2 more; best time September to November (hilsa season), October to March
+- [Tangail travel guide](https://ghuredekhabangladesh.com/en/jela/tangail): Dhaka Division; places to see: Atia Mosque, Madhupur National Park, Dhanbari Nawab Bari and 2 more; best time October to March
+- [Bandarban travel guide](https://ghuredekhabangladesh.com/en/jela/bandarban): Chattogram Division; places to see: Nilgiri, Nafakhum Waterfall, Boga Lake and 3 more; best time October to March, July to September to see the waterfalls in the monsoon
+- [Brahmanbaria travel guide](https://ghuredekhabangladesh.com/en/jela/brahmanbaria): Chattogram Division; places to see: Titas River, Akhaura Land Port, Akhaura Liberation War Site and 3 more; best time October to March
+- [Chandpur travel guide](https://ghuredekhabangladesh.com/en/jela/chandpur): Chattogram Division; places to see: Meghna-Padma Confluence, Chandpur Hilsa Market, Chandpur Riverside and 3 more; best time September to November (hilsa), October to March
+- [Chattogram travel guide](https://ghuredekhabangladesh.com/en/jela/chattogram): Chattogram Division; places to see: Patenga Beach, Foy's Lake, Batali Hill and War Cemetery and 3 more; best time October to March
+- [Cox's Bazar travel guide](https://ghuredekhabangladesh.com/en/jela/coxs-bazar): Chattogram Division; places to see: Cox's Bazar Sea Beach, Inani Beach, Himchari and 3 more; best time November to February
+- [Cumilla travel guide](https://ghuredekhabangladesh.com/en/jela/cumilla): Chattogram Division; places to see: Shalban Vihara, Mainamati, Mainamati Museum, Kotila Mura and 2 more; best time October to March
+- [Feni travel guide](https://ghuredekhabangladesh.com/en/jela/feni): Chattogram Division; places to see: Muhuri Project, Feni River, Liberation War Memorial and 6 more; best time October to March
+- [Khagrachhari travel guide](https://ghuredekhabangladesh.com/en/jela/khagrachhari): Chattogram Division; places to see: Alutila Cave, Richhang Waterfall, Sajek Valley and 2 more; best time October to March, July to September to see the waterfalls in the monsoon
+- [Lakshmipur travel guide](https://ghuredekhabangladesh.com/en/jela/lakshmipur): Chattogram Division; places to see: Meghna Riverbank, Raipur Market, Char Alexander and 3 more; best time October to March
+- [Noakhali travel guide](https://ghuredekhabangladesh.com/en/jela/noakhali): Chattogram Division; places to see: Nijhum Dwip, Hatiya Island, Subarnachar and 2 more; best time November to February
+- [Rangamati travel guide](https://ghuredekhabangladesh.com/en/jela/rangamati): Chattogram Division; places to see: Kaptai Lake, Hanging Bridge, Shuvolong Waterfall and 3 more; best time October to March, the lake is green in the monsoon
+- [Bogura travel guide](https://ghuredekhabangladesh.com/en/jela/bogura): Rajshahi Division; places to see: Mahasthangarh, Gokul Medh, Vasu Bihar and 3 more; best time October to March
+- [Chapainawabganj travel guide](https://ghuredekhabangladesh.com/en/jela/chapainawabganj): Rajshahi Division; places to see: Chhota Sona Mosque, Kotwali Darwaza, Mango Orchards of Shibganj and 2 more; best time May to July (mango season), November to February
+- [Joypurhat travel guide](https://ghuredekhabangladesh.com/en/jela/joypurhat): Rajshahi Division; places to see: Achranga Dighi, Nandail Dighi, Hinda Kasba Mosque and 3 more; best time November to February
+- [Naogaon travel guide](https://ghuredekhabangladesh.com/en/jela/naogaon): Rajshahi Division; places to see: Paharpur Buddhist Vihara, Kusumba Mosque, Altadighi National Park and 2 more; best time October to March
+- [Natore travel guide](https://ghuredekhabangladesh.com/en/jela/natore): Rajshahi Division; places to see: Uttara Ganabhaban, Natore Rajbari, Chalan Beel and 3 more; best time October to March
+- [Pabna travel guide](https://ghuredekhabangladesh.com/en/jela/pabna): Rajshahi Division; places to see: Hardinge Bridge, Satsang Ashram, Jor Bangla Temple and 2 more; best time October to March
+- [Rajshahi travel guide](https://ghuredekhabangladesh.com/en/jela/rajshahi): Rajshahi Division; places to see: Puthia Temple Complex, Varendra Research Museum, Padma Garden and 3 more; best time October to March
+- [Sirajganj travel guide](https://ghuredekhabangladesh.com/en/jela/sirajganj): Rajshahi Division; places to see: Rabindra Kachari Bari, Shahzadpur, Bangabandhu Jamuna Bridge, Makhdum Shah Daula Dargah and 3 more; best time October to March
+- [Bagerhat travel guide](https://ghuredekhabangladesh.com/en/jela/bagerhat): Khulna Division; places to see: Sixty Dome Mosque, Khan Jahan Ali Mazar, Nine Dome Mosque and 3 more; best time November to March
+- [Chuadanga travel guide](https://ghuredekhabangladesh.com/en/jela/chuadanga): Khulna Division; places to see: Darshana & Keru, Gholdari Mosque, Mathabhanga River and 3 more; best time November to February
+- [Jashore travel guide](https://ghuredekhabangladesh.com/en/jela/jashore): Khulna Division; places to see: Sagardari, Gadkhali Flower Market, Benapole Land Port and 2 more; best time December to February (flower season)
+- [Jhenaidah travel guide](https://ghuredekhabangladesh.com/en/jela/jhenaidah): Khulna Division; places to see: Naldanga Rajbari, Miar Dalan, Barobazar Mosques and 2 more; best time November to February
+- [Khulna travel guide](https://ghuredekhabangladesh.com/en/jela/khulna): Khulna Division; places to see: Sundarbans (Karamjal), Hiron Point & Kotka, Rupsha Bridge and 3 more; best time November to February (best for the Sundarbans)
+- [Kushtia travel guide](https://ghuredekhabangladesh.com/en/jela/kushtia): Khulna Division; places to see: Lalon Shah Shrine, Shilaidaha Kuthibari, Hardinge Bridge and 3 more; best time October to March (Lalon festivals in October and March)
+- [Magura travel guide](https://ghuredekhabangladesh.com/en/jela/magura): Khulna Division; places to see: Siddheshwari Math, Gorai Bridge, Raja Sitaram Ray Palace and 3 more; best time November to February
+- [Meherpur travel guide](https://ghuredekhabangladesh.com/en/jela/meherpur): Khulna Division; places to see: Mujibnagar Memorial, Amjhupi Neelkuthi, Bhatpara Neelkuthi and 2 more; best time November to February; May to June for mangoes
+- [Narail travel guide](https://ghuredekhabangladesh.com/en/jela/narail): Khulna Division; places to see: S M Sultan Gallery, Chitra River, Niribili Picnic Spot and 3 more; best time November to February (Sultan Mela in January)
+- [Satkhira travel guide](https://ghuredekhabangladesh.com/en/jela/satkhira): Khulna Division; places to see: Kalagachhia Sundarbans, Mandarbaria Beach, Jahajghata and 3 more; best time November to February
+- [Barguna travel guide](https://ghuredekhabangladesh.com/en/jela/barguna): Barishal Division; places to see: Haringhata Forest, Shuvo Sandhya Beach, Tengragiri Sanctuary and 2 more; best time November to February
+- [Barishal travel guide](https://ghuredekhabangladesh.com/en/jela/barishal): Barishal Division; places to see: Floating Guava Market, Durga Sagar, Guthia Mosque and 3 more; best time November to February; guava market July to August
+- [Bhola travel guide](https://ghuredekhabangladesh.com/en/jela/bhola): Barishal Division; places to see: Char Kukri Mukri, Monpura Island, Tarua Beach and 3 more; best time November to February
+- [Jhalokati travel guide](https://ghuredekhabangladesh.com/en/jela/jhalokati): Barishal Division; places to see: Bhimruli Floating Market, Kirtipasha Zamindar Bari, Sujabad Fort and 2 more; best time July to August (guavas), winter for the town
+- [Patuakhali travel guide](https://ghuredekhabangladesh.com/en/jela/patuakhali): Barishal Division; places to see: Kuakata Beach, Gangamati, Fatrar Char and 3 more; best time October to March
+- [Pirojpur travel guide](https://ghuredekhabangladesh.com/en/jela/pirojpur): Barishal Division; places to see: Swarupkathi Floating Market, Rayerkathi Zamindar Bari, Hularhat and 2 more; best time July to September for the floating market; otherwise winter
+- [Habiganj travel guide](https://ghuredekhabangladesh.com/en/jela/habiganj): Sylhet Division; places to see: Satchari National Park, Rema-Kalenga Wildlife Sanctuary, Baniachong and 2 more; best time October to March
+- [Moulvibazar travel guide](https://ghuredekhabangladesh.com/en/jela/moulvibazar): Sylhet Division; places to see: Sreemangal Tea Gardens, Lawachara National Park, Madhabkunda Waterfall and 3 more; best time October to March (June to September for Madhabkunda)
+- [Sunamganj travel guide](https://ghuredekhabangladesh.com/en/jela/sunamganj): Sylhet Division; places to see: Tanguar Haor, Niladri Lake, Barek Tila and 3 more; best time July to October (monsoon), November to February
+- [Sylhet travel guide](https://ghuredekhabangladesh.com/en/jela/sylhet): Sylhet Division; places to see: Jaflong, Ratargul Swamp Forest, Bichanakandi and 3 more; best time October to March (June to September for Ratargul)
+- [Dinajpur travel guide](https://ghuredekhabangladesh.com/en/jela/dinajpur): Rangpur Division; places to see: Kantajew Temple, Ramsagar, Nayabad Mosque and 3 more; best time October to March
+- [Gaibandha travel guide](https://ghuredekhabangladesh.com/en/jela/gaibandha): Rangpur Division; places to see: Balashi Ghat, Friendship Centre, Bardhan Kuthi and 3 more; best time November to February
+- [Kurigram travel guide](https://ghuredekhabangladesh.com/en/jela/kurigram): Rangpur Division; places to see: Chilmari River Port, Brahmaputra Chars, Chandamari Mosque and 2 more; best time November to February
+- [Lalmonirhat travel guide](https://ghuredekhabangladesh.com/en/jela/lalmonirhat): Rangpur Division; places to see: Tin Bigha Corridor, Burimari Land Port, Tista Railway Bridge and 2 more; best time November to February
+- [Nilphamari travel guide](https://ghuredekhabangladesh.com/en/jela/nilphamari): Rangpur Division; places to see: Teesta Barrage, Neelsagar, Chini Mosque and 2 more; best time November to February
+- [Panchagarh travel guide](https://ghuredekhabangladesh.com/en/jela/panchagarh): Rangpur Division; places to see: Tetulia Dak Bungalow, Kanchenjunga View Point, Banglabandha Land Port and 3 more; best time November to February
+- [Rangpur travel guide](https://ghuredekhabangladesh.com/en/jela/rangpur): Rangpur Division; places to see: Tajhat Palace, Carmichael College, Pairaband, Begum Rokeya's Home and 3 more; best time November to February
+- [Thakurgaon travel guide](https://ghuredekhabangladesh.com/en/jela/thakurgaon): Rangpur Division; places to see: Surjapuri Mango Tree, Ramrai Dighi, Haripur Rajbari and 2 more; best time November to February
+- [Jamalpur travel guide](https://ghuredekhabangladesh.com/en/jela/jamalpur): Mymensingh Division; places to see: Shah Jamal Mazar, Lauchapra Hills, Gandhi Ashram and 2 more; best time October to March
+- [Mymensingh travel guide](https://ghuredekhabangladesh.com/en/jela/mymensingh): Mymensingh Division; places to see: Shashi Lodge, Alexander Castle, Muktagacha Zamindar Bari and 3 more; best time October to March
+- [Netrokona travel guide](https://ghuredekhabangladesh.com/en/jela/netrokona): Mymensingh Division; places to see: Birishiri Cultural Academy, Bijoypur China Clay Hills, Someshwari River and 2 more; best time November to February
+- [Sherpur travel guide](https://ghuredekhabangladesh.com/en/jela/sherpur): Mymensingh Division; places to see: Gajni Resort, Madhutila Eco Park, Rajar Pahar and 2 more; best time October to March
+
+## Train timetables from Dhaka in English
+
+- [Dhaka to Bogura](https://ghuredekhabangladesh.com/en/train/dhaka-bogura): 3 trains, fastest 6 h 26 min
+- [Dhaka to Brahmanbaria](https://ghuredekhabangladesh.com/en/train/dhaka-brahmanbaria): 8 trains, fastest 1 h 51 min
+- [Dhaka to Chapainawabganj](https://ghuredekhabangladesh.com/en/train/dhaka-chapainawabganj): 1 train, fastest 5 h 45 min
+- [Dhaka to Chattogram](https://ghuredekhabangladesh.com/en/train/dhaka-chattogram): 8 trains, fastest 4 h 40 min
+- [Dhaka to Chuadanga](https://ghuredekhabangladesh.com/en/train/dhaka-chuadanga): 3 trains, fastest 4 h 27 min
+- [Dhaka to Cox's Bazar](https://ghuredekhabangladesh.com/en/train/dhaka-coxsbazar): 2 trains, fastest 8 h 20 min
+- [Dhaka to Cumilla](https://ghuredekhabangladesh.com/en/train/dhaka-cumilla): 5 trains, fastest 3 h 6 min
+- [Dhaka to Dinajpur](https://ghuredekhabangladesh.com/en/train/dhaka-dinajpur): 3 trains, fastest 7 h 28 min
+- [Dhaka to Faridpur](https://ghuredekhabangladesh.com/en/train/dhaka-faridpur): 3 trains, fastest 1 h 39 min
+- [Dhaka to Feni](https://ghuredekhabangladesh.com/en/train/dhaka-feni): 4 trains, fastest 4 h 15 min
+- [Dhaka to Gaibandha](https://ghuredekhabangladesh.com/en/train/dhaka-gaibandha): 3 trains, fastest 7 h 52 min
+- [Dhaka to Gazipur](https://ghuredekhabangladesh.com/en/train/dhaka-gazipur): 15 trains, fastest 51 min
+- [Dhaka to Jamalpur](https://ghuredekhabangladesh.com/en/train/dhaka-jamalpur): 5 trains, fastest 4 h 6 min
+- [Dhaka to Jashore](https://ghuredekhabangladesh.com/en/train/dhaka-jashore): 4 trains, fastest 2 h 30 min
+- [Dhaka to Joypurhat](https://ghuredekhabangladesh.com/en/train/dhaka-joypurhat): 6 trains, fastest 5 h 31 min
+- [Dhaka to Khulna](https://ghuredekhabangladesh.com/en/train/dhaka-khulna): 3 trains, fastest 3 h 45 min
+- [Dhaka to Kishoreganj](https://ghuredekhabangladesh.com/en/train/dhaka-kishoreganj): 3 trains, fastest 3 h 40 min
+- [Dhaka to Kurigram](https://ghuredekhabangladesh.com/en/train/dhaka-kurigram): 1 train, fastest 9 h 10 min
+- [Dhaka to Kushtia](https://ghuredekhabangladesh.com/en/train/dhaka-kushtia): 3 trains, fastest 3 h 31 min
+- [Dhaka to Lalmonirhat](https://ghuredekhabangladesh.com/en/train/dhaka-lalmonirhat): 2 trains, fastest 9 h 35 min
+- [Dhaka to Mymensingh](https://ghuredekhabangladesh.com/en/train/dhaka-mymensingh): 7 trains, fastest 2 h 55 min
+- [Dhaka to Narail](https://ghuredekhabangladesh.com/en/train/dhaka-narail): 2 trains, fastest 1 h 57 min
+- [Dhaka to Narsingdi](https://ghuredekhabangladesh.com/en/train/dhaka-narsingdi): 8 trains, fastest 1 h 5 min
+- [Dhaka to Natore](https://ghuredekhabangladesh.com/en/train/dhaka-natore): 9 trains, fastest 3 h 57 min
+- [Dhaka to Netrokona](https://ghuredekhabangladesh.com/en/train/dhaka-netrokona): 2 trains, fastest 4 h 18 min
+- [Dhaka to Nilphamari](https://ghuredekhabangladesh.com/en/train/dhaka-nilphamari): 2 trains, fastest 8 h 5 min
+- [Dhaka to Noakhali](https://ghuredekhabangladesh.com/en/train/dhaka-noakhali): 1 train, fastest 5 h 30 min
+- [Dhaka to Panchagarh](https://ghuredekhabangladesh.com/en/train/dhaka-panchagarh): 3 trains, fastest 10 h 20 min
+- [Dhaka to Rajbari](https://ghuredekhabangladesh.com/en/train/dhaka-rajbari): 3 trains, fastest 2 h 15 min
+- [Dhaka to Rajshahi](https://ghuredekhabangladesh.com/en/train/dhaka-rajshahi): 5 trains, fastest 4 h 15 min
+- [Dhaka to Rangpur](https://ghuredekhabangladesh.com/en/train/dhaka-rangpur): 2 trains, fastest 7 h 58 min
+- [Dhaka to Shaistaganj](https://ghuredekhabangladesh.com/en/train/dhaka-shaistaganj): 4 trains, fastest 3 h 17 min, Habiganj district
+- [Dhaka to Sirajganj](https://ghuredekhabangladesh.com/en/train/dhaka-sirajganj): 7 trains, fastest 2 h 26 min
+- [Dhaka to Sreemangal](https://ghuredekhabangladesh.com/en/train/dhaka-sreemangal): 4 trains, fastest 3 h 57 min, Moulvibazar district
+- [Dhaka to Sylhet](https://ghuredekhabangladesh.com/en/train/dhaka-sylhet): 4 trains, fastest 6 h 30 min
+- [Dhaka to Tangail](https://ghuredekhabangladesh.com/en/train/dhaka-tangail): 8 trains, fastest 1 h 47 min
+- [Dhaka to Thakurgaon](https://ghuredekhabangladesh.com/en/train/dhaka-thakurgaon): 3 trains, fastest 9 h 3 min
 
 ## Optional
 

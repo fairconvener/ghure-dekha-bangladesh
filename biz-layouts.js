@@ -7,6 +7,13 @@
 (function(){
 'use strict';
 const LAYOUTS = window.GDB_LAYOUTS = window.GDB_LAYOUTS || {};
+/* language: the English pages (/en/..., <html lang="en">) draw English posters. useLang(A) is called at the start of every
+   design's draw (drawing is synchronous), so the helpers below can read EN. PAGE_EN names the designs in the editor. */
+const PAGE_EN = document.documentElement.lang === 'en';
+let EN = false;
+function useLang(A){ EN = !!(A && A.UIEN && (!A.isEN || A.isEN())); return EN; }
+const enName = (A, d) => (A && A.nameOf) ? A.nameOf(d) : d.bn;
+const titleCase = s => String(s).replace(/(^|\s)\S/g, x => x.toUpperCase());
 
 /* ---------- small helpers ---------- */
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -55,7 +62,77 @@ function genitive(name){
 }
 
 /* ---------- copy: defaults per business kind (neutral wording, no claims about the firm) ---------- */
+function copyForEN(A){
+  const S = A.state, CFG = A.CFG, E = A.E || {}, k = S.kind;
+  const world = CFG.map === 'world', bd = CFG.map === 'bd';
+  const own = (S.name || '').trim(), nm = own || (bd ? 'Your business' : 'Your agency'), nmIn = own || (bd ? 'your business' : 'your agency'); /* nmIn: inside a sentence */
+  const place = E.place || '', units = E.units || 'places', here = 'These ' + titleCase(units);
+  const HOOK = world ? {
+    student: 'Your dream campus\nanywhere in the world',
+    partner: 'In countries around the world\nour partner campuses',
+    visa:    'Wherever you want to go\nyour visa starts here',
+    tour:    'This holiday\nsee a new country',
+    office:  'One network\noffices in many countries',
+    job:     'Take your skills\nto work around the world',
+    service: 'Country after country\nour services'
+  } : bd ? {
+    branch:   'Across the country\nour branches and offices',
+    tour:     'See the country\nwith us',
+    visa:     'Whichever district you live in\nyour trip abroad starts here',
+    student:  'From districts across the country\nto universities abroad',
+    delivery: 'Wherever you are in the country\nwe reach your door',
+    dealer:   'Across the country\nour dealer network',
+    customer: 'Across the country\nour customer family',
+    service:  'All over the country\nour services',
+    seminar:  'District by district\nour seminars',
+    event:    'District by district\nour events'
+  } : {
+    student: `On campuses in ${place}\nour students`,
+    partner: `On campuses in ${place}\nour partners`,
+    visa:    `Your visa for ${place}\nstarts here`,
+    tour:    `On the roads of ${place}\ncome with us`,
+    office:  `All over ${place}\nour offices`,
+    job:     `All over ${place}\nour workers`,
+    service: `All over ${place}\nour services`
+  };
+  const TAG = {
+    student: bd ? `The ${units} our students come from` : `The ${units} where our students are`,
+    partner: `The ${units} with our partner universities`,
+    visa:    bd ? `The ${units} our clients come from` : `The ${units} we process visas for`,
+    tour:    `The ${units} we run tours to`,
+    office:  `The ${units} where we have offices`,
+    job:     `The ${units} we send workers to`,
+    service: `The ${units} we serve`,
+    branch:  `The ${units} where we have branches`,
+    delivery:`The ${units} we deliver to`,
+    dealer:  `The ${units} where we have dealers`,
+    customer:`The ${units} where we have customers`,
+    seminar: `The ${units} where we have held seminars`,
+    event:   `The ${units} where we have held events`
+  };
+  const BAND = {
+    student: [`With ${nmIn}, find your`, 'Study Destination'],
+    partner: [`With ${nmIn}, find your`, 'Study Destination'],
+    visa:    [`With ${nmIn}, start your`, 'Visa Process'],
+    tour:    [`With ${nmIn}, head to your`, 'Next Destination'],
+    office:  [`Get in touch with ${nmIn}`, world ? 'Global Offices' : 'At Your Nearest Office'],
+    job:     [`With ${nmIn}, find your`, 'Work Destination'],
+    service: bd ? [`${nm} serves`, here] : [`With ${nmIn}, start your`, 'Next Step'],
+    branch:  [`Get in touch with ${nmIn}`, 'At Your Nearest Branch'],
+    delivery:[`${nm} delivers to`, here],
+    dealer:  [`${nm} has dealers in`, here],
+    customer:[`${nm} has customers in`, here],
+    seminar: [`${nm} has held seminars in`, here],
+    event:   [`${nm} has held events in`, here]
+  };
+  const hook = HOOK[k] || (world ? HOOK.student : bd ? HOOK.branch : HOOK.student);
+  const tag = TAG[k] || `The ${units} where we are`;
+  const band = BAND[k] || [`Get in touch with ${nmIn}`, 'Today'];
+  const hashtag = '#' + (nm.split(/[^\p{L}\p{M}\p{N}]+/u).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('') || 'YourAgency');
+  return { hook, tagline: tag, bandA: band[0], bandB: band[1], hashtag, name: nm };
+}
 function copyFor(A){
+  if(useLang(A)) return copyForEN(A);
   const S = A.state, CFG = A.CFG, U = A.U, k = S.kind;
   const world = CFG.map === 'world', bd = CFG.map === 'bd';
   const nm = (S.name || '').trim() || (bd ? 'আপনার প্রতিষ্ঠান' : 'আপনার এজেন্সি');
@@ -218,8 +295,9 @@ function pillRows(c, F, BN, px, items, maxW, gap, padX, maxRows){
   c.font = F(600, px); const rows = [[]]; let x = 0, shown = 0;
   for(const it of items){ const w = c.measureText(it.txt).width + 2 * padX + it.dot; if(x > 0 && x + w > maxW){ if(rows.length >= maxRows) break; rows.push([]); x = 0; } rows[rows.length - 1].push(Object.assign({ w }, it)); x += w + gap; shown++; }
   let rest = items.length - shown;
-  if(rest > 0){ const last = rows[rows.length - 1]; const lw = () => c.measureText(`+${BN(rest)} আরও`).width + 2 * padX; let used = last.reduce((s, p) => s + p.w + gap, 0);
-    while(last.length && used + lw() > maxW){ const p = last.pop(); used -= p.w + gap; rest++; } last.push({ more: true, txt: `+${BN(rest)} আরও`, w: lw(), dot: 0 }); }
+  const more = k => EN ? `+${BN(k)} more` : `+${BN(k)} আরও`;
+  if(rest > 0){ const last = rows[rows.length - 1]; const lw = () => c.measureText(more(rest)).width + 2 * padX; let used = last.reduce((s, p) => s + p.w + gap, 0);
+    while(last.length && used + lw() > maxW){ const p = last.pop(); used -= p.w + gap; rest++; } last.push({ more: true, txt: more(rest), w: lw(), dot: 0 }); }
   return rows;
 }
 
@@ -254,14 +332,14 @@ function drawBadge(c, A, cx, cy, u, fmt, o){
   drawCredit(c, A, cx, cy, 18 * u, { muted: '#5E6E65' }); return null;
 }
 function homeOf(A){ return A.byId.bd || A.HOME || null; }
-function counterSuffix(A){ const CFG = A.CFG; if(CFG.map === 'bd') return '/' + A.BN(A.TOTAL); return 'টি ' + (A.UL || A.U); }
-function groupsText(A, got){ const CFG = A.CFG, g = CFG.group || ''; if(CFG.map === 'bd') return `${A.BN((A.DIVISIONS || []).length)}টির মধ্যে ${A.BN(got)}টি ${g}`; return `${A.BN(got)}টি ${g}${/া$/.test(g) ? 'য়' : 'ে'}`; }
+function counterSuffix(A){ const CFG = A.CFG; if(EN) return CFG.map === 'bd' ? '/' + A.TOTAL : A.EU(A.state.selected.size); if(CFG.map === 'bd') return '/' + A.BN(A.TOTAL); return 'টি ' + (A.UL || A.U); }
+function groupsText(A, got){ const CFG = A.CFG, g = CFG.group || ''; if(EN){ const eg = (A.E && A.E.group) || 'region', N = (A.DIVISIONS || []).length; return CFG.map === 'bd' ? `${got} of ${N} ${eg}s` : `in ${got} ${eg}${got === 1 ? '' : 's'}`; } if(CFG.map === 'bd') return `${A.BN((A.DIVISIONS || []).length)}টির মধ্যে ${A.BN(got)}টি ${g}`; return `${A.BN(got)}টি ${g}${/া$/.test(g) ? 'য়' : 'ে'}`; }
 function drawBase(c, A, fill, line, lw){ const B = A.BASE_PATHS; if(!B || !B.length) return; c.fillStyle = fill; for(const p of B) c.fill(p); if(line){ c.lineJoin = 'round'; c.lineWidth = lw; c.strokeStyle = line; for(const p of B) c.stroke(p); } }
 
 /* ---------- the "headline" poster ---------- */
 function headline(c, W, H, opts, A){
-  opts = opts || {};
-  const S = A.state, CFG = A.CFG, F = A.F, rr = A.rr, BN = A.BN, U = A.U;
+  opts = opts || {}; useLang(A);
+  const S = A.state, CFG = A.CFG, F = A.F, rr = A.rr, BN = A.NUM || A.BN, U = A.U;
   const u = W / 1080, ratio = H / W, fmt = ratio > 1.6 ? 'story' : ratio < 1.1 ? 'square' : 'post';
   const Z = { post:   { P: 64, top: 64, logo: 150, num: 134, h2: 104, h2min: 54, gap: 26, bA: 31, bB: 78, tagPx: 23, cred: 18, row: 29, lab: 16, pill: 20 },
               square: { P: 52, top: 48, logo: 112, num: 104, h2: 84, h2min: 46, gap: 18, bA: 26, bB: 60, tagPx: 20, cred: 16, row: 25, lab: 15, pill: 18 },
@@ -273,16 +351,16 @@ function headline(c, W, H, opts, A){
   const visited = A.DISTRICTS.filter(d => A.vis(d.id)).sort((a, b) => (cnt(b.id) - cnt(a.id)) || (b.a - a.a));
   const ids = visited.map(d => d.id);
   const n = S.selected.size, TOTAL = A.TOTAL, nw = S.wish.size;
-  const nameOf = d => d.bn + (cnt(d.id) ? ` ${BN(cnt(d.id))}+` : '');
+  const nameOf = d => enName(A, d) + (cnt(d.id) ? ` ${BN(cnt(d.id))}+` : '');
   const groups = A.DIVISIONS || [];
   const useGroups = groups.length >= 2 && groups.length <= 12 && !!CFG.group && CFG.group !== 'তালিকা';
   const gotGroups = useGroups ? groups.filter(g => visited.some(d => d.div === g.id)).length : 0;
-  const stats = n ? `${BN(n)}টি ${U}` + (useGroups ? ` · ${groupsText(A, gotGroups)}` : '') : `ম্যাপে ${U} বেছে নিন`;
-  const wishTxt = nw ? `শিগগিরই আরও ${BN(nw)}টি ${U}` : '';
+  const stats = EN ? (n ? `${n} ${A.EU(n)}` + (useGroups ? ` · ${groupsText(A, gotGroups)}` : '') : `Pick ${A.EU(2)} on the map`) : n ? `${BN(n)}টি ${U}` + (useGroups ? ` · ${groupsText(A, gotGroups)}` : '') : `ম্যাপে ${U} বেছে নিন`;
+  const wishTxt = nw ? (EN ? `${nw} more ${A.EU(nw)} coming soon` : `শিগগিরই আরও ${BN(nw)}টি ${U}`) : '';
 
   /* ---------- measure: header ---------- */
   const Ls = Z.logo, Lw = logoBoxW(A, Ls), totStr = counterSuffix(A);
-  c.font = F(700, Z.num); const numRef = c.measureText(BN(TOTAL).replace(/./g, '৮')); const numCap = numRef.actualBoundingBoxAscent || Z.num * .72;
+  c.font = F(700, Z.num); const numRef = c.measureText(EN ? String(TOTAL).replace(/./g, '8') : BN(TOTAL).replace(/./g, '৮')); const numCap = numRef.actualBoundingBoxAscent || Z.num * .72;
   c.font = F(600, Z.num * .34); const totW = c.measureText(totStr).width; const counterW = numRef.width + 8 * u + totW;
   const hookText = (S.hook || '').trim() || C.hook;
   const counterRow = fmt === 'story'; /* story: the counter gets its own row so the headline can run wider */
@@ -321,10 +399,10 @@ function headline(c, W, H, opts, A){
   let placed = [], skipped = [];
   if(S.labelMode !== 'none'){
     const items = [];
-    if(home && !A.vis('bd')) items.push({ id: 'bd', text: home.bn, ax: X(home), ay: Y0(home), tiny: true, w: 700, col: K.brandText });
+    if(home && !A.vis('bd')) items.push({ id: 'bd', text: enName(A, home), ax: X(home), ay: Y0(home), tiny: true, w: 700, col: K.brandText });
     visited.forEach(d => items.push({ id: d.id, text: nameOf(d), ax: X(d), ay: Y0(d), tiny: !!d.tiny, w: 700, col: K.deep, v: true, d }));
-    A.DISTRICTS.filter(d => !A.vis(d.id) && A.wishv(d.id)).sort((a, b) => b.a - a.a).forEach(d => items.push({ id: d.id, text: d.bn, ax: X(d), ay: Y0(d), tiny: !!d.tiny, w: 600, col: K.ink, d }));
-    if(S.labelMode === 'all') A.DISTRICTS.filter(d => !A.vis(d.id) && !A.wishv(d.id)).sort((a, b) => b.a - a.a).forEach(d => items.push({ id: d.id, text: d.bn, ax: X(d), ay: Y0(d), tiny: !!d.tiny, w: 500, col: K.muted, d }));
+    A.DISTRICTS.filter(d => !A.vis(d.id) && A.wishv(d.id)).sort((a, b) => b.a - a.a).forEach(d => items.push({ id: d.id, text: enName(A, d), ax: X(d), ay: Y0(d), tiny: !!d.tiny, w: 600, col: K.ink, d }));
+    if(S.labelMode === 'all') A.DISTRICTS.filter(d => !A.vis(d.id) && !A.wishv(d.id)).sort((a, b) => b.a - a.a).forEach(d => items.push({ id: d.id, text: enName(A, d), ax: X(d), ay: Y0(d), tiny: !!d.tiny, w: 500, col: K.muted, d }));
     const bounds = { x0: Math.max(10 * u, mx - 14 * u, side ? P + colW + 6 * u : 0), y0: -16 * u, x1: Math.min(W - 10 * u, mx + mapW + 14 * u), y1: mapH + 12 * u };
     placed = placeLabels(c, A, items, { s, x: mx, y: 0 }, bounds, u, fs, obstacles);
     skipped = items.filter(it => it.skipped && it.v);
@@ -398,20 +476,20 @@ function headline(c, W, H, opts, A){
     const x0 = P; let yy = my + numCap;
     drawCounter(c, F, x0, yy, Z.num, BN(n), totStr, K, 'left', u);
     const K0 = A.KINDS && A.KINDS[S.kind]; c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.font = F(600, Z.row * .82); c.fillStyle = K.ink;
-    const cap = n && K0 && K0.foot ? K0.foot(n) : `ম্যাপে ${U} বেছে নিন`;
+    const cap = n && K0 && K0.foot ? K0.foot(n) : EN ? `Pick ${A.EU(2)} on the map` : `ম্যাপে ${U} বেছে নিন`;
     yy += Z.row * 1.45; wrap(c, cap, colW).slice(0, 2).forEach((l, i) => { if(i) yy += Z.row * 1.05; c.fillText(l, x0, yy); });
     if(useGroups && n){ yy += Z.row * .95; c.font = F(500, Z.row * .7); c.fillStyle = K.muted; c.fillText(groupsText(A, gotGroups), x0, yy); }
     const listBottom = my + mapH; yy += Z.row * 1.1;
     if(useGroups && S.showDiv !== false){
       const rows = groups.map(g => { const all = A.DISTRICTS.filter(d => d.div === g.id); return { g, tot: all.length, got: all.filter(d => A.vis(d.id)).length }; }).sort((a, b) => (b.got / b.tot - a.got / a.tot) || (b.got - a.got));
       const rh = clamp((listBottom - yy) / rows.length, 30 * u, 46 * u);
-      for(const r of rows){ if(yy + rh > listBottom + 4 * u) break; const by = yy + rh * .52; c.font = F(r.got ? 600 : 500, Z.row * .7); c.fillStyle = r.got ? K.ink : K.muted; c.textAlign = 'left'; c.fillText(ellipsize(c, r.g.bn, colW * .62), x0, by); c.textAlign = 'right'; c.font = F(700, Z.row * .7); c.fillStyle = r.got ? K.brandText : K.muted; c.fillText(`${BN(r.got)}/${BN(r.tot)}`, x0 + colW, by);
+      for(const r of rows){ if(yy + rh > listBottom + 4 * u) break; const by = yy + rh * .52; c.font = F(r.got ? 600 : 500, Z.row * .7); c.fillStyle = r.got ? K.ink : K.muted; c.textAlign = 'left'; c.fillText(ellipsize(c, enName(A, r.g), colW * .62), x0, by); c.textAlign = 'right'; c.font = F(700, Z.row * .7); c.fillStyle = r.got ? K.brandText : K.muted; c.fillText(`${BN(r.got)}/${BN(r.tot)}`, x0 + colW, by);
         const bh = 5 * u, bby = by + 9 * u; rr(c, x0, bby, colW, bh, bh / 2); c.fillStyle = K.land; c.fill(); if(r.got){ rr(c, x0, bby, Math.max(bh, colW * r.got / r.tot), bh, bh / 2); c.fillStyle = K.brand; c.fill(); } yy += rh; }
       c.textAlign = 'left';
     } else if(n){
       const rh = 34 * u; let i = 0; c.textAlign = 'left';
       for(; i < visited.length; i++){ if(yy + rh * (i < visited.length - 1 ? 2 : 1) > listBottom + 4 * u) break; const d = visited[i], by = yy + rh * .6; c.beginPath(); c.arc(x0 + 6 * u, by - 6 * u, 5 * u, 0, Math.PI * 2); c.fillStyle = fillOf(d); c.fill(); c.fillStyle = K.ink; c.font = F(600, Z.row * .72); c.fillText(ellipsize(c, nameOf(d), colW - 22 * u), x0 + 20 * u, by); yy += rh; }
-      if(i < visited.length){ c.font = F(600, Z.row * .68); c.fillStyle = K.muted; c.fillText(`+${BN(visited.length - i)} আরও`, x0 + 20 * u, yy + rh * .6); }
+      if(i < visited.length){ c.font = F(600, Z.row * .68); c.fillStyle = K.muted; c.fillText(EN ? `+${visited.length - i} more` : `+${BN(visited.length - i)} আরও`, x0 + 20 * u, yy + rh * .6); }
     }
   }
 
@@ -441,8 +519,9 @@ function headline(c, W, H, opts, A){
     if(cards) cardsY = py - pg + cards.top;
   } else if(skipLine){
     const nm = skipped.map(x => x.text); c.font = F(500, Z.row * .66); c.fillStyle = K.muted; c.textAlign = 'left'; c.textBaseline = 'alphabetic';
-    let k = nm.length, line = 'ম্যাপে আরও: ' + nm.join(', ');
-    while(c.measureText(line).width > cw && k > 1){ k--; line = `ম্যাপে আরও: ${nm.slice(0, k).join(', ')} +${BN(nm.length - k)}`; }
+    const also = EN ? 'Also on the map: ' : 'ম্যাপে আরও: ';
+    let k = nm.length, line = also + nm.join(', ');
+    while(c.measureText(line).width > cw && k > 1){ k--; line = `${also}${nm.slice(0, k).join(', ')} +${BN(nm.length - k)}`; }
     c.fillText(line, P, yb + Z.row * 1.15 + gapMid);
   }
 
@@ -450,8 +529,8 @@ function headline(c, W, H, opts, A){
     const cwc = (cw - (cards.cols - 1) * cards.cg) / cards.cols;
     groups.forEach((g, i) => { const all = A.DISTRICTS.filter(d => d.div === g.id), got = all.filter(d => A.vis(d.id)).length; const x = P + (i % cards.cols) * (cwc + cards.cg), y2 = cardsY + Math.floor(i / cards.cols) * (cards.chH + cards.cg);
       c.save(); c.shadowColor = alpha(K.deep, K.dark ? .25 : .06); c.shadowBlur = 18 * u; c.shadowOffsetY = 4 * u; rr(c, x, y2, cwc, cards.chH, 20 * u); c.fillStyle = K.band; c.fill(); c.restore();
-      c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.font = F(600, 22 * u); c.fillStyle = got ? K.ink : K.muted; c.fillText(ellipsize(c, g.bn, cwc - 36 * u), x + 18 * u, y2 + 33 * u);
-      c.font = F(700, 40 * u); c.fillStyle = got ? K.brandText : K.muted; c.fillText(BN(got), x + 18 * u, y2 + 74 * u); const gw = c.measureText(BN(got)).width; c.font = F(600, 19 * u); c.fillStyle = K.muted; c.fillText(CFG.map === 'bd' ? '/' + BN(all.length) : `টি ${U}`, x + 24 * u + gw, y2 + 74 * u);
+      c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.font = F(600, 22 * u); c.fillStyle = got ? K.ink : K.muted; c.fillText(ellipsize(c, enName(A, g), cwc - 36 * u), x + 18 * u, y2 + 33 * u);
+      c.font = F(700, 40 * u); c.fillStyle = got ? K.brandText : K.muted; c.fillText(BN(got), x + 18 * u, y2 + 74 * u); const gw = c.measureText(BN(got)).width; c.font = F(600, 19 * u); c.fillStyle = K.muted; c.fillText(CFG.map === 'bd' ? '/' + BN(all.length) : EN ? A.EU(got) : `টি ${U}`, x + 24 * u + gw, y2 + 74 * u);
       const bw = cwc * .34, bx = x + cwc - 18 * u - bw, byy = y2 + 64 * u; rr(c, bx, byy, bw, 7 * u, 3.5 * u); c.fillStyle = K.land; c.fill(); if(got){ rr(c, bx, byy, Math.max(7 * u, bw * got / all.length), 7 * u, 3.5 * u); c.fillStyle = K.brand; c.fill(); } });
   }
 
@@ -483,7 +562,7 @@ function drawLogo(c, A, x, y, bw, s, K, u, opts, name){
   }
   if(opts.interactive){ /* preview only: a hint where the logo goes */
     c.save(); A.rr(c, x, y, s, s, r); c.fillStyle = alpha('#FFFFFF', K.dark ? .06 : .6); c.fill(); c.setLineDash([7 * u, 6 * u]); c.lineWidth = 2.5 * u; c.strokeStyle = alpha(K.muted, .6); c.stroke(); c.restore();
-    c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = K.muted; c.font = A.F(500, s * .36); c.fillText('+', x + s / 2, y + s * .4); c.font = A.F(600, s * .14); c.fillText('আপনার লোগো', x + s / 2, y + s * .68);
+    c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = K.muted; c.font = A.F(500, s * .36); c.fillText('+', x + s / 2, y + s * .4); c.font = A.F(600, s * .14); c.fillText(EN ? 'Your logo' : 'আপনার লোগো', x + s / 2, y + s * .68);
   }
 }
 
@@ -519,7 +598,7 @@ function drawBand(c, A, W, H, u, Z, K, C, fmt, B){
 }
 
 function drawCredit(c, A, cx, cy, px, K){
-  const F = A.F; const t1 = 'ঘুরে দেখা বাংলাদেশ', t2 = A.SITE_LABEL + (A.CFG.path || '');
+  const F = A.F; const t1 = EN ? 'Ghure Dekha Bangladesh' : 'ঘুরে দেখা বাংলাদেশ', t2 = A.SITE_LABEL + (A.CFG.path || '');
   c.font = F(700, px); const w1 = c.measureText(t1).width; c.font = F(500, px); const sep = '  ·  '; const ws = c.measureText(sep).width, w2 = c.measureText(t2).width;
   const ld = A.LOGO_OK ? px * 1.5 : 0, lg = A.LOGO_OK ? px * .5 : 0; let x = cx - (ld + lg + w1 + ws + w2) / 2;
   c.save(); c.globalAlpha = .85;
@@ -534,8 +613,8 @@ LAYOUTS.headline = headline;
 /* building blocks for the other designs (/biz-formats.js) */
 LAYOUTS._kit = { clamp, graphemes, hex6, rgbOf, toHex, mixHex, alpha, relLum, contrast, readable, rgb2hsl, hsl2hex, palette, genitive, copyFor, initials,
   bboxes, shades, logoContent, logoBoxW, fit, ellipsize, wrap, layoutHeadline, pillRows, placeLabels, drawCounter, drawLogo, drawBadge, badgeRow, BADGE_K,
-  homeOf, counterSuffix, groupsText, drawBase, scratch };
+  homeOf, counterSuffix, groupsText, drawBase, scratch, useLang, en: () => EN, enName, PAGE_EN };
 /* the editor panel shows these as placeholders */
 headline.defaults = A => copyFor(A);
-headline.label = 'হেডলাইন';
+headline.label = PAGE_EN ? 'Headline' : 'হেডলাইন';
 })();

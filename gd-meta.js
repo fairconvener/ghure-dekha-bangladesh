@@ -6,12 +6,16 @@
  * Nothing personal is sent: no names, photos or place lists - only counts, the page type and a guide's district slug.
  * Other code can send its own event: window.gdTrack('EventName', {key: 'value'}).
  * Visitors can switch tracking off on /privacy (localStorage gd-no-track = 1).
+ * English pages live under /en (/en, /en/jela/x ...): the page type is the same as the Bangla twin's and every event
+ * carries lang: 'bn' or 'en'.
  */
 (function () {
   'use strict';
   if (window.gdTrack) return;
   var PIXEL_ID = '1625497289119639';
-  var path = location.pathname.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
+  var raw = location.pathname.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
+  var LANG = /^\/en(\/|$)/.test(raw) ? 'en' : 'bn';
+  var path = LANG === 'en' ? (raw.slice(3) || '/') : raw;  // the Bangla twin's path decides the page type
   var PAGE = path === '/' || path === '/index' ? 'bd'
     : /^\/m\//.test(path) ? 'shared'
     : /^\/jela\/[^/]+/.test(path) ? 'guide'
@@ -19,11 +23,11 @@
 
   // every page that uses the pixel links to the privacy page
   function privacyLink() {
-    if (PAGE === 'privacy' || document.querySelector('a[href="/privacy"]')) return;
+    if (PAGE === 'privacy' || document.querySelector('a[href="/privacy"],a[href="/en/privacy"]')) return;
     var f = document.querySelector('footer'); if (!f) return;
     var box = f.querySelector('.wrap') || f, d = document.createElement('div');
     d.className = 'gd-privacy';
-    d.innerHTML = '<a href="/privacy" style="color:inherit">প্রাইভেসি ও কুকি নীতি</a>';
+    d.innerHTML = LANG === 'en' ? '<a href="/en/privacy" style="color:inherit">Privacy and cookie policy</a>' : '<a href="/privacy" style="color:inherit">প্রাইভেসি ও কুকি নীতি</a>';
     box.appendChild(d);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', privacyLink); else privacyLink();
@@ -47,7 +51,7 @@
   }
   function track(name, params, onceKey) {
     if (onceKey && seen(onceKey)) return;
-    var p = { page: PAGE }, k;
+    var p = { page: PAGE, lang: LANG }, k;
     params = params || {};
     for (k in params) if (params[k] !== undefined && params[k] !== null) p[k] = params[k];
     try { fbq('trackCustom', name, p, { eventID: name + '.' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7) }); } catch (e) {}

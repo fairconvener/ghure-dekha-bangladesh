@@ -1,0 +1,143 @@
+# ঘুরে দেখা বাংলাদেশ (Ghure Dekha Bangladesh)
+
+> বাংলাদেশ ভ্রমণের ফ্রি বাংলা ওয়েবসাইট: ৬৪ জেলার ভ্রমণ গাইড, ঢাকা থেকে ট্রেনের সময়সূচি, ট্রিপ প্ল্যানার, আর যে জেলাগুলোতে ঘুরেছেন সেগুলোতে টিক দিয়ে নিজের ভ্রমণ ম্যাপ-পোস্টার বানানোর টুল। A free Bangla-language travel site for Bangladesh: travel guides for all 64 districts, Dhaka train timetables from Bangladesh Railway, a trip planner, and a map-poster maker for the districts (and countries) you have visited.
+
+সাইটের ভাষা বাংলা; ঠিকানা ghuredekhabangladesh.com (ghuredekha.com-এও খোলে)। ম্যাপ বানাতে অ্যাকাউন্ট লাগে না। প্রতিটি জেলা গাইডে আছে: কী দেখবেন (দর্শনীয় জায়গা), ঢাকা থেকে কীভাবে যাবেন, কোথায় থাকবেন, কী খাবেন, কখন যাবেন, কত দিন লাগে, টিপস আর সাধারণ প্রশ্নের উত্তর।
+
+English summary: each district guide (/jela/<district>) covers places to see, how to get there from Dhaka, where to stay (hotel prices are estimates), local food, the best season, how many days to plan and tips. The train pages (/train/dhaka-<place>) list every direct train from Dhaka (Kamalapur) with number, departure, arrival, travel time and weekly off day, from the Bangladesh Railway e-ticket timetable fetched on 6 October 2026.
+
+## মূল অংশ (Main sections)
+
+- [৬৪ জেলার ভ্রমণ গাইড](https://ghuredekhabangladesh.com/jela): প্রতিটি জেলায় কী দেখবেন, কীভাবে যাবেন, কোথায় থাকবেন, কী খাবেন, কখন যাবেন (travel guides for all 64 districts)
+- [ঢাকা থেকে ট্রেনের সময়সূচি](https://ghuredekhabangladesh.com/train): ঢাকা থেকে ৩৭টি গন্তব্যের সরাসরি ট্রেন, ছাড়ার ও পৌঁছানোর সময়, সাপ্তাহিক বন্ধ (Dhaka train timetables)
+- [ট্রিপ প্ল্যানার](https://ghuredekhabangladesh.com/plan): জেলা বেছে নিলে ম্যাপে রুট, কোন ট্রেন কখন ছাড়ে, দিনভাগ আর আনুমানিক খরচ (trip planner)
+- [৬৪ জেলার ম্যাপ মেকার](https://ghuredekhabangladesh.com/): যে জেলাগুলোতে গিয়েছেন টিক দিন, নাম আর ছবি বসিয়ে নিজের ভ্রমণ ম্যাপ নামান; ফ্রি (Bangladesh travel map poster maker)
+- [নিজের জেলার উপজেলা ম্যাপ](https://ghuredekhabangladesh.com/zila): ৬৪ জেলার যেকোনোটার উপজেলাগুলো নিয়ে ভ্রমণ ম্যাপ (district upazila maps)
+- [উপজেলা ম্যাপ](https://ghuredekhabangladesh.com/upazila): সারা দেশের ৫৪৫ উপজেলা ও মেট্রো থানার ভ্রমণ ম্যাপ (all upazilas)
+- [পার্টনার গ্রুপ ট্যুর: পরিব্রাজক](https://ghuredekhabangladesh.com/g/poribrajok): ঢাকা থেকে গ্রুপ ট্যুর প্যাকেজ: সিলেট: সাদাপাথর, ভোলাগঞ্জ, রাতারগুল আর চা বাগান, ৳১,৩৫০ জনপ্রতি (পরিব্রাজক); শ্রীমঙ্গল: লাউয়াছড়া, মাধবপুর লেক আর চা বাগান, ৳১,৫৫০ জনপ্রতি (পরিব্রাজক); বুকিং হোয়াটসঅ্যাপে (partner group tours)
+- [সব জেলা গাইড ও ট্রেনের সময় এক ফাইলে](https://ghuredekhabangladesh.com/llms-full.txt): ৬৪ জেলার পুরো গাইড আর ঢাকা থেকে সব ট্রেনের সময়, Markdown-এ (full text for AI assistants)
+
+## তথ্যের উৎস (Data sources)
+
+- জেলা ও উপজেলার সীমানা: geoBoundaries (CC BY 4.0); বাংলাদেশ পরিসংখ্যান ব্যুরো (BBS) ও OCHA, ২০২৩ (CC BY 3.0 IGO). District and upazila boundaries: geoBoundaries and BBS/OCHA.
+- ট্রেনের সময়: বাংলাদেশ রেলওয়ের ই-টিকিট সময়সূচি (eticket.railway.gov.bd), সংগ্রহ ৬ অক্টোবর ২০২৬; যাত্রার আগে মিলিয়ে নিন। Train times: Bangladesh Railway e-ticket timetable, fetched 6 October 2026.
+- জেলা গাইড: এই সাইটের জন্য লেখা, সর্বশেষ আপডেট অক্টোবর ২০২৬; হোটেলের ভাড়া আনুমানিক। District guides: written for this site, updated October 2026; hotel prices are estimates.
+- গাইডের ঢাকা থেকে ট্রেনের তালিকা: বাংলা উইকিপিডিয়ার যাত্রীবাহী ট্রেনের তালিকা। The train list on each guide: Bangla Wikipedia list of passenger trains.
+
+## জেলা গাইড (District travel guides)
+
+- [কিশোরগঞ্জ (Kishoreganj)](https://ghuredekhabangladesh.com/jela/kishoreganj): ঢাকা বিভাগ; দেখার জায়গা: এগারোসিন্দুর, নিকলী হাওর, ইটনার হাওর ও অষ্টগ্রাম এবং আরও ২টি; সেরা সময় জুন-অক্টোবর (বর্ষায় হাওর), নভেম্বর-ফেব্রুয়ারি
+- [গাজীপুর (Gazipur)](https://ghuredekhabangladesh.com/jela/gazipur): ঢাকা বিভাগ; দেখার জায়গা: ভাওয়াল জাতীয় উদ্যান, বঙ্গবন্ধু সাফারি পার্ক, রাজেন্দ্রপুর জাতীয় উদ্যান ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [গোপালগঞ্জ (Gopalganj)](https://ghuredekhabangladesh.com/jela/gopalganj): ঢাকা বিভাগ; দেখার জায়গা: বঙ্গবন্ধুর সমাধিসৌধ, টুঙ্গিপাড়া, ওড়াকান্দি ঠাকুরবাড়ি, উজানী জমিদারবাড়ি ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [টাঙ্গাইল (Tangail)](https://ghuredekhabangladesh.com/jela/tangail): ঢাকা বিভাগ; দেখার জায়গা: আতিয়া মসজিদ, মধুপুর জাতীয় উদ্যান, ধনবাড়ী নবাববাড়ী ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [ঢাকা (Dhaka)](https://ghuredekhabangladesh.com/jela/dhaka): ঢাকা বিভাগ; দেখার জায়গা: লালবাগ কেল্লা, আহসান মঞ্জিল, জাতীয় সংসদ ভবন ও আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [নরসিংদী (Narsingdi)](https://ghuredekhabangladesh.com/jela/narsingdi): ঢাকা বিভাগ; দেখার জায়গা: উয়ারী-বটেশ্বর, শিবপুরের বাসন্তী ও বেলাব, হাতিরদিয়া ও মাধবদীর তাঁতপল্লী এবং আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [নারায়ণগঞ্জ (Narayanganj)](https://ghuredekhabangladesh.com/jela/narayanganj): ঢাকা বিভাগ; দেখার জায়গা: সোনারগাঁও পানাম নগর, লোকশিল্প জাদুঘর (সোনারগাঁও), গিয়াসউদ্দিন আযম শাহের মাজার ও আরও ২টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [ফরিদপুর (Faridpur)](https://ghuredekhabangladesh.com/jela/faridpur): ঢাকা বিভাগ; দেখার জায়গা: বাইশরশি জমিদারবাড়ি (সদরপুর), পদ্মা নদীর ঘাট, কবি জসীমউদ্দীনের বাড়ি (অম্বিকাপুর) ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [মাদারীপুর (Madaripur)](https://ghuredekhabangladesh.com/jela/madaripur): ঢাকা বিভাগ; দেখার জায়গা: শকুনি লেক, আউলিয়াপুর নীলকুঠি, হযরত শাহ মাদার (রহ.) দরগাহ ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [মানিকগঞ্জ (Manikganj)](https://ghuredekhabangladesh.com/jela/manikganj): ঢাকা বিভাগ; দেখার জায়গা: বালিয়াটি জমিদারবাড়ি, তেওতা জমিদারবাড়ি, ধানকোড়া জমিদারবাড়ি (সাটুরিয়া) ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [মুন্সীগঞ্জ (Munshiganj)](https://ghuredekhabangladesh.com/jela/munshiganj): ঢাকা বিভাগ; দেখার জায়গা: ইদ্রাকপুর কেল্লা, মাওয়া ঘাট ও পদ্মা সেতু, বিক্রমপুর জাদুঘর এবং আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [রাজবাড়ী (Rajbari)](https://ghuredekhabangladesh.com/jela/rajbari): ঢাকা বিভাগ; দেখার জায়গা: গোয়ালন্দ ঘাট, দৌলতদিয়া ঘাট, নলিয়া জোড়া মন্দির ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [শরীয়তপুর (Shariatpur)](https://ghuredekhabangladesh.com/jela/shariatpur): ঢাকা বিভাগ; দেখার জায়গা: পদ্মা সেতুর জাজিরা প্রান্ত, মহিষারের দিঘি, রুদ্রকর জমিদারবাড়ি ও মঠ এবং আরও ২টি; সেরা সময় সেপ্টেম্বর-নভেম্বর (ইলিশ মৌসুম), অক্টোবর-মার্চ
+- [কক্সবাজার (Cox's Bazar)](https://ghuredekhabangladesh.com/jela/coxs-bazar): চট্টগ্রাম বিভাগ; দেখার জায়গা: কক্সবাজার সমুদ্র সৈকত, ইনানী, হিমছড়ি ও আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [কুমিল্লা (Cumilla)](https://ghuredekhabangladesh.com/jela/cumilla): চট্টগ্রাম বিভাগ; দেখার জায়গা: ময়নামতি শালবন বিহার, ময়নামতি জাদুঘর, কোটিলা মুড়া ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [খাগড়াছড়ি (Khagrachhari)](https://ghuredekhabangladesh.com/jela/khagrachhari): চট্টগ্রাম বিভাগ; দেখার জায়গা: আলুটিলা গুহা, রিছাং ঝরনা, সাজেক ভ্যালি ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ, বর্ষায় ঝরনা দেখতে জুলাই-সেপ্টেম্বর
+- [চট্টগ্রাম (Chattogram)](https://ghuredekhabangladesh.com/jela/chattogram): চট্টগ্রাম বিভাগ; দেখার জায়গা: পতেঙ্গা সমুদ্র সৈকত, ফয়'স লেক, বাটালী হিল ও ওয়ার সিমেট্রি এবং আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [চাঁদপুর (Chandpur)](https://ghuredekhabangladesh.com/jela/chandpur): চট্টগ্রাম বিভাগ; দেখার জায়গা: মেঘনা-পদ্মার মোহনা, চাঁদপুর ইলিশ বাজার, শাহ্‌ মাহমুদ বাজার ও নদীপাড়ের বিকেল এবং আরও ৩টি; সেরা সময় সেপ্টেম্বর-নভেম্বর (ইলিশ), অক্টোবর-মার্চ
+- [নোয়াখালী (Noakhali)](https://ghuredekhabangladesh.com/jela/noakhali): চট্টগ্রাম বিভাগ; দেখার জায়গা: নিঝুম দ্বীপ, হাতিয়া দ্বীপ, সুবর্ণচর ও আরও ২টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [ফেনী (Feni)](https://ghuredekhabangladesh.com/jela/feni): চট্টগ্রাম বিভাগ; দেখার জায়গা: মুহুরী প্রজেক্ট (সোনাগাজী), ফেনী নদী, শহীদ মিনার ও মুক্তিযুদ্ধ স্মৃতিস্তম্ভ এবং আরও ৬টি; সেরা সময় অক্টোবর-মার্চ
+- [বান্দরবান (Bandarban)](https://ghuredekhabangladesh.com/jela/bandarban): চট্টগ্রাম বিভাগ; দেখার জায়গা: নীলগিরি, নাফাখুম জলপ্রপাত, বগালেক ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ, বর্ষায় জলপ্রপাত দেখতে জুলাই-সেপ্টেম্বর
+- [ব্রাহ্মণবাড়িয়া (Brahmanbaria)](https://ghuredekhabangladesh.com/jela/brahmanbaria): চট্টগ্রাম বিভাগ; দেখার জায়গা: তিতাস নদী, আখাউড়া স্থলবন্দর ও রেলজংশন, বিজয় স্মৃতিসৌধ ও আখাউড়ার যুদ্ধক্ষেত্র এবং আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [রাঙ্গামাটি (Rangamati)](https://ghuredekhabangladesh.com/jela/rangamati): চট্টগ্রাম বিভাগ; দেখার জায়গা: কাপ্তাই হ্রদ, ঝুলন্ত সেতু, শুভলং ঝর্ণা ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ, বর্ষায় হ্রদ সবুজ
+- [লক্ষ্মীপুর (Lakshmipur)](https://ghuredekhabangladesh.com/jela/lakshmipur): চট্টগ্রাম বিভাগ; দেখার জায়গা: মেঘনা নদীর তীর ও চর, মজুচৌধুরীর হাট ও রায়পুর, রামগতির উপকূল (চর আলেকজান্ডার) এবং আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [চাঁপাইনবাবগঞ্জ (Chapainawabganj)](https://ghuredekhabangladesh.com/jela/chapainawabganj): রাজশাহী বিভাগ; দেখার জায়গা: ছোট সোনা মসজিদ, কোতোয়ালি দরজা, শিবগঞ্জের আমবাগান ও আরও ২টি; সেরা সময় মে-জুলাই (আমের মৌসুম), নভেম্বর-ফেব্রুয়ারি
+- [জয়পুরহাট (Joypurhat)](https://ghuredekhabangladesh.com/jela/joypurhat): রাজশাহী বিভাগ; দেখার জায়গা: আছরাঙ্গা দিঘি, নান্দাইল দিঘি, হিন্দা-কসবা শাহী মসজিদ ও আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [নওগাঁ (Naogaon)](https://ghuredekhabangladesh.com/jela/naogaon): রাজশাহী বিভাগ; দেখার জায়গা: পাহাড়পুর বৌদ্ধ বিহার, কুসুম্বা মসজিদ, আলতাদীঘি জাতীয় উদ্যান ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [নাটোর (Natore)](https://ghuredekhabangladesh.com/jela/natore): রাজশাহী বিভাগ; দেখার জায়গা: উত্তরা গণভবন, নাটোর রাজবাড়ী, চলনবিল ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [পাবনা (Pabna)](https://ghuredekhabangladesh.com/jela/pabna): রাজশাহী বিভাগ; দেখার জায়গা: হার্ডিঞ্জ ব্রিজ ও লালন শাহ সেতু, সৎসঙ্গ আশ্রম, হেমায়েতপুর, পাবনা জোড় বাংলা মন্দির এবং আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [বগুড়া (Bogura)](https://ghuredekhabangladesh.com/jela/bogura): রাজশাহী বিভাগ; দেখার জায়গা: মহাস্থানগড়, গোকুল মেধ, ভাসু বিহার ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [রাজশাহী (Rajshahi)](https://ghuredekhabangladesh.com/jela/rajshahi): রাজশাহী বিভাগ; দেখার জায়গা: পুঠিয়া মন্দির কমপ্লেক্স, বরেন্দ্র জাদুঘর, পদ্মা গার্ডেন ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [সিরাজগঞ্জ (Sirajganj)](https://ghuredekhabangladesh.com/jela/sirajganj): রাজশাহী বিভাগ; দেখার জায়গা: শাহজাদপুর রবীন্দ্র কাছারিবাড়ি, বঙ্গবন্ধু যমুনা সেতু, মখদুম শাহ দৌলা (রহ.) মাজার ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [কুষ্টিয়া (Kushtia)](https://ghuredekhabangladesh.com/jela/kushtia): খুলনা বিভাগ; দেখার জায়গা: লালন শাহের মাজার, ছেঁউড়িয়া, শিলাইদহ রবীন্দ্র কুঠিবাড়ি, হার্ডিঞ্জ ব্রিজ ও লালন শাহ সেতু এবং আরও ৩টি; সেরা সময় অক্টোবর-মার্চ (লালন উৎসব অক্টোবর ও মার্চে)
+- [খুলনা (Khulna)](https://ghuredekhabangladesh.com/jela/khulna): খুলনা বিভাগ; দেখার জায়গা: সুন্দরবন (করমজল), হিরণ পয়েন্ট ও কটকা, রূপসা সেতু ও নদীতীর এবং আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি (সুন্দরবনের জন্য সেরা)
+- [চুয়াডাঙ্গা (Chuadanga)](https://ghuredekhabangladesh.com/jela/chuadanga): খুলনা বিভাগ; দেখার জায়গা: দর্শনা স্থলবন্দর ও কেরু অ্যান্ড কোম্পানি, ঘোলদাড়ি মসজিদ, মাথাভাঙ্গা নদী এবং আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [ঝিনাইদহ (Jhenaidah)](https://ghuredekhabangladesh.com/jela/jhenaidah): খুলনা বিভাগ; দেখার জায়গা: নলডাঙ্গা রাজবাড়ি, মিয়ার দালান, গলাকাটা দিঘি ও বারোবাজার মসজিদ এবং আরও ২টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [নড়াইল (Narail)](https://ghuredekhabangladesh.com/jela/narail): খুলনা বিভাগ; দেখার জায়গা: এস এম সুলতান স্মৃতি সংগ্রহশালা, চিত্রা নদী, নিরিবিলি পিকনিক স্পট ও আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি (সুলতান মেলা জানুয়ারিতে)
+- [বাগেরহাট (Bagerhat)](https://ghuredekhabangladesh.com/jela/bagerhat): খুলনা বিভাগ; দেখার জায়গা: ষাট গম্বুজ মসজিদ, খান জাহান আলী (রহ.) মাজার ও ঠাকুর দিঘি, নয় গম্বুজ মসজিদ এবং আরও ৩টি; সেরা সময় নভেম্বর-মার্চ
+- [মাগুরা (Magura)](https://ghuredekhabangladesh.com/jela/magura): খুলনা বিভাগ; দেখার জায়গা: সিদ্ধেশ্বরী মঠ, গড়াই সেতু ও নদীতীর, রাজা সীতারাম রায়ের রাজবাড়ি এবং আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [মেহেরপুর (Meherpur)](https://ghuredekhabangladesh.com/jela/meherpur): খুলনা বিভাগ; দেখার জায়গা: মুজিবনগর স্মৃতিসৌধ ও কমপ্লেক্স, আমঝুপি নীলকুঠি, ভাটপাড়া নীলকুঠি এবং আরও ২টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি; আমের জন্য মে-জুন
+- [যশোর (Jashore)](https://ghuredekhabangladesh.com/jela/jashore): খুলনা বিভাগ; দেখার জায়গা: সাগরদাঁড়ি, মাইকেল মধুসূদন দত্তের বাড়ি, গদখালী ফুলের বাজার, বেনাপোল স্থলবন্দর ও আরও ২টি; সেরা সময় ডিসেম্বর-ফেব্রুয়ারি (ফুলের মৌসুম)
+- [সাতক্ষীরা (Satkhira)](https://ghuredekhabangladesh.com/jela/satkhira): খুলনা বিভাগ; দেখার জায়গা: সুন্দরবন, কলাগাছিয়া, মান্দারবাড়িয়া সৈকত, জাহাজঘাটা ও হরিনগর এবং আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [ঝালকাঠি (Jhalokati)](https://ghuredekhabangladesh.com/jela/jhalokati): বরিশাল বিভাগ; দেখার জায়গা: ভিমরুলি ভাসমান পেয়ারা বাজার, কীর্তিপাশা জমিদারবাড়ি, সুজাবাদ কেল্লা ও আরও ২টি; সেরা সময় জুলাই-আগস্ট (পেয়ারা), শীতে শহর
+- [পটুয়াখালী (Patuakhali)](https://ghuredekhabangladesh.com/jela/patuakhali): বরিশাল বিভাগ; দেখার জায়গা: কুয়াকাটা সমুদ্র সৈকত, গঙ্গামতির চর ও লাল কাঁকড়ার চর, ফাতরার বন এবং আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [পিরোজপুর (Pirojpur)](https://ghuredekhabangladesh.com/jela/pirojpur): বরিশাল বিভাগ; দেখার জায়গা: ভাসমান বাজার ও পেয়ারা বাগান, স্বরূপকাঠি, রায়েরকাঠি জমিদারবাড়ি, হুলারহাট লঞ্চঘাট ও কচা নদী এবং আরও ২টি; সেরা সময় ভাসমান বাজারের জন্য জুলাই-সেপ্টেম্বর; অন্যথায় শীতকাল
+- [বরগুনা (Barguna)](https://ghuredekhabangladesh.com/jela/barguna): বরিশাল বিভাগ; দেখার জায়গা: হরিণঘাটা বন ও লালদিয়ার চর, শুভ সন্ধ্যা সৈকত, টেংরাগিরি বন্যপ্রাণী অভয়ারণ্য এবং আরও ২টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [বরিশাল (Barishal)](https://ghuredekhabangladesh.com/jela/barishal): বরিশাল বিভাগ; দেখার জায়গা: ভাসমান পেয়ারা বাজার, দুর্গাসাগর দিঘি, গুঠিয়া মসজিদ ও আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি; পেয়ারা বাজার জুলাই-আগস্ট
+- [ভোলা (Bhola)](https://ghuredekhabangladesh.com/jela/bhola): বরিশাল বিভাগ; দেখার জায়গা: চর কুকরি-মুকরি, মনপুরা দ্বীপ, তারুয়া সৈকত ও আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [মৌলভীবাজার (Moulvibazar)](https://ghuredekhabangladesh.com/jela/moulvibazar): সিলেট বিভাগ; দেখার জায়গা: শ্রীমঙ্গল চা বাগান, লাউয়াছড়া জাতীয় উদ্যান, মাধবকুণ্ড জলপ্রপাত ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ (মাধবকুণ্ডের জন্য জুন-সেপ্টেম্বর)
+- [সিলেট (Sylhet)](https://ghuredekhabangladesh.com/jela/sylhet): সিলেট বিভাগ; দেখার জায়গা: জাফলং, রাতারগুল, বিছনাকান্দি ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ (রাতারগুলের জন্য জুন-সেপ্টেম্বর)
+- [সুনামগঞ্জ (Sunamganj)](https://ghuredekhabangladesh.com/jela/sunamganj): সিলেট বিভাগ; দেখার জায়গা: টাঙ্গুয়ার হাওর, নীলাদ্রি লেক, বারেকটিলা ও আরও ৩টি; সেরা সময় জুলাই-অক্টোবর (বর্ষা), নভেম্বর-ফেব্রুয়ারি
+- [হবিগঞ্জ (Habiganj)](https://ghuredekhabangladesh.com/jela/habiganj): সিলেট বিভাগ; দেখার জায়গা: সাতছড়ি জাতীয় উদ্যান, রেমা-কালেঙ্গা অভয়ারণ্য, বানিয়াচং ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [কুড়িগ্রাম (Kurigram)](https://ghuredekhabangladesh.com/jela/kurigram): রংপুর বিভাগ; দেখার জায়গা: চিলমারী নদীবন্দর, ব্রহ্মপুত্রের চর, চান্দামারী মসজিদ ও আরও ২টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [গাইবান্ধা (Gaibandha)](https://ghuredekhabangladesh.com/jela/gaibandha): রংপুর বিভাগ; দেখার জায়গা: বালাসী ঘাট, ফ্রেন্ডশিপ সেন্টার, বর্ধন কুঠি ও আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [ঠাকুরগাঁও (Thakurgaon)](https://ghuredekhabangladesh.com/jela/thakurgaon): রংপুর বিভাগ; দেখার জায়গা: বালিয়াডাঙ্গীর সূর্যপুরী আমগাছ, রামরাই দিঘি, হরিপুর রাজবাড়ি ও আরও ২টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [দিনাজপুর (Dinajpur)](https://ghuredekhabangladesh.com/jela/dinajpur): রংপুর বিভাগ; দেখার জায়গা: কান্তজিউ মন্দির, রামসাগর, নয়াবাদ মসজিদ ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [নীলফামারী (Nilphamari)](https://ghuredekhabangladesh.com/jela/nilphamari): রংপুর বিভাগ; দেখার জায়গা: তিস্তা ব্যারাজ, ডালিয়া, নীলসাগর, চিনি মসজিদ, সৈয়দপুর ও আরও ২টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [পঞ্চগড় (Panchagarh)](https://ghuredekhabangladesh.com/jela/panchagarh): রংপুর বিভাগ; দেখার জায়গা: তেঁতুলিয়া ডাক বাংলো, কাঞ্চনজঙ্ঘা ভিউ পয়েন্ট, বাংলাবান্ধা স্থলবন্দর ও আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [রংপুর (Rangpur)](https://ghuredekhabangladesh.com/jela/rangpur): রংপুর বিভাগ; দেখার জায়গা: তাজহাট জমিদার বাড়ি, কারমাইকেল কলেজ, পায়রাবন্দ, বেগম রোকেয়ার বাড়ি ও আরও ৩টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [লালমনিরহাট (Lalmonirhat)](https://ghuredekhabangladesh.com/jela/lalmonirhat): রংপুর বিভাগ; দেখার জায়গা: তিনবিঘা করিডোর, বুড়িমারী স্থলবন্দর, তিস্তা রেলসেতু ও আরও ২টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [জামালপুর (Jamalpur)](https://ghuredekhabangladesh.com/jela/jamalpur): ময়মনসিংহ বিভাগ; দেখার জায়গা: হযরত শাহ জামাল (রহ.) মাজার, লাউচাপড়া পাহাড়, গান্ধী আশ্রম, সরিষাবাড়ী ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+- [নেত্রকোণা (Netrokona)](https://ghuredekhabangladesh.com/jela/netrokona): ময়মনসিংহ বিভাগ; দেখার জায়গা: বিরিশিরি উপজাতীয় কালচারাল একাডেমি, বিজয়পুর চীনামাটির পাহাড়, সোমেশ্বরী নদী ও আরও ২টি; সেরা সময় নভেম্বর-ফেব্রুয়ারি
+- [ময়মনসিংহ (Mymensingh)](https://ghuredekhabangladesh.com/jela/mymensingh): ময়মনসিংহ বিভাগ; দেখার জায়গা: শশী লজ, আলেকজান্ডার ক্যাসেল, মুক্তাগাছা জমিদার বাড়ি ও আরও ৩টি; সেরা সময় অক্টোবর-মার্চ
+- [শেরপুর (Sherpur)](https://ghuredekhabangladesh.com/jela/sherpur): ময়মনসিংহ বিভাগ; দেখার জায়গা: গজনী অবকাশ কেন্দ্র, মধুটিলা ইকোপার্ক, রাজার পাহাড় ও আরও ২টি; সেরা সময় অক্টোবর-মার্চ
+
+## ঢাকা থেকে ট্রেন (Train timetables from Dhaka)
+
+- [ঢাকা থেকে বগুড়া (Dhaka to Bogura)](https://ghuredekhabangladesh.com/train/dhaka-bogura): ৩টি ট্রেন, দ্রুততম ৬ ঘণ্টা ২৬ মিনিট
+- [ঢাকা থেকে ব্রাহ্মণবাড়িয়া (Dhaka to Brahmanbaria)](https://ghuredekhabangladesh.com/train/dhaka-brahmanbaria): ৮টি ট্রেন, দ্রুততম ১ ঘণ্টা ৫১ মিনিট
+- [ঢাকা থেকে চাঁপাইনবাবগঞ্জ (Dhaka to Chapainawabganj)](https://ghuredekhabangladesh.com/train/dhaka-chapainawabganj): ১টি ট্রেন, দ্রুততম ৫ ঘণ্টা ৪৫ মিনিট
+- [ঢাকা থেকে চট্টগ্রাম (Dhaka to Chattogram)](https://ghuredekhabangladesh.com/train/dhaka-chattogram): ৮টি ট্রেন, দ্রুততম ৪ ঘণ্টা ৪০ মিনিট
+- [ঢাকা থেকে চুয়াডাঙ্গা (Dhaka to Chuadanga)](https://ghuredekhabangladesh.com/train/dhaka-chuadanga): ৩টি ট্রেন, দ্রুততম ৪ ঘণ্টা ২৭ মিনিট
+- [ঢাকা থেকে কক্সবাজার (Dhaka to Cox's Bazar)](https://ghuredekhabangladesh.com/train/dhaka-coxsbazar): ২টি ট্রেন, দ্রুততম ৮ ঘণ্টা ২০ মিনিট
+- [ঢাকা থেকে কুমিল্লা (Dhaka to Cumilla)](https://ghuredekhabangladesh.com/train/dhaka-cumilla): ৫টি ট্রেন, দ্রুততম ৩ ঘণ্টা ৬ মিনিট
+- [ঢাকা থেকে দিনাজপুর (Dhaka to Dinajpur)](https://ghuredekhabangladesh.com/train/dhaka-dinajpur): ৩টি ট্রেন, দ্রুততম ৭ ঘণ্টা ২৮ মিনিট
+- [ঢাকা থেকে ফরিদপুর (Dhaka to Faridpur)](https://ghuredekhabangladesh.com/train/dhaka-faridpur): ৩টি ট্রেন, দ্রুততম ১ ঘণ্টা ৩৯ মিনিট
+- [ঢাকা থেকে ফেনী (Dhaka to Feni)](https://ghuredekhabangladesh.com/train/dhaka-feni): ৪টি ট্রেন, দ্রুততম ৪ ঘণ্টা ১৫ মিনিট
+- [ঢাকা থেকে গাইবান্ধা (Dhaka to Gaibandha)](https://ghuredekhabangladesh.com/train/dhaka-gaibandha): ৩টি ট্রেন, দ্রুততম ৭ ঘণ্টা ৫২ মিনিট
+- [ঢাকা থেকে গাজীপুর (Dhaka to Gazipur)](https://ghuredekhabangladesh.com/train/dhaka-gazipur): ১৫টি ট্রেন, দ্রুততম ৫১ মিনিট
+- [ঢাকা থেকে জামালপুর (Dhaka to Jamalpur)](https://ghuredekhabangladesh.com/train/dhaka-jamalpur): ৫টি ট্রেন, দ্রুততম ৪ ঘণ্টা ৬ মিনিট
+- [ঢাকা থেকে যশোর (Dhaka to Jashore)](https://ghuredekhabangladesh.com/train/dhaka-jashore): ৪টি ট্রেন, দ্রুততম ২ ঘণ্টা ৩০ মিনিট
+- [ঢাকা থেকে জয়পুরহাট (Dhaka to Joypurhat)](https://ghuredekhabangladesh.com/train/dhaka-joypurhat): ৬টি ট্রেন, দ্রুততম ৫ ঘণ্টা ৩১ মিনিট
+- [ঢাকা থেকে খুলনা (Dhaka to Khulna)](https://ghuredekhabangladesh.com/train/dhaka-khulna): ৩টি ট্রেন, দ্রুততম ৩ ঘণ্টা ৪৫ মিনিট
+- [ঢাকা থেকে কিশোরগঞ্জ (Dhaka to Kishoreganj)](https://ghuredekhabangladesh.com/train/dhaka-kishoreganj): ৩টি ট্রেন, দ্রুততম ৩ ঘণ্টা ৪০ মিনিট
+- [ঢাকা থেকে কুড়িগ্রাম (Dhaka to Kurigram)](https://ghuredekhabangladesh.com/train/dhaka-kurigram): ১টি ট্রেন, দ্রুততম ৯ ঘণ্টা ১০ মিনিট
+- [ঢাকা থেকে কুষ্টিয়া (Dhaka to Kushtia)](https://ghuredekhabangladesh.com/train/dhaka-kushtia): ৩টি ট্রেন, দ্রুততম ৩ ঘণ্টা ৩১ মিনিট
+- [ঢাকা থেকে লালমনিরহাট (Dhaka to Lalmonirhat)](https://ghuredekhabangladesh.com/train/dhaka-lalmonirhat): ২টি ট্রেন, দ্রুততম ৯ ঘণ্টা ৩৫ মিনিট
+- [ঢাকা থেকে ময়মনসিংহ (Dhaka to Mymensingh)](https://ghuredekhabangladesh.com/train/dhaka-mymensingh): ৭টি ট্রেন, দ্রুততম ২ ঘণ্টা ৫৫ মিনিট
+- [ঢাকা থেকে নড়াইল (Dhaka to Narail)](https://ghuredekhabangladesh.com/train/dhaka-narail): ২টি ট্রেন, দ্রুততম ১ ঘণ্টা ৫৭ মিনিট
+- [ঢাকা থেকে নরসিংদী (Dhaka to Narsingdi)](https://ghuredekhabangladesh.com/train/dhaka-narsingdi): ৮টি ট্রেন, দ্রুততম ১ ঘণ্টা ৫ মিনিট
+- [ঢাকা থেকে নাটোর (Dhaka to Natore)](https://ghuredekhabangladesh.com/train/dhaka-natore): ৯টি ট্রেন, দ্রুততম ৩ ঘণ্টা ৫৭ মিনিট
+- [ঢাকা থেকে নেত্রকোণা (Dhaka to Netrokona)](https://ghuredekhabangladesh.com/train/dhaka-netrokona): ২টি ট্রেন, দ্রুততম ৪ ঘণ্টা ১৮ মিনিট
+- [ঢাকা থেকে নীলফামারী (Dhaka to Nilphamari)](https://ghuredekhabangladesh.com/train/dhaka-nilphamari): ২টি ট্রেন, দ্রুততম ৮ ঘণ্টা ৫ মিনিট
+- [ঢাকা থেকে নোয়াখালী (Dhaka to Noakhali)](https://ghuredekhabangladesh.com/train/dhaka-noakhali): ১টি ট্রেন, দ্রুততম ৫ ঘণ্টা ৩০ মিনিট
+- [ঢাকা থেকে পঞ্চগড় (Dhaka to Panchagarh)](https://ghuredekhabangladesh.com/train/dhaka-panchagarh): ৩টি ট্রেন, দ্রুততম ১০ ঘণ্টা ২০ মিনিট
+- [ঢাকা থেকে রাজবাড়ী (Dhaka to Rajbari)](https://ghuredekhabangladesh.com/train/dhaka-rajbari): ৩টি ট্রেন, দ্রুততম ২ ঘণ্টা ১৫ মিনিট
+- [ঢাকা থেকে রাজশাহী (Dhaka to Rajshahi)](https://ghuredekhabangladesh.com/train/dhaka-rajshahi): ৫টি ট্রেন, দ্রুততম ৪ ঘণ্টা ১৫ মিনিট
+- [ঢাকা থেকে রংপুর (Dhaka to Rangpur)](https://ghuredekhabangladesh.com/train/dhaka-rangpur): ২টি ট্রেন, দ্রুততম ৭ ঘণ্টা ৫৮ মিনিট
+- [ঢাকা থেকে শায়েস্তাগঞ্জ (Dhaka to Shaistaganj)](https://ghuredekhabangladesh.com/train/dhaka-shaistaganj): ৪টি ট্রেন, দ্রুততম ৩ ঘণ্টা ১৭ মিনিট, হবিগঞ্জ জেলা
+- [ঢাকা থেকে সিরাজগঞ্জ (Dhaka to Sirajganj)](https://ghuredekhabangladesh.com/train/dhaka-sirajganj): ৭টি ট্রেন, দ্রুততম ২ ঘণ্টা ২৬ মিনিট
+- [ঢাকা থেকে শ্রীমঙ্গল (Dhaka to Sreemangal)](https://ghuredekhabangladesh.com/train/dhaka-sreemangal): ৪টি ট্রেন, দ্রুততম ৩ ঘণ্টা ৫৭ মিনিট, মৌলভীবাজার জেলা
+- [ঢাকা থেকে সিলেট (Dhaka to Sylhet)](https://ghuredekhabangladesh.com/train/dhaka-sylhet): ৪টি ট্রেন, দ্রুততম ৬ ঘণ্টা ৩০ মিনিট
+- [ঢাকা থেকে টাঙ্গাইল (Dhaka to Tangail)](https://ghuredekhabangladesh.com/train/dhaka-tangail): ৮টি ট্রেন, দ্রুততম ১ ঘণ্টা ৪৭ মিনিট
+- [ঢাকা থেকে ঠাকুরগাঁও (Dhaka to Thakurgaon)](https://ghuredekhabangladesh.com/train/dhaka-thakurgaon): ৩টি ট্রেন, দ্রুততম ৯ ঘণ্টা ৩ মিনিট
+
+## Optional
+
+- [বিশ্ব ভ্রমণ ম্যাপ](https://ghuredekhabangladesh.com/world): ১৯৫ দেশের যেগুলোতে গিয়েছেন টিক দিয়ে ম্যাপ বানান (world travel map maker)
+- [দেশ ও মহাদেশের ম্যাপ](https://ghuredekhabangladesh.com/countries): দেশের রাজ্য/প্রদেশ আর মহাদেশের দেশ ধরে ভ্রমণ ম্যাপ (country and continent maps)
+- [হজ-উমরা ম্যাপ](https://ghuredekhabangladesh.com/umrah): ছবি দিয়ে ঢাকা থেকে মক্কা-মদিনার স্বপ্নের ম্যাপ (Hajj and Umrah map poster)
+- [কুইজ](https://ghuredekhabangladesh.com/quiz): ম্যাপের আকৃতি বা ছবি দেখে জেলা চেনার খেলা (district quiz)
+- [কোথায় বেশি ঘোরেন](https://ghuredekhabangladesh.com/trend): সাইটের ম্যাপগুলো থেকে কোন জেলায় মানুষ বেশি ঘুরেছে (where visitors have travelled)
+- [ব্যবসার কভারেজ ম্যাপ](https://ghuredekhabangladesh.com/business): শাখা বা সার্ভিস এরিয়ার জেলা টিক দিয়ে লোগোসহ ম্যাপ (business coverage map maker)
+- [স্টাডি অ্যাব্রড এজেন্সির ম্যাপ](https://ghuredekhabangladesh.com/study-abroad): কোন কোন দেশে স্টুডেন্ট পাঠান, তার ম্যাপ (study-abroad agency map maker)
+- [আপনার বাংলাদেশ লেভেল কত? ৬৪ জেলার লেভেল ম্যাপ](https://ghuredekhabangladesh.com/level): ৬৪ জেলার প্রতিটিতে লেভেল দিন: বসবাস, রাত কাটানো, ঘোরা, থামা বা শুধু পার হওয়া। ৩২০-এর মধ্যে আপনার লেভেল কত দেখুন, ছবি বানিয়ে ফেসবুকে শেয়ার করুন। ফ্রি, অ্যাকাউন্ট লাগে না।

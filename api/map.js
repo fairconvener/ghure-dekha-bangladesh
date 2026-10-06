@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   const title = name ? `${name} ${PLACE} ${BN(TOTAL)} ${GEN} মধ্যে ${BN(n)}টি ${UNIT} ঘুরেছেন!` : `${PLACE} ${BN(TOTAL)} ${GEN} মধ্যে ${BN(n)}টি ${UNIT} ঘোরা হয়েছে!`;
   const desc = `${PLACE} ${BN(pct)}% ঘোরা হয়ে গেছে। আপনার কয়টা ${UNIT} হলো? ২ মিনিটে নিজের ভ্রমণ ম্যাপ বানান, ফ্রি।`;
   const url = `${site}/m/${id}`;
-  const share = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+  const share = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&hashtag=${encodeURIComponent('#ঘুরেদেখাবাংলাদেশ')}`;
   const html = `<!doctype html>
 <html lang="bn">
 <head>

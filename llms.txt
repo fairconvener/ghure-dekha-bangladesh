@@ -268,6 +268,7 @@ English summary: each district guide (/jela/<district>) covers places to see, ho
 - [হজ-উমরা ম্যাপ](https://ghuredekhabangladesh.com/umrah): ছবি দিয়ে ঢাকা থেকে মক্কা-মদিনার স্বপ্নের ম্যাপ (Hajj and Umrah map poster)
 - [কুইজ](https://ghuredekhabangladesh.com/quiz): ম্যাপের আকৃতি বা ছবি দেখে জেলা চেনার খেলা (district quiz)
 - [৬৪ জেলার বিখ্যাত খাবার ও পণ্য](https://ghuredekhabangladesh.com/bazar): কোন জেলা কিসের জন্য বিখ্যাত, বিভাগ অনুযায়ী, সাথে সেই জেলার উদ্যোক্তাদের পেজ আর নম্বর (famous local food and products)
+- [বিজ্ঞাপন দিন](https://ghuredekhabangladesh.com/bigyapon): জেলা গাইড, ট্রেনের রুটের পাতা বা সাইটজুড়ে বিজ্ঞাপনের জায়গা, কী লাগবে আর কীভাবে দেবেন (advertise on the site)
 - [কোথায় বেশি ঘোরেন](https://ghuredekhabangladesh.com/trend): সাইটের ম্যাপগুলো থেকে কোন জেলায় মানুষ বেশি ঘুরেছে (where visitors have travelled)
 - [ব্যবসার কভারেজ ম্যাপ](https://ghuredekhabangladesh.com/business): শাখা বা সার্ভিস এরিয়ার জেলা টিক দিয়ে লোগোসহ ম্যাপ (business coverage map maker)
 - [স্টাডি অ্যাব্রড এজেন্সির ম্যাপ](https://ghuredekhabangladesh.com/study-abroad): কোন কোন দেশে স্টুডেন্ট পাঠান, তার ম্যাপ (study-abroad agency map maker)

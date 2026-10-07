@@ -45,7 +45,9 @@
   + '.abm .hd h2{margin:0;font-size:22px;font-weight:700}.abm .hd small{display:block;opacity:.9;font-size:14px;margin-top:2px}'
   + '.abm .bd{padding:18px 22px 22px;display:grid;gap:14px;font-size:15px;line-height:1.6}.abm .bd p{margin:0}'
   + '.abm .soc{display:flex;gap:10px}.abm .soc a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:#1877F2;color:#fff;text-decoration:none;font-weight:600;font-size:14px}'
-  + '.abm .bd ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}';
+  + '.abm .bd ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}'
+  + '.abm .soc{flex-wrap:wrap}.abm .soc a.wa{background:#128C7E}';
+  window.gdAbmCss = function(){ if(document.getElementById('abm-css')) return; var st = document.createElement('style'); st.id = 'abm-css'; st.textContent = CSS; document.head.appendChild(st); };
   var HTML = '<div class="box" role="dialog" aria-modal="true" aria-label="আমাদের কথা"><button class="x" type="button" aria-label="বন্ধ করুন">✕</button>'
   + '<div class="hd"><img src="/about-galib.png" alt="মাহমুদ গালিব" width="120" height="120"><h2>মাহমুদ গালিব</h2><small>প্রতিষ্ঠাতা, ঘুরে দেখা বাংলাদেশ</small></div>'
   + '<div class="bd">'
@@ -55,7 +57,7 @@
   + '<li>🔓 <b>তথ্য উন্মুক্ত:</b> সব তথ্য সবার জন্য ফ্রি। কোথাও ভুল চোখে পড়লে যে কেউ জানাতে পারেন, যাচাই করে ঠিক করা হয়।</li></ul>'
   + '<p><b>কীভাবে শুরু</b><br>কাজের সূত্রে বছরজুড়ে নানা জেলায় যেতে হয়। একদিন দেখি, কোন জেলায় গেছি আর কোনটায় যাইনি, নিজেই গুলিয়ে ফেলছি। একটা ম্যাপে টিক দিয়ে রাখার সেই ছোট ভাবনা থেকে শুরু। এখন লক্ষ্য একটাই: বাংলাদেশ ঘোরা সবার জন্য সহজ করা।</p>'
   + '<p>পরামর্শ, ভুল তথ্য বা পার্টনারশিপ নিয়ে কথা বলতে মেসেজ দিন।</p>'
-  + '<div><div class="soc"><a href="https://www.facebook.com/Galib.Dhaka" target="_blank" rel="noopener">f &nbsp;মেসেজ দিন</a></div></div>'
+  + '<div><div class="soc"><a class="wa" href="#whatsapp" data-wa>💬 &nbsp;হোয়াটসঅ্যাপ</a><a href="https://www.facebook.com/Galib.Dhaka" target="_blank" rel="noopener">f &nbsp;মেসেজ দিন</a></div></div>'
   + '</div></div>';
   /* English pages (<html lang="en">, the /en/... pages): the same modal in English */
   if(/^en\b/i.test(document.documentElement.lang || '')) HTML = '<div class="box" role="dialog" aria-modal="true" aria-label="About us"><button class="x" type="button" aria-label="Close">✕</button>'
@@ -67,11 +69,11 @@
   + '<li>🔓 <b>Open information:</b> everything is free for everyone. If you spot a mistake, anyone can tell us; we check it and fix it.</li></ul>'
   + '<p><b>How it started</b><br>Work takes me to different districts all year. One day I realised I could no longer keep track of which districts I had been to and which I had not. It started with that small idea of ticking them off on a map. Now there is one goal: to make travelling around Bangladesh easier for everyone.</p>'
   + '<p>Message us with suggestions, corrections or partnership ideas.</p>'
-  + '<div><div class="soc"><a href="https://www.facebook.com/Galib.Dhaka" target="_blank" rel="noopener">f &nbsp;Message us</a></div></div>'
+  + '<div><div class="soc"><a class="wa" href="#whatsapp" data-wa>💬 &nbsp;WhatsApp</a><a href="https://www.facebook.com/Galib.Dhaka" target="_blank" rel="noopener">f &nbsp;Message us</a></div></div>'
   + '</div></div>';
   function ensure(){
     var m = document.getElementById('aboutModal'); if(m) return m;
-    var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
+    window.gdAbmCss();
     m = document.createElement('div'); m.className = 'abm'; m.id = 'aboutModal'; m.innerHTML = HTML; document.body.appendChild(m);
     var close = function(){ m.classList.remove('open'); document.body.style.overflow = ''; };
     m.querySelector('.x').addEventListener('click', close);
@@ -82,6 +84,86 @@
   function open(){ var m = ensure(); m.classList.add('open'); document.body.style.overflow = 'hidden'; if(window.gdTrack) try{ gdTrack('AboutOpen'); }catch(e){} }
   document.addEventListener('click', function(e){ var a = e.target.closest && e.target.closest('a[href="#about"]'); if(a){ e.preventDefault(); open(); } });
   if(location.hash === '#about') setTimeout(open, 300);
+})();
+
+/* ---- হোয়াটসঅ্যাপ: any [data-wa] link or <a href="#whatsapp"> (and #whatsapp in the address) opens a small sheet: a one-tap
+   "match the picture" check, then the number and a WhatsApp button. The number is not written in any page, so bots that read
+   pages for phone numbers do not get it; a check passed once is remembered for the visit. data-wa-text: the message
+   prefilled in WhatsApp (the default says the person writes from the site). ---- */
+(function(){
+  var EN = /^en\b/i.test(document.documentElement.lang || '');
+  var NUM = atob('ODgwMTkxMzc3MDk0MA=='), LOCAL = '0' + NUM.slice(3);
+  var BD = '০১২৩৪৫৬৭৮৯', SHOW = (LOCAL.slice(0, 5) + '-' + LOCAL.slice(5)).replace(/\d/g, function(c){ return EN ? c : BD[c]; });
+  var POOL = [['🥭','আম','mango'],['🍌','কলা','banana'],['🍉','তরমুজ','watermelon'],['🍍','আনারস','pineapple'],['⛵','নৌকা','boat'],['🚌','বাস','bus'],
+    ['🚆','ট্রেন','train'],['🐟','মাছ','fish'],['🌸','ফুল','flower'],['📖','বই','book'],['🏠','বাড়ি','house'],['🌳','গাছ','tree'],['🌙','চাঁদ','moon'],
+    ['☂️','ছাতা','umbrella'],['🐄','গরু','cow'],['🚲','সাইকেল','bicycle']];
+  var T = EN ? {title: 'Message us on WhatsApp', ask: 'A quick check to keep robots out: tap the ', wrong: 'Not that one, try again.', num: 'WhatsApp number',
+      go: '💬 Open WhatsApp', copy: 'Copy number', copied: 'Copied', close: 'Close', hi: 'Hello, I am writing from the Ghure Dekha Bangladesh website.'}
+    : {title: 'হোয়াটসঅ্যাপে কথা বলুন', ask: 'রোবট আটকাতে ছোট্ট একটা মিলানো: কোনটা ', wrong: 'হয়নি, আবার দেখুন।', num: 'হোয়াটসঅ্যাপ নম্বর',
+      go: '💬 হোয়াটসঅ্যাপে মেসেজ দিন', copy: 'নম্বর কপি', copied: 'কপি হয়েছে', close: 'বন্ধ করুন', hi: 'আসসালামু আলাইকুম, ঘুরে দেখা বাংলাদেশ সাইট থেকে লিখছি।'};
+  var CSS = '.wam{z-index:61}.wam .hd{background:linear-gradient(135deg,#128C7E,#075E54);padding:24px 22px 18px}.wam .hd .ic{font-size:38px;line-height:1;margin-bottom:6px}'
+    + '.wam .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.wam .opts button{font-size:34px;line-height:1;padding:14px 0;border-radius:16px;border:2px solid var(--line,#d6ded8);background:var(--bg,#f2f5f1);cursor:pointer}'
+    + '.wam .opts button:hover{border-color:#128C7E}.wam .err{min-height:1.4em;color:var(--red,#D6262E);font-size:14px;font-weight:600}.wam .bad{animation:wamShake .3s}'
+    + '@keyframes wamShake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}'
+    + '.wam .num{font-family:var(--font-display,inherit);font-size:30px;font-weight:800;letter-spacing:.02em;text-align:center;margin:2px 0 4px}'
+    + '.wam .go{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 16px;border-radius:14px;background:#128C7E;color:#fff;font-weight:700;font-size:16px;text-decoration:none}'
+    + '.wam .cp{font:inherit;font-size:14px;font-weight:600;padding:9px 14px;border-radius:12px;border:1px solid var(--line,#d6ded8);background:transparent;color:inherit;cursor:pointer;justify-self:center}'
+    + '.wam .lbl{text-align:center;color:var(--muted,#5e6e65);font-size:14px}';
+  var m, msg = T.hi;
+  function passed(){ try{ return sessionStorage.getItem('gd-wa-ok') === '1'; }catch(e){ return false; } }
+  function pass(){ try{ sessionStorage.setItem('gd-wa-ok', '1'); }catch(e){} }
+  function track(n){ if(window.gdTrack) try{ window.gdTrack(n, {page: location.pathname}); }catch(e){} }
+  function close(){ if(!m) return; m.classList.remove('open'); if(!document.querySelector('.abm.open')) document.body.style.overflow = ''; }
+  function ensure(){
+    if(m) return m;
+    if(window.gdAbmCss) window.gdAbmCss();
+    var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
+    m = document.createElement('div'); m.className = 'abm wam';
+    m.innerHTML = '<div class="box" role="dialog" aria-modal="true" aria-label="' + T.title + '"><button class="x" type="button" aria-label="' + T.close + '">✕</button>'
+      + '<div class="hd"><div class="ic">💬</div><h2>' + T.title + '</h2></div><div class="bd"></div></div>';
+    document.body.appendChild(m);
+    m.querySelector('.x').addEventListener('click', close);
+    m.addEventListener('click', function(e){ if(e.target === m) close(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+    return m;
+  }
+  function shuffle(a){ for(var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function check(bd, note){
+    var pick = shuffle(POOL.slice()).slice(0, 4), want = pick[Math.floor(Math.random() * 4)];
+    bd.innerHTML = '<p>' + T.ask + '<b>' + (EN ? want[2] : want[1]) + '</b>' + (EN ? '.' : '?') + '</p><div class="opts"></div><p class="err" aria-live="polite">' + (note || '') + '</p>';
+    var box = bd.querySelector('.opts');
+    pick.forEach(function(p){
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = p[0]; b.setAttribute('aria-label', EN ? p[2] : p[1]);
+      b.addEventListener('click', function(){
+        if(p === want){ pass(); track('WhatsAppCheckPassed'); number(bd); return; }
+        box.classList.add('bad'); setTimeout(function(){ check(bd, T.wrong); }, 320);
+      });
+      box.appendChild(b);
+    });
+  }
+  function number(bd){
+    bd.innerHTML = '<p class="lbl">' + T.num + '</p><p class="num">' + SHOW + '</p>'
+      + '<a class="go" target="_blank" rel="noopener" href="https://wa.me/' + NUM + '?text=' + encodeURIComponent(msg) + '">' + T.go + '</a>'
+      + '<button class="cp" type="button">' + T.copy + '</button>';
+    bd.querySelector('.go').addEventListener('click', function(){ track('ContactWhatsApp'); setTimeout(close, 300); });
+    var cp = bd.querySelector('.cp');
+    cp.addEventListener('click', function(){ var done = function(ok){ if(ok) cp.textContent = T.copied; }; var r = window.gdCopy ? window.gdCopy(LOCAL) : false; if(r && r.then) r.then(done); else done(r); });
+  }
+  function open(text){
+    msg = text || T.hi;
+    var w = ensure(), bd = w.querySelector('.bd');
+    if(passed()) number(bd); else check(bd);
+    w.classList.add('open'); document.body.style.overflow = 'hidden';
+  }
+  window.gdWhatsApp = open;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('[data-wa], a[href="#whatsapp"]');
+    if(a){ e.preventDefault(); open(a.getAttribute('data-wa-text')); }
+  });
+  if(location.hash === '#whatsapp') setTimeout(function(){ open(); }, 300);
+  /* dated ads (data-until, Dhaka date): gone the day after their last day even before the site is rebuilt */
+  var today = new Date(Date.now() + 6 * 3600e3).toISOString().slice(0, 10);
+  document.querySelectorAll('[data-until]').forEach(function(el){ if(el.getAttribute('data-until') < today) el.remove(); });
 })();
 
 /* ---- installable app: service worker + "অ্যাপ হিসেবে রাখুন" ---- */

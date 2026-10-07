@@ -226,6 +226,27 @@ a.card:hover,button.mode:hover{border-color:color-mix(in srgb,var(--accent) 45%,
 .pk-tag{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.62);color:#fff;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px}
 .pk-house{display:flex;gap:12px;align-items:flex-start;border:1.5px dashed var(--line);border-radius:14px;padding:12px 14px;font-size:14.5px;line-height:1.55;color:var(--muted)}
 .pk-house b{color:var(--ink)}.pk-house .ic{font-size:22px;line-height:1.25}.pk-house a{font-weight:700;white-space:nowrap}
+.pt-card{--pt:#0E6E8C;position:relative;display:grid;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 12px 32px rgba(14,110,140,.12)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pt-card{--pt:#6CC8E4}}
+:root[data-theme="dark"] .pt-card{--pt:#6CC8E4}
+@media (min-width:760px){.pt-card{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}}
+.pt-pics{display:grid;grid-template-columns:1fr 1fr;gap:2px;min-height:220px;background:var(--line)}
+.pt-pic{position:relative;margin:0;overflow:hidden;background:var(--surface-2)}
+.pt-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pt-pic .pr{position:absolute;left:10px;bottom:10px;background:#fff;color:#0E6E8C;border-radius:12px;padding:6px 11px 7px;font-weight:800;font-size:17px;line-height:1.2;box-shadow:0 6px 18px rgba(0,0,0,.28);max-width:calc(100% - 20px)}
+.pt-pic .pr small{display:block;font-size:11.5px;font-weight:700;color:#3d5560}
+.pt-pic .cr{position:absolute;right:6px;top:6px;font-size:9.5px;line-height:1.2;color:#fff;background:rgba(0,0,0,.45);padding:3px 7px;border-radius:999px;text-decoration:none;max-width:92%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pt-tx{padding:16px 18px 18px;display:grid;gap:8px;align-content:center}
+.pt-k{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13.5px;font-weight:800;color:var(--pt)}
+.pt-k .tag{background:rgba(0,0,0,.62);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+.pt-tx .h{display:block;font-size:20px;font-weight:800;line-height:1.35;color:var(--ink)}
+.pt-tx p{margin:0;font-size:15px;line-height:1.55}
+.pt-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.pt-wa{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:12px;background:#128C7E;color:#fff;font-weight:800;text-decoration:none;font-size:15.5px}
+.pt-wa:hover{background:#0f7a6e}
+.pt-more{display:inline-flex;align-items:center;padding:11px 14px;border-radius:12px;border:1px solid var(--line);color:var(--ink);font-weight:700;text-decoration:none;font-size:15px}
+.pt-more:hover{border-color:var(--pt)}
+@media (max-width:420px){.pt-act a{flex:1 1 100%;justify-content:center}.pt-pic .pr{font-size:15px}}
 </style>
 </head>
 <body>
@@ -242,7 +263,8 @@ a.card:hover,button.mode:hover{border-color:color-mix(in srgb,var(--accent) 45%,
     <div class="tt-wrap"><table class="tt"><thead><tr><th scope="col">Train</th><th scope="col">Number</th><th scope="col">Leaves Dhaka (Kamalapur)</th><th scope="col">Arrives Sylhet</th><th scope="col">Journey time</th><th scope="col">Weekly off day</th></tr></thead><tbody><tr><td class="tn"><b>Parabat Express</b></td><td data-l="Number"><span>709</span></td><td data-l="Leaves Dhaka"><span>6:30 am<small>Biman Bandar (airport) 6:58 am</small></span></td><td data-l="Arrives"><span>1:00 pm</span></td><td data-l="Journey time"><span>6 h 30 min</span></td><td data-l="Weekly off day"><span>Monday</span></td></tr><tr><td class="tn"><b>Jayentika Express</b></td><td data-l="Number"><span>717</span></td><td data-l="Leaves Dhaka"><span>11:15 am<small>Biman Bandar (airport) 11:43 am</small></span></td><td data-l="Arrives"><span>7:00 pm</span></td><td data-l="Journey time"><span>7 h 45 min</span></td><td data-l="Weekly off day"><span>Tuesday</span></td></tr><tr><td class="tn"><b>Kalni Express</b></td><td data-l="Number"><span>773</span></td><td data-l="Leaves Dhaka"><span>2:55 pm<small>Biman Bandar (airport) 3:22 pm</small></span></td><td data-l="Arrives"><span>9:30 pm</span></td><td data-l="Journey time"><span>6 h 35 min</span></td><td data-l="Weekly off day"><span>Friday</span></td></tr><tr><td class="tn"><b>Upaban Express</b></td><td data-l="Number"><span>739</span></td><td data-l="Leaves Dhaka"><span>10:00 pm<small>Biman Bandar (airport) 10:28 pm</small></span></td><td data-l="Arrives"><span>5:00 am (next day)</span></td><td data-l="Journey time"><span>7 h</span></td><td data-l="Weekly off day"><span>Wednesday</span></td></tr></tbody></table></div>
     <p class="src">Source: Bangladesh Railway e-ticket timetable, collected 6 October 2026. Check <a href="https://eticket.railway.gov.bd" target="_blank" rel="noopener">eticket.railway.gov.bd</a> before you travel.</p>
   </section>
-  <aside class="pk"><div class="pk-house"><span class="ic">📣</span><span><b>Your ad here</b> · Put your hotel, bus or tour in front of people travelling to Sylhet. <a href="/en/bigyapon#train">Details</a></span></div></aside>
+  <aside class="pk" data-pk-ad="poribrajok" data-pk-place="train-sylhet"><div class="pt-card"><div class="pt-pics"><figure class="pt-pic"><img src="/img/promo/sada-pathor.jpg" alt="Sylhet" loading="lazy" decoding="async"><span class="pr">Sylhet Tk 1,350<small>per person</small></span><a class="cr" href="https://commons.wikimedia.org/wiki/File:Bholaganj_Sada_Pathor_Sylhet.jpg" target="_blank" rel="noopener">📷 S.H. Tanim · CC BY 4.0</a></figure><figure class="pt-pic"><img src="/img/ef36258442b5.jpg" alt="Sreemangal" loading="lazy" decoding="async"><span class="pr">Sreemangal Tk 1,550<small>per person</small></span><a class="cr" href="https://commons.wikimedia.org/wiki/File:Life_around_jungle.jpg" target="_blank" rel="noopener">📷 Pallabkabir · CC BY-SA 4.0</a></figure></div><div class="pt-tx"><div class="pt-k"><span class="tag">Ad</span>Poribrajok group tours</div><span class="h">Leave Dhaka on Thursday night, spend all of Friday in Sylhet or Sreemangal</span><p>Bus there and back, meals and sightseeing in one price. Women and older passengers get seating priority.</p><div class="pt-act"><a class="pt-wa" href="https://wa.me/8801966800255?text=Hello.%20I%20am%20writing%20after%20seeing%20Poribrajok%27s%20ad%20on%20Ghure%20Dekha%20Bangladesh%20%28ghuredekhabangladesh.com%29.%0AThe%20tour%20I%20would%20like%20to%20know%20about%3A%20Sylhet%20/%20Sreemangal%0ACode%3A%20GD-WEB" target="_blank" rel="sponsored noopener" data-pk-wa data-pk-msg="Hello. I am writing after seeing Poribrajok&#x27;s ad on Ghure Dekha Bangladesh (ghuredekhabangladesh.com).
+The tour I would like to know about: Sylhet / Sreemangal" data-pk-num="8801966800255">💬 WhatsApp 01966-800255</a><a class="pt-more" href="/en/g/poribrajok" data-pk-go>Tour details →</a></div></div></div></aside>
   <section class="sec faq" id="faq"><div class="sec-head"><b>2</b><h2>Common questions</h2></div><div class="qas"><div class="qa"><h3>How many trains run from Dhaka to Sylhet?</h3><p>According to the Bangladesh Railway e-ticket timetable, 4 direct trains run from Dhaka (Kamalapur) to Sylhet: Parabat Express (709), Jayentika Express (717), Kalni Express (773) and Upaban Express (739).</p></div><div class="qa"><h3>When do the first and last trains leave Dhaka for Sylhet?</h3><p>The first train of the day from Dhaka (Kamalapur) to Sylhet, Parabat Express (709), leaves at 6:30 am, and the last, Upaban Express (739), leaves at 10:00 pm.</p></div><div class="qa"><h3>How long does the train from Dhaka to Sylhet take?</h3><p>The train from Dhaka to Sylhet takes 6 hours 30 minutes to 7 hours 45 minutes; the fastest is Parabat Express (709), at 6 hours 30 minutes.</p></div><div class="qa"><h3>On which days of the week do the trains from Dhaka to Sylhet not run?</h3><p>Weekly off days of the trains from Dhaka to Sylhet: Parabat Express (709) does not run on Monday; Jayentika Express (717) does not run on Tuesday; Kalni Express (773) does not run on Friday; Upaban Express (739) does not run on Wednesday.</p></div></div></section>
   <div class="cta">
     <a class="btn primary big" href="/en/jela/sylhet">📖 Sylhet travel guide</a>
@@ -256,6 +278,6 @@ a.card:hover,button.mode:hover{border-color:color-mix(in srgb,var(--accent) 45%,
 <script>window.BN=n=>String(n);let _tt=0;window.toast=m=>{const e=document.getElementById('toast');e.textContent=m;e.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>e.classList.remove('show'),2600)};</script>
 
 
-<script src="/about.js?v=8" defer></script>
+<script src="/about.js?v=9" defer></script>
 </body>
 </html>

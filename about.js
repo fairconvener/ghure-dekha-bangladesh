@@ -166,6 +166,21 @@
   document.querySelectorAll('[data-until]').forEach(function(el){ if(el.getAttribute('data-until') < today) el.remove(); });
 })();
 
+/* ---- ads (ads_ui.py): every click on an ad goes to the Meta pixel as PromoClick {ad, place, target, code}; the advertiser's
+   WhatsApp link gets a fresh code (GD-XXXX) in its prefilled message, so the advertiser sees the message came from this site
+   and the code can be matched to the click ---- */
+(function(){
+  var EN = /^en\b/i.test(document.documentElement.lang || ''), CH = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  function code(){ var s = 'GD-'; for(var i = 0; i < 4; i++) s += CH.charAt(Math.floor(Math.random() * CH.length)); return s; }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('[data-pk-wa], [data-pk-go]'); if(!a) return;
+    var box = a.closest('[data-pk-ad]'); if(!box) return;
+    var wa = a.hasAttribute('data-pk-wa'), p = {ad: box.getAttribute('data-pk-ad'), place: box.getAttribute('data-pk-place') || '', target: wa ? 'whatsapp' : 'details'};
+    if(wa){ p.code = code(); a.href = 'https://wa.me/' + a.getAttribute('data-pk-num') + '?text=' + encodeURIComponent(a.getAttribute('data-pk-msg') + (EN ? '\nCode: ' : '\nকোড: ') + p.code); }
+    if(window.gdTrack) try{ window.gdTrack('PromoClick', p); }catch(err){}
+  }, true);
+})();
+
 /* ---- installable app: service worker + "অ্যাপ হিসেবে রাখুন" ---- */
 (function(){
   var LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);

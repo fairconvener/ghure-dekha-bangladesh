@@ -1,6 +1,6 @@
 /* ঘুরে দেখা বাংলাদেশ - জেলার পণ্য (local sellers). Used on every district guide (/jela/<id>, /en/jela/<id>) and on /bazar.
    Anyone can add a seller and it shows at once; anyone can report one (3 different people hide it); the person who added it
-   can delete it from the same browser. Data: /api/shop. The words follow the page's <html lang> (English on /en pages).
+   can delete it from the same browser. Data: /api/listing (api/_shop.js). The words follow the page's <html lang> (English on /en pages).
    <section data-bazar="list" data-d="<district>" data-eg="<famous thing>">  one district's sellers + the add form
    <section data-bazar="hub">  the newest sellers anywhere + the add form with a district list (window.GD_DIST)
    [data-bz-count="<district>"]  filled with that district's number of sellers */
@@ -47,7 +47,7 @@ const DIST = {}; (window.GD_DIST || []).forEach(d => { DIST[d.id] = d; });
 const dname = id => DIST[id] ? (EN ? DIST[id].en : DIST[id].bn) : '';
 const say = m => { if (window.toast) window.toast(m); };
 const day = s => { try { return new Date(s).toLocaleDateString(EN ? 'en-GB' : 'bn-BD', { day: 'numeric', month: 'short', timeZone: 'Asia/Dhaka' }); } catch (e) { return ''; } };
-const api = (q, opt) => fetch('/api/shop' + q, Object.assign({ cache: 'no-store' }, opt || {})).then(r => r.json().then(j => ({ ok: r.ok, j })));
+const api = (q, opt) => fetch('/api/listing' + q, Object.assign({ cache: 'no-store' }, opt || {})).then(r => r.json().then(j => ({ ok: r.ok, j })));
 const post = body => api('', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
 
 function card(s, withDistrict) {

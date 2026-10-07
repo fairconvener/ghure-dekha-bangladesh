@@ -1,10 +1,13 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { upload } from './_store.js';
 import { rpc } from './_db.js';
+import shopHandler from './_shop.js';
 
 // Business list opt-in (/study-abroad, /business): when a business ticks "show our name and logo in the business list"
 // and downloads its map, the page sends the name and the logo here. The logo goes to storage (photos/L<id>.jpg),
 // the row to gdb.listings; the admin sees them at /admin under "প্রতিষ্ঠান" before anything is shown publicly.
+// The same endpoint serves the local sellers of the district guides (api/_shop.js): every GET, and POSTs with an
+// action (add / report / delete). Business-list posts have no action. (The Hobby plan allows 12 functions per deployment.)
 export const config = { api: { bodyParser: { sizeLimit: '2mb' } } };
 
 const MAX_LOGO = 1.5 * 1024 * 1024;
@@ -20,10 +23,11 @@ function ipHash(req) {
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 'no-store');
-  if (req.method === 'OPTIONS') { res.setHeader('Access-Control-Allow-Headers', 'content-type'); res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS'); res.setHeader('Access-Control-Max-Age', '86400'); return res.status(204).end(); }
-  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+  if (req.method === 'OPTIONS') { res.setHeader('Access-Control-Allow-Headers', 'content-type'); res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS'); res.setHeader('Access-Control-Max-Age', '86400'); return res.status(204).end(); }
   let body = req.body; if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = null; } }
   body = body || {};
+  if (req.method === 'GET' || ['add', 'report', 'delete'].includes(body.action)) return shopHandler(req, res);
+  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
   const name = clean(body.name, 80);
   if (name.length < 2) return res.status(400).json({ error: 'name' });
   const page = String(body.page || '');

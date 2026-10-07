@@ -8,12 +8,11 @@ import { DISTRICTS } from './_districts.js';
 // Anyone can add one and it is live at once; anyone can report one, and 3 different people's reports hide it;
 // the person who added it can delete it from the same browser (a random token only that browser keeps);
 // the admin sees everything at /admin ("🛍️ পণ্য") and gets a push notification on each new item and each report.
-//   GET  /api/shop?d=<district>   live sellers of a district      GET /api/shop?latest=1   newest anywhere
-//   GET  /api/shop?counts=1       live sellers per district
+// Served by api/listing.js (the Hobby plan allows 12 functions per deployment, so this is a module, not its own function):
+//   GET  /api/listing?d=<district>   live sellers of a district      GET /api/listing?latest=1   newest anywhere
+//   GET  /api/listing?counts=1       live sellers per district
 //   POST {action:'add', district, name, product, photo (JPEG data URL), fb, phone, owner, lang, page}
 //   POST {action:'report', id, reason}       POST {action:'delete', id, owner}
-export const config = { api: { bodyParser: { sizeLimit: '2mb' } } };
-
 const MAX_PHOTO = 1.2 * 1024 * 1024;
 const REASONS = { fake: 'ভুয়া বা প্রতারণা', bad: 'খারাপ ছবি বা লেখা', wrong: 'ভুল তথ্য', other: 'অন্য কারণ' };
 const clean = (v, n) => String(v == null ? '' : v).replace(/[\u0000-\u001f<>]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, n);
@@ -101,7 +100,7 @@ async function remove(req, res, b) {
   return res.status(200).json({ ok: true });
 }
 
-export default async function handler(req, res) {
+export default async function shopHandler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') { res.setHeader('Access-Control-Allow-Headers', 'content-type'); res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS'); res.setHeader('Access-Control-Max-Age', '86400'); return res.status(204).end(); }
   try {

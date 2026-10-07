@@ -10,6 +10,7 @@ English summary: each district guide (/jela/<district>) covers places to see, ho
 
 - [৬৪ জেলার ভ্রমণ গাইড](https://ghuredekhabangladesh.com/jela): প্রতিটি জেলায় কী দেখবেন, কীভাবে যাবেন, কোথায় থাকবেন, কী খাবেন, কখন যাবেন (travel guides for all 64 districts)
 - [ঢাকা থেকে ট্রেনের সময়সূচি](https://ghuredekhabangladesh.com/train): ঢাকা থেকে ৩৭টি গন্তব্যের সরাসরি ট্রেন, ছাড়ার ও পৌঁছানোর সময়, সাপ্তাহিক বন্ধ (Dhaka train timetables)
+- [জরুরি সেবা নম্বর](https://ghuredekhabangladesh.com/joruri): ৯৯৯, ট্যুরিস্ট পুলিশ, ফায়ার সার্ভিস আর কক্সবাজার, বান্দরবান, রাঙ্গামাটি, সিলেট ও মৌলভীবাজারের থানা, ট্যুরিস্ট পুলিশ ও ফায়ার স্টেশনের নম্বর, প্রতিটা সরকারি সূত্রসহ (emergency numbers)
 - [ট্রিপ প্ল্যানার](https://ghuredekhabangladesh.com/plan): জেলা বেছে নিলে ম্যাপে রুট, কোন ট্রেন কখন ছাড়ে, দিনভাগ আর আনুমানিক খরচ (trip planner)
 - [৬৪ জেলার ম্যাপ মেকার](https://ghuredekhabangladesh.com/): যে জেলাগুলোতে গিয়েছেন টিক দিন, নাম আর ছবি বসিয়ে নিজের ভ্রমণ ম্যাপ নামান; ফ্রি (Bangladesh travel map poster maker)
 - [নিজের জেলার উপজেলা ম্যাপ](https://ghuredekhabangladesh.com/zila): ৬৪ জেলার যেকোনোটার উপজেলাগুলো নিয়ে ভ্রমণ ম্যাপ (district upazila maps)
@@ -136,6 +137,7 @@ English summary: each district guide (/jela/<district>) covers places to see, ho
 - [Bangladesh travel map maker](https://ghuredekhabangladesh.com/en): tick the districts you have been to, add your name and photo and download your own travel map; free
 - [Travel guides to all 64 districts](https://ghuredekhabangladesh.com/en/jela): what to see in each district, how to get there, where to stay, what to eat and when to go
 - [Dhaka train timetables](https://ghuredekhabangladesh.com/en/train): direct trains from Dhaka to 37 destinations: departure and arrival times and weekly off days
+- [Emergency numbers](https://ghuredekhabangladesh.com/en/joruri): 999, the Tourist Police helpline, the fire service, and the police stations, tourist police and fire stations of Cox's Bazar, Bandarban, Rangamati, Sylhet and Moulvibazar, each with its official source
 - [Trip planner](https://ghuredekhabangladesh.com/en/plan): choose districts to get a route on the map, which train leaves when, a day-by-day plan and an estimated cost
 - [Upazila map of your district](https://ghuredekhabangladesh.com/en/zila): a travel map of the upazilas of any of the 64 districts
 - [Upazila map](https://ghuredekhabangladesh.com/en/upazila): a travel map of all 545 upazilas and metro thanas of the country

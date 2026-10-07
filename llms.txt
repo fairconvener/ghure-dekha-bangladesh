@@ -145,7 +145,6 @@ English summary: each district guide (/jela/<district>) covers places to see, ho
 - [Hajj and Umrah map](https://ghuredekhabangladesh.com/en/umrah): a dream map from Dhaka to Makkah and Madinah, with your photo
 - [What is your Bangladesh level? Level map of the 64 districts](https://ghuredekhabangladesh.com/en/level): Give each of the 64 districts a level: lived there, stayed the night, visited, stopped or passed through. See your level out of 320 and share the picture. Free, no account needed.
 - [Quiz](https://ghuredekhabangladesh.com/en/quiz): name the district from its shape on the map or from a photo
-- [Gamer location tracker](https://ghuredekhabangladesh.com/en/game): tick the PUBG Mobile map locations (Erangel, Miramar, Sanhok, Vikendi, Livik) you have dropped into and get a score poster; fan-made, names only
 - [Where Bangladeshis travel most](https://ghuredekhabangladesh.com/en/trend): which districts people have been to most, from the maps made on this site
 - [Business coverage map](https://ghuredekhabangladesh.com/en/business): tick the districts of your branches or service area and make a map with your logo
 - [Study-abroad agency map](https://ghuredekhabangladesh.com/en/study-abroad): a map of the countries you send students to
@@ -263,7 +262,6 @@ English summary: each district guide (/jela/<district>) covers places to see, ho
 - [দেশ ও মহাদেশের ম্যাপ](https://ghuredekhabangladesh.com/countries): দেশের রাজ্য/প্রদেশ আর মহাদেশের দেশ ধরে ভ্রমণ ম্যাপ (country and continent maps)
 - [হজ-উমরা ম্যাপ](https://ghuredekhabangladesh.com/umrah): ছবি দিয়ে ঢাকা থেকে মক্কা-মদিনার স্বপ্নের ম্যাপ (Hajj and Umrah map poster)
 - [কুইজ](https://ghuredekhabangladesh.com/quiz): ম্যাপের আকৃতি বা ছবি দেখে জেলা চেনার খেলা (district quiz)
-- [গেমারের লোকেশন ট্র্যাকার](https://ghuredekhabangladesh.com/game): PUBG Mobile-এর Erangel, Miramar, Sanhok, Vikendi, Livik-এর কোন লোকেশনে ড্রপ করেছেন টিক দিয়ে স্কোর পোস্টার (fan-made gamer location tracker)
 - [কোথায় বেশি ঘোরেন](https://ghuredekhabangladesh.com/trend): সাইটের ম্যাপগুলো থেকে কোন জেলায় মানুষ বেশি ঘুরেছে (where visitors have travelled)
 - [ব্যবসার কভারেজ ম্যাপ](https://ghuredekhabangladesh.com/business): শাখা বা সার্ভিস এরিয়ার জেলা টিক দিয়ে লোগোসহ ম্যাপ (business coverage map maker)
 - [স্টাডি অ্যাব্রড এজেন্সির ম্যাপ](https://ghuredekhabangladesh.com/study-abroad): কোন কোন দেশে স্টুডেন্ট পাঠান, তার ম্যাপ (study-abroad agency map maker)

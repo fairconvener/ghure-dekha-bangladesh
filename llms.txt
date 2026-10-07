@@ -20,6 +20,8 @@ English summary: each district guide (/jela/<district>) covers places to see, ho
 
 ## তথ্যের উৎস (Data sources)
 
+- সব উৎস লিংকসহ এক পাতায়: [তথ্যের উৎস](https://ghuredekhabangladesh.com/sutro) (every source with links; English: https://ghuredekhabangladesh.com/en/sutro)
+- জরুরি নম্বর: শুধু সরকারি ওয়েবসাইট (.gov.bd), শেষ মিলিয়ে দেখা ৮ অক্টোবর ২০২৬; প্রতিটা নম্বরের সূত্র [জরুরি সেবা নম্বর](https://ghuredekhabangladesh.com/joruri) পাতায়। Emergency numbers: official websites only, each number with its source.
 - জেলা ও উপজেলার সীমানা: geoBoundaries (CC BY 4.0); বাংলাদেশ পরিসংখ্যান ব্যুরো (BBS) ও OCHA, ২০২৩ (CC BY 3.0 IGO). District and upazila boundaries: geoBoundaries and BBS/OCHA.
 - ট্রেনের সময়: বাংলাদেশ রেলওয়ের ই-টিকিট সময়সূচি (eticket.railway.gov.bd), সংগ্রহ ৬ অক্টোবর ২০২৬; যাত্রার আগে মিলিয়ে নিন। Train times: Bangladesh Railway e-ticket timetable, fetched 6 October 2026.
 - জেলা গাইড: এই সাইটের জন্য লেখা, সর্বশেষ আপডেট অক্টোবর ২০২৬; হোটেলের ভাড়া আনুমানিক। District guides: written for this site, updated October 2026; hotel prices are estimates.

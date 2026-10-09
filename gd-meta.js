@@ -35,6 +35,39 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', privacyLink); else privacyLink();
 
+  // "দর্শনীয় স্থান" is the site's where-to-go hub. Give it a clearer label and surface the nearby finder there.
+  function nearbyEntry() {
+    var hubHref = LANG === 'en' ? '/en/jela' : '/jela';
+    document.querySelectorAll('nav.nav a[href="' + hubHref + '"]').forEach(function (a) {
+      a.textContent = LANG === 'en' ? 'Where to go' : 'কোথায় ঘুরবেন';
+    });
+    if (path !== '/jela' || document.getElementById('gdNearbyEntry')) return;
+    var hero = document.querySelector('main.wrap .hero');
+    if (!hero) return;
+    var card = document.createElement('section');
+    card.id = 'gdNearbyEntry';
+    card.setAttribute('aria-label', LANG === 'en' ? 'Find nearby places' : 'কাছাকাছি দর্শনীয় স্থান');
+    card.style.cssText = 'margin:14px 0 22px;padding:16px 18px;border:1px solid var(--line,#d6ded8);border-radius:16px;background:linear-gradient(135deg,var(--accent-soft,#ddf1e5),var(--surface,#fff));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap';
+    var tx = document.createElement('div');
+    tx.style.cssText = 'display:grid;gap:3px;min-width:0;flex:1 1 360px';
+    var b = document.createElement('b');
+    b.style.cssText = 'font-size:19px;line-height:1.35';
+    b.textContent = LANG === 'en' ? '📍 What can I visit near me?' : '📍 আমার কাছাকাছি কী কী আছে?';
+    var p = document.createElement('span');
+    p.style.cssText = 'color:var(--muted,#5e6e65);font-size:14.5px;line-height:1.5';
+    p.textContent = LANG === 'en' ? 'Use your current location to see up to 50 nearby attractions, sorted by distance.' : 'বর্তমান লোকেশন থেকে দূরত্ব অনুযায়ী কাছের সর্বোচ্চ ৫০টি দর্শনীয় স্থান দেখুন।';
+    tx.appendChild(b); tx.appendChild(p);
+    var a = document.createElement('a');
+    a.href = LANG === 'en' ? '/en/nearby' : '/nearby';
+    a.className = 'btn primary';
+    a.style.cssText = 'white-space:nowrap;padding:11px 16px;border-radius:12px;text-decoration:none;font-weight:700';
+    a.textContent = LANG === 'en' ? 'Find near me →' : 'আমার কাছাকাছি দেখুন →';
+    a.addEventListener('click', function () { try { window.gdTrack && window.gdTrack('NearbyOpen', { source: 'jela' }); } catch (e) {} });
+    card.appendChild(tx); card.appendChild(a);
+    hero.insertAdjacentElement('afterend', card);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', nearbyEntry); else nearbyEntry();
+
   /* the "follow our Facebook page" card after a download */
   var FB_PAGE = 'https://www.facebook.com/profile.php?id=61594879211002';
   var nudgeT = 0, nudgeTries = 0;

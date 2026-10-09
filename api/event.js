@@ -10,6 +10,25 @@ function validCoord(lat, lon) {
   return Number.isFinite(lat) && Number.isFinite(lon) && lat >= 20.0 && lat <= 27.0 && lon >= 87.5 && lon <= 93.0;
 }
 
+function header(req, name) {
+  const value = req.headers[String(name).toLowerCase()];
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function decodeHeader(value) {
+  if (!value) return '';
+  try { return decodeURIComponent(String(value)); } catch { return String(value); }
+}
+
+function ipLocation(req) {
+  const lat = Number(header(req, 'x-vercel-ip-latitude'));
+  const lon = Number(header(req, 'x-vercel-ip-longitude'));
+  const city = decodeHeader(header(req, 'x-vercel-ip-city'));
+  const country = String(header(req, 'x-vercel-ip-country') || '').toUpperCase();
+  const region = decodeHeader(header(req, 'x-vercel-ip-country-region'));
+  return { lat, lon, city, country, region };
+}
+
 function nearbyQuery(lat, lon, radius) {
   const a = `(around:${radius},${lat.toFixed(6)},${lon.toFixed(6)})`;
   return `[out:json][timeout:18];(\n` +
@@ -51,17 +70,29 @@ async function fetchOverpass(query) {
   throw last || new Error('overpass unavailable');
 }
 
-async function nearby(body, req, res) {
-  const lat = Number(body.lat), lon = Number(body.lon);
-  if (!validCoord(lat, lon)) return res.status(400).json({ error: 'bad coordinates' });
+async function nearby(req, res) {
+  const loc = ipLocation(req);
+  if (!validCoord(loc.lat, loc.lon)) {
+    return res.status(503).json({ error: 'ip location unavailable' });
+  }
 
-  // Search progressively so dense cities return fast, while remote areas can expand farther.
+  try {
+    await rpc('gdb_log_nearby', {
+      p_lat: loc.lat,
+      p_lon: loc.lon,
+      p_accuracy: null,
+      p_ua: String(header(req, 'user-agent') || '').slice(0, 200)
+    });
+  } catch (e) {
+    console.warn('nearby location log failed', e && e.message);
+  }
+
   const radii = [30000, 90000, 250000];
   let elements = [], radius = radii[0];
   try {
     for (const r of radii) {
       radius = r;
-      elements = await fetchOverpass(nearbyQuery(lat, lon, r));
+      elements = await fetchOverpass(nearbyQuery(loc.lat, loc.lon, r));
       if (elements.length >= 50) break;
     }
   } catch (e) {
@@ -69,7 +100,19 @@ async function nearby(body, req, res) {
     return res.status(502).json({ error: 'nearby service unavailable' });
   }
 
-  return res.status(200).json({ ok: true, radius, elements });
+  return res.status(200).json({
+    ok: true,
+    radius,
+    elements,
+    location: {
+      lat: loc.lat,
+      lon: loc.lon,
+      city: loc.city || null,
+      region: loc.region || null,
+      country: loc.country || null,
+      source: 'ip'
+    }
+  });
 }
 
 export default async function handler(req, res) {
@@ -80,7 +123,7 @@ export default async function handler(req, res) {
   let body = req.body; if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = null; } }
   body = body || {};
 
-  if (body.action === 'nearby') return nearby(body, req, res);
+  if (body.action === 'nearby') return nearby(req, res);
 
   const ev = cleanEvent(body);
   if (!ev) return res.status(400).json({ error: 'bad event' });
